@@ -15,4 +15,3 @@
 目前只记录了项目方向，尚未开发游戏。公开仓库是 [llmgpt/Xuezhan-Mahjong-AI](https://github.com/llmgpt/Xuezhan-Mahjong-AI)。网页实现和部署方式将在开发时确定。
 
 开发不依赖额外的 Codex skill 或 Serena MCP。若将来代码规模变大、跨文件重构频繁，再评估是否接入 Serena。
-
