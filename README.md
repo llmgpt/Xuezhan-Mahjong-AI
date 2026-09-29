@@ -21,3 +21,4 @@
 - [项目计划](docs/PROJECT_PLAN.md)：里程碑、待定规则与建议评价。
 - [架构草图](ARCHITECTURE.md)：第一阶段技术选择及后续扩展条件。
 - [开发与反馈回路](docs/ENGINEERING.md)：代码、测试、页面检查和 CI 的建立方式。
+- [新对话开发交接](docs/NEXT_STEPS.md)：当前状态与下一项开发任务。

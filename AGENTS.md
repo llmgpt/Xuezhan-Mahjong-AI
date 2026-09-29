@@ -8,6 +8,7 @@
 - [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md)：功能顺序、待定规则和建议评价。
 - [ARCHITECTURE.md](ARCHITECTURE.md)：阶段性技术栈、模块边界和数据范围。
 - [docs/ENGINEERING.md](docs/ENGINEERING.md)：开发反馈回路、测试和 CI 的建立时机。
+- [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md)：当前交接、下一项开发任务和完成标准。
 
 只阅读与当前任务相关的文档；改变决定时更新对应文档及其链接。
 
