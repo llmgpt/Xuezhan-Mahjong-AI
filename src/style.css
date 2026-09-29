@@ -76,7 +76,7 @@ h1 {
   border-radius: 7px;
 }
 .seedRow button,
-.suitChoices button {
+.actionChoices button {
   color: #f5e7c8;
   background: #2b5039;
   border: 1px solid #789377;
@@ -84,7 +84,7 @@ h1 {
   padding: 10px 14px;
 }
 .seedRow button:hover,
-.suitChoices button:hover {
+.actionChoices button:hover {
   background: #396747;
 }
 .table {
@@ -140,6 +140,7 @@ h1 {
 .discards {
   grid-column: 1 / -1;
   display: flex;
+  flex-wrap: wrap;
   gap: 5px;
   min-height: 22px;
 }
@@ -263,9 +264,10 @@ h1 {
 .actionPanel .primary:disabled {
   opacity: 0.45;
 }
-.suitChoices {
+.actionChoices {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 .hint {
   white-space: nowrap;
@@ -275,6 +277,138 @@ footer {
   border-top: 1px solid #ffffff27;
   color: #97ad9e;
   font-size: 12px;
+}
+.opponent.winner {
+  border-color: #d9b36a;
+  background: #234834;
+}
+.opponentInfo b {
+  display: block;
+  margin-top: 5px;
+  font-size: 16px;
+}
+.positive {
+  color: #efcd8e;
+}
+.negative {
+  color: #f4aaa0;
+}
+.exposed {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.exposed span {
+  padding: 3px 7px;
+  border: 1px solid #d4bb84;
+  border-radius: 4px;
+  color: #f8e6be;
+  font-size: 12px;
+}
+.ownMelds {
+  margin-top: 14px;
+}
+.tile.recommended.playable {
+  border-color: #f0bb60;
+  box-shadow:
+    0 4px 0 #d6a34d,
+    0 0 0 2px #f0bb6066;
+}
+.actionChoices .primary,
+.resultPanel .primary {
+  color: #1e2d22;
+  background: #e4bd78;
+  border-color: #e4bd78;
+  font-weight: 700;
+}
+.advicePanel,
+.resultPanel,
+.historyPanel {
+  margin: 12px 0 22px;
+  padding: 22px;
+  border: 1px solid #4b6f56;
+  border-radius: 13px;
+  background: #18382a;
+}
+.adviceHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+}
+.adviceHeading h2,
+.resultPanel h2,
+.historyPanel h2 {
+  margin: 0 0 15px;
+  font-size: 22px;
+}
+.adviceHeading > span {
+  color: #adc4b3;
+  font-size: 12px;
+  margin-bottom: 17px;
+}
+.adviceCards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.adviceCard {
+  padding: 17px;
+  border: 1px solid #628267;
+  border-radius: 10px;
+  background: #0f2b21;
+}
+.adviceCard:first-child {
+  border-color: #d0ac70;
+}
+.adviceTag {
+  display: inline-block;
+  margin-right: 10px;
+  color: #e1bf83;
+  font-size: 12px;
+}
+.adviceCard strong {
+  font-size: 23px;
+}
+.adviceCard p {
+  color: #ecf2e8;
+  line-height: 1.65;
+}
+.adviceCard small {
+  color: #abc1b0;
+  line-height: 1.6;
+}
+.resultScores {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 18px 0;
+}
+.resultScores > div {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 7px;
+  background: #0e2b20;
+}
+.resultScores strong {
+  font-size: 24px;
+}
+.resultPanel p {
+  color: #bdd0bd;
+  line-height: 1.6;
+}
+.resultPanel button {
+  border: 0;
+  border-radius: 7px;
+  padding: 11px 16px;
+}
+.historyPanel ol {
+  margin: 0;
+  padding-left: 22px;
+  color: #c5d6c7;
+  line-height: 1.8;
 }
 @media (max-width: 760px) {
   .shell {
@@ -291,6 +425,7 @@ footer {
     min-height: 610px;
   }
   .opponents {
+    grid-template-columns: 1fr;
     gap: 5px;
   }
   .opponent {
@@ -298,8 +433,7 @@ footer {
     padding: 8px;
     font-size: 12px;
   }
-  .opponent .avatar,
-  .opponent .discards {
+  .opponent .avatar {
     display: none;
   }
   .tile {
@@ -312,5 +446,14 @@ footer {
   .actionPanel {
     align-items: start;
     flex-direction: column;
+  }
+  .adviceCards {
+    grid-template-columns: 1fr;
+  }
+  .resultScores {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .adviceHeading {
+    display: block;
   }
 }

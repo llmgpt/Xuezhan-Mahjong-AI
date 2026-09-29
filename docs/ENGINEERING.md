@@ -21,4 +21,4 @@
 
 首个代码脚手架建立时，由 Codex 一并生成并验证包管理锁文件、格式化、静态检查、测试、构建和 CI。CI 至少覆盖类型检查、格式与静态检查、规则测试和生产构建；有可玩页面后加入关键流程的浏览器检查。实际命令写入 README 或 AGENTS.md，避免只存在于聊天记录中。
 
-当前已建立 `npm ci`、`npm run check` 和 GitHub Actions CI；检查包含格式、ESLint、TypeScript、固定牌例测试和生产构建。页面尚非完整可玩对局，关键流程的浏览器检查待该里程碑接入。
+当前已建立 `npm ci`、`npm run check` 和 GitHub Actions CI；检查包含格式、ESLint、TypeScript、固定牌例测试和生产构建。玩家对局已有本地浏览器整局操作检查；CI 中的自动浏览器流程仍待接入。

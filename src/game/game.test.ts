@@ -7,6 +7,8 @@ import {
   discard,
   draw,
   legalDiscards,
+  legalResponses,
+  respond,
 } from "./game";
 import { suitOf, type Tile } from "./tiles";
 
@@ -60,7 +62,12 @@ describe("开局状态与合法动作", () => {
       state = chooseMissing(state, seat, "wan");
     while (state.phase !== "ended") {
       if (state.phase === "draw") state = draw(state, state.turn);
-      else
+      else if (state.phase === "respond") {
+        const seat = state.pending!.eligible.find(
+          (item) => legalResponses(state, item).length > 0,
+        )!;
+        state = respond(state, seat, "pass");
+      } else
         state = discard(state, state.turn, legalDiscards(state, state.turn)[0]);
       expect(countTiles(state)).toBe(108);
     }
