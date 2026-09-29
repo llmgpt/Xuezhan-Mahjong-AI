@@ -6,6 +6,7 @@
 
 - [README.md](../README.md)：给访问仓库的人看目标与当前状态。
 - [docs/PROJECT_PLAN.md](PROJECT_PLAN.md)：产品里程碑、规则待定项和建议的评价方法。
+- [docs/RULES_V1.md](RULES_V1.md)：第一版规则目标和可配置差异。
 - [ARCHITECTURE.md](../ARCHITECTURE.md)：阶段性技术选择、模块依赖和信息边界。
 - 本文：开发过程与验证方式。
 
@@ -20,4 +21,4 @@
 
 首个代码脚手架建立时，由 Codex 一并生成并验证包管理锁文件、格式化、静态检查、测试、构建和 CI。CI 至少覆盖类型检查、格式与静态检查、规则测试和生产构建；有可玩页面后加入关键流程的浏览器检查。实际命令写入 README 或 AGENTS.md，避免只存在于聊天记录中。
 
-当前仓库只有文档，以上是实施标准，不表示脚手架或 CI 已建成。
+当前已建立 `npm ci`、`npm run check` 和 GitHub Actions CI；检查包含格式、ESLint、TypeScript、固定牌例测试和生产构建。页面尚非完整可玩对局，关键流程的浏览器检查待该里程碑接入。
