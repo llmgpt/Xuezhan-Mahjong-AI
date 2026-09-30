@@ -930,6 +930,62 @@ input:focus-visible {
   font-weight: 900;
 }
 
+.inlineAdvice {
+  width: min(860px, 100%);
+  margin: 0 auto 14px;
+  border: 1px solid #e3c889;
+  border-radius: 13px;
+  background: #faf3df;
+  box-shadow: 0 5px 16px #153d3426;
+  overflow: hidden;
+}
+.coachSummary {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 17px;
+}
+.tile-coach {
+  --tile-w: 31px;
+  border-radius: 4px;
+  box-shadow: 0 3px 0 #c5b77f;
+}
+.coachSummary strong {
+  color: #526d53;
+  font-size: 13px;
+}
+.coachSummary p {
+  margin: 5px 0 0;
+  color: #60765f;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.adviceDetails summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 17px;
+  border-top: 1px solid #e3d8b9;
+  cursor: pointer;
+  color: #9a7b45;
+  font-size: 10px;
+  list-style: none;
+}
+.adviceDetails summary::-webkit-details-marker {
+  display: none;
+}
+.adviceDetails summary:hover {
+  background: #f5eaca;
+}
+.inlineAdvice .advicePanel {
+  margin: 0 12px 12px;
+  padding: 15px;
+  border-radius: 9px;
+}
+.adviceReason .choiceReason {
+  font-weight: 700;
+  color: #49674e;
+}
 .advicePanel {
   margin-top: 22px;
   background: #fffcf4;
@@ -1489,7 +1545,7 @@ footer {
     padding-top: 7px;
   }
   .tile {
-    --tile-w: clamp(32px, calc((100vw - 70px) / 7), 51px);
+    --tile-w: clamp(32px, calc((100vw - 80px) / 7), 51px);
     border-radius: 5px;
     padding: 2px;
   }
@@ -1507,6 +1563,24 @@ footer {
     margin-top: 16px;
     padding: 15px;
     border-radius: 13px;
+  }
+  .coachSummary {
+    gap: 10px;
+    padding: 11px 12px;
+  }
+  .coachSummary strong {
+    font-size: 12px;
+  }
+  .coachSummary p {
+    font-size: 11px;
+  }
+  .adviceDetails summary {
+    padding: 9px 12px;
+    font-size: 9px;
+  }
+  .inlineAdvice .advicePanel {
+    padding: 12px;
+    margin-inline: 8px;
   }
   .adviceHeading {
     align-items: start;

@@ -4,8 +4,31 @@ import { chooseBotExchange } from "./bot";
 import { completeExchange, completeMissing } from "./demo";
 import { createGame } from "./game";
 import { hand } from "./testHelpers";
-import { suitOf } from "./tiles";
-import { playerView } from "./view";
+import { suitOf, tile, type Suit } from "./tiles";
+import { playerView, type PlayerView } from "./view";
+
+function adviceView(notation: string, missing: Suit): PlayerView {
+  const owned = hand(notation);
+  const missingTiles = owned.filter((item) => suitOf(item) === missing);
+  return {
+    seat: 0,
+    hand: owned,
+    melds: [],
+    missing,
+    legalDiscards: [...new Set(missingTiles.length ? missingTiles : owned)],
+    ownDiscards: [],
+    opponents: [1, 2, 3].map((seat) => ({
+      seat,
+      handCount: 13,
+      melds: [],
+      discards: [],
+      missing: "tong",
+      won: false,
+      score: 0,
+    })),
+    wallRemaining: 55,
+  };
+}
 
 describe("受限玩家视图", () => {
   it("仅公开自己的手牌和对手的公开牌面", () => {
@@ -23,6 +46,45 @@ describe("受限玩家视图", () => {
 });
 
 describe("可解释出牌建议", () => {
+  it("缺门牌必须先清时解释规则，并如实说明并列推荐", () => {
+    const advice = recommendDiscards(adviceView("w1223779 d2346778", "wan"));
+    expect(advice[0].summary).toContain("定缺万");
+    expect(advice[0].summary).toContain("先打完");
+    expect(advice[0].summary).toContain("并列");
+    expect(advice[1].summary).toContain("同样可作备选");
+  });
+
+  it("同样听牌时解释为什么推荐进张更多的九万", () => {
+    const view = adviceView("w11123429 s345678", "tong");
+    view.legalDiscards = [tile("wan", 2), tile("wan", 9)];
+    const advice = recommendDiscards(view);
+    expect(advice[0].tile).toBe(tile("wan", 9));
+    expect(advice[0].effectiveTiles).toEqual([
+      tile("wan", 2),
+      tile("wan", 3),
+      tile("wan", 5),
+    ]);
+    expect(advice[0].effectiveCount).toBe(9);
+    expect(advice[1].effectiveCount).toBe(3);
+    expect(advice[0].summary).toContain("更多进张");
+    expect(advice[0].summary).toContain("9");
+    expect(advice[0].summary).toContain("3");
+  });
+
+  it("只有一种合法牌时说明这是规则限制", () => {
+    const advice = recommendDiscards(adviceView("w1111 s123456789 d1", "wan"));
+    expect(advice).toHaveLength(1);
+    expect(advice[0].summary).toContain("只有这一种合法出牌");
+  });
+
+  it("缺门未清时备选原因也暂缓报告向听", () => {
+    const view = adviceView("w1223779 d2346778", "wan");
+    view.opponents[0].discards = [tile("wan", 1)];
+    const advice = recommendDiscards(view);
+    expect(advice[1].summary).not.toContain("向听");
+    expect(advice[1].summary).toContain("缺门");
+  });
+
   it("已听牌和已胡的估算向听分别为 0 与 -1", () => {
     expect(estimateShanten(hand("w1112349 s345678"), 0, "tong")).toBe(0);
     expect(estimateShanten(hand("w11123499 s345678"), 0, "tong")).toBe(-1);

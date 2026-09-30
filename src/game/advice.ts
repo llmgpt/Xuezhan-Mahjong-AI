@@ -1,5 +1,5 @@
 import { isWinningHand } from "./rules";
-import { suitOf, type Suit, type Tile } from "./tiles";
+import { labelOf, suitOf, type Suit, type Tile } from "./tiles";
 import type { PlayerView } from "./view";
 
 export interface DiscardAdvice {
@@ -9,6 +9,7 @@ export interface DiscardAdvice {
   effectiveTiles: Tile[];
   potential: string;
   risk: number;
+  summary: string;
   reason: string;
   limit: string;
 }
@@ -177,14 +178,49 @@ export function recommendDiscards(view: PlayerView): DiscardAdvice[] {
       a.risk - b.risk ||
       a.tile - b.tile,
   );
-  return advice.map((item) => ({
-    tile: item.tile,
-    shanten: item.shanten,
-    effectiveCount: item.effectiveCount,
-    effectiveTiles: item.effectiveTiles,
-    potential: item.potential,
-    risk: item.risk,
-    reason: item.reason,
-    limit: item.limit,
-  }));
+  const missingInHand = view.hand.some((item) => suitOf(item) === view.missing);
+  const missingName = { wan: "万", tiao: "条", tong: "筒" }[view.missing];
+  const required = missingInHand
+    ? `你定缺${missingName}，必须先打完${missingName}牌才能胡。`
+    : "";
+  return advice.map((item, index) => {
+    const comparison = index === 0 ? advice[1] : advice[0];
+    let summary: string;
+    if (!comparison) {
+      summary = "当前只有这一种合法出牌，选择受规则限制。";
+    } else if (
+      item.shanten === comparison.shanten &&
+      item.effectiveCount === comparison.effectiveCount &&
+      item.potentialValue === comparison.potentialValue &&
+      item.risk === comparison.risk
+    ) {
+      summary =
+        index === 0
+          ? `与${labelOf(comparison.tile)}的当前估算并列，按默认顺序推荐，不表示这张更强。`
+          : `与推荐的${labelOf(comparison.tile)}当前估算并列，同样可作备选。`;
+    } else if (index !== 0) {
+      summary = missingInHand
+        ? "这是另一种清缺门的合法选择，仍需继续打完缺门牌。"
+        : `可作备选：打出后估算向听 ${item.shanten}，有效进张约 ${item.effectiveCount} 张。`;
+    } else if (item.shanten < comparison.shanten) {
+      summary = `打出后更接近听牌：估算向听 ${item.shanten}，备选${labelOf(comparison.tile)}为 ${comparison.shanten}。`;
+    } else if (item.effectiveCount > comparison.effectiveCount) {
+      summary = `同样接近听牌时，这张保留更多进张（粗估 ${item.effectiveCount} 张，备选${labelOf(comparison.tile)}为 ${comparison.effectiveCount} 张）。`;
+    } else if (item.potentialValue > comparison.potentialValue) {
+      summary = `效率估算相近，优先保留收益潜力：${item.potential}。`;
+    } else {
+      summary = "效率与收益估算接近，公开信息下的风险提示较低；仍可能点炮。";
+    }
+    return {
+      tile: item.tile,
+      shanten: item.shanten,
+      effectiveCount: item.effectiveCount,
+      effectiveTiles: item.effectiveTiles,
+      potential: item.potential,
+      risk: item.risk,
+      summary: required + summary,
+      reason: item.reason,
+      limit: item.limit,
+    };
+  });
 }

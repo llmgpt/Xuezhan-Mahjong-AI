@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { AdviceCoach } from "./components/AdviceCoach";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
 import { recommendDiscards } from "./game/advice";
@@ -399,6 +400,7 @@ function App() {
               )}
             </div>
           </div>
+          <AdviceCoach advice={advice} />
           <div className="handTray">
             <div className="playerIdentity">
               <div className="avatarFrame">
@@ -499,36 +501,7 @@ function App() {
         )}
       </section>
 
-      {advice.length > 0 ? (
-        <section className="advicePanel" aria-label="出牌建议">
-          <div className="adviceHeading">
-            <div>
-              <span className="coachIcon">✦</span>
-              <h2>这一手怎么打</h2>
-            </div>
-            <span>只看你的手牌和公开信息</span>
-          </div>
-          <div className="adviceCards">
-            {advice.slice(0, 2).map((item, index) => (
-              <article className="adviceCard" key={item.tile}>
-                <div className="adviceTile">
-                  <TilePiece tile={item.tile} className="tile-advice" />
-                  <span>{index === 0 ? "推荐打出" : "也可考虑"}</span>
-                </div>
-                <div className="adviceReason">
-                  <p>{item.reason}</p>
-                  <small>{item.limit}</small>
-                </div>
-              </article>
-            ))}
-            {advice.length === 1 && (
-              <article className="adviceCard singleChoice">
-                <p>目前只有这一种合法出牌，先把缺门清完。</p>
-              </article>
-            )}
-          </div>
-        </section>
-      ) : (
+      {advice.length === 0 && (
         <div className="ruleStrip">
           <span>
             <b>01</b> 换同一门的三张牌
