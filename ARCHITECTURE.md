@@ -16,6 +16,8 @@
 
 ## 模块边界
 
+`src/components/MahjongTile.tsx` 统一绘制 27 种牌面与牌背，`PlayerAvatar.tsx` 绘制座位头像；它们只接收展示数据，不参与规则与建议计算。图形在仓库内以 SVG 生成，不依赖远程字体或图片服务。
+
 ```mermaid
 flowchart LR
     UI[React 牌桌与说明] --> Flow[对局流程]

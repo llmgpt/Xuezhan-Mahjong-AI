@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
+import { PlayerAvatar } from "./components/PlayerAvatar";
 import { recommendDiscards } from "./game/advice";
 import { completeExchange, completeMissing } from "./game/demo";
 import {
@@ -7,6 +9,7 @@ import {
   legalResponses,
   legalSelfActions,
   type Phase,
+  type PlayerState,
   type ResponseChoice,
 } from "./game/game";
 import {
@@ -14,44 +17,121 @@ import {
   applyPlayerAction,
   type PlayerAction,
 } from "./game/session";
-import { labelOf, suitOf, type Suit } from "./game/tiles";
+import { labelOf, suitOf, type Suit, type Tile } from "./game/tiles";
 import { playerView } from "./game/view";
 import "./style.css";
 
-const suits: { key: Suit; label: string }[] = [
-  { key: "wan", label: "万" },
-  { key: "tiao", label: "条" },
-  { key: "tong", label: "筒" },
+const suits: { key: Suit; label: string; tile: Tile }[] = [
+  { key: "wan", label: "万", tile: 0 },
+  { key: "tiao", label: "条", tile: 9 },
+  { key: "tong", label: "筒", tile: 18 },
 ];
-
 const phaseLabels: Record<Phase, string> = {
   exchange: "换三张",
-  "choose-missing": "定缺",
-  discard: "你的回合",
+  "choose-missing": "选择定缺",
+  discard: "轮到你出牌",
   draw: "摸牌",
-  respond: "响应弃牌",
+  respond: "轮到你响应",
   ended: "本局结束",
 };
-
 const responseLabels: Record<ResponseChoice, string> = {
   pass: "过",
   hu: "胡",
   pung: "碰",
-  kong: "直杠",
+  kong: "杠",
 };
+const names = ["你", "阿川", "小满", "老茶客"];
 
-function suitLabel(suit?: Suit): string {
+function suitLabel(suit?: Suit) {
   return suits.find((item) => item.key === suit)?.label ?? "未定";
+}
+function Score({ value }: { value: number }) {
+  return (
+    <b className={value >= 0 ? "positive" : "negative"}>
+      {value > 0 ? "+" : ""}
+      {value}
+    </b>
+  );
+}
+function Melds({ player }: { player: PlayerState }) {
+  return (
+    <div className="melds">
+      {player.melds.map((meld, index) => (
+        <div
+          className="meldGroup"
+          key={index}
+          aria-label={`${meld.type === "kong" ? "杠" : "碰"}${labelOf(meld.tile)}`}
+        >
+          <span className="meldLabel">
+            {meld.type === "kong" ? "杠" : "碰"}
+          </span>
+          {Array.from({ length: meld.type === "kong" ? 4 : 3 }, (_, copy) => (
+            <TilePiece tile={meld.tile} className="tile-meld" key={copy} />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+function Opponent({
+  seat,
+  player,
+  active,
+}: {
+  seat: number;
+  player: PlayerState;
+  active: boolean;
+}) {
+  return (
+    <div
+      className={`opponent seat-${seat} ${player.won ? "winner" : ""} ${active ? "active" : ""}`}
+    >
+      <div className="opponentIdentity">
+        <div className="avatarFrame">
+          <PlayerAvatar seat={seat} />
+          {player.won && <span className="wonBadge">胡</span>}
+        </div>
+        <div className="opponentInfo">
+          <strong>
+            {names[seat]} <small>电脑</small>
+          </strong>
+          <span className="scoreLine">
+            <i className="coinIcon">◆</i>
+            <Score value={player.score} />
+          </span>
+          <span
+            className={`missingBadge ${player.missing ? "determined" : ""}`}
+          >
+            缺{suitLabel(player.missing)}
+          </span>
+        </div>
+      </div>
+      <div
+        className="opponentHand"
+        aria-label={`手牌 ${player.hand.length} 张`}
+      >
+        {Array.from(
+          { length: Math.min(player.hand.length, 14) },
+          (_, index) => (
+            <TileBack key={index} />
+          ),
+        )}
+        <span className="handCount">{player.hand.length}</span>
+      </div>
+      <Melds player={player} />
+    </div>
+  );
 }
 
 function App() {
   const [seedText, setSeedText] = useState("20260929");
   const [game, setGame] = useState(() => createGame(20260929));
   const [selected, setSelected] = useState<number[]>([]);
-  const [notice, setNotice] = useState(
-    "请选择同一门的三张牌，交换方向为顺时针。",
-  );
+  const [notice, setNotice] = useState("选择同一花色的三张牌，顺时针交换。");
   const hand = game.players[0].hand;
+  const sortedHand = hand
+    .map((tile, index) => ({ tile, index }))
+    .sort((a, b) => a.tile - b.tile || a.index - b.index);
   const view = useMemo(() => playerView(game, 0), [game]);
   const legal = useMemo(() => new Set(view.legalDiscards), [view]);
   const advice = useMemo(
@@ -67,6 +147,11 @@ function App() {
   const validExchange =
     exchangeTiles.length === 3 &&
     exchangeTiles.every((item) => suitOf(item) === suitOf(exchangeTiles[0]));
+  const currentLabel =
+    game.pending?.kind === "rob-kong" ? "抢杠响应" : phaseLabels[game.phase];
+  const displayedTile = game.pending
+    ? { seat: game.pending.from, tile: game.pending.tile }
+    : game.lastDiscard;
 
   function restart() {
     const seed = Number(seedText);
@@ -76,9 +161,8 @@ function App() {
     }
     setGame(createGame(seed));
     setSelected([]);
-    setNotice("新牌局已发牌。请选同一门的三张牌。");
+    setNotice("选择同一花色的三张牌，顺时针交换。");
   }
-
   function toggle(index: number) {
     if (game.phase !== "exchange") return;
     setSelected((current) =>
@@ -89,37 +173,34 @@ function App() {
           : current,
     );
   }
-
   function exchange() {
     if (!validExchange) return;
     try {
       setGame(completeExchange(game, exchangeTiles));
       setSelected([]);
-      setNotice("换牌完成。请选择本局缺门。");
+      setNotice("选择本局不要的花色，之后先打完这门牌。");
     } catch (error) {
       setNotice((error as Error).message);
     }
   }
-
   function selectMissing(missing: Suit) {
     try {
       setGame(advanceToHuman(completeMissing(game, missing)));
-      setNotice("缺门已确定。打完缺门牌才能胡；点选手牌出牌。");
+      setNotice("点选亮起的手牌直接出牌，先打完缺门牌。");
     } catch (error) {
       setNotice((error as Error).message);
     }
   }
-
   function act(action: PlayerAction) {
     try {
       const next = applyPlayerAction(game, action);
       setGame(next);
       setNotice(
         next.phase === "ended"
-          ? "本局已结算。可用同一种子重新体验。"
+          ? "本局已结算，来看看大家的战绩。"
           : next.phase === "respond"
-            ? "这张牌可响应，请选择胡、碰、杠或过。"
-            : "轮到你操作。推荐牌与备选列在牌桌下方。",
+            ? "选择胡、碰、杠，或点击过。"
+            : "点选亮起的手牌直接出牌。",
       );
     } catch (error) {
       setNotice((error as Error).message);
@@ -128,310 +209,355 @@ function App() {
 
   return (
     <main className="shell">
-      <header className="masthead">
-        <div>
-          <p className="eyebrow">四川血战到底 · 教学牌桌 V1</p>
-          <h1>从一手牌开始</h1>
-          <p className="intro">
-            与三名电脑完成一局。系统按当前手牌和公开信息给出可解释的出牌建议。
-          </p>
-        </div>
-        <div className="seedBox">
-          <label htmlFor="seed">固定种子 · 重现同一局</label>
-          <div className="seedRow">
-            <input
-              id="seed"
-              value={seedText}
-              inputMode="numeric"
-              onChange={(event) => setSeedText(event.target.value)}
-            />
-            <button type="button" onClick={restart}>
-              重新发牌
-            </button>
+      <header className="topbar">
+        <div className="brand">
+          <span className="brandTile">
+            <MahjongFace tile={0} />
+          </span>
+          <div>
+            <h1>血战到底</h1>
+            <span>成都茶馆 · 新手练习</span>
           </div>
+        </div>
+        <div className="topbarTools">
+          <span className="roomTag">
+            <i />
+            单人练习
+          </span>
+          <details className="settings">
+            <summary aria-label="牌局设置">
+              牌局设置 <span>⌄</span>
+            </summary>
+            <div className="settingsPopover">
+              <label htmlFor="seed">固定种子</label>
+              <input
+                id="seed"
+                value={seedText}
+                inputMode="numeric"
+                onChange={(event) => setSeedText(event.target.value)}
+              />
+              <p>相同种子与选择可以重现同一局。</p>
+              <small>本局牌数：{countTiles(game)} / 108</small>
+              <button type="button" onClick={restart}>
+                按种子重新开局
+              </button>
+            </div>
+          </details>
+          <button className="newGameButton" type="button" onClick={restart}>
+            <span>↻</span> 重新开局
+          </button>
         </div>
       </header>
 
-      <section className="table" aria-label="牌桌">
-        <div className="opponents">
-          {[1, 2, 3].map((seat) => {
-            const opponent = game.players[seat];
-            return (
-              <div
-                className={`opponent ${opponent.won ? "winner" : ""}`}
-                key={seat}
-              >
-                <div className="avatar">{seat}</div>
-                <div className="opponentInfo">
-                  <strong>
-                    电脑 {seat} {opponent.won ? "· 已胡" : ""}
-                  </strong>
-                  <span>
-                    手牌 {opponent.hand.length} 张 · 缺
-                    {suitLabel(opponent.missing)}
-                  </span>
-                  <b className={opponent.score >= 0 ? "positive" : "negative"}>
-                    {opponent.score > 0 ? "+" : ""}
-                    {opponent.score}
-                  </b>
-                </div>
-                <div className="exposed">
-                  {opponent.melds.map((meld, index) => (
-                    <span key={index}>
-                      {meld.type === "kong" ? "杠" : "碰"} {labelOf(meld.tile)}
-                    </span>
-                  ))}
-                </div>
-                <div className="discards">
-                  {opponent.discards.map((item, index) => (
-                    <span key={index}>{labelOf(item)}</span>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+      <section className="gameStage" aria-label="牌桌">
+        <div className="scenery" aria-hidden="true">
+          <div className="lantern lantern-left" />
+          <div className="lantern lantern-right" />
+          <div className="mountain mountain-one" />
+          <div className="mountain mountain-two" />
+        </div>
+        <div className="tableSurface" aria-hidden="true">
+          <div className="tableInner" />
+        </div>
+        <div className="roomPlaque">
+          四川麻将<span>108 张 · 三家胡牌结束</span>
         </div>
 
-        <div className="centerInfo">
-          <span className="roundBadge">{phaseLabels[game.phase]}</span>
-          <strong>{game.wall.length}</strong>
-          <span>墙牌剩余</span>
-          <small>
-            已胡 {game.wins.length} 家 · 牌数 {countTiles(game)} / 108
-          </small>
-          {game.lastDiscard && (
-            <small>
-              最近打出：{game.lastDiscard.seat} 号{" "}
-              {labelOf(game.lastDiscard.tile)}
-            </small>
-          )}
+        {[1, 2, 3].map((seat) => (
+          <Opponent
+            seat={seat}
+            player={game.players[seat]}
+            active={
+              game.turn === seat &&
+              !game.players[seat].won &&
+              game.phase !== "exchange" &&
+              game.phase !== "choose-missing" &&
+              game.phase !== "ended"
+            }
+            key={seat}
+          />
+        ))}
+
+        <div className="publicArea">
+          {[2, 3, 1, 0].map((seat) => (
+            <div
+              className={`discardZone discard-seat-${seat}`}
+              key={seat}
+              aria-label={`${names[seat]}的弃牌`}
+            >
+              <span className="discardName">
+                {seat === 0 ? "你的弃牌" : `${names[seat]} · 弃牌`}
+              </span>
+              <div className="discardTiles">
+                {game.players[seat].discards.map((tile, index) => (
+                  <TilePiece tile={tile} className="tile-discard" key={index} />
+                ))}
+              </div>
+            </div>
+          ))}
+          <div className="tableCenter">
+            {displayedTile ? (
+              <div className="latestDiscard" key={game.log.length}>
+                <span>
+                  {names[displayedTile.seat]}
+                  {game.pending?.kind === "rob-kong" ? "正在补杠" : "刚打出"}
+                </span>
+                <TilePiece tile={displayedTile.tile} className="tile-latest" />
+              </div>
+            ) : (
+              <div className="tableEmblem">
+                <span>四川</span>
+                <strong>血战到底</strong>
+                <i>萬 · 条 · 筒</i>
+              </div>
+            )}
+            <div className="wallCounter">
+              余牌 <b>{game.wall.length}</b>
+              <span>·</span>已胡 <b>{game.wins.length}</b> 家
+            </div>
+          </div>
         </div>
 
         <div className="playerArea">
-          <div className="playerHeading">
-            <div>
-              <span className="playerMark">庄</span>
-              <strong>你的手牌</strong>
-              <b
-                className={game.players[0].score >= 0 ? "positive" : "negative"}
-              >
-                {game.players[0].score > 0 ? "+" : ""}
-                {game.players[0].score}
-              </b>
+          <div className="actionBar" aria-live="polite">
+            <div className="actionMessage">
+              <span className="roundBadge">{currentLabel}</span>
+              <p>
+                {game.phase === "exchange"
+                  ? `${notice} 已选 ${selected.length}/3 张`
+                  : notice}
+              </p>
             </div>
-            <span>
-              缺门：{suitLabel(game.players[0].missing)}{" "}
-              {game.players[0].won ? "· 已胡" : ""}
-            </span>
-          </div>
-          <div className="hand" role="group" aria-label="你的手牌">
-            {hand.map((item, index) => {
-              const canPlay =
-                game.phase === "discard" && game.turn === 0 && legal.has(item);
-              return (
+            <div className="actionChoices">
+              {game.phase === "exchange" && (
                 <button
-                  className={`tile ${selected.includes(index) ? "selected" : ""} ${canPlay ? "playable" : ""} ${advice[0]?.tile === item ? "recommended" : ""}`}
-                  key={index}
+                  className="gameButton primary"
                   type="button"
-                  disabled={game.phase !== "exchange" && !canPlay}
-                  aria-label={`${labelOf(item)}${advice[0]?.tile === item && canPlay ? "，推荐" : ""}`}
-                  aria-pressed={
-                    game.phase === "exchange"
-                      ? selected.includes(index)
-                      : undefined
-                  }
-                  onClick={() =>
-                    game.phase === "exchange"
-                      ? toggle(index)
-                      : act({ type: "discard", tile: item })
-                  }
+                  disabled={!validExchange}
+                  onClick={exchange}
                 >
-                  <span className="rank">{(item % 9) + 1}</span>
-                  <span className="suit">{suitLabel(suitOf(item))}</span>
+                  换三张 <small>{selected.length}/3</small>
                 </button>
-              );
-            })}
+              )}
+              {game.phase === "choose-missing" &&
+                suits.map((suit) => (
+                  <button
+                    className="missingChoice"
+                    key={suit.key}
+                    type="button"
+                    onClick={() => selectMissing(suit.key)}
+                  >
+                    <TilePiece tile={suit.tile} className="tile-choice" />
+                    <span>缺{suit.label}</span>
+                  </button>
+                ))}
+              {game.phase === "respond" &&
+                responses.map((choice) => (
+                  <button
+                    className={`gameButton ${choice === "pass" ? "secondary" : "primary"}`}
+                    key={choice}
+                    type="button"
+                    onClick={() => act({ type: "respond", choice })}
+                  >
+                    {responseLabels[choice]}
+                  </button>
+                ))}
+              {game.phase === "discard" && game.turn === 0 && (
+                <>
+                  {selfActions.canWin && (
+                    <button
+                      className="gameButton primary"
+                      type="button"
+                      onClick={() => act({ type: "win" })}
+                    >
+                      自摸胡
+                    </button>
+                  )}
+                  {selfActions.concealedKongs.map((tile) => (
+                    <button
+                      className="gameButton primary"
+                      key={`c${tile}`}
+                      type="button"
+                      onClick={() =>
+                        act({ type: "kong", kind: "concealed", tile })
+                      }
+                    >
+                      暗杠 <TilePiece tile={tile} className="tile-button" />
+                    </button>
+                  ))}
+                  {selfActions.addedKongs.map((tile) => (
+                    <button
+                      className="gameButton primary"
+                      key={`a${tile}`}
+                      type="button"
+                      onClick={() => act({ type: "kong", kind: "added", tile })}
+                    >
+                      补杠 <TilePiece tile={tile} className="tile-button" />
+                    </button>
+                  ))}
+                </>
+              )}
+            </div>
           </div>
-          <div className="exposed ownMelds">
-            {game.players[0].melds.map((meld, index) => (
-              <span key={index}>
-                {meld.type === "kong" ? "杠" : "碰"} {labelOf(meld.tile)}
-              </span>
-            ))}
-          </div>
-          <div className="ownDiscards">
-            已打出：{game.players[0].discards.map(labelOf).join("、") || "暂无"}
+          <div className="handTray">
+            <div className="playerIdentity">
+              <div className="avatarFrame">
+                <PlayerAvatar seat={0} />
+                <span className="dealerBadge">庄</span>
+              </div>
+              <div>
+                <strong>
+                  你 <Score value={game.players[0].score} />
+                </strong>
+                <span className="missingBadge">
+                  缺{suitLabel(game.players[0].missing)}
+                  {game.players[0].won ? " · 已胡" : ""}
+                </span>
+              </div>
+            </div>
+            <div className="handContent">
+              <Melds player={game.players[0]} />
+              <div className="hand" role="group" aria-label="你的手牌">
+                {sortedHand.map(({ tile, index }) => {
+                  const canPlay =
+                    game.phase === "discard" &&
+                    game.turn === 0 &&
+                    legal.has(tile);
+                  const recommended = advice[0]?.tile === tile && canPlay;
+                  return (
+                    <button
+                      className={`tile mahjongTile ${selected.includes(index) ? "selected" : ""} ${canPlay ? "playable" : ""} ${recommended ? "recommended" : ""} ${game.phase === "discard" && !canPlay ? "unavailable" : ""}`}
+                      key={index}
+                      type="button"
+                      disabled={game.phase !== "exchange" && !canPlay}
+                      aria-label={`${labelOf(tile)}${recommended ? "，推荐" : ""}`}
+                      aria-pressed={
+                        game.phase === "exchange"
+                          ? selected.includes(index)
+                          : undefined
+                      }
+                      onClick={() =>
+                        game.phase === "exchange"
+                          ? toggle(index)
+                          : act({ type: "discard", tile })
+                      }
+                    >
+                      <MahjongFace tile={tile} />
+                      {recommended && <span className="recommendMark">荐</span>}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <section className="actionPanel" aria-live="polite">
-        <div>
-          <p className="eyebrow">当前操作</p>
-          <h2>{phaseLabels[game.phase]}</h2>
-          <p>{notice}</p>
-          {game.phase === "respond" && game.pending && (
-            <p>
-              来自 {game.pending.from} 号的 {labelOf(game.pending.tile)}
-            </p>
-          )}
-        </div>
-        {game.phase === "exchange" && (
-          <button
-            className="primary"
-            type="button"
-            disabled={!validExchange}
-            onClick={exchange}
-          >
-            交换选中的三张
-          </button>
-        )}
-        {game.phase === "choose-missing" && (
-          <div className="actionChoices">
-            {suits.map((suit) => (
+        {game.phase === "ended" && (
+          <div className="resultBackdrop">
+            <section className="resultPanel" aria-label="本局结算">
+              <span className="resultSeal">本局战绩</span>
+              <h2>
+                {game.endReason === "three-wins" ? "血战结束" : "牌墙摸尽"}
+              </h2>
+              <p className="resultSubtitle">
+                {game.endReason === "three-wins"
+                  ? "三家已胡，一局尽兴"
+                  : "查花猪、查叫已结算"}
+              </p>
+              <div className="resultScores">
+                {game.players.map((player, seat) => (
+                  <div key={seat}>
+                    <PlayerAvatar seat={seat} />
+                    <span>{names[seat]}</span>
+                    <Score value={player.score} />
+                  </div>
+                ))}
+              </div>
+              <div className="winRecords">
+                {game.wins.length ? (
+                  game.wins.map((win) => (
+                    <p key={win.winner}>
+                      <span>
+                        {names[win.winner]} · {win.selfDraw ? "自摸" : "点胡"}
+                      </span>
+                      <b>{win.evaluation.patterns.join(" · ")}</b>
+                    </p>
+                  ))
+                ) : (
+                  <p>本局无人胡牌</p>
+                )}
+              </div>
               <button
-                key={suit.key}
+                className="gameButton primary"
                 type="button"
-                onClick={() => selectMissing(suit.key)}
+                onClick={restart}
               >
-                缺{suit.label}
+                再来一局
               </button>
-            ))}
-          </div>
-        )}
-        {game.phase === "respond" && (
-          <div className="actionChoices">
-            {responses.map((choice) => (
-              <button
-                className={choice === "hu" ? "primary" : ""}
-                key={choice}
-                type="button"
-                onClick={() => act({ type: "respond", choice })}
-              >
-                {responseLabels[choice]}
-              </button>
-            ))}
-          </div>
-        )}
-        {game.phase === "discard" && game.turn === 0 && (
-          <div className="actionChoices">
-            {selfActions.canWin && (
-              <button
-                className="primary"
-                type="button"
-                onClick={() => act({ type: "win" })}
-              >
-                自摸胡
-              </button>
-            )}
-            {selfActions.concealedKongs.map((item) => (
-              <button
-                key={`c${item}`}
-                type="button"
-                onClick={() =>
-                  act({ type: "kong", kind: "concealed", tile: item })
-                }
-              >
-                暗杠 {labelOf(item)}
-              </button>
-            ))}
-            {selfActions.addedKongs.map((item) => (
-              <button
-                key={`a${item}`}
-                type="button"
-                onClick={() => act({ type: "kong", kind: "added", tile: item })}
-              >
-                补杠 {labelOf(item)}
-              </button>
-            ))}
-            <span className="hint">点击亮起的手牌出牌</span>
+            </section>
           </div>
         )}
       </section>
 
-      {game.phase === "discard" && game.turn === 0 && advice.length > 0 && (
+      {advice.length > 0 ? (
         <section className="advicePanel" aria-label="出牌建议">
           <div className="adviceHeading">
             <div>
-              <p className="eyebrow">可解释的启发式建议</p>
+              <span className="coachIcon">✦</span>
               <h2>这一手怎么打</h2>
             </div>
-            <span>只使用你的手牌与公开信息</span>
+            <span>只看你的手牌和公开信息</span>
           </div>
           <div className="adviceCards">
             {advice.slice(0, 2).map((item, index) => (
               <article className="adviceCard" key={item.tile}>
-                <span className="adviceTag">
-                  {index === 0 ? "推荐" : "备选"}
-                </span>
-                <strong>{labelOf(item.tile)}</strong>
-                <p>{item.reason}</p>
-                <small>{item.limit}</small>
+                <div className="adviceTile">
+                  <TilePiece tile={item.tile} className="tile-advice" />
+                  <span>{index === 0 ? "推荐打出" : "也可考虑"}</span>
+                </div>
+                <div className="adviceReason">
+                  <p>{item.reason}</p>
+                  <small>{item.limit}</small>
+                </div>
               </article>
             ))}
             {advice.length === 1 && (
-              <article className="adviceCard">
-                <span className="adviceTag">备选</span>
-                <p>当前只有这一种合法牌可打，暂无不同牌的备选。</p>
+              <article className="adviceCard singleChoice">
+                <p>目前只有这一种合法出牌，先把缺门清完。</p>
               </article>
             )}
           </div>
         </section>
+      ) : (
+        <div className="ruleStrip">
+          <span>
+            <b>01</b> 换同一门的三张牌
+          </span>
+          <i>›</i>
+          <span>
+            <b>02</b> 选一门定缺
+          </span>
+          <i>›</i>
+          <span>
+            <b>03</b> 胡后退出，继续血战
+          </span>
+        </div>
       )}
-
-      {game.phase === "ended" && (
-        <section className="resultPanel" aria-label="本局结算">
-          <p className="eyebrow">本局结算</p>
-          <h2>
-            {game.endReason === "three-wins"
-              ? "三家胡牌，本局结束"
-              : "牌墙摸尽，本局结束"}
-          </h2>
-          <div className="resultScores">
-            {game.players.map((player, seat) => (
-              <div key={seat}>
-                <span>{seat === 0 ? "你" : `电脑 ${seat}`}</span>
-                <strong className={player.score >= 0 ? "positive" : "negative"}>
-                  {player.score > 0 ? "+" : ""}
-                  {player.score}
-                </strong>
-              </div>
-            ))}
-          </div>
-          <p>
-            胡牌记录：
-            {game.wins.length
-              ? game.wins
-                  .map(
-                    (win) =>
-                      `${win.winner === 0 ? "你" : `电脑 ${win.winner}`} ${win.selfDraw ? "自摸" : "点胡"}（${win.evaluation.patterns.join("、")}）`,
-                  )
-                  .join("；")
-              : "本局无人胡牌"}
-          </p>
-          <button className="primary" type="button" onClick={restart}>
-            同种子再打一局
-          </button>
-        </section>
-      )}
-
-      <section className="historyPanel" aria-label="公开事件">
-        <h2>对局记录</h2>
+      <details className="historyPanel">
+        <summary>
+          <span>对局记录</span>
+          <span>展开查看公开动作 ⌄</span>
+        </summary>
         <ol>
-          {game.log
-            .slice(-8)
-            .reverse()
-            .map((entry, index) => (
-              <li key={`${game.log.length}-${index}`}>{entry}</li>
-            ))}
+          {game.log.slice(-30).map((entry, index) => (
+            <li key={`${game.log.length}-${index}`}>{entry}</li>
+          ))}
         </ol>
-      </section>
+      </details>
       <footer>
-        本版按项目 V1
-        规则结算；建议为启发式估算，未训练模型。地区规则差异见仓库规则文档。
+        四川血战到底 · 本桌采用项目 V1 规则 · 出牌建议为启发式估算
       </footer>
     </main>
   );
 }
-
 export default App;
