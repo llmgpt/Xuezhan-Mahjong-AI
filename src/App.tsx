@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { AdviceCoach } from "./components/AdviceCoach";
+import { GameDialog } from "./components/GameDialog";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
 import { recommendDiscards } from "./game/advice";
@@ -158,11 +159,12 @@ function App() {
     const seed = Number(seedText);
     if (!seedText.trim() || !Number.isSafeInteger(seed)) {
       setNotice("种子须为安全整数。");
-      return;
+      return false;
     }
     setGame(createGame(seed));
     setSelected([]);
     setNotice("选择同一花色的三张牌，顺时针交换。");
+    return true;
   }
   function toggle(index: number) {
     if (game.phase !== "exchange") return;
@@ -225,10 +227,7 @@ function App() {
             <i />
             单人练习
           </span>
-          <details className="settings">
-            <summary aria-label="牌局设置">
-              牌局设置 <span>⌄</span>
-            </summary>
+          <GameDialog title="牌局设置" triggerClassName="settingsButton">
             <div className="settingsPopover">
               <label htmlFor="seed">固定种子</label>
               <input
@@ -239,11 +238,20 @@ function App() {
               />
               <p>相同种子与选择可以重现同一局。</p>
               <small>本局牌数：{countTiles(game)} / 108</small>
-              <button type="button" onClick={restart}>
+              <button
+                type="button"
+                onClick={(event) => {
+                  if (restart()) event.currentTarget.closest("dialog")?.close();
+                }}
+              >
                 按种子重新开局
               </button>
+              {(!seedText.trim() ||
+                !Number.isSafeInteger(Number(seedText))) && (
+                <p role="alert">种子须为安全整数。</p>
+              )}
             </div>
-          </details>
+          </GameDialog>
           <button className="newGameButton" type="button" onClick={restart}>
             <span>↻</span> 重新开局
           </button>
@@ -501,34 +509,41 @@ function App() {
         )}
       </section>
 
-      {advice.length === 0 && (
-        <div className="ruleStrip">
-          <span>
-            <b>01</b> 换同一门的三张牌
-          </span>
-          <i>›</i>
-          <span>
-            <b>02</b> 选一门定缺
-          </span>
-          <i>›</i>
-          <span>
-            <b>03</b> 胡后退出，继续血战
-          </span>
+      <footer className="tableToolbar">
+        <span>V1 规则 · 启发式建议</span>
+        <div>
+          <GameDialog title="玩法提示">
+            <ol className="rulesHelp">
+              <li>
+                <strong>换三张</strong>选择同一花色的三张牌，与下家顺时针交换。
+              </li>
+              <li>
+                <strong>定缺</strong>
+                换牌后再选本局不要的花色；有缺门牌时必须先打完。
+              </li>
+              <li>
+                <strong>摸打与响应</strong>
+                点击亮起的手牌出牌；别人出牌后按提示选择碰、杠、胡或过。
+              </li>
+              <li>
+                <strong>血战到底</strong>
+                胡牌者退出，其余玩家继续，直到三家胡牌或牌墙摸尽。
+              </li>
+            </ol>
+            <p className="dialogIntro">
+              本桌采用项目 V1
+              规则。出牌建议只用你的手牌与公开信息，详细依据会说明估算的局限。
+            </p>
+          </GameDialog>
+          <GameDialog title="对局记录">
+            <p className="dialogIntro">最近 30 条公开动作</p>
+            <ol className="historyList">
+              {game.log.slice(-30).map((entry, index) => (
+                <li key={`${game.log.length}-${index}`}>{entry}</li>
+              ))}
+            </ol>
+          </GameDialog>
         </div>
-      )}
-      <details className="historyPanel">
-        <summary>
-          <span>对局记录</span>
-          <span>展开查看公开动作 ⌄</span>
-        </summary>
-        <ol>
-          {game.log.slice(-30).map((entry, index) => (
-            <li key={`${game.log.length}-${index}`}>{entry}</li>
-          ))}
-        </ol>
-      </details>
-      <footer>
-        四川血战到底 · 本桌采用项目 V1 规则 · 出牌建议为启发式估算
       </footer>
     </main>
   );

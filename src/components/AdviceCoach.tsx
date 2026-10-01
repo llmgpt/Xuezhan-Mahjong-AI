@@ -1,6 +1,7 @@
 import type { DiscardAdvice } from "../game/advice";
 import { labelOf } from "../game/tiles";
 import { TilePiece } from "./MahjongTile";
+import { GameDialog } from "./GameDialog";
 
 export function AdviceCoach({ advice }: { advice: DiscardAdvice[] }) {
   if (!advice.length) return null;
@@ -13,11 +14,14 @@ export function AdviceCoach({ advice }: { advice: DiscardAdvice[] }) {
           <p>{advice[0].summary}</p>
         </div>
       </div>
-      <details className="adviceDetails">
-        <summary>
-          <span>详细依据与备选</span>
-          <span>只用你的手牌和公开信息 ⌄</span>
-        </summary>
+      <GameDialog
+        title="详细依据与备选"
+        trigger="查看依据"
+        triggerClassName="adviceDetailsButton"
+      >
+        <p className="dialogIntro">
+          只用你的手牌和公开信息，建议为启发式估算。
+        </p>
         <div className="advicePanel">
           <div className="adviceCards">
             {advice.slice(0, 2).map((item, index) => (
@@ -40,7 +44,7 @@ export function AdviceCoach({ advice }: { advice: DiscardAdvice[] }) {
             )}
           </div>
         </div>
-      </details>
+      </GameDialog>
     </aside>
   );
 }
