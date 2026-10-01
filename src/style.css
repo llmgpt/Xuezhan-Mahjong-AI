@@ -584,6 +584,8 @@ input:focus-visible {
   text-align: center;
 }
 .discardName {
+  display: block;
+  line-height: 1.3;
   font-size: 9px;
   color: #d2dfcc94;
   letter-spacing: 1px;
@@ -769,6 +771,7 @@ input:focus-visible {
   display: none;
 }
 .gameButton {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -795,6 +798,36 @@ input:focus-visible {
 .gameButton small {
   font-size: 12px;
   letter-spacing: 0;
+}
+.gameButton.suggestedAction {
+  outline: 2px solid #ffebaa;
+  outline-offset: 3px;
+}
+.actionRecommendMark {
+  position: absolute;
+  top: -10px;
+  right: 7px;
+  border: 1px solid #fff0b2;
+  border-radius: 4px;
+  padding: 0 4px;
+  background: #eebd54;
+  color: #784717;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+.actionCoachIcon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 42px;
+  border: 1px solid #d8bd7d;
+  border-radius: 6px;
+  color: #a05b26;
+  background: #f7e6b4;
+  font-size: 19px;
+  font-weight: 700;
 }
 .gameButton:hover:not(:disabled) {
   filter: brightness(1.07);
@@ -1018,6 +1051,7 @@ input:focus-visible {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 22px;
+  align-items: start;
 }
 .adviceCard {
   display: flex;
@@ -1575,9 +1609,17 @@ input:focus-visible {
   }
   .gameButton {
     min-height: 40px;
-    min-width: 76px;
-    font-size: 17px;
-    padding: 8px 20px;
+    min-width: 58px;
+    font-size: 15px;
+    padding: 8px 10px;
+    gap: 5px;
+    letter-spacing: 1px;
+  }
+  .actionChoices {
+    gap: 8px;
+  }
+  .actionChoices .tile-button {
+    --tile-w: 20px;
   }
   .missingChoice {
     padding: 6px 11px;
@@ -1860,6 +1902,7 @@ input:focus-visible {
   .actionBar {
     min-height: 34px;
     padding: 3px 0 6px;
+    flex-direction: row;
   }
   .roundBadge {
     font-size: 12px;
@@ -1880,6 +1923,44 @@ input:focus-visible {
   .missingChoice {
     padding: 4px 12px;
     font-size: 13px;
+  }
+  .playerArea:has(.inlineAdvice) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 6px 8px;
+  }
+  .playerArea:has(.inlineAdvice) .actionMessage {
+    display: none;
+  }
+  .playerArea:has(.inlineAdvice) .actionBar {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 4px;
+  }
+  .playerArea:has(.inlineAdvice) .actionChoices {
+    flex-wrap: nowrap;
+  }
+  .playerArea:has(.inlineAdvice) .gameButton {
+    min-width: 54px;
+    padding: 5px 8px;
+    gap: 5px;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .playerArea:has(.inlineAdvice) .inlineAdvice {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+  }
+  .playerArea:has(.actionChoices:empty) .actionBar {
+    display: none;
+  }
+  .playerArea:has(.actionChoices:empty) .inlineAdvice {
+    grid-column: 1 / 3;
+  }
+  .playerArea:has(.inlineAdvice) .handTray {
+    grid-column: 1 / 3;
+    grid-row: 2;
   }
   .tile-choice,
   .tile-button {

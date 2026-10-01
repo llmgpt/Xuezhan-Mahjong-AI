@@ -84,7 +84,7 @@ export function estimateShanten(
   return result;
 }
 
-function publicCounts(view: PlayerView): number[] {
+export function publicCounts(view: PlayerView): number[] {
   const counts = Array<number>(27).fill(0);
   for (const item of [...view.hand, ...view.ownDiscards]) counts[item] += 1;
   for (const meld of view.melds)

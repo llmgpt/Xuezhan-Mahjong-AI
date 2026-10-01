@@ -1,17 +1,36 @@
 import type { DiscardAdvice } from "../game/advice";
+import { actionKey, type ActionAdvice } from "../game/actionAdvice";
 import { labelOf } from "../game/tiles";
 import { TilePiece } from "./MahjongTile";
 import { GameDialog } from "./GameDialog";
 
-export function AdviceCoach({ advice }: { advice: DiscardAdvice[] }) {
-  if (!advice.length) return null;
+export function AdviceCoach({
+  advice,
+  actions = [],
+}: {
+  advice: DiscardAdvice[];
+  actions?: ActionAdvice[];
+}) {
+  const choices = actions.length
+    ? actions.map((item) => ({ ...item, key: actionKey(item.action) }))
+    : advice.slice(0, 2).map((item) => ({
+        ...item,
+        label: `打出 ${labelOf(item.tile)}`,
+        key: String(item.tile),
+      }));
+  if (!choices.length) return null;
+  const first = choices[0];
   return (
     <aside className="inlineAdvice" aria-label="推荐原因">
       <div className="coachSummary">
-        <TilePiece tile={advice[0].tile} className="tile-coach" />
+        {first.tile !== undefined ? (
+          <TilePiece tile={first.tile} className="tile-coach" />
+        ) : (
+          <span className="actionCoachIcon">胡</span>
+        )}
         <div>
-          <strong>建议打出 {labelOf(advice[0].tile)}</strong>
-          <p>{advice[0].summary}</p>
+          <strong>建议{first.label}</strong>
+          <p>{first.summary}</p>
         </div>
       </div>
       <GameDialog
@@ -24,11 +43,17 @@ export function AdviceCoach({ advice }: { advice: DiscardAdvice[] }) {
         </p>
         <div className="advicePanel">
           <div className="adviceCards">
-            {advice.slice(0, 2).map((item, index) => (
-              <article className="adviceCard" key={item.tile}>
+            {choices.map((item, index) => (
+              <article className="adviceCard" key={item.key}>
                 <div className="adviceTile">
-                  <TilePiece tile={item.tile} className="tile-advice" />
-                  <span>{index === 0 ? "推荐打出" : "也可考虑"}</span>
+                  {item.tile !== undefined ? (
+                    <TilePiece tile={item.tile} className="tile-advice" />
+                  ) : (
+                    <span className="actionCoachIcon">胡</span>
+                  )}
+                  <span>
+                    {index === 0 ? "推荐" : "备选"} · {item.label}
+                  </span>
                 </div>
                 <div className="adviceReason">
                   <p className="choiceReason">{item.summary}</p>
@@ -37,9 +62,9 @@ export function AdviceCoach({ advice }: { advice: DiscardAdvice[] }) {
                 </div>
               </article>
             ))}
-            {advice.length === 1 && (
+            {choices.length === 1 && (
               <article className="adviceCard singleChoice">
-                <p>当前只有这一种合法出牌，没有不同牌的备选。</p>
+                <p>当前只有这一种合法选择。</p>
               </article>
             )}
           </div>

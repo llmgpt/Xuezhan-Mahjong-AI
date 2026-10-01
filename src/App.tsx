@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { AdviceCoach } from "./components/AdviceCoach";
 import { GameDialog } from "./components/GameDialog";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
 import { recommendDiscards } from "./game/advice";
+import { actionKey, recommendActions } from "./game/actionAdvice";
 import { completeExchange, completeMissing } from "./game/demo";
 import {
   countTiles,
@@ -43,6 +44,37 @@ const responseLabels: Record<ResponseChoice, string> = {
   kong: "杠",
 };
 const names = ["你", "阿川", "小满", "老茶客"];
+
+function ActionButton({
+  action,
+  label,
+  recommended,
+  onAct,
+  children,
+}: {
+  action: PlayerAction;
+  label: string;
+  recommended: boolean;
+  onAct: (action: PlayerAction) => void;
+  children?: ReactNode;
+}) {
+  const secondary = action.type === "respond" && action.choice === "pass";
+  return (
+    <button
+      className={`gameButton ${secondary ? "secondary" : "primary"} ${action.type === "respond" ? "responseAction" : ""} ${recommended ? "suggestedAction" : ""}`}
+      type="button"
+      aria-label={`${label}${recommended ? "，推荐" : ""}`}
+      onClick={() => onAct(action)}
+    >
+      {children ?? label}
+      {recommended && (
+        <span className="actionRecommendMark" aria-hidden="true">
+          荐
+        </span>
+      )}
+    </button>
+  );
+}
 
 function suitLabel(suit?: Suit) {
   return suits.find((item) => item.key === suit)?.label ?? "未定";
@@ -144,6 +176,14 @@ function App() {
     [game.phase, game.turn, view],
   );
   const selfActions = legalSelfActions(game, 0);
+  const actionAdvice = useMemo(() => recommendActions(view), [view]);
+  const suggestedAction = actionAdvice[0]?.action;
+  const suggestedKey = suggestedAction && actionKey(suggestedAction);
+  const suggestedDiscard = actionAdvice.length
+    ? suggestedAction?.type === "discard"
+      ? suggestedAction.tile
+      : undefined
+    : advice[0]?.tile;
   const responses = legalResponses(game, 0);
   const exchangeTiles = selected.map((index) => hand[index]);
   const validExchange =
@@ -362,53 +402,51 @@ function App() {
                 ))}
               {game.phase === "respond" &&
                 responses.map((choice) => (
-                  <button
-                    className={`gameButton ${choice === "pass" ? "secondary" : "primary"}`}
+                  <ActionButton
                     key={choice}
-                    type="button"
-                    onClick={() => act({ type: "respond", choice })}
-                  >
-                    {responseLabels[choice]}
-                  </button>
+                    action={{ type: "respond", choice }}
+                    label={responseLabels[choice]}
+                    recommended={suggestedKey === `respond:${choice}`}
+                    onAct={act}
+                  />
                 ))}
               {game.phase === "discard" && game.turn === 0 && (
                 <>
                   {selfActions.canWin && (
-                    <button
-                      className="gameButton primary"
-                      type="button"
-                      onClick={() => act({ type: "win" })}
-                    >
-                      自摸胡
-                    </button>
+                    <ActionButton
+                      action={{ type: "win" }}
+                      label="自摸胡"
+                      recommended={suggestedKey === "win"}
+                      onAct={act}
+                    />
                   )}
                   {selfActions.concealedKongs.map((tile) => (
-                    <button
-                      className="gameButton primary"
+                    <ActionButton
                       key={`c${tile}`}
-                      type="button"
-                      onClick={() =>
-                        act({ type: "kong", kind: "concealed", tile })
-                      }
+                      action={{ type: "kong", kind: "concealed", tile }}
+                      label={`暗杠 ${labelOf(tile)}`}
+                      recommended={suggestedKey === `kong:concealed:${tile}`}
+                      onAct={act}
                     >
                       暗杠 <TilePiece tile={tile} className="tile-button" />
-                    </button>
+                    </ActionButton>
                   ))}
                   {selfActions.addedKongs.map((tile) => (
-                    <button
-                      className="gameButton primary"
+                    <ActionButton
                       key={`a${tile}`}
-                      type="button"
-                      onClick={() => act({ type: "kong", kind: "added", tile })}
+                      action={{ type: "kong", kind: "added", tile }}
+                      label={`补杠 ${labelOf(tile)}`}
+                      recommended={suggestedKey === `kong:added:${tile}`}
+                      onAct={act}
                     >
                       补杠 <TilePiece tile={tile} className="tile-button" />
-                    </button>
+                    </ActionButton>
                   ))}
                 </>
               )}
             </div>
           </div>
-          <AdviceCoach advice={advice} />
+          <AdviceCoach advice={advice} actions={actionAdvice} />
           <div className="handTray">
             <div className="playerIdentity">
               <div className="avatarFrame">
@@ -433,7 +471,7 @@ function App() {
                     game.phase === "discard" &&
                     game.turn === 0 &&
                     legal.has(tile);
-                  const recommended = advice[0]?.tile === tile && canPlay;
+                  const recommended = suggestedDiscard === tile && canPlay;
                   return (
                     <button
                       className={`tile mahjongTile ${selected.includes(index) ? "selected" : ""} ${canPlay ? "playable" : ""} ${recommended ? "recommended" : ""} ${game.phase === "discard" && !canPlay ? "unavailable" : ""}`}
