@@ -1,8 +1,16 @@
-import { useMemo, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { AdviceCoach } from "./components/AdviceCoach";
 import { GameDialog } from "./components/GameDialog";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
+import { DecisionReplay } from "./components/DecisionReplay";
+import { TeachingTable } from "./components/TeachingTable";
 import { recommendDiscards } from "./game/advice";
 import { actionKey, recommendActions } from "./game/actionAdvice";
 import { completeExchange, completeMissing } from "./game/demo";
@@ -15,11 +23,14 @@ import {
   type PlayerState,
   type ResponseChoice,
 } from "./game/game";
+import { advanceToHuman, type PlayerAction } from "./game/session";
 import {
-  advanceToHuman,
-  applyPlayerAction,
-  type PlayerAction,
-} from "./game/session";
+  applyTeachingAction,
+  recordDecision,
+  takeAutomaticStep,
+  type DecisionRecord,
+  type TeachingAction,
+} from "./game/teaching";
 import { labelOf, suitOf, type Suit, type Tile } from "./game/tiles";
 import { playerView } from "./game/view";
 import "./style.css";
@@ -162,6 +173,9 @@ function App() {
   const [game, setGame] = useState(() => createGame(20260929));
   const [selected, setSelected] = useState<number[]>([]);
   const [notice, setNotice] = useState("选择同一花色的三张牌，顺时针交换。");
+  const [watching, setWatching] = useState(false);
+  const [autoPlay, setAutoPlay] = useState(false);
+  const [decisions, setDecisions] = useState<DecisionRecord[]>([]);
   const hand = game.players[0].hand;
   const sortedHand = hand
     .map((tile, index) => ({ tile, index }))
@@ -195,6 +209,52 @@ function App() {
     ? { seat: game.pending.from, tile: game.pending.tile }
     : game.lastDiscard;
 
+  const commitHuman = useCallback(
+    (action: TeachingAction) => {
+      try {
+        const immediate = applyTeachingAction(game, 0, action);
+        const recorded = recordDecision(game, immediate, 0, action);
+        const next =
+          action.type === "exchange"
+            ? completeExchange(game, action.tiles)
+            : action.type === "missing"
+              ? advanceToHuman(completeMissing(game, action.suit))
+              : advanceToHuman(immediate);
+        setDecisions((current) => [...current, recorded]);
+        setGame(next);
+        setSelected([]);
+        if (next.phase === "ended") setAutoPlay(false);
+        setNotice(
+          next.phase === "ended"
+            ? "本局已结算，可查看本局决策复盘。"
+            : next.phase === "choose-missing"
+              ? "选择本局不要的花色，之后先打完这门牌。"
+              : next.phase === "respond"
+                ? "选择胡、碰、杠，或点击过。"
+                : "点选亮起的手牌直接出牌。",
+        );
+      } catch (error) {
+        setNotice((error as Error).message);
+        setAutoPlay(false);
+      }
+    },
+    [game],
+  );
+
+  useEffect(() => {
+    if (!autoPlay || watching || game.phase === "ended") return;
+    const timer = window.setTimeout(() => {
+      try {
+        const step = takeAutomaticStep(game);
+        if (step?.decision.seat === 0) commitHuman(step.decision.actual.action);
+      } catch (error) {
+        setNotice((error as Error).message);
+        setAutoPlay(false);
+      }
+    }, 900);
+    return () => window.clearTimeout(timer);
+  }, [autoPlay, watching, game, commitHuman]);
+
   function restart() {
     const seed = Number(seedText);
     if (!seedText.trim() || !Number.isSafeInteger(seed)) {
@@ -203,11 +263,14 @@ function App() {
     }
     setGame(createGame(seed));
     setSelected([]);
+    setDecisions([]);
+    setAutoPlay(false);
     setNotice("选择同一花色的三张牌，顺时针交换。");
     return true;
   }
   function toggle(index: number) {
     if (game.phase !== "exchange") return;
+    setAutoPlay(false);
     setSelected((current) =>
       current.includes(index)
         ? current.filter((item) => item !== index)
@@ -218,37 +281,19 @@ function App() {
   }
   function exchange() {
     if (!validExchange) return;
-    try {
-      setGame(completeExchange(game, exchangeTiles));
-      setSelected([]);
-      setNotice("选择本局不要的花色，之后先打完这门牌。");
-    } catch (error) {
-      setNotice((error as Error).message);
-    }
+    setAutoPlay(false);
+    commitHuman({ type: "exchange", tiles: exchangeTiles });
   }
   function selectMissing(missing: Suit) {
-    try {
-      setGame(advanceToHuman(completeMissing(game, missing)));
-      setNotice("点选亮起的手牌直接出牌，先打完缺门牌。");
-    } catch (error) {
-      setNotice((error as Error).message);
-    }
+    setAutoPlay(false);
+    commitHuman({ type: "missing", suit: missing });
   }
   function act(action: PlayerAction) {
-    try {
-      const next = applyPlayerAction(game, action);
-      setGame(next);
-      setNotice(
-        next.phase === "ended"
-          ? "本局已结算，来看看大家的战绩。"
-          : next.phase === "respond"
-            ? "选择胡、碰、杠，或点击过。"
-            : "点选亮起的手牌直接出牌。",
-      );
-    } catch (error) {
-      setNotice((error as Error).message);
-    }
+    setAutoPlay(false);
+    commitHuman(action);
   }
+
+  if (watching) return <TeachingTable onBack={() => setWatching(false)} />;
 
   return (
     <main className="shell">
@@ -535,20 +580,55 @@ function App() {
                   <p>本局无人胡牌</p>
                 )}
               </div>
-              <button
-                className="gameButton primary"
-                type="button"
-                onClick={restart}
-              >
-                再来一局
-              </button>
+              <div className="resultLearningActions">
+                <GameDialog
+                  title="本局决策复盘"
+                  trigger="查看复盘"
+                  onOpen={() => setAutoPlay(false)}
+                >
+                  <DecisionReplay records={decisions} />
+                </GameDialog>
+                <button
+                  className="gameButton primary"
+                  type="button"
+                  onClick={restart}
+                >
+                  再来一局
+                </button>
+              </div>
             </section>
           </div>
         )}
       </section>
 
       <footer className="tableToolbar">
-        <span>V1 规则 · 启发式建议</span>
+        <div className="learningTools">
+          <button
+            className="textButton"
+            type="button"
+            onClick={() => {
+              setAutoPlay(false);
+              setWatching(true);
+            }}
+          >
+            教学观战
+          </button>
+          <button
+            className="textButton"
+            type="button"
+            disabled={game.phase === "ended"}
+            onClick={() => setAutoPlay(!autoPlay)}
+          >
+            {autoPlay ? "暂停托管" : "自动托管"}
+          </button>
+          <GameDialog
+            title="本局决策复盘"
+            trigger="本局复盘"
+            onOpen={() => setAutoPlay(false)}
+          >
+            <DecisionReplay records={decisions} />
+          </GameDialog>
+        </div>
         <div>
           <GameDialog title="玩法提示">
             <ol className="rulesHelp">

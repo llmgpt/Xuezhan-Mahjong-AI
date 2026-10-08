@@ -1,12 +1,13 @@
 # 项目开发入口
 
-这是一个帮助玩家学习四川血战到底的中文网页项目。当前已有本地可试玩 V1 与测试；复盘和 AI 观战尚未实现，不要把计划写成已实现功能。
+这是一个帮助玩家学习四川血战到底的中文网页项目。当前已有本地可试玩 V1、自动托管、四电脑教学观战与本局决策复盘及测试；记录暂存于当前页面内存，不要把后续计划写成已实现功能。
 
 ## 按任务查阅
 
 - [README.md](README.md)：项目目标和当前状态。
 - [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md)：功能顺序、待定规则和建议评价。
 - [docs/RULES_V1.md](docs/RULES_V1.md)：第一版规则目标、差异选择及已实现边界。
+- [docs/TEACHING_MODE.md](docs/TEACHING_MODE.md)：自动打牌、教学观战与复盘的策略和信息边界。
 - [ARCHITECTURE.md](ARCHITECTURE.md)：阶段性技术栈、模块边界和数据范围。
 - [docs/ENGINEERING.md](docs/ENGINEERING.md)：开发反馈回路、测试和 CI 的建立时机。
 - [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md)：当前交接、下一项开发任务和完成标准。
