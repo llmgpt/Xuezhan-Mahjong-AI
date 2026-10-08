@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { summarizeDecisions, type DecisionRecord } from "../game/teaching";
+import { summarizeDecisions, type DecisionRecord } from "../game/decision";
 import { labelOf } from "../game/tiles";
 import { TilePiece } from "./MahjongTile";
 
 export function DecisionExplanation({ record }: { record: DecisionRecord }) {
   return (
     <article className="decisionExplanation" aria-label="本步决策解析">
-      <span className="teachingEyebrow">{record.seat} 号玩家 · 行动前信息</span>
+      <span className="decisionEyebrow">{record.seat} 号玩家 · 行动前信息</span>
       <h3>{record.actual.label}</h3>
       <p>
         本家定缺：

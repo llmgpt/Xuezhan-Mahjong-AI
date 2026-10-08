@@ -6,7 +6,6 @@ import {
   chooseMissing,
   declareKong,
   discard,
-  draw,
   respond,
   winSelf,
   type GameState,
@@ -15,14 +14,13 @@ import type { PlayerAction } from "./session";
 import { labelOf, suitOf, type Suit, type Tile } from "./tiles";
 import { playerView, type PlayerView } from "./view";
 
-export type TeachingAction =
+export type DecisionAction =
   | PlayerAction
   | { type: "exchange"; tiles: Tile[] }
-  | { type: "missing"; suit: Suit }
-  | { type: "draw" };
+  | { type: "missing"; suit: Suit };
 
 export interface DecisionChoice {
-  action: TeachingAction;
+  action: DecisionAction;
   label: string;
   summary: string;
   reason: string;
@@ -40,26 +38,19 @@ export interface DecisionRecord {
   events: string[];
 }
 
-export interface AutomaticStep {
-  before: GameState;
-  after: GameState;
-  decision: DecisionRecord;
-}
-
 const suitNames: Record<Suit, string> = { wan: "万", tiao: "条", tong: "筒" };
 const suits: Suit[] = ["wan", "tiao", "tong"];
 const setupLimit =
   "只用本家手牌；开局采用简单且确定性的启发式选择，未搜索交换结果或长期收益。";
 
-function key(action: TeachingAction): string {
+function key(action: DecisionAction): string {
   if (action.type === "exchange")
     return `exchange:${[...action.tiles].sort((a, b) => a - b).join(",")}`;
   if (action.type === "missing") return `missing:${action.suit}`;
-  if (action.type === "draw") return "draw";
   return actionKey(action);
 }
 
-// 策略入口只接收本家视图；完整状态只用于确定下一位行动者与执行合法操作。
+// 建议策略只接收本家视图；完整状态仅用于判断是否轮到本家并执行合法操作。
 function choicesFor(
   view: PlayerView,
   phase: GameState["phase"],
@@ -92,16 +83,6 @@ function choicesFor(
       },
     );
   }
-  if (phase === "draw")
-    return [
-      {
-        action: { type: "draw" },
-        label: "摸牌",
-        summary: "下一名未胡玩家从牌墙摸一张。",
-        reason: "这是规则规定的流程动作，摸牌前不查看下一张牌。",
-        limit: "摸牌没有策略备选；实际摸到的牌仅在动作完成后显示。",
-      },
-    ];
   const actions = recommendActions(view);
   const discards = recommendDiscards(view).map((item): DecisionChoice => ({
     action: { type: "discard", tile: item.tile },
@@ -119,18 +100,16 @@ function choicesFor(
   ];
 }
 
-export function applyTeachingAction(
+export function applyDecisionAction(
   state: GameState,
   seat: number,
-  action: TeachingAction,
+  action: DecisionAction,
 ): GameState {
   switch (action.type) {
     case "exchange":
       return chooseExchange(state, seat, action.tiles);
     case "missing":
       return chooseMissing(state, seat, action.suit);
-    case "draw":
-      return draw(state, seat);
     case "discard":
       return discard(state, seat, action.tile);
     case "win":
@@ -146,7 +125,7 @@ function makeRecord(
   before: GameState,
   after: GameState,
   seat: number,
-  action: TeachingAction,
+  action: DecisionAction,
   view: PlayerView,
   choices: DecisionChoice[],
 ): DecisionRecord {
@@ -183,7 +162,7 @@ export function recordDecision(
   before: GameState,
   after: GameState,
   seat: number,
-  action: TeachingAction,
+  action: DecisionAction,
 ): DecisionRecord {
   const view = playerView(before, seat);
   return makeRecord(
@@ -196,34 +175,22 @@ export function recordDecision(
   );
 }
 
-export function takeAutomaticStep(state: GameState): AutomaticStep | undefined {
-  if (state.phase === "ended") return undefined;
-  const seat =
-    state.phase === "exchange"
-      ? state.players.findIndex((player) => !player.exchange)
-      : state.phase === "choose-missing"
-        ? state.players.findIndex((player) => !player.missing)
-        : state.phase === "respond"
-          ? state.pending!.eligible.find(
-              (other) => !state.pending!.answers[other],
-            )!
-          : state.turn;
-  const view = playerView(state, seat);
-  const choices = choicesFor(view, state.phase);
-  if (!choices.length) throw new Error("自动对局没有合法选择");
-  const action = choices[0].action;
-  const after = applyTeachingAction(state, seat, action);
-  return {
-    before: state,
-    after,
-    decision: makeRecord(state, after, seat, action, view, choices),
-  };
+export function chooseAutoplayAction(
+  state: GameState,
+): DecisionAction | undefined {
+  const humanTurn =
+    (state.phase === "exchange" && !state.players[0].exchange) ||
+    (state.phase === "choose-missing" && !state.players[0].missing) ||
+    (state.phase === "discard" && state.turn === 0) ||
+    (state.phase === "respond" &&
+      state.pending!.eligible.includes(0) &&
+      !state.pending!.answers[0]);
+  if (!humanTurn) return undefined;
+  return choicesFor(playerView(state, 0), state.phase)[0]?.action;
 }
 
 export function summarizeDecisions(records: readonly DecisionRecord[]) {
-  const decisions = records.filter(
-    (record) => record.actual.action.type !== "draw",
-  );
+  const decisions = records;
   const deviations = decisions.filter(
     (record) => !record.matchesRecommendation,
   ).length;

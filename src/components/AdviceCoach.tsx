@@ -7,9 +7,11 @@ import { GameDialog } from "./GameDialog";
 export function AdviceCoach({
   advice,
   actions = [],
+  onOpen,
 }: {
   advice: DiscardAdvice[];
   actions?: ActionAdvice[];
+  onOpen?: () => void;
 }) {
   const choices = actions.length
     ? actions.map((item) => ({ ...item, key: actionKey(item.action) }))
@@ -37,6 +39,7 @@ export function AdviceCoach({
         title="详细依据与备选"
         trigger="查看依据"
         triggerClassName="adviceDetailsButton"
+        onOpen={onOpen}
       >
         <p className="dialogIntro">
           只用你的手牌和公开信息，建议为启发式估算。

@@ -10,7 +10,6 @@ import { GameDialog } from "./components/GameDialog";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
 import { DecisionReplay } from "./components/DecisionReplay";
-import { TeachingTable } from "./components/TeachingTable";
 import { recommendDiscards } from "./game/advice";
 import { actionKey, recommendActions } from "./game/actionAdvice";
 import { completeExchange, completeMissing } from "./game/demo";
@@ -25,12 +24,12 @@ import {
 } from "./game/game";
 import { advanceToHuman, type PlayerAction } from "./game/session";
 import {
-  applyTeachingAction,
+  applyDecisionAction,
+  chooseAutoplayAction,
   recordDecision,
-  takeAutomaticStep,
   type DecisionRecord,
-  type TeachingAction,
-} from "./game/teaching";
+  type DecisionAction,
+} from "./game/decision";
 import { labelOf, suitOf, type Suit, type Tile } from "./game/tiles";
 import { playerView } from "./game/view";
 import "./style.css";
@@ -173,8 +172,8 @@ function App() {
   const [game, setGame] = useState(() => createGame(20260929));
   const [selected, setSelected] = useState<number[]>([]);
   const [notice, setNotice] = useState("选择同一花色的三张牌，顺时针交换。");
-  const [watching, setWatching] = useState(false);
   const [autoPlay, setAutoPlay] = useState(false);
+  const [autoDelay, setAutoDelay] = useState(3000);
   const [decisions, setDecisions] = useState<DecisionRecord[]>([]);
   const hand = game.players[0].hand;
   const sortedHand = hand
@@ -210,9 +209,9 @@ function App() {
     : game.lastDiscard;
 
   const commitHuman = useCallback(
-    (action: TeachingAction) => {
+    (action: DecisionAction) => {
       try {
-        const immediate = applyTeachingAction(game, 0, action);
+        const immediate = applyDecisionAction(game, 0, action);
         const recorded = recordDecision(game, immediate, 0, action);
         const next =
           action.type === "exchange"
@@ -242,18 +241,18 @@ function App() {
   );
 
   useEffect(() => {
-    if (!autoPlay || watching || game.phase === "ended") return;
+    if (!autoPlay || game.phase === "ended") return;
     const timer = window.setTimeout(() => {
       try {
-        const step = takeAutomaticStep(game);
-        if (step?.decision.seat === 0) commitHuman(step.decision.actual.action);
+        const action = chooseAutoplayAction(game);
+        if (action) commitHuman(action);
       } catch (error) {
         setNotice((error as Error).message);
         setAutoPlay(false);
       }
-    }, 900);
+    }, autoDelay);
     return () => window.clearTimeout(timer);
-  }, [autoPlay, watching, game, commitHuman]);
+  }, [autoPlay, autoDelay, game, commitHuman]);
 
   function restart() {
     const seed = Number(seedText);
@@ -293,8 +292,6 @@ function App() {
     commitHuman(action);
   }
 
-  if (watching) return <TeachingTable onBack={() => setWatching(false)} />;
-
   return (
     <main className="shell">
       <header className="topbar">
@@ -312,7 +309,11 @@ function App() {
             <i />
             单人练习
           </span>
-          <GameDialog title="牌局设置" triggerClassName="settingsButton">
+          <GameDialog
+            title="牌局设置"
+            triggerClassName="settingsButton"
+            onOpen={() => setAutoPlay(false)}
+          >
             <div className="settingsPopover">
               <label htmlFor="seed">固定种子</label>
               <input
@@ -322,6 +323,19 @@ function App() {
                 onChange={(event) => setSeedText(event.target.value)}
               />
               <p>相同种子与选择可以重现同一局。</p>
+              <label htmlFor="auto-delay">托管节奏</label>
+              <select
+                id="auto-delay"
+                value={autoDelay}
+                onChange={(event) => setAutoDelay(Number(event.target.value))}
+              >
+                <option value={3000}>舒适 · 本家每次选择前 3 秒</option>
+                <option value={5000}>慢速 · 本家每次选择前 5 秒</option>
+                <option value={1000}>快速 · 本家每次选择前 1 秒</option>
+              </select>
+              <p>
+                只托管你的操作；三名对手照常行牌。本局复盘会记录每次选择与当时建议。打开设置或建议依据会暂停托管。
+              </p>
               <small>本局牌数：{countTiles(game)} / 108</small>
               <button
                 type="button"
@@ -491,7 +505,11 @@ function App() {
               )}
             </div>
           </div>
-          <AdviceCoach advice={advice} actions={actionAdvice} />
+          <AdviceCoach
+            advice={advice}
+            actions={actionAdvice}
+            onOpen={() => setAutoPlay(false)}
+          />
           <div className="handTray">
             <div className="playerIdentity">
               <div className="avatarFrame">
@@ -603,16 +621,6 @@ function App() {
 
       <footer className="tableToolbar">
         <div className="learningTools">
-          <button
-            className="textButton"
-            type="button"
-            onClick={() => {
-              setAutoPlay(false);
-              setWatching(true);
-            }}
-          >
-            教学观战
-          </button>
           <button
             className="textButton"
             type="button"
