@@ -2028,3 +2028,328 @@ input:focus-visible {
     transition: none !important;
   }
 }
+
+.learningTools,
+.resultLearningActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.teachingShell {
+  padding-bottom: 16px;
+  gap: 12px;
+}
+.teachingHeader {
+  margin-bottom: 0;
+}
+.teachingBanner {
+  background: #e5eee6;
+  color: #315b4b;
+  border: 1px solid #cadbcb;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.playbackControls,
+.replayNavigation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.playbackControls button,
+.replayNavigation button,
+.keyDecisions button,
+.teachingResult > button {
+  border: 1px solid #d2c5a9;
+  border-radius: 8px;
+  padding: 7px 10px;
+  color: #37594d;
+  background: #fffaf0;
+}
+.playbackControls button:disabled,
+.replayNavigation button:disabled,
+.learningTools button:disabled {
+  opacity: 0.45;
+}
+.playbackControls .primary {
+  background: #387664;
+  color: white;
+}
+.playbackControls label,
+.playbackStatus {
+  font-size: 12px;
+}
+.playbackControls select,
+.replayNavigation select {
+  max-width: 100%;
+  padding: 6px;
+  border: 1px solid #d2c5a9;
+  border-radius: 6px;
+  background: #fffaf0;
+  color: #37594d;
+}
+.playbackStatus {
+  margin-left: auto;
+  color: #728074;
+}
+.playbackControls .mobileAnalysisButton {
+  display: none;
+}
+.teachingLayout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+  gap: 16px;
+}
+.teachingBoard,
+.teachingAnalysis {
+  min-width: 0;
+  overflow: auto;
+  border-radius: 16px;
+  border: 1px solid #d2c5a9;
+  padding: 16px;
+}
+.teachingBoard {
+  background: #e3e9d9;
+}
+.teachingAnalysis {
+  background: #fffaf0;
+}
+.teachingTableInfo {
+  font-size: 13px;
+  margin-bottom: 12px;
+  color: #47644f;
+}
+.teachingPlayers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.teachingPlayer {
+  padding: 12px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: #fffaf0;
+  min-width: 0;
+}
+.teachingPlayer.acting {
+  border-color: #b8903d;
+}
+.teachingPlayer header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 10px;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.teachingPlayer header span {
+  color: #728074;
+  font-size: 12px;
+}
+.teachingHand,
+.teachingDiscards,
+.snapshotHand {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.tile-teaching {
+  --tile-w: 27px;
+}
+.tile-snapshot {
+  --tile-w: 29px;
+}
+.teachingMelds {
+  font-size: 12px;
+  color: #728074;
+}
+.teachingDiscards .tile-discard {
+  --tile-w: 20px;
+}
+.teachingPending,
+.teachingResult {
+  padding: 12px;
+  background: #fffaf0;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.teachingResult {
+  margin-top: 12px;
+}
+.teachingResult h2 {
+  font-size: 18px;
+}
+.teachingResult > button {
+  margin-right: 8px;
+}
+.teachingError {
+  margin: 0;
+  color: #a13f36;
+  font-size: 13px;
+}
+.teachingWelcome {
+  font-size: 14px;
+  line-height: 1.8;
+}
+.teachingWelcome h2 {
+  font-size: 20px;
+}
+.decisionExplanation {
+  line-height: 1.75;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.decisionExplanation h3 {
+  margin: 5px 0 12px;
+  font-size: 20px;
+  color: #315b4b;
+}
+.teachingEyebrow,
+.decisionExplanation small {
+  color: #728074;
+  font-size: 12px;
+}
+.decisionSummary {
+  color: #315b4b;
+  font-weight: 700;
+}
+.decisionDifference {
+  padding: 10px;
+  background: #fff0cd;
+  border-radius: 8px;
+}
+.decisionExplanation details {
+  border-top: 1px solid #e5ddcb;
+  padding: 10px 0;
+  margin-top: 12px;
+}
+.decisionExplanation summary {
+  cursor: pointer;
+  color: #315b4b;
+  font-weight: 700;
+}
+.decisionAlternative {
+  padding: 12px 0;
+  border-bottom: 1px solid #e5ddcb;
+}
+.decisionAlternative p {
+  margin: 6px 0;
+}
+.decisionOutcome {
+  padding: 12px;
+  background: #edf1e7;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+.decisionOutcome p {
+  margin: 6px 0;
+}
+.replayNavigation {
+  margin-bottom: 16px;
+}
+.replayNavigation label {
+  min-width: 0;
+  flex: 1;
+}
+.replayNavigation select {
+  width: 100%;
+  display: block;
+}
+.keyDecisions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.keyDecisions > span {
+  width: 100%;
+  font-size: 12px;
+  color: #728074;
+}
+.keyDecisions button {
+  font-size: 12px;
+}
+@media (max-width: 800px) {
+  .playbackControls .mobileAnalysisButton {
+    display: inline-block;
+  }
+  .teachingShell {
+    padding: 10px;
+    gap: 8px;
+  }
+  .teachingHeader {
+    gap: 8px;
+  }
+  .teachingHeader .brand h1 {
+    font-size: 22px;
+  }
+  .teachingHeader .brand div > span {
+    letter-spacing: 0;
+    font-size: 10px;
+  }
+  .teachingHeader .topbarTools {
+    gap: 8px;
+  }
+  .teachingHeader .newGameButton {
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+  .teachingBanner {
+    font-size: 11px;
+    padding: 8px;
+  }
+  .playbackControls {
+    gap: 6px;
+  }
+  .playbackControls button {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  .playbackStatus {
+    margin-left: 0;
+    width: 100%;
+  }
+  .teachingLayout {
+    display: block;
+    overflow: auto;
+  }
+  .teachingBoard,
+  .teachingAnalysis {
+    overflow: visible;
+    padding: 10px;
+  }
+  .teachingAnalysis {
+    margin-top: 10px;
+  }
+  .teachingPlayers {
+    gap: 8px;
+  }
+  .teachingPlayer {
+    padding: 8px;
+  }
+  .tile-teaching {
+    --tile-w: 23px;
+  }
+  .learningTools {
+    gap: 7px;
+  }
+  .learningTools .textButton {
+    font-size: 11px;
+  }
+}
+@media (max-width: 420px) {
+  .teachingPlayers {
+    grid-template-columns: 1fr;
+  }
+  .tableToolbar > div {
+    gap: 4px;
+  }
+  .tableToolbar .textButton {
+    font-size: 10px;
+    padding-inline: 2px;
+  }
+}

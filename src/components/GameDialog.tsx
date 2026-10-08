@@ -4,11 +4,13 @@ export function GameDialog({
   title,
   trigger,
   triggerClassName = "textButton",
+  onOpen,
   children,
 }: {
   title: string;
   trigger?: string;
   triggerClassName?: string;
+  onOpen?: () => void;
   children: ReactNode;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -19,7 +21,10 @@ export function GameDialog({
         className={triggerClassName}
         type="button"
         aria-haspopup="dialog"
-        onClick={() => dialog.current?.showModal()}
+        onClick={() => {
+          onOpen?.();
+          dialog.current?.showModal();
+        }}
       >
         {trigger ?? title}
       </button>
