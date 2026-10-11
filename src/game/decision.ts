@@ -146,14 +146,15 @@ export function describeDecision(
 
 export function chooseAutoplayAction(
   state: GameState,
+  seat = 0,
 ): DecisionAction | undefined {
   const humanTurn =
-    (state.phase === "exchange" && !state.players[0].exchange) ||
-    (state.phase === "choose-missing" && !state.players[0].missing) ||
-    (state.phase === "discard" && state.turn === 0) ||
+    (state.phase === "exchange" && !state.players[seat].exchange) ||
+    (state.phase === "choose-missing" && !state.players[seat].missing) ||
+    (state.phase === "discard" && state.turn === seat) ||
     (state.phase === "respond" &&
-      state.pending!.eligible.includes(0) &&
-      !state.pending!.answers[0]);
+      state.pending!.eligible.includes(seat) &&
+      !state.pending!.answers[seat]);
   if (!humanTurn) return undefined;
-  return choicesFor(playerView(state, 0), state.phase)[0]?.action;
+  return choicesFor(playerView(state, seat), state.phase)[0]?.action;
 }

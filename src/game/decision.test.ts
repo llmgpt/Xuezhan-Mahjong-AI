@@ -55,6 +55,33 @@ describe("本家托管与即时解释", () => {
     expect(chooseAutoplayAction(state)).toBeUndefined();
   });
 
+  it.each([0, 1, 2, 3])("离线评估可让 %i 号座位按建议完成整局", (seat) => {
+    let state = createGame(31415);
+    let turns = 0;
+    while (state.phase !== "ended" && turns < 300) {
+      const action = chooseAutoplayAction(state, seat);
+      expect(action).toBeDefined();
+      expect(describeDecision(state, seat, action!).matchesRecommendation).toBe(
+        true,
+      );
+      const immediate = applyDecisionAction(state, seat, action!);
+      state =
+        action!.type === "exchange"
+          ? completeExchange(state, action!.tiles, seat)
+          : action!.type === "missing"
+            ? advanceToHuman(completeMissing(state, action!.suit, seat), seat)
+            : advanceToHuman(immediate, seat);
+      expect(countTiles(state)).toBe(108);
+      expect(state.players.reduce((sum, player) => sum + player.score, 0)).toBe(
+        0,
+      );
+      turns += 1;
+    }
+    expect(turns).toBeLessThan(300);
+    expect(state.phase).toBe("ended");
+    expect(chooseAutoplayAction(state, seat)).toBeUndefined();
+  });
+
   it("即时解释不受对手暗牌或未来牌墙影响，只返回播报所需信息", () => {
     const state = ready(42);
     const action = chooseAutoplayAction(state)!;

@@ -30,7 +30,7 @@ function botResponse(options: readonly ResponseChoice[]): ResponseChoice {
 }
 
 // 连续执行电脑动作，停在玩家可操作的状态或结算状态。
-export function advanceToHuman(initial: GameState): GameState {
+export function advanceToHuman(initial: GameState, humanSeat = 0): GameState {
   let state = initial;
   for (let step = 0; step < 1000; step += 1) {
     if (
@@ -45,16 +45,16 @@ export function advanceToHuman(initial: GameState): GameState {
     }
     if (state.phase === "respond") {
       const bot = state.pending!.eligible.find(
-        (seat) => seat !== 0 && !state.pending!.answers[seat],
+        (seat) => seat !== humanSeat && !state.pending!.answers[seat],
       );
       if (bot !== undefined) {
         state = respond(state, bot, botResponse(legalResponses(state, bot)));
         continue;
       }
-      if (legalResponses(state, 0).length > 0) return state;
+      if (legalResponses(state, humanSeat).length > 0) return state;
       throw new Error("响应窗口没有待处理玩家");
     }
-    if (state.turn === 0) return state;
+    if (state.turn === humanSeat) return state;
     const seat = state.turn;
     const self = legalSelfActions(state, seat);
     if (self.canWin) {

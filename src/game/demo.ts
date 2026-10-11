@@ -6,9 +6,11 @@ import type { Suit, Tile } from "./tiles";
 export function completeExchange(
   state: GameState,
   playerTiles: readonly Tile[],
+  playerSeat = 0,
 ): GameState {
-  let next = chooseExchange(state, 0, playerTiles);
-  for (let seat = 1; seat < 4; seat += 1) {
+  let next = chooseExchange(state, playerSeat, playerTiles);
+  for (let seat = 0; seat < 4; seat += 1) {
+    if (seat === playerSeat) continue;
     next = chooseExchange(
       next,
       seat,
@@ -21,9 +23,11 @@ export function completeExchange(
 export function completeMissing(
   state: GameState,
   playerMissing: Suit,
+  playerSeat = 0,
 ): GameState {
-  let next = chooseMissing(state, 0, playerMissing);
-  for (let seat = 1; seat < 4; seat += 1) {
+  let next = chooseMissing(state, playerSeat, playerMissing);
+  for (let seat = 0; seat < 4; seat += 1) {
+    if (seat === playerSeat) continue;
     next = chooseMissing(next, seat, chooseBotMissing(next.players[seat].hand));
   }
   return next;
