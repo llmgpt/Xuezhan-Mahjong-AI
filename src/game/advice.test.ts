@@ -71,6 +71,46 @@ describe("可解释出牌建议", () => {
     expect(advice[0].summary).toContain("3");
   });
 
+  it("已碰异色牌时不把同色手牌误称为清一色潜力", () => {
+    const view = adviceView("s11223344556", "tong");
+    view.melds = [{ type: "pung", tile: tile("wan", 9), from: 1 }];
+    const advice = recommendDiscards(view);
+    expect(advice.length).toBeGreaterThan(0);
+    expect(advice.every((item) => item.potential !== "有清一色潜力")).toBe(
+      true,
+    );
+    expect(advice.every((item) => !item.reason.includes("清一色"))).toBe(true);
+  });
+
+  it("已碰同色牌时仍可说明清一色潜力", () => {
+    const view = adviceView("s11223344556", "tong");
+    view.melds = [{ type: "pung", tile: tile("tiao", 9), from: 1 }];
+    const advice = recommendDiscards(view);
+    expect(advice.every((item) => item.potential === "有清一色潜力")).toBe(
+      true,
+    );
+  });
+
+  it("两组同色明碰后仍可识别清一色潜力", () => {
+    const view = adviceView("s11223344", "tong");
+    view.melds = [
+      { type: "pung", tile: tile("tiao", 7), from: 1 },
+      { type: "pung", tile: tile("tiao", 9), from: 2 },
+    ];
+    const advice = recommendDiscards(view);
+    expect(advice.every((item) => item.potential === "有清一色潜力")).toBe(
+      true,
+    );
+  });
+
+  it("四张同牌可算七对中的两对，不漏报七对潜力", () => {
+    const view = adviceView("w1111223356 s4478", "tong");
+    const advice = recommendDiscards(view);
+    expect(
+      advice.find((item) => item.tile === tile("tiao", 8))?.potential,
+    ).toBe("有七对潜力");
+  });
+
   it("只有一种合法牌时说明这是规则限制", () => {
     const advice = recommendDiscards(adviceView("w1111 s123456789 d1", "wan"));
     expect(advice).toHaveLength(1);

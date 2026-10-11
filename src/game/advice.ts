@@ -1,4 +1,5 @@
 import { isWinningHand } from "./rules";
+import type { Meld } from "./scoring";
 import { labelOf, suitOf, type Suit, type Tile } from "./tiles";
 import type { PlayerView } from "./view";
 
@@ -99,19 +100,24 @@ export function publicCounts(view: PlayerView): number[] {
 
 function potentialReturn(
   hand: readonly Tile[],
-  exposedMelds: number,
+  melds: readonly Meld[],
   missing: Suit,
 ): { value: number; text: string } {
   const retained = hand.filter((item) => suitOf(item) !== missing);
-  const suits = new Set(retained.map(suitOf));
-  if (suits.size === 1 && retained.length >= 8)
+  const suits = new Set(
+    [...retained, ...melds.map((meld) => meld.tile)].map(suitOf),
+  );
+  if (suits.size === 1 && retained.length + melds.length * 3 >= 8)
     return { value: 2, text: "有清一色潜力" };
   const counts = Array<number>(27).fill(0);
   retained.forEach((item) => (counts[item] += 1));
-  if (exposedMelds === 0 && counts.filter((count) => count >= 2).length >= 5) {
+  if (
+    melds.length === 0 &&
+    counts.reduce((sum, count) => sum + Math.floor(count / 2), 0) >= 5
+  ) {
     return { value: 2, text: "有七对潜力" };
   }
-  if (counts.filter((count) => count >= 3).length + exposedMelds >= 3) {
+  if (counts.filter((count) => count >= 3).length + melds.length >= 3) {
     return { value: 1, text: "有对对胡潜力" };
   }
   return { value: 0, text: "以基础牌型为主" };
@@ -140,7 +146,7 @@ export function recommendDiscards(view: PlayerView): DiscardAdvice[] {
         effectiveCount += unseen;
       }
     }
-    const potential = potentialReturn(after, view.melds.length, view.missing!);
+    const potential = potentialReturn(after, view.melds, view.missing!);
     const active = view.opponents.filter(
       (opponent) => !opponent.won && opponent.missing !== suitOf(chosen),
     );
