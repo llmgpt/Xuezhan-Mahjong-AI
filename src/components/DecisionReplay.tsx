@@ -2,6 +2,18 @@ import { useState } from "react";
 import { summarizeDecisions, type DecisionRecord } from "../game/decision";
 import { labelOf } from "../game/tiles";
 import { TilePiece } from "./MahjongTile";
+import { NextDrawPanel } from "./NextDrawPanel";
+
+function replayDiscards(record: DecisionRecord) {
+  const tiles = [
+    record.recommended,
+    record.actual,
+    ...record.alternatives,
+  ].flatMap((choice) =>
+    choice.action.type === "discard" ? [choice.action.tile] : [],
+  );
+  return [...new Set(tiles)].slice(0, 2);
+}
 
 export function DecisionExplanation({ record }: { record: DecisionRecord }) {
   return (
@@ -74,6 +86,9 @@ export function DecisionExplanation({ record }: { record: DecisionRecord }) {
           </div>
         ))}
       </details>
+      {record.recommended.action.type === "discard" && (
+        <NextDrawPanel view={record.view} candidates={replayDiscards(record)} />
+      )}
       <div className="decisionOutcome">
         <strong>操作后的公开结果</strong>
         {record.events.length ? (

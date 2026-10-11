@@ -666,6 +666,7 @@ function App() {
           </div>
           <AdviceCoach
             advice={advice}
+            view={view}
             actions={actionAdvice}
             onSpeak={soundEnabled ? announceAdvice : undefined}
             onOpen={() => {

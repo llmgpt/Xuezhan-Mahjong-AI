@@ -1,16 +1,20 @@
 import type { DiscardAdvice } from "../game/advice";
 import { actionKey, type ActionAdvice } from "../game/actionAdvice";
 import { labelOf } from "../game/tiles";
+import type { PlayerView } from "../game/view";
 import { TilePiece } from "./MahjongTile";
 import { GameDialog } from "./GameDialog";
+import { NextDrawPanel } from "./NextDrawPanel";
 
 export function AdviceCoach({
   advice,
+  view,
   actions = [],
   onOpen,
   onSpeak,
 }: {
   advice: DiscardAdvice[];
+  view: PlayerView;
   actions?: ActionAdvice[];
   onOpen?: () => void;
   onSpeak?: (choice: { label: string; reason: string }) => void;
@@ -82,6 +86,12 @@ export function AdviceCoach({
             )}
           </div>
         </div>
+        {!actions.length && (
+          <NextDrawPanel
+            view={view}
+            candidates={advice.slice(0, 2).map((item) => item.tile)}
+          />
+        )}
       </GameDialog>
     </aside>
   );

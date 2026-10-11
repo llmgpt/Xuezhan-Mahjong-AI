@@ -1203,6 +1203,41 @@ input:focus-visible {
 .dialogContent .advicePanel {
   margin: 0;
 }
+.lookaheadPanel {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid #e5dece;
+  border-radius: 12px;
+  background: #f6f7ed;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.lookaheadPanel button {
+  border: 1px solid #9bb29c;
+  border-radius: 8px;
+  padding: 7px 11px;
+  background: #fffdf5;
+  color: #315b4b;
+  font-weight: 700;
+}
+.lookaheadPanel p {
+  margin: 9px 0 0;
+}
+.lookaheadPanel small {
+  display: block;
+  margin-top: 9px;
+  color: #6f7e70;
+}
+.lookaheadResults {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+.lookaheadResults p {
+  padding: 9px;
+  border-radius: 8px;
+  background: #fffdf5;
+}
 .historyList,
 .rulesHelp {
   margin: 0;

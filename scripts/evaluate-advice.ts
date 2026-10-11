@@ -1,4 +1,5 @@
 import { recommendDiscards } from "../src/game/advice";
+import { analyzeNextDraw } from "../src/game/lookahead";
 import {
   applyDecisionAction,
   chooseAutoplayAction,
@@ -8,7 +9,7 @@ import { createGame, legalDiscards } from "../src/game/game";
 import { advanceToHuman } from "../src/game/session";
 import { playerView } from "../src/game/view";
 
-type Policy = "advice" | "efficiency" | "first" | "random";
+type Policy = "advice" | "efficiency" | "lookahead" | "first" | "random";
 type Result = {
   score: number;
   won: number;
@@ -29,13 +30,36 @@ function play(seed: number, policy: Policy): Result {
       const original = action.tile;
       if (policy === "first") {
         action = { type: "discard", tile: legalDiscards(state, 0)[0] };
-      } else if (policy === "efficiency") {
-        const best = [...recommendDiscards(playerView(state, 0))].sort(
+      } else if (policy === "efficiency" || policy === "lookahead") {
+        const view = playerView(state, 0);
+        const ranked = [...recommendDiscards(view)].sort(
           (a, b) =>
             a.shanten - b.shanten ||
             b.effectiveCount - a.effectiveCount ||
             a.tile - b.tile,
-        )[0];
+        );
+        const top = ranked
+          .filter((item) => item.shanten === ranked[0].shanten)
+          .slice(0, 3);
+        const lookahead =
+          policy === "lookahead"
+            ? analyzeNextDraw(
+                view,
+                top.map((item) => item.tile),
+              )
+            : [];
+        const best =
+          policy === "lookahead" && lookahead.length
+            ? [...top].sort(
+                (a, b) =>
+                  (lookahead.find((item) => item.tile === b.tile)
+                    ?.twoDrawWinChance ?? 0) -
+                    (lookahead.find((item) => item.tile === a.tile)
+                      ?.twoDrawWinChance ?? 0) ||
+                  b.effectiveCount - a.effectiveCount ||
+                  a.tile - b.tile,
+              )[0]
+            : ranked[0];
         action = { type: "discard", tile: best.tile };
       } else {
         const legal = legalDiscards(state, 0);
@@ -76,7 +100,13 @@ if (!Number.isInteger(count) || count < 1 || !Number.isInteger(startSeed)) {
     "EVAL_COUNT must be positive and EVAL_START must be an integer",
   );
 }
-const policies: Policy[] = ["advice", "efficiency", "first", "random"];
+const policies: Policy[] = [
+  "advice",
+  "efficiency",
+  "lookahead",
+  "first",
+  "random",
+];
 const results = Array.from({ length: count }, (_, index) => {
   const seed = startSeed + index;
   return Object.fromEntries(
@@ -98,7 +128,7 @@ const byPolicy = Object.fromEntries(
   ]),
 );
 const comparisons = Object.fromEntries(
-  (["efficiency", "first", "random"] as const).map((baseline) => {
+  (["efficiency", "lookahead", "first", "random"] as const).map((baseline) => {
     const differences = results.map(
       (result) => result.advice.score - result[baseline].score,
     );
@@ -114,6 +144,32 @@ const comparisons = Object.fromEntries(
     ];
   }),
 );
+const lookaheadDifferences = results.map(
+  (result) => result.lookahead.score - result.efficiency.score,
+);
+const lookaheadMeanDifference = mean(lookaheadDifferences);
 console.log(
-  JSON.stringify({ count, startSeed, byPolicy, comparisons }, null, 2),
+  JSON.stringify(
+    {
+      count,
+      startSeed,
+      byPolicy,
+      comparisons,
+      lookaheadVsEfficiency: {
+        meanScoreDifference: lookaheadMeanDifference,
+        standardError: Math.sqrt(
+          mean(
+            lookaheadDifferences.map(
+              (value) => (value - lookaheadMeanDifference) ** 2,
+            ),
+          ) / count,
+        ),
+        betterSeedFraction: mean(
+          lookaheadDifferences.map((value) => Number(value > 0)),
+        ),
+      },
+    },
+    null,
+    2,
+  ),
 );
