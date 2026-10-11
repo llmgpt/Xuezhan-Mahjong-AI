@@ -42,6 +42,7 @@ import {
   playCue,
   stopAnnouncements,
 } from "./sound";
+import { newGameSeed } from "./newGameSeed";
 import "./style.css";
 
 const suits: { key: Suit; label: string; tile: Tile }[] = [
@@ -64,6 +65,7 @@ const responseLabels: Record<ResponseChoice, string> = {
   kong: "杠",
 };
 const names = ["你", "阿川", "小满", "老茶客"];
+const initialSeed = newGameSeed();
 
 function ActionButton({
   action,
@@ -178,8 +180,8 @@ function Opponent({
 }
 
 function App() {
-  const [seedText, setSeedText] = useState("20260929");
-  const [game, setGame] = useState(() => createGame(20260929));
+  const [seedText, setSeedText] = useState(String(initialSeed));
+  const [game, setGame] = useState(() => createGame(initialSeed));
   const [selected, setSelected] = useState<number[]>([]);
   const [notice, setNotice] = useState("选择同一花色的三张牌，顺时针交换。");
   const [autoPlay, setAutoPlay] = useState(false);
@@ -295,19 +297,26 @@ function App() {
     };
   }, [autoPlay, autoDelay, game, commitHuman]);
 
-  function restart() {
-    const seed = Number(seedText);
-    if (!seedText.trim() || !Number.isSafeInteger(seed)) {
-      setNotice("种子须为安全整数。");
-      return false;
-    }
+  function startGame(seed: number) {
     setGame(createGame(seed));
+    setSeedText(String(seed));
     setSelected([]);
     setDecisions([]);
     setAutoPlay(false);
     stopAnnouncements();
     setNotice("选择同一花色的三张牌，顺时针交换。");
+  }
+  function restartWithSeed() {
+    const seed = Number(seedText);
+    if (!seedText.trim() || !Number.isSafeInteger(seed)) {
+      setNotice("种子须为安全整数。");
+      return false;
+    }
+    startGame(seed);
     return true;
+  }
+  function startRandomGame() {
+    startGame(newGameSeed(game.seed));
   }
   function toggle(index: number) {
     if (game.phase !== "exchange") return;
@@ -368,7 +377,10 @@ function App() {
                 inputMode="numeric"
                 onChange={(event) => setSeedText(event.target.value)}
               />
-              <p>相同种子与选择可以重现同一局。</p>
+              <p>
+                本局种子：{game.seed}
+                。输入相同种子与选择可以重现同一局；随机开局会生成新种子。
+              </p>
               <label htmlFor="auto-delay">托管节奏</label>
               <select
                 id="auto-delay"
@@ -404,7 +416,8 @@ function App() {
               <button
                 type="button"
                 onClick={(event) => {
-                  if (restart()) event.currentTarget.closest("dialog")?.close();
+                  if (restartWithSeed())
+                    event.currentTarget.closest("dialog")?.close();
                 }}
               >
                 按种子重新开局
@@ -415,8 +428,12 @@ function App() {
               )}
             </div>
           </GameDialog>
-          <button className="newGameButton" type="button" onClick={restart}>
-            <span>↻</span> 重新开局
+          <button
+            className="newGameButton"
+            type="button"
+            onClick={startRandomGame}
+          >
+            <span>↻</span> 随机开局
           </button>
         </div>
       </header>
@@ -680,7 +697,7 @@ function App() {
                 <button
                   className="gameButton primary"
                   type="button"
-                  onClick={restart}
+                  onClick={startRandomGame}
                 >
                   再来一局
                 </button>
