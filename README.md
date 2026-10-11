@@ -31,7 +31,7 @@ npm ci
 npm run dev
 ```
 
-打开 Vite 打印的本地地址，按页面提示换牌、定缺、打牌；每次随机开局会更新本局种子，在牌局设置中输入同一个整数种子和重复相同选择，可以重现发牌及电脑决策。使用 `npm run check` 一次运行格式、ESLint、TypeScript、固定牌例测试与生产构建；单独命令为 `npm run format:check`、`npm run lint`、`npm run typecheck`、`npm test`、`npm run build`。本地格式化可运行 `npm run format`。
+打开 Vite 打印的本地地址，按页面提示换牌、定缺、打牌；每次随机开局会更新本局种子，在牌局设置中输入同一个整数种子和重复相同选择，可以重现发牌及电脑决策。使用 `npm run check` 一次运行格式、ESLint、TypeScript、固定牌例测试与生产构建；单独命令为 `npm run format:check`、`npm run lint`、`npm run typecheck`、`npm test`、`npm run build`。本地格式化可运行 `npm run format`。`npm run evaluate:advice` 单独运行 100 个固定种子的出牌策略对照，不纳入日常检查；详情见[建议效果评估](docs/ADVICE_EVALUATION.md)。
 
 本地开发环境已准备 `git-workflow-and-versioning`、`test-driven-development` 和 Serena MCP。它们用于辅助开发，不是游戏运行依赖；其他贡献者无需安装这些工具即可参与项目。
 
@@ -40,6 +40,7 @@ npm run dev
 - [项目计划](docs/PROJECT_PLAN.md)：里程碑、待定规则与建议评价。
 - [第一版规则表](docs/RULES_V1.md)：本地试玩版的规则选择与差异。
 - [自动托管与复盘](docs/AUTOPLAY_REPLAY.md)：托管、决策解析与记录边界。
+- [建议效果评估](docs/ADVICE_EVALUATION.md)：固定种子对照结果、方法和局限。
 - [架构草图](ARCHITECTURE.md)：第一阶段技术选择及后续扩展条件。
 - [开发与反馈回路](docs/ENGINEERING.md)：代码、测试、页面检查和 CI 的建立方式。
 - [新对话开发交接](docs/NEXT_STEPS.md)：当前状态与下一项开发任务。
