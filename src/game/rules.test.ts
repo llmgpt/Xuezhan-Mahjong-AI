@@ -11,6 +11,20 @@ function hand(groups: string): Tile[] {
 }
 
 describe("胡牌结构", () => {
+  it.each([
+    ["w123345 s1235578", [tile("tiao", 6), tile("tiao", 9)]],
+    ["w12334588 s23456", [tile("tiao", 1), tile("tiao", 4), tile("tiao", 7)]],
+  ])("外部看叫教学牌例 %s 的全部可用等待牌", (notation, expected) => {
+    // https://pangruitao.com/post/4355 ，分别为 78 两面与 23456 重叠结构。
+    const owned = hand(notation);
+    const waits = Array.from({ length: 27 }, (_, value) => value).filter(
+      (candidate) =>
+        owned.filter((item) => item === candidate).length < 4 &&
+        isWinningHand([...owned, candidate], "tong"),
+    );
+    expect(waits).toEqual(expected);
+  });
+
   it("四面子一对且缺门为空可胡", () => {
     expect(isWinningHand(hand("w11123499 s345678"), "tong")).toBe(true);
     expect(isWinningHand(hand("w11123499 s345678"), "wan")).toBe(false);

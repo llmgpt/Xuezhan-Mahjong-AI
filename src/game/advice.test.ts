@@ -46,6 +46,38 @@ describe("受限玩家视图", () => {
 });
 
 describe("可解释出牌建议", () => {
+  it("外部六搭教学牌例优先拆进张损失较小的边搭，并说明并列", () => {
+    // https://pangruitao.com/post/4422 ，牌例 1245589m1244589s。
+    const advice = recommendDiscards(adviceView("w1245589 s1244589", "tong"));
+    const best = advice.filter(
+      (item) =>
+        item.shanten === advice[0].shanten &&
+        item.effectiveCount === advice[0].effectiveCount,
+    );
+    expect(best.map((item) => item.tile)).toEqual([
+      tile("wan", 1),
+      tile("wan", 2),
+      tile("tiao", 1),
+      tile("tiao", 2),
+    ]);
+    expect(advice[0].summary).toContain("并列");
+    expect(advice[0].effectiveCount).toBeGreaterThan(
+      advice.find((item) => item.tile === tile("wan", 4))!.effectiveCount,
+    );
+  });
+
+  it("七对与清一色路线有分歧时，备选说明仍需舍掉的异色牌", () => {
+    // https://www.newton.com.tw/wiki/成都麻將 的第二个叙述性牌例。
+    const advice = recommendDiscards(adviceView("w1124456788 s4455", "tong"));
+    const flushRoute = advice.find((item) => item.tile === tile("tiao", 5))!;
+    expect(advice[0].tile).toBe(tile("wan", 2));
+    expect(advice[0].shanten).toBe(1);
+    expect(flushRoute.shanten).toBe(2);
+    expect(flushRoute.potential).toContain("清一色");
+    expect(flushRoute.potential).toContain("3 张条牌");
+    expect(flushRoute.reason).toContain(flushRoute.potential);
+  });
+
   it("缺门牌必须先清时解释规则，并如实说明并列推荐", () => {
     const advice = recommendDiscards(adviceView("w1223779 d2346778", "wan"));
     expect(advice[0].summary).toContain("定缺万");

@@ -120,6 +120,29 @@ function potentialReturn(
   if (counts.filter((count) => count >= 3).length + melds.length >= 3) {
     return { value: 1, text: "有对对胡潜力" };
   }
+  if (retained.length === hand.length && suits.size === 2) {
+    const dominant = (["wan", "tiao", "tong"] as const)
+      .map((suit) => ({
+        suit,
+        count:
+          retained.filter((item) => suitOf(item) === suit).length +
+          melds.filter((meld) => suitOf(meld.tile) === suit).length * 3,
+      }))
+      .sort((a, b) => b.count - a.count)[0];
+    const other = retained.filter((item) => suitOf(item) !== dominant.suit);
+    if (
+      dominant.count >= 10 &&
+      other.length >= 1 &&
+      other.length <= 3 &&
+      melds.every((meld) => suitOf(meld.tile) === dominant.suit)
+    ) {
+      const otherName = { wan: "万", tiao: "条", tong: "筒" }[suitOf(other[0])];
+      return {
+        value: 0,
+        text: `若转清一色，仍需打出 ${other.length} 张${otherName}牌`,
+      };
+    }
+  }
   return { value: 0, text: "以基础牌型为主" };
 }
 
