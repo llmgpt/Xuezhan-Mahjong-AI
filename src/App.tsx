@@ -32,6 +32,14 @@ import {
 } from "./game/decision";
 import { labelOf, suitOf, type Suit, type Tile } from "./game/tiles";
 import { playerView } from "./game/view";
+import {
+  announceAutoplayStart,
+  announceGameLogs,
+  announceSoundEnabled,
+  cueForAction,
+  playCue,
+  stopAnnouncements,
+} from "./sound";
 import "./style.css";
 
 const suits: { key: Suit; label: string; tile: Tile }[] = [
@@ -174,6 +182,13 @@ function App() {
   const [notice, setNotice] = useState("选择同一花色的三张牌，顺时针交换。");
   const [autoPlay, setAutoPlay] = useState(false);
   const [autoDelay, setAutoDelay] = useState(3000);
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    try {
+      return window.localStorage.getItem("xuezhan.soundEnabled") !== "false";
+    } catch {
+      return true;
+    }
+  });
   const [decisions, setDecisions] = useState<DecisionRecord[]>([]);
   const hand = game.players[0].hand;
   const sortedHand = hand
@@ -223,6 +238,10 @@ function App() {
         setGame(next);
         setSelected([]);
         if (next.phase === "ended") setAutoPlay(false);
+        if (soundEnabled) {
+          playCue(cueForAction(action, next.phase === "ended"));
+          announceGameLogs(next.log.slice(game.log.length));
+        }
         setNotice(
           next.phase === "ended"
             ? "本局已结算，可查看本局决策复盘。"
@@ -237,8 +256,16 @@ function App() {
         setAutoPlay(false);
       }
     },
-    [game],
+    [game, soundEnabled],
   );
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem("xuezhan.soundEnabled", String(soundEnabled));
+    } catch {
+      // 本地存储不可用时，本页开关仍可使用。
+    }
+  }, [soundEnabled]);
 
   useEffect(() => {
     if (!autoPlay || game.phase === "ended") return;
@@ -264,12 +291,14 @@ function App() {
     setSelected([]);
     setDecisions([]);
     setAutoPlay(false);
+    stopAnnouncements();
     setNotice("选择同一花色的三张牌，顺时针交换。");
     return true;
   }
   function toggle(index: number) {
     if (game.phase !== "exchange") return;
     setAutoPlay(false);
+    if (soundEnabled) playCue("select");
     setSelected((current) =>
       current.includes(index)
         ? current.filter((item) => item !== index)
@@ -312,7 +341,10 @@ function App() {
           <GameDialog
             title="牌局设置"
             triggerClassName="settingsButton"
-            onOpen={() => setAutoPlay(false)}
+            onOpen={() => {
+              setAutoPlay(false);
+              stopAnnouncements();
+            }}
           >
             <div className="settingsPopover">
               <label htmlFor="seed">固定种子</label>
@@ -336,6 +368,22 @@ function App() {
               <p>
                 只托管你的操作；三名对手照常行牌。本局复盘会记录每次选择与当时建议。打开设置或建议依据会暂停托管。
               </p>
+              <button
+                className="soundToggle"
+                type="button"
+                aria-pressed={soundEnabled}
+                onClick={() => {
+                  if (soundEnabled) stopAnnouncements();
+                  else {
+                    playCue("select");
+                    announceSoundEnabled();
+                  }
+                  setSoundEnabled(!soundEnabled);
+                }}
+              >
+                声效与中文报牌：{soundEnabled ? "开" : "关"}
+              </button>
+              <p>打出万、条、筒时会报牌；碰、杠、胡与结算也有语音或提示音。</p>
               <small>本局牌数：{countTiles(game)} / 108</small>
               <button
                 type="button"
@@ -508,7 +556,10 @@ function App() {
           <AdviceCoach
             advice={advice}
             actions={actionAdvice}
-            onOpen={() => setAutoPlay(false)}
+            onOpen={() => {
+              setAutoPlay(false);
+              stopAnnouncements();
+            }}
           />
           <div className="handTray">
             <div className="playerIdentity">
@@ -602,7 +653,10 @@ function App() {
                 <GameDialog
                   title="本局决策复盘"
                   trigger="查看复盘"
-                  onOpen={() => setAutoPlay(false)}
+                  onOpen={() => {
+                    setAutoPlay(false);
+                    stopAnnouncements();
+                  }}
                 >
                   <DecisionReplay records={decisions} />
                 </GameDialog>
@@ -625,14 +679,24 @@ function App() {
             className="textButton"
             type="button"
             disabled={game.phase === "ended"}
-            onClick={() => setAutoPlay(!autoPlay)}
+            onClick={() => {
+              if (autoPlay) stopAnnouncements();
+              else if (soundEnabled) {
+                playCue("select");
+                announceAutoplayStart();
+              }
+              setAutoPlay(!autoPlay);
+            }}
           >
             {autoPlay ? "暂停托管" : "自动托管"}
           </button>
           <GameDialog
             title="本局决策复盘"
             trigger="本局复盘"
-            onOpen={() => setAutoPlay(false)}
+            onOpen={() => {
+              setAutoPlay(false);
+              stopAnnouncements();
+            }}
           >
             <DecisionReplay records={decisions} />
           </GameDialog>
