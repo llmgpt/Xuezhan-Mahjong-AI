@@ -1,7 +1,7 @@
 import type {
   DecisionAction,
   DecisionChoice,
-  DecisionRecord,
+  DecisionExplanation,
 } from "./game/decision";
 import { suitOf } from "./game/tiles";
 
@@ -56,10 +56,7 @@ export function announcementsFromLogs(entries: readonly string[]): string[] {
 }
 
 export function announcementsForDecision(
-  record: Pick<
-    DecisionRecord,
-    "actual" | "recommended" | "matchesRecommendation"
-  > & { view: Pick<DecisionRecord["view"], "missing"> },
+  explanation: DecisionExplanation,
   entries: readonly string[],
 ): string[] {
   const publicActions = announcementsFromLogs(entries);
@@ -67,27 +64,27 @@ export function announcementsForDecision(
     publicActions.length > 3
       ? [publicActions[0], ...publicActions.slice(-2)]
       : publicActions;
-  const action = record.actual.action;
+  const action = explanation.actual.action;
   if (action.type === "exchange" || action.type === "missing")
     return [
       ...announcements,
-      record.actual.label,
-      ...(!record.matchesRecommendation
-        ? [`系统建议${record.recommended.label}`]
+      explanation.actual.label,
+      ...(!explanation.matchesRecommendation
+        ? [`系统建议${explanation.recommended.label}`]
         : []),
     ];
   if (
     action.type === "discard" &&
-    record.view.missing &&
-    suitOf(action.tile) === record.view.missing
+    explanation.view.missing &&
+    suitOf(action.tile) === explanation.view.missing
   )
-    return announcements.length ? announcements : [record.actual.label];
-  if (record.matchesRecommendation)
-    return [...announcements, record.actual.summary];
+    return announcements.length ? announcements : [explanation.actual.label];
+  if (explanation.matchesRecommendation)
+    return [...announcements, explanation.actual.summary];
   return [
     ...announcements,
-    `你选择${record.actual.label}。${record.actual.summary}`,
-    `系统建议${record.recommended.label}。${record.recommended.summary}`,
+    `你选择${explanation.actual.label}。${explanation.actual.summary}`,
+    `系统建议${explanation.recommended.label}。${explanation.recommended.summary}`,
   ];
 }
 
@@ -263,10 +260,10 @@ function speak(phrases: readonly string[]): Promise<void> {
 }
 
 export function announceGameDecision(
-  record: DecisionRecord,
+  explanation: DecisionExplanation,
   entries: readonly string[],
 ): Promise<void> {
-  return speak(announcementsForDecision(record, entries));
+  return speak(announcementsForDecision(explanation, entries));
 }
 
 export function announceAdvice(

@@ -27,15 +27,11 @@ export interface DecisionChoice {
   limit: string;
 }
 
-export interface DecisionRecord {
-  seat: number;
-  view: PlayerView;
+export interface DecisionExplanation {
+  view: Pick<PlayerView, "missing">;
   actual: DecisionChoice;
   recommended: DecisionChoice;
-  alternatives: DecisionChoice[];
   matchesRecommendation: boolean;
-  scoreChanges: number[];
-  events: string[];
 }
 
 const suitNames: Record<Suit, string> = { wan: "万", tiao: "条", tong: "筒" };
@@ -121,16 +117,15 @@ export function applyDecisionAction(
   }
 }
 
-function makeRecord(
-  before: GameState,
-  after: GameState,
+export function describeDecision(
+  state: GameState,
   seat: number,
   action: DecisionAction,
-  view: PlayerView,
-  choices: DecisionChoice[],
-): DecisionRecord {
+): DecisionExplanation {
+  const view = playerView(state, seat);
+  const choices = choicesFor(view, state.phase);
   const recommended = choices[0];
-  if (!recommended) throw new Error("当前没有可记录的决策");
+  if (!recommended) throw new Error("当前没有可解释的决策");
   let actual = choices.find((item) => key(item.action) === key(action));
   if (!actual && action.type === "exchange")
     actual = {
@@ -141,38 +136,12 @@ function makeRecord(
       limit: setupLimit,
     };
   if (!actual) throw new Error("无法解析这项选择");
-  // 决策快照独立于牌桌和后续回放；理由在读取动作结果前已经算出。
-  return structuredClone({
-    seat,
-    view,
+  return {
+    view: { missing: view.missing },
     actual,
     recommended,
-    alternatives: choices.filter(
-      (item) => key(item.action) !== key(recommended.action),
-    ),
     matchesRecommendation: key(action) === key(recommended.action),
-    scoreChanges: after.players.map(
-      (player, index) => player.score - before.players[index].score,
-    ),
-    events: after.log.slice(before.log.length),
-  });
-}
-
-export function recordDecision(
-  before: GameState,
-  after: GameState,
-  seat: number,
-  action: DecisionAction,
-): DecisionRecord {
-  const view = playerView(before, seat);
-  return makeRecord(
-    before,
-    after,
-    seat,
-    action,
-    view,
-    choicesFor(view, before.phase),
-  );
+  };
 }
 
 export function chooseAutoplayAction(
@@ -187,22 +156,4 @@ export function chooseAutoplayAction(
       !state.pending!.answers[0]);
   if (!humanTurn) return undefined;
   return choicesFor(playerView(state, 0), state.phase)[0]?.action;
-}
-
-export function summarizeDecisions(records: readonly DecisionRecord[]) {
-  const decisions = records;
-  const deviations = decisions.filter(
-    (record) => !record.matchesRecommendation,
-  ).length;
-  const keyIndices = records.flatMap((record, index) => {
-    const action = record.actual.action;
-    return !record.matchesRecommendation ||
-      action.type === "win" ||
-      action.type === "kong" ||
-      (action.type === "respond" && action.choice !== "pass") ||
-      record.scoreChanges.some((points) => points !== 0)
-      ? [index]
-      : [];
-  });
-  return { decisions: decisions.length, deviations, keyIndices };
 }

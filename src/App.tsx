@@ -10,7 +10,6 @@ import { AdviceCoach } from "./components/AdviceCoach";
 import { GameDialog } from "./components/GameDialog";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
-import { DecisionReplay } from "./components/DecisionReplay";
 import { recommendDiscards } from "./game/advice";
 import { actionKey, recommendActions } from "./game/actionAdvice";
 import { completeExchange, completeMissing } from "./game/demo";
@@ -27,8 +26,7 @@ import { advanceToHuman, type PlayerAction } from "./game/session";
 import {
   applyDecisionAction,
   chooseAutoplayAction,
-  recordDecision,
-  type DecisionRecord,
+  describeDecision,
   type DecisionAction,
 } from "./game/decision";
 import { labelOf, suitOf, type Suit, type Tile } from "./game/tiles";
@@ -214,7 +212,6 @@ function App() {
     }
   });
   const [voiceOptions, setVoiceOptions] = useState(availableChineseVoices);
-  const [decisions, setDecisions] = useState<DecisionRecord[]>([]);
   const narration = useRef<Promise<void>>(Promise.resolve());
   const hand = game.players[0].hand;
   const sortedHand = hand
@@ -253,27 +250,28 @@ function App() {
     (action: DecisionAction) => {
       try {
         const immediate = applyDecisionAction(game, 0, action);
-        const recorded = recordDecision(game, immediate, 0, action);
+        const explanation = soundEnabled
+          ? describeDecision(game, 0, action)
+          : undefined;
         const next =
           action.type === "exchange"
             ? completeExchange(game, action.tiles)
             : action.type === "missing"
               ? advanceToHuman(completeMissing(game, action.suit))
               : advanceToHuman(immediate);
-        setDecisions((current) => [...current, recorded]);
         setGame(next);
         setSelected([]);
         if (next.phase === "ended") setAutoPlay(false);
         if (soundEnabled) {
           playCue(cueForAction(action, next.phase === "ended"));
           narration.current = announceGameDecision(
-            recorded,
+            explanation!,
             next.log.slice(game.log.length),
           );
         } else narration.current = Promise.resolve();
         setNotice(
           next.phase === "ended"
-            ? "本局已结算，可查看本局决策复盘。"
+            ? "本局已结算，可查看得分与胡牌记录。"
             : next.phase === "choose-missing"
               ? "选择本局不要的花色，之后先打完这门牌。"
               : next.phase === "respond"
@@ -349,7 +347,6 @@ function App() {
     setGame(createGame(seed));
     setSeedText(String(seed));
     setSelected([]);
-    setDecisions([]);
     setAutoPlay(false);
     stopAnnouncements();
     setNotice("选择同一花色的三张牌，顺时针交换。");
@@ -440,7 +437,7 @@ function App() {
                 <option value={1000}>快速 · 本家每次选择前 1 秒</option>
               </select>
               <p>
-                只托管你的操作；三名对手照常行牌。本局复盘会记录每次选择与当时建议。打开设置或建议依据会暂停托管。
+                只托管你的操作；三名对手照常行牌。打开设置或建议依据会暂停托管。
               </p>
               <button
                 className="soundToggle"
@@ -763,16 +760,6 @@ function App() {
                 )}
               </div>
               <div className="resultLearningActions">
-                <GameDialog
-                  title="本局决策复盘"
-                  trigger="查看复盘"
-                  onOpen={() => {
-                    setAutoPlay(false);
-                    stopAnnouncements();
-                  }}
-                >
-                  <DecisionReplay records={decisions} />
-                </GameDialog>
                 <button
                   className="gameButton primary"
                   type="button"
@@ -803,16 +790,6 @@ function App() {
           >
             {autoPlay ? "暂停托管" : "自动托管"}
           </button>
-          <GameDialog
-            title="本局决策复盘"
-            trigger="本局复盘"
-            onOpen={() => {
-              setAutoPlay(false);
-              stopAnnouncements();
-            }}
-          >
-            <DecisionReplay records={decisions} />
-          </GameDialog>
         </div>
         <div>
           <GameDialog title="玩法提示">
