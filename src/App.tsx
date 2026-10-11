@@ -38,8 +38,11 @@ import {
   announceAutoplayStart,
   announceGameDecision,
   announceSoundEnabled,
+  availableChineseVoices,
   cueForAction,
   playCue,
+  previewVoice,
+  setPreferredVoice,
   stopAnnouncements,
 } from "./sound";
 import { newGameSeed } from "./newGameSeed";
@@ -100,6 +103,16 @@ function ActionButton({
 
 function suitLabel(suit?: Suit) {
   return suits.find((item) => item.key === suit)?.label ?? "未定";
+}
+function voiceLabel(voice: SpeechSynthesisVoice) {
+  const familiar = voice.name.match(/Microsoft (Huihui|Kangkang|Yaoyao)/i)?.[1];
+  const names: Record<string, string> = {
+    huihui: "慧慧",
+    kangkang: "康康",
+    yaoyao: "瑶瑶",
+  };
+  const display = familiar ? names[familiar.toLowerCase()] : voice.name;
+  return `${display}（${voice.localService ? "本机" : "在线"}）`;
 }
 function Score({ value }: { value: number }) {
   return (
@@ -193,6 +206,14 @@ function App() {
       return true;
     }
   });
+  const [voiceName, setVoiceName] = useState(() => {
+    try {
+      return window.localStorage.getItem("xuezhan.voiceName") ?? "";
+    } catch {
+      return "";
+    }
+  });
+  const [voiceOptions, setVoiceOptions] = useState(availableChineseVoices);
   const [decisions, setDecisions] = useState<DecisionRecord[]>([]);
   const narration = useRef<Promise<void>>(Promise.resolve());
   const hand = game.players[0].hand;
@@ -274,6 +295,33 @@ function App() {
       // 本地存储不可用时，本页开关仍可使用。
     }
   }, [soundEnabled]);
+
+  useEffect(() => {
+    setPreferredVoice(voiceName);
+    try {
+      window.localStorage.setItem("xuezhan.voiceName", voiceName);
+    } catch {
+      // 本地存储不可用时，本页仍可选择声音。
+    }
+  }, [voiceName]);
+
+  useEffect(() => {
+    const synthesis = window.speechSynthesis;
+    if (!synthesis) return;
+    const refresh = () => setVoiceOptions(availableChineseVoices());
+    refresh();
+    synthesis.addEventListener("voiceschanged", refresh);
+    return () => synthesis.removeEventListener("voiceschanged", refresh);
+  }, []);
+
+  useEffect(() => {
+    if (
+      voiceName &&
+      voiceOptions.length > 0 &&
+      !voiceOptions.some((voice) => voice.name === voiceName)
+    )
+      setVoiceName("");
+  }, [voiceName, voiceOptions]);
 
   useEffect(() => {
     if (!autoPlay || game.phase === "ended") return;
@@ -411,6 +459,36 @@ function App() {
               </button>
               <p>
                 出牌会报牌并朗读这步依据；详细依据弹窗可朗读当前建议。碰、杠、胡与结算也有语音或提示音。
+              </p>
+              <label htmlFor="voice-choice">中文朗读声音</label>
+              <select
+                id="voice-choice"
+                value={voiceName}
+                onChange={(event) => {
+                  setVoiceName(event.target.value);
+                  setPreferredVoice(event.target.value);
+                }}
+              >
+                <option value="">自动选择</option>
+                {voiceOptions.map((voice) => (
+                  <option
+                    key={`${voice.lang}:${voice.name}`}
+                    value={voice.name}
+                  >
+                    {voiceLabel(voice)}
+                  </option>
+                ))}
+              </select>
+              <button
+                className="voicePreview"
+                type="button"
+                disabled={!soundEnabled}
+                onClick={previewVoice}
+              >
+                试听当前声音
+              </button>
+              <p>
+                声音由浏览器提供。在线声音可能通过浏览器的远程语音服务朗读文字；本机声音不需要该服务。
               </p>
               <small>本局牌数：{countTiles(game)} / 108</small>
               <button

@@ -3,6 +3,7 @@ import {
   announcementsForDecision,
   announcementsFromLogs,
   cueForAction,
+  selectChineseVoice,
 } from "./sound";
 import type { DecisionAction, DecisionChoice } from "./game/decision";
 
@@ -125,5 +126,45 @@ describe("牌桌声效提示", () => {
       "你选择过。这步依据：保留当前手牌结构。",
       "系统建议碰。依据：碰后预计进张更多。",
     ]);
+  });
+
+  it("优先使用用户选择的中文声音，不可用时回退本地普通话", () => {
+    const voices = [
+      {
+        name: "Microsoft Huihui",
+        lang: "zh-CN",
+        localService: true,
+        default: true,
+      },
+      {
+        name: "Microsoft Kangkang",
+        lang: "zh-CN",
+        localService: true,
+        default: false,
+      },
+      {
+        name: "Online Natural",
+        lang: "zh-CN",
+        localService: false,
+        default: false,
+      },
+    ];
+    expect(selectChineseVoice(voices, "Microsoft Kangkang")).toBe(voices[1]);
+    expect(selectChineseVoice(voices, "已卸载的声音")).toBe(voices[0]);
+    expect(selectChineseVoice(voices)).toBe(voices[0]);
+  });
+
+  it("浏览器提供本地自然普通话时自动优先选择，不选其他语言", () => {
+    const voices = [
+      { name: "English", lang: "en-US", localService: true, default: true },
+      { name: "Huihui", lang: "zh-CN", localService: true, default: false },
+      {
+        name: "Mandarin Natural",
+        lang: "zh-CN",
+        localService: true,
+        default: false,
+      },
+    ];
+    expect(selectChineseVoice(voices)).toBe(voices[2]);
   });
 });

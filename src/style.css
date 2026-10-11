@@ -152,6 +152,16 @@ input:focus-visible {
 .settingsPopover .soundToggle[aria-pressed="true"] {
   border-color: #387664;
 }
+.settingsPopover .voicePreview {
+  margin-top: 8px;
+  border: 1px solid #d2c5a9;
+  background: #fffaf0;
+  color: #37594d;
+}
+.settingsPopover .voicePreview:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .newGameButton {
   border: 1px solid #d2c5a9;
   border-radius: 22px;

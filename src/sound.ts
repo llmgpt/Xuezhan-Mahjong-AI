@@ -150,6 +150,51 @@ export function playCue(cue: SoundCue): void {
 
 let completeCurrentSpeech: (() => void) | undefined;
 let activeUtterances: SpeechSynthesisUtterance[] = [];
+let preferredVoiceName = "";
+
+type VoiceChoice = Pick<
+  SpeechSynthesisVoice,
+  "name" | "lang" | "localService" | "default"
+>;
+
+export function selectChineseVoice<T extends VoiceChoice>(
+  voices: readonly T[],
+  preferredName = "",
+): T | undefined {
+  const chinese = voices.filter((voice) =>
+    voice.lang.toLowerCase().startsWith("zh"),
+  );
+  const chosen = chinese.find((voice) => voice.name === preferredName);
+  if (chosen) return chosen;
+  const mandarin = chinese.filter((voice) =>
+    voice.lang.toLowerCase().startsWith("zh-cn"),
+  );
+  const available = mandarin.length ? mandarin : chinese;
+  return (
+    available.find(
+      (voice) => voice.localService && /natural|neural|自然/i.test(voice.name),
+    ) ??
+    available.find((voice) => voice.localService && voice.default) ??
+    available.find((voice) => voice.localService) ??
+    available.find((voice) => voice.default) ??
+    available[0]
+  );
+}
+
+export function availableChineseVoices(): SpeechSynthesisVoice[] {
+  if (typeof window === "undefined" || !window.speechSynthesis) return [];
+  try {
+    return window.speechSynthesis
+      .getVoices()
+      .filter((voice) => voice.lang.toLowerCase().startsWith("zh"));
+  } catch {
+    return [];
+  }
+}
+
+export function setPreferredVoice(name: string): void {
+  preferredVoiceName = name;
+}
 
 function speak(phrases: readonly string[]): Promise<void> {
   stopAnnouncements();
@@ -172,19 +217,15 @@ function speak(phrases: readonly string[]): Promise<void> {
     };
     completeCurrentSpeech = finish;
     try {
-      const voices = synthesis.getVoices();
-      const voice =
-        voices.find((available) =>
-          available.lang.toLowerCase().startsWith("zh-cn"),
-        ) ??
-        voices.find((available) =>
-          available.lang.toLowerCase().startsWith("zh"),
-        );
+      const voice = selectChineseVoice(
+        synthesis.getVoices(),
+        preferredVoiceName,
+      );
       const queued = phrases.slice(-5);
       for (const [index, phrase] of queued.entries()) {
         const utterance = new SpeechSynthesisUtterance(phrase);
         utterance.lang = "zh-CN";
-        utterance.rate = 1.15;
+        utterance.rate = 1;
         utterance.volume = 0.8;
         if (voice) utterance.voice = voice;
         utterance.onerror = () => {
@@ -224,6 +265,10 @@ export function announceAutoplayStart(): Promise<void> {
 
 export function announceSoundEnabled(): void {
   void speak(["报牌已开启"]);
+}
+
+export function previewVoice(): void {
+  void speak(["三万。现在先打缺门牌，保留其他两门的搭子。"]);
 }
 
 export function stopAnnouncements(): void {
