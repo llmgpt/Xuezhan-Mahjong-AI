@@ -61,7 +61,7 @@ describe("牌桌声效提示", () => {
     ]);
   });
 
-  it("打牌后连同报牌朗读行动时保存的依据", () => {
+  it("清缺门时只报牌，不重复朗读规则依据", () => {
     const chosen: DecisionChoice = {
       action: { type: "discard", tile: 0 },
       label: "打出 1万",
@@ -75,34 +75,100 @@ describe("牌桌声效提示", () => {
           actual: chosen,
           recommended: chosen,
           matchesRecommendation: true,
+          view: { missing: "wan" },
         },
         ["0 号玩家打出 1万。", "本局种子 42，庄家为 0 号玩家。"],
       ),
-    ).toEqual(["一万", "这步依据：缺门未清，还需打出两张万字牌。"]);
+    ).toEqual(["一万"]);
+    expect(
+      announcementsForDecision(
+        {
+          actual: chosen,
+          recommended: {
+            ...chosen,
+            action: { type: "discard", tile: 1 },
+            label: "打出 2万",
+          },
+          matchesRecommendation: false,
+          view: { missing: "wan" },
+        },
+        ["0 号玩家打出 1万。"],
+      ),
+    ).toEqual(["一万"]);
   });
 
-  it("对手连续行动较多时仍保留本家首先打出的牌名", () => {
+  it("其他出牌只念行动时保存的简短结论，并保留本家报牌", () => {
     const chosen: DecisionChoice = {
-      action: { type: "discard", tile: 0 },
-      label: "打出 1万",
-      summary: "先打缺门牌。",
-      reason: "先清缺门。",
+      action: { type: "discard", tile: 9 },
+      label: "打出 1条",
+      summary: "打出后更接近听牌。",
+      reason: "打出后估算向听下降，且有效进张增加；具体估算较长。",
       limit: "未预测未来摸牌。",
     };
     expect(
       announcementsForDecision(
-        { actual: chosen, recommended: chosen, matchesRecommendation: true },
+        {
+          actual: chosen,
+          recommended: chosen,
+          matchesRecommendation: true,
+          view: { missing: "wan" },
+        },
         [
-          "0 号玩家打出 1万。",
+          "0 号玩家打出 1条。",
           "1 号玩家打出 2条。",
           "2 号玩家打出 3筒。",
           "3 号玩家打出 4条。",
         ],
       ),
-    ).toEqual(["一万", "三筒", "四条", "这步依据：先清缺门。"]);
+    ).toEqual(["一条", "三筒", "四条", "打出后更接近听牌。"]);
+    expect(chosen.reason).toContain("具体估算较长");
   });
 
-  it("玩家未按建议行动时区分实际选择与当时建议的依据", () => {
+  it("换三张和定缺只报结果，偏离建议时简短提示推荐项", () => {
+    const exchange: DecisionChoice = {
+      action: { type: "exchange", tiles: [0, 1, 2] },
+      label: "换出 1万、2万、3万",
+      summary: "选择同一门的三张牌。",
+      reason: "详细的基线策略说明。",
+      limit: "未搜索交换结果。",
+    };
+    const missing: DecisionChoice = {
+      action: { type: "missing", suit: "wan" },
+      label: "定缺万",
+      summary: "优先选择张数最少的一门。",
+      reason: "详细的三门张数说明。",
+      limit: "未比较搭子。",
+    };
+    const recommended: DecisionChoice = {
+      ...missing,
+      action: { type: "missing", suit: "tiao" },
+      label: "定缺条",
+    };
+    expect(
+      announcementsForDecision(
+        {
+          actual: exchange,
+          recommended: exchange,
+          matchesRecommendation: true,
+          view: {},
+        },
+        [],
+      ),
+    ).toEqual(["换出 1万、2万、3万"]);
+    expect(
+      announcementsForDecision(
+        {
+          actual: missing,
+          recommended,
+          matchesRecommendation: false,
+          view: {},
+        },
+        [],
+      ),
+    ).toEqual(["定缺万", "系统建议定缺条"]);
+  });
+
+  it("玩家未按建议行动时区分实际选择与当时建议的简短结论", () => {
     const actual: DecisionChoice = {
       action: { type: "respond", choice: "pass" },
       label: "过",
@@ -119,13 +185,10 @@ describe("牌桌声效提示", () => {
     };
     expect(
       announcementsForDecision(
-        { actual, recommended, matchesRecommendation: false },
+        { actual, recommended, matchesRecommendation: false, view: {} },
         [],
       ),
-    ).toEqual([
-      "你选择过。这步依据：保留当前手牌结构。",
-      "系统建议碰。依据：碰后预计进张更多。",
-    ]);
+    ).toEqual(["你选择过。放弃碰牌。", "系统建议碰。碰牌后可改善结构。"]);
   });
 
   it("优先使用用户选择的中文声音，不可用时回退本地普通话", () => {

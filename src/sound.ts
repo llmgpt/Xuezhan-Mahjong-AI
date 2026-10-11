@@ -3,6 +3,7 @@ import type {
   DecisionChoice,
   DecisionRecord,
 } from "./game/decision";
+import { suitOf } from "./game/tiles";
 
 export type SoundCue = "select" | "tile" | "meld" | "win" | "finish";
 
@@ -58,7 +59,7 @@ export function announcementsForDecision(
   record: Pick<
     DecisionRecord,
     "actual" | "recommended" | "matchesRecommendation"
-  >,
+  > & { view: Pick<DecisionRecord["view"], "missing"> },
   entries: readonly string[],
 ): string[] {
   const publicActions = announcementsFromLogs(entries);
@@ -66,12 +67,27 @@ export function announcementsForDecision(
     publicActions.length > 3
       ? [publicActions[0], ...publicActions.slice(-2)]
       : publicActions;
+  const action = record.actual.action;
+  if (action.type === "exchange" || action.type === "missing")
+    return [
+      ...announcements,
+      record.actual.label,
+      ...(!record.matchesRecommendation
+        ? [`系统建议${record.recommended.label}`]
+        : []),
+    ];
+  if (
+    action.type === "discard" &&
+    record.view.missing &&
+    suitOf(action.tile) === record.view.missing
+  )
+    return announcements.length ? announcements : [record.actual.label];
   if (record.matchesRecommendation)
-    return [...announcements, `这步依据：${record.actual.reason}`];
+    return [...announcements, record.actual.summary];
   return [
     ...announcements,
-    `你选择${record.actual.label}。这步依据：${record.actual.reason}`,
-    `系统建议${record.recommended.label}。依据：${record.recommended.reason}`,
+    `你选择${record.actual.label}。${record.actual.summary}`,
+    `系统建议${record.recommended.label}。${record.recommended.summary}`,
   ];
 }
 
