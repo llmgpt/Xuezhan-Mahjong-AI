@@ -1021,6 +1021,19 @@ input:focus-visible {
 .adviceDetailsButton:hover {
   background: #f5eaca;
 }
+.speakAdviceButton {
+  margin: 4px 0 0;
+  padding: 8px 12px;
+  border: 1px solid #d8b971;
+  border-radius: 8px;
+  background: #f8e8b9;
+  color: #5b5138;
+  font-weight: 700;
+}
+.speakAdviceButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .adviceReason .choiceReason {
   font-weight: 700;
   color: #49674e;

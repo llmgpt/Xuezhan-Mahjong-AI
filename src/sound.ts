@@ -1,4 +1,8 @@
-import type { DecisionAction } from "./game/decision";
+import type {
+  DecisionAction,
+  DecisionChoice,
+  DecisionRecord,
+} from "./game/decision";
 
 export type SoundCue = "select" | "tile" | "meld" | "win" | "finish";
 
@@ -48,6 +52,27 @@ export function announcementsFromLogs(entries: readonly string[]): string[] {
     if (entry.endsWith("本局结束。")) announcements.push("本局结束");
   }
   return announcements;
+}
+
+export function announcementsForDecision(
+  record: Pick<
+    DecisionRecord,
+    "actual" | "recommended" | "matchesRecommendation"
+  >,
+  entries: readonly string[],
+): string[] {
+  const publicActions = announcementsFromLogs(entries);
+  const announcements =
+    publicActions.length > 3
+      ? [publicActions[0], ...publicActions.slice(-2)]
+      : publicActions;
+  if (record.matchesRecommendation)
+    return [...announcements, `这步依据：${record.actual.reason}`];
+  return [
+    ...announcements,
+    `你选择${record.actual.label}。这步依据：${record.actual.reason}`,
+    `系统建议${record.recommended.label}。依据：${record.recommended.reason}`,
+  ];
 }
 
 let audioContext: AudioContext | undefined;
@@ -123,48 +148,91 @@ export function playCue(cue: SoundCue): void {
   }
 }
 
-function speak(phrases: readonly string[]): void {
+let completeCurrentSpeech: (() => void) | undefined;
+let activeUtterances: SpeechSynthesisUtterance[] = [];
+
+function speak(phrases: readonly string[]): Promise<void> {
+  stopAnnouncements();
   if (
+    phrases.length === 0 ||
     typeof window === "undefined" ||
     !window.speechSynthesis ||
     typeof SpeechSynthesisUtterance === "undefined"
   )
-    return;
-  try {
+    return Promise.resolve();
+  return new Promise((resolve) => {
     const synthesis = window.speechSynthesis;
-    synthesis.cancel();
-    const voices = synthesis.getVoices();
-    const voice =
-      voices.find((available) =>
-        available.lang.toLowerCase().startsWith("zh-cn"),
-      ) ??
-      voices.find((available) => available.lang.toLowerCase().startsWith("zh"));
-    for (const phrase of phrases.slice(-5)) {
-      const utterance = new SpeechSynthesisUtterance(phrase);
-      utterance.lang = "zh-CN";
-      utterance.rate = 1.15;
-      utterance.volume = 0.8;
-      if (voice) utterance.voice = voice;
-      synthesis.speak(utterance);
+    let timeout: number | undefined;
+    const finish = () => {
+      if (completeCurrentSpeech !== finish) return;
+      completeCurrentSpeech = undefined;
+      activeUtterances = [];
+      if (timeout !== undefined) window.clearTimeout(timeout);
+      resolve();
+    };
+    completeCurrentSpeech = finish;
+    try {
+      const voices = synthesis.getVoices();
+      const voice =
+        voices.find((available) =>
+          available.lang.toLowerCase().startsWith("zh-cn"),
+        ) ??
+        voices.find((available) =>
+          available.lang.toLowerCase().startsWith("zh"),
+        );
+      const queued = phrases.slice(-5);
+      for (const [index, phrase] of queued.entries()) {
+        const utterance = new SpeechSynthesisUtterance(phrase);
+        utterance.lang = "zh-CN";
+        utterance.rate = 1.15;
+        utterance.volume = 0.8;
+        if (voice) utterance.voice = voice;
+        utterance.onerror = () => {
+          if (completeCurrentSpeech === finish) stopAnnouncements();
+        };
+        if (index === queued.length - 1) utterance.onend = finish;
+        activeUtterances.push(utterance);
+        synthesis.speak(utterance);
+      }
+      // 有些浏览器不触发结束事件；超时后托管仍可继续。
+      if (completeCurrentSpeech === finish)
+        timeout = window.setTimeout(() => {
+          stopAnnouncements();
+        }, 60000);
+    } catch {
+      stopAnnouncements();
     }
-  } catch {
-    // 缺少中文语音时只保留操作提示音。
-  }
+  });
 }
 
-export function announceGameLogs(entries: readonly string[]): void {
-  const phrases = announcementsFromLogs(entries);
-  if (phrases.length) speak(phrases);
+export function announceGameDecision(
+  record: DecisionRecord,
+  entries: readonly string[],
+): Promise<void> {
+  return speak(announcementsForDecision(record, entries));
 }
 
-export function announceAutoplayStart(): void {
-  speak(["开始托管"]);
+export function announceAdvice(
+  choice: Pick<DecisionChoice, "label" | "reason">,
+): void {
+  void speak([`建议${choice.label}。依据：${choice.reason}`]);
+}
+
+export function announceAutoplayStart(): Promise<void> {
+  return speak(["开始托管"]);
 }
 
 export function announceSoundEnabled(): void {
-  speak(["报牌已开启"]);
+  void speak(["报牌已开启"]);
 }
 
 export function stopAnnouncements(): void {
-  if (typeof window !== "undefined") window.speechSynthesis?.cancel();
+  completeCurrentSpeech?.();
+  if (typeof window !== "undefined") {
+    try {
+      window.speechSynthesis?.cancel();
+    } catch {
+      // 浏览器禁用语音时仍允许暂停或重新开始牌局。
+    }
+  }
 }

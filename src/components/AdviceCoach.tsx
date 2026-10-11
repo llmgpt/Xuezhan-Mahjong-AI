@@ -8,10 +8,12 @@ export function AdviceCoach({
   advice,
   actions = [],
   onOpen,
+  onSpeak,
 }: {
   advice: DiscardAdvice[];
   actions?: ActionAdvice[];
   onOpen?: () => void;
+  onSpeak?: (choice: { label: string; reason: string }) => void;
 }) {
   const choices = actions.length
     ? actions.map((item) => ({ ...item, key: actionKey(item.action) }))
@@ -44,6 +46,14 @@ export function AdviceCoach({
         <p className="dialogIntro">
           只用你的手牌和公开信息，建议为启发式估算。
         </p>
+        <button
+          className="speakAdviceButton"
+          type="button"
+          disabled={!onSpeak}
+          onClick={() => onSpeak?.(first)}
+        >
+          朗读当前建议依据
+        </button>
         <div className="advicePanel">
           <div className="adviceCards">
             {choices.map((item, index) => (

@@ -2,6 +2,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -33,8 +34,9 @@ import {
 import { labelOf, suitOf, type Suit, type Tile } from "./game/tiles";
 import { playerView } from "./game/view";
 import {
+  announceAdvice,
   announceAutoplayStart,
-  announceGameLogs,
+  announceGameDecision,
   announceSoundEnabled,
   cueForAction,
   playCue,
@@ -190,6 +192,7 @@ function App() {
     }
   });
   const [decisions, setDecisions] = useState<DecisionRecord[]>([]);
+  const narration = useRef<Promise<void>>(Promise.resolve());
   const hand = game.players[0].hand;
   const sortedHand = hand
     .map((tile, index) => ({ tile, index }))
@@ -240,8 +243,11 @@ function App() {
         if (next.phase === "ended") setAutoPlay(false);
         if (soundEnabled) {
           playCue(cueForAction(action, next.phase === "ended"));
-          announceGameLogs(next.log.slice(game.log.length));
-        }
+          narration.current = announceGameDecision(
+            recorded,
+            next.log.slice(game.log.length),
+          );
+        } else narration.current = Promise.resolve();
         setNotice(
           next.phase === "ended"
             ? "本局已结算，可查看本局决策复盘。"
@@ -269,16 +275,24 @@ function App() {
 
   useEffect(() => {
     if (!autoPlay || game.phase === "ended") return;
-    const timer = window.setTimeout(() => {
-      try {
-        const action = chooseAutoplayAction(game);
-        if (action) commitHuman(action);
-      } catch (error) {
-        setNotice((error as Error).message);
-        setAutoPlay(false);
-      }
-    }, autoDelay);
-    return () => window.clearTimeout(timer);
+    let active = true;
+    let timer: number | undefined;
+    void narration.current.then(() => {
+      if (!active) return;
+      timer = window.setTimeout(() => {
+        try {
+          const action = chooseAutoplayAction(game);
+          if (action) commitHuman(action);
+        } catch (error) {
+          setNotice((error as Error).message);
+          setAutoPlay(false);
+        }
+      }, autoDelay);
+    });
+    return () => {
+      active = false;
+      if (timer !== undefined) window.clearTimeout(timer);
+    };
   }, [autoPlay, autoDelay, game, commitHuman]);
 
   function restart() {
@@ -383,7 +397,9 @@ function App() {
               >
                 声效与中文报牌：{soundEnabled ? "开" : "关"}
               </button>
-              <p>打出万、条、筒时会报牌；碰、杠、胡与结算也有语音或提示音。</p>
+              <p>
+                出牌会报牌并朗读这步依据；详细依据弹窗可朗读当前建议。碰、杠、胡与结算也有语音或提示音。
+              </p>
               <small>本局牌数：{countTiles(game)} / 108</small>
               <button
                 type="button"
@@ -556,6 +572,7 @@ function App() {
           <AdviceCoach
             advice={advice}
             actions={actionAdvice}
+            onSpeak={soundEnabled ? announceAdvice : undefined}
             onOpen={() => {
               setAutoPlay(false);
               stopAnnouncements();
@@ -683,7 +700,7 @@ function App() {
               if (autoPlay) stopAnnouncements();
               else if (soundEnabled) {
                 playCue("select");
-                announceAutoplayStart();
+                narration.current = announceAutoplayStart();
               }
               setAutoPlay(!autoPlay);
             }}
