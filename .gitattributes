@@ -1,0 +1,2 @@
+docs/benchmarks/*.jsonl text eol=lf
+docs/benchmarks/*.json text eol=lf
