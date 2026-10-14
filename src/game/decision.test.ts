@@ -9,6 +9,7 @@ import {
   describeDecision,
 } from "./decision";
 import { playerView } from "./view";
+import { tile } from "./tiles";
 
 function ready(seed: number) {
   let state = createGame(seed);
@@ -17,6 +18,24 @@ function ready(seed: number) {
 }
 
 describe("本家托管与即时解释", () => {
+  it("页面托管与即时解释使用老师的结构保留换牌", () => {
+    const state = createGame(42);
+    state.players[0].hand = [
+      ...[1, 2, 3, 4, 5, 6].map((rank) => tile("wan", rank)),
+      ...[2, 6, 9].map((rank) => tile("tiao", rank)),
+      ...[1, 2, 3, 4, 5].map((rank) => tile("tong", rank)),
+    ];
+    const action = {
+      type: "exchange" as const,
+      tiles: [2, 6, 9].map((rank) => tile("tiao", rank)),
+    };
+    expect(chooseAutoplayAction(state)).toEqual(action);
+    expect(describeDecision(state, 0, action).matchesRecommendation).toBe(true);
+    expect(describeDecision(state, 0, action).recommended.reason).toContain(
+      "联系",
+    );
+  });
+
   it("只选择本家动作，不替对手出牌或摸牌", () => {
     const state = ready(42);
     expect(chooseAutoplayAction(state)).toBeDefined();

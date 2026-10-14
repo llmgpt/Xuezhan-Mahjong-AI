@@ -37,6 +37,7 @@ export function NextDrawPanel({
         <>
           <p>
             只按当时未见牌均匀枚举；假设下次轮到你时仍能摸牌，并忽略他家操作、点炮风险和番型收益。
+            当前老师近听时还比较番型加权收益，目标不同，推荐顺序可能与此面板的成胡占比不同。
           </p>
           <div className="lookaheadResults">
             {estimates.map((item) => (
@@ -52,7 +53,7 @@ export function NextDrawPanel({
             <p>两张牌在这个两摸模型中都无法成胡，不能据此判断长期优劣。</p>
           )}
           <small>
-            未见牌可能在别人手里；这些数字不是真实摸牌概率，也不用于当前推荐排序。
+            未见牌可能在别人手里；本面板数字不是真实摸牌概率，也不直接用于当前推荐排序。
           </small>
         </>
       )}

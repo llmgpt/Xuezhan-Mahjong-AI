@@ -1,6 +1,4 @@
-import { actionKey, recommendActions } from "./actionAdvice";
-import { recommendDiscards } from "./advice";
-import { chooseBotExchange, chooseBotMissing } from "./bot";
+import { actionKey } from "./actionAdvice";
 import {
   chooseExchange,
   chooseMissing,
@@ -11,7 +9,8 @@ import {
   type GameState,
 } from "./game";
 import type { PlayerAction } from "./session";
-import { labelOf, suitOf, type Suit, type Tile } from "./tiles";
+import { labelOf, type Suit, type Tile } from "./tiles";
+import { teacherChoices } from "./teacher";
 import { playerView, type PlayerView } from "./view";
 
 export type DecisionAction =
@@ -34,8 +33,6 @@ export interface DecisionExplanation {
   matchesRecommendation: boolean;
 }
 
-const suitNames: Record<Suit, string> = { wan: "万", tiao: "条", tong: "筒" };
-const suits: Suit[] = ["wan", "tiao", "tong"];
 const setupLimit =
   "只用本家手牌；开局采用简单且确定性的启发式选择，未搜索交换结果或长期收益。";
 
@@ -51,49 +48,7 @@ function choicesFor(
   view: PlayerView,
   phase: GameState["phase"],
 ): DecisionChoice[] {
-  if (phase === "exchange") {
-    const tiles = chooseBotExchange(view.hand);
-    return [
-      {
-        action: { type: "exchange", tiles },
-        label: `换出 ${tiles.map(labelOf).join("、")}`,
-        summary: "选择同一门的三张牌，四家提交后同时交换。",
-        reason:
-          "按万、条、筒顺序选择第一门足够三张的花色，再取该门手牌中的前三张；这是开局基线策略，未比较拆搭子的损失。",
-        limit: setupLimit,
-      },
-    ];
-  }
-  if (phase === "choose-missing") {
-    const preferred = chooseBotMissing(view.hand);
-    return [preferred, ...suits.filter((suit) => suit !== preferred)].map(
-      (suit) => {
-        const count = view.hand.filter((tile) => suitOf(tile) === suit).length;
-        return {
-          action: { type: "missing", suit },
-          label: `定缺${suitNames[suit]}`,
-          summary: `当前${suitNames[suit]}牌 ${count} 张；优先选择张数最少的一门。`,
-          reason: `三门张数：${suits.map((item) => `${suitNames[item]} ${view.hand.filter((tile) => suitOf(tile) === item).length} 张`).join("、")}。定缺后该门须先打完；张数相同按万、条、筒顺序选择，未比较搭子质量。`,
-          limit: setupLimit,
-        };
-      },
-    );
-  }
-  const actions = recommendActions(view);
-  const discards = recommendDiscards(view).map((item): DecisionChoice => ({
-    action: { type: "discard", tile: item.tile },
-    label: `打出 ${labelOf(item.tile)}`,
-    summary: item.summary,
-    reason: item.reason,
-    limit: item.limit,
-  }));
-  return [
-    ...actions,
-    ...discards.filter(
-      (item) =>
-        !actions.some((other) => key(other.action) === key(item.action)),
-    ),
-  ];
+  return teacherChoices(view, phase);
 }
 
 export function applyDecisionAction(

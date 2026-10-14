@@ -10,8 +10,11 @@ import { AdviceCoach } from "./components/AdviceCoach";
 import { GameDialog } from "./components/GameDialog";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
-import { recommendDiscards } from "./game/advice";
-import { actionKey, recommendActions } from "./game/actionAdvice";
+import { actionKey } from "./game/actionAdvice";
+import {
+  recommendTeacherDiscards,
+  recommendTeacherActions,
+} from "./game/teacher";
 import { completeExchange, completeMissing } from "./game/demo";
 import {
   countTiles,
@@ -222,12 +225,12 @@ function App() {
   const advice = useMemo(
     () =>
       game.phase === "discard" && game.turn === 0
-        ? recommendDiscards(view)
+        ? recommendTeacherDiscards(view)
         : [],
     [game.phase, game.turn, view],
   );
   const selfActions = legalSelfActions(game, 0);
-  const actionAdvice = useMemo(() => recommendActions(view), [view]);
+  const actionAdvice = useMemo(() => recommendTeacherActions(view), [view]);
   const suggestedAction = actionAdvice[0]?.action;
   const suggestedKey = suggestedAction && actionKey(suggestedAction);
   const suggestedDiscard = actionAdvice.length
