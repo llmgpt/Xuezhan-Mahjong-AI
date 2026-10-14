@@ -1,0 +1,1075 @@
+{
+  "benchmarkVersion": 1,
+  "rules": {
+    "exchangeDirection": "clockwise",
+    "fanCap": 3,
+    "selfDrawBonus": 1,
+    "flowerPenalty": 8,
+    "checkTenpai": true
+  },
+  "sourceFingerprint": {
+    "docs/RULES_V1.md": "506e7e8753c1c9987c746bfb763381c682c6fed66feb0f1383aaafcffe2b7fdb",
+    "package-lock.json": "a9b653297e32a165807acbcc287fcb80c2a1ac17770d2797fc0bf63dec44b425",
+    "scripts/analyze-benchmark.ts": "da9ef8259f42fc0ad993792bab84f6fcbc07797b73a3253b62d9803108cacec1",
+    "scripts/benchmarkPolicies.ts": "33aac4b946089b41d1449b7c92a9a9a9d85777a2433b3c20490bab79e1f97962",
+    "scripts/benchmarkRunner.ts": "c0e777d7076c21c409c29d15ef94f96dc72a56b0a1151b0d008468caf71567c9",
+    "scripts/evaluate-advice.ts": "ca2654d686a55a5acf1611845da1e6329fb02046557f00c987773d3e0db310eb",
+    "scripts/evaluationStats.ts": "656de18454ec58483875bd09833dd898f75dfc8343386fdbb62a7eabf5f95560",
+    "src/game/actionAdvice.ts": "08036cafad433508906f0312801d4a418fc767180f9f0e7320162d9c29451ce4",
+    "src/game/advice.ts": "dba080f3c61d99bccefed33477f77ffdc394fd072a4a8ce9e265a2ba33b76e15",
+    "src/game/bot.ts": "7cf9998abb3a6b5ecc73ab7cbcf961cee5f299901c859418d0f220aced07b189",
+    "src/game/decision.ts": "13487f4ad5f6c049cca7e9691ec1845fd51878d1fa907bc5670af695108c4e97",
+    "src/game/demo.ts": "e0041c4141fe52310b92d92de8febbe1679e4160cee267ef6eeb6081d39ad3cb",
+    "src/game/game.ts": "3c1959c528d4bc9e6fe9489c33025170ed254653a5bfb4c2ba72a8e828bf9fa9",
+    "src/game/lookahead.ts": "abc9cd298f054b5544568f49f48ef2d215c5426ca79588e381e21e3bb0bd6171",
+    "src/game/openingAdvice.ts": "c34f9c41c16dfbab2ebad8aee62fe67c5d2dabdfe34337471e2a48ec6efd1ceb",
+    "src/game/rules.ts": "89600183168a491703fbdb0daff02905c0e29ad49d09be73e81dc5a39194a552",
+    "src/game/scoring.ts": "c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e",
+    "src/game/session.ts": "497d3cdf840070006ba5bbb870d30cb2f2fd434099a710fa422d5326ef0f0d09",
+    "src/game/teacher.ts": "ef3ccd51b9b68a3729ff85dcfe81d45419f5657ff196ab0afca6632dced0806d",
+    "src/game/teacherEvaluation.ts": "8f76b448018c48b428f6855946b681148e3e712d52489b8ea1bd57c2c33f7d12",
+    "src/game/testHelpers.ts": "9c69f85f668f9ede112fe613ba2ae1a1e7b0910472eb3b5d65e5d067a98a9ba3",
+    "src/game/tiles.ts": "1de601067eeb8f78d1774136b0ac19a6f174db6ec36aa19344a1477fc153b979",
+    "src/game/view.ts": "731b2b0e3c74176f277e8142a0ee2c059629233f630f25836c5f76d60c065039"
+  },
+  "count": 200,
+  "completedSeeds": 200,
+  "startSeed": 70000,
+  "seats": [0, 1, 2, 3],
+  "policies": [
+    "advice",
+    "efficiency",
+    "teacher-candidate",
+    "teacher-legacy-discard"
+  ],
+  "opponents": ["greedy", "patient"],
+  "comparisonDirection": "advice-minus-candidate",
+  "uncertainty": "同种子内座位与对手等权平均，再按种子估计标准误；95%区间为正态近似，小样本仅作调试，不能据此验收。",
+  "byOpponent": {
+    "greedy": {
+      "byPolicy": {
+        "advice": {
+          "meanScore": 0.04875,
+          "winRate": 0.6825,
+          "wallRate": 0.25375,
+          "dealInRate": 0.32125,
+          "changedDiscards": 0,
+          "changedExchanges": 0
+        },
+        "efficiency": {
+          "meanScore": 0.06,
+          "winRate": 0.68875,
+          "wallRate": 0.25375,
+          "dealInRate": 0.32,
+          "changedDiscards": 587,
+          "changedExchanges": 0
+        },
+        "teacher-candidate": {
+          "meanScore": 1.04375,
+          "winRate": 0.7925,
+          "wallRate": 0.17,
+          "dealInRate": 0.285,
+          "changedDiscards": 281,
+          "changedExchanges": 663
+        },
+        "teacher-legacy-discard": {
+          "meanScore": 1.00875,
+          "winRate": 0.79375,
+          "wallRate": 0.19125,
+          "dealInRate": 0.2725,
+          "changedDiscards": 0,
+          "changedExchanges": 663
+        }
+      },
+      "comparisons": {
+        "efficiency": {
+          "meanScoreDifference": -0.01125,
+          "standardError": 0.07301169925870242,
+          "betterSeedFraction": 0.29,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            -0.15435293054705676, 0.13185293054705674
+          ]
+        },
+        "teacher-candidate": {
+          "meanScoreDifference": -0.995,
+          "standardError": 0.15036555122425777,
+          "betterSeedFraction": 0.31,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            -1.2897164803995453, -0.7002835196004548
+          ]
+        },
+        "teacher-legacy-discard": {
+          "meanScoreDifference": -0.96,
+          "standardError": 0.1507877139337514,
+          "betterSeedFraction": 0.315,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            -1.2555439193101527, -0.6644560806898472
+          ]
+        }
+      },
+      "bySeat": {
+        "0": {
+          "byPolicy": {
+            "advice": {
+              "meanScore": 0.235,
+              "winRate": 0.705,
+              "wallRate": 0.275,
+              "dealInRate": 0.29,
+              "changedDiscards": 0,
+              "changedExchanges": 0
+            },
+            "efficiency": {
+              "meanScore": 0.265,
+              "winRate": 0.7,
+              "wallRate": 0.295,
+              "dealInRate": 0.29,
+              "changedDiscards": 123,
+              "changedExchanges": 0
+            },
+            "teacher-candidate": {
+              "meanScore": 1.26,
+              "winRate": 0.78,
+              "wallRate": 0.195,
+              "dealInRate": 0.265,
+              "changedDiscards": 76,
+              "changedExchanges": 167
+            },
+            "teacher-legacy-discard": {
+              "meanScore": 1.2,
+              "winRate": 0.78,
+              "wallRate": 0.215,
+              "dealInRate": 0.26,
+              "changedDiscards": 0,
+              "changedExchanges": 167
+            }
+          },
+          "comparisons": {
+            "efficiency": {
+              "meanScoreDifference": -0.03,
+              "standardError": 0.14281977257083817,
+              "betterSeedFraction": 0.09,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -0.30992675423884275, 0.24992675423884278
+              ]
+            },
+            "teacher-candidate": {
+              "meanScoreDifference": -1.025,
+              "standardError": 0.3546133502008962,
+              "betterSeedFraction": 0.3,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.7200421663937564, -0.3299578336062434
+              ]
+            },
+            "teacher-legacy-discard": {
+              "meanScoreDifference": -0.965,
+              "standardError": 0.3573617383832542,
+              "betterSeedFraction": 0.285,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.6654290072311781, -0.2645709927688218
+              ]
+            }
+          }
+        },
+        "1": {
+          "byPolicy": {
+            "advice": {
+              "meanScore": 0.21,
+              "winRate": 0.69,
+              "wallRate": 0.23,
+              "dealInRate": 0.325,
+              "changedDiscards": 0,
+              "changedExchanges": 0
+            },
+            "efficiency": {
+              "meanScore": 0.305,
+              "winRate": 0.705,
+              "wallRate": 0.235,
+              "dealInRate": 0.28,
+              "changedDiscards": 153,
+              "changedExchanges": 0
+            },
+            "teacher-candidate": {
+              "meanScore": 1.33,
+              "winRate": 0.815,
+              "wallRate": 0.155,
+              "dealInRate": 0.185,
+              "changedDiscards": 63,
+              "changedExchanges": 162
+            },
+            "teacher-legacy-discard": {
+              "meanScore": 1.58,
+              "winRate": 0.835,
+              "wallRate": 0.16,
+              "dealInRate": 0.19,
+              "changedDiscards": 0,
+              "changedExchanges": 162
+            }
+          },
+          "comparisons": {
+            "efficiency": {
+              "meanScoreDifference": -0.095,
+              "standardError": 0.17007203617125635,
+              "betterSeedFraction": 0.115,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -0.42834119089566247, 0.23834119089566244
+              ]
+            },
+            "teacher-candidate": {
+              "meanScoreDifference": -1.12,
+              "standardError": 0.29051678092667876,
+              "betterSeedFraction": 0.27,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.6894128906162904, -0.5505871093837097
+              ]
+            },
+            "teacher-legacy-discard": {
+              "meanScoreDifference": -1.37,
+              "standardError": 0.2937634846685736,
+              "betterSeedFraction": 0.24,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.9457764299504043, -0.7942235700495959
+              ]
+            }
+          }
+        },
+        "2": {
+          "byPolicy": {
+            "advice": {
+              "meanScore": 0.12,
+              "winRate": 0.705,
+              "wallRate": 0.27,
+              "dealInRate": 0.335,
+              "changedDiscards": 0,
+              "changedExchanges": 0
+            },
+            "efficiency": {
+              "meanScore": 0.095,
+              "winRate": 0.695,
+              "wallRate": 0.26,
+              "dealInRate": 0.34,
+              "changedDiscards": 159,
+              "changedExchanges": 0
+            },
+            "teacher-candidate": {
+              "meanScore": 0.955,
+              "winRate": 0.77,
+              "wallRate": 0.18,
+              "dealInRate": 0.33,
+              "changedDiscards": 74,
+              "changedExchanges": 166
+            },
+            "teacher-legacy-discard": {
+              "meanScore": 0.97,
+              "winRate": 0.78,
+              "wallRate": 0.205,
+              "dealInRate": 0.31,
+              "changedDiscards": 0,
+              "changedExchanges": 166
+            }
+          },
+          "comparisons": {
+            "efficiency": {
+              "meanScoreDifference": 0.025,
+              "standardError": 0.12060098668729784,
+              "betterSeedFraction": 0.085,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -0.21137793390710377, 0.2613779339071038
+              ]
+            },
+            "teacher-candidate": {
+              "meanScoreDifference": -0.835,
+              "standardError": 0.39295156145286025,
+              "betterSeedFraction": 0.315,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.6051850604476061, -0.06481493955239392
+              ]
+            },
+            "teacher-legacy-discard": {
+              "meanScoreDifference": -0.85,
+              "standardError": 0.3923739115080929,
+              "betterSeedFraction": 0.31,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.6190528665558621, -0.08094713344413784
+              ]
+            }
+          }
+        },
+        "3": {
+          "byPolicy": {
+            "advice": {
+              "meanScore": -0.37,
+              "winRate": 0.63,
+              "wallRate": 0.24,
+              "dealInRate": 0.335,
+              "changedDiscards": 0,
+              "changedExchanges": 0
+            },
+            "efficiency": {
+              "meanScore": -0.425,
+              "winRate": 0.655,
+              "wallRate": 0.225,
+              "dealInRate": 0.37,
+              "changedDiscards": 152,
+              "changedExchanges": 0
+            },
+            "teacher-candidate": {
+              "meanScore": 0.63,
+              "winRate": 0.805,
+              "wallRate": 0.15,
+              "dealInRate": 0.36,
+              "changedDiscards": 68,
+              "changedExchanges": 168
+            },
+            "teacher-legacy-discard": {
+              "meanScore": 0.285,
+              "winRate": 0.78,
+              "wallRate": 0.185,
+              "dealInRate": 0.33,
+              "changedDiscards": 0,
+              "changedExchanges": 168
+            }
+          },
+          "comparisons": {
+            "efficiency": {
+              "meanScoreDifference": 0.055,
+              "standardError": 0.14092257042174375,
+              "betterSeedFraction": 0.105,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -0.22120823802661777, 0.33120823802661775
+              ]
+            },
+            "teacher-candidate": {
+              "meanScoreDifference": -1,
+              "standardError": 0.34901152592161,
+              "betterSeedFraction": 0.33,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.6840625908063556, -0.31593740919364444
+              ]
+            },
+            "teacher-legacy-discard": {
+              "meanScoreDifference": -0.655,
+              "standardError": 0.3333699937964109,
+              "betterSeedFraction": 0.33,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.3084051878409655, -0.0015948121590346753
+              ]
+            }
+          }
+        }
+      },
+      "teacherComparisons": {
+        "advice": {
+          "meanScoreDifference": 0.995,
+          "standardError": 0.15036555122425777,
+          "betterSeedFraction": 0.66,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            0.7002835196004548, 1.2897164803995453
+          ],
+          "direction": "teacher-candidate-minus-advice"
+        },
+        "efficiency": {
+          "meanScoreDifference": 0.98375,
+          "standardError": 0.15247206577504135,
+          "betterSeedFraction": 0.645,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            0.684904751080919, 1.282595248919081
+          ],
+          "direction": "teacher-candidate-minus-efficiency"
+        },
+        "teacher-legacy-discard": {
+          "meanScoreDifference": 0.035,
+          "standardError": 0.06847770425400887,
+          "betterSeedFraction": 0.23,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            -0.09921630033785739, 0.1692163003378574
+          ],
+          "direction": "teacher-candidate-minus-teacher-legacy-discard"
+        }
+      }
+    },
+    "patient": {
+      "byPolicy": {
+        "advice": {
+          "meanScore": -0.02375,
+          "winRate": 0.6625,
+          "wallRate": 0.26375,
+          "dealInRate": 0.365,
+          "changedDiscards": 0,
+          "changedExchanges": 0
+        },
+        "efficiency": {
+          "meanScore": 0,
+          "winRate": 0.66875,
+          "wallRate": 0.25,
+          "dealInRate": 0.36125,
+          "changedDiscards": 621,
+          "changedExchanges": 0
+        },
+        "teacher-candidate": {
+          "meanScore": 0.8175,
+          "winRate": 0.77125,
+          "wallRate": 0.185,
+          "dealInRate": 0.28875,
+          "changedDiscards": 296,
+          "changedExchanges": 663
+        },
+        "teacher-legacy-discard": {
+          "meanScore": 0.82,
+          "winRate": 0.78,
+          "wallRate": 0.19625,
+          "dealInRate": 0.2825,
+          "changedDiscards": 0,
+          "changedExchanges": 663
+        }
+      },
+      "comparisons": {
+        "efficiency": {
+          "meanScoreDifference": -0.02375,
+          "standardError": 0.061278195745871525,
+          "betterSeedFraction": 0.245,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            -0.14385526366190818, 0.09635526366190819
+          ]
+        },
+        "teacher-candidate": {
+          "meanScoreDifference": -0.84125,
+          "standardError": 0.13059317583770172,
+          "betterSeedFraction": 0.275,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            -1.0972126246418954, -0.5852873753581047
+          ]
+        },
+        "teacher-legacy-discard": {
+          "meanScoreDifference": -0.84375,
+          "standardError": 0.1258942572460622,
+          "betterSeedFraction": 0.28,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            -1.0905027442022819, -0.5969972557977181
+          ]
+        }
+      },
+      "bySeat": {
+        "0": {
+          "byPolicy": {
+            "advice": {
+              "meanScore": 0.1,
+              "winRate": 0.685,
+              "wallRate": 0.24,
+              "dealInRate": 0.34,
+              "changedDiscards": 0,
+              "changedExchanges": 0
+            },
+            "efficiency": {
+              "meanScore": 0.105,
+              "winRate": 0.67,
+              "wallRate": 0.25,
+              "dealInRate": 0.335,
+              "changedDiscards": 132,
+              "changedExchanges": 0
+            },
+            "teacher-candidate": {
+              "meanScore": 1.11,
+              "winRate": 0.8,
+              "wallRate": 0.165,
+              "dealInRate": 0.27,
+              "changedDiscards": 74,
+              "changedExchanges": 167
+            },
+            "teacher-legacy-discard": {
+              "meanScore": 1.04,
+              "winRate": 0.795,
+              "wallRate": 0.185,
+              "dealInRate": 0.28,
+              "changedDiscards": 0,
+              "changedExchanges": 167
+            }
+          },
+          "comparisons": {
+            "efficiency": {
+              "meanScoreDifference": -0.005,
+              "standardError": 0.122678953484861,
+              "betterSeedFraction": 0.075,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -0.24545074883032758, 0.23545074883032757
+              ]
+            },
+            "teacher-candidate": {
+              "meanScoreDifference": -1.01,
+              "standardError": 0.30817912301013606,
+              "betterSeedFraction": 0.275,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.6140310810998666, -0.4059689189001333
+              ]
+            },
+            "teacher-legacy-discard": {
+              "meanScoreDifference": -0.94,
+              "standardError": 0.2933637870593249,
+              "betterSeedFraction": 0.245,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.5149930226362769, -0.3650069773637231
+              ]
+            }
+          }
+        },
+        "1": {
+          "byPolicy": {
+            "advice": {
+              "meanScore": -0.125,
+              "winRate": 0.62,
+              "wallRate": 0.26,
+              "dealInRate": 0.4,
+              "changedDiscards": 0,
+              "changedExchanges": 0
+            },
+            "efficiency": {
+              "meanScore": -0.195,
+              "winRate": 0.635,
+              "wallRate": 0.25,
+              "dealInRate": 0.375,
+              "changedDiscards": 155,
+              "changedExchanges": 0
+            },
+            "teacher-candidate": {
+              "meanScore": 0.83,
+              "winRate": 0.765,
+              "wallRate": 0.155,
+              "dealInRate": 0.275,
+              "changedDiscards": 71,
+              "changedExchanges": 162
+            },
+            "teacher-legacy-discard": {
+              "meanScore": 0.85,
+              "winRate": 0.77,
+              "wallRate": 0.17,
+              "dealInRate": 0.265,
+              "changedDiscards": 0,
+              "changedExchanges": 162
+            }
+          },
+          "comparisons": {
+            "efficiency": {
+              "meanScoreDifference": 0.07,
+              "standardError": 0.18560102018433855,
+              "betterSeedFraction": 0.135,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -0.29377799956130357, 0.4337779995613036
+              ]
+            },
+            "teacher-candidate": {
+              "meanScoreDifference": -0.955,
+              "standardError": 0.29101257117676993,
+              "betterSeedFraction": 0.28,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.525384639506469, -0.38461536049353096
+              ]
+            },
+            "teacher-legacy-discard": {
+              "meanScoreDifference": -0.975,
+              "standardError": 0.2918006392476319,
+              "betterSeedFraction": 0.265,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.5469292529253584, -0.4030707470746415
+              ]
+            }
+          }
+        },
+        "2": {
+          "byPolicy": {
+            "advice": {
+              "meanScore": -0.025,
+              "winRate": 0.7,
+              "wallRate": 0.27,
+              "dealInRate": 0.39,
+              "changedDiscards": 0,
+              "changedExchanges": 0
+            },
+            "efficiency": {
+              "meanScore": 0.16,
+              "winRate": 0.7,
+              "wallRate": 0.25,
+              "dealInRate": 0.38,
+              "changedDiscards": 174,
+              "changedExchanges": 0
+            },
+            "teacher-candidate": {
+              "meanScore": 0.675,
+              "winRate": 0.775,
+              "wallRate": 0.225,
+              "dealInRate": 0.295,
+              "changedDiscards": 67,
+              "changedExchanges": 166
+            },
+            "teacher-legacy-discard": {
+              "meanScore": 0.86,
+              "winRate": 0.8,
+              "wallRate": 0.235,
+              "dealInRate": 0.3,
+              "changedDiscards": 0,
+              "changedExchanges": 166
+            }
+          },
+          "comparisons": {
+            "efficiency": {
+              "meanScoreDifference": -0.185,
+              "standardError": 0.1507231313088929,
+              "betterSeedFraction": 0.1,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -0.4804173373654301, 0.11041733736543008
+              ]
+            },
+            "teacher-candidate": {
+              "meanScoreDifference": -0.7,
+              "standardError": 0.36062480676775577,
+              "betterSeedFraction": 0.32,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.4068246212648012, 0.006824621264801323
+              ]
+            },
+            "teacher-legacy-discard": {
+              "meanScoreDifference": -0.885,
+              "standardError": 0.36021891027066166,
+              "betterSeedFraction": 0.31,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.5910290641304967, -0.1789709358695032
+              ]
+            }
+          }
+        },
+        "3": {
+          "byPolicy": {
+            "advice": {
+              "meanScore": -0.045,
+              "winRate": 0.645,
+              "wallRate": 0.285,
+              "dealInRate": 0.33,
+              "changedDiscards": 0,
+              "changedExchanges": 0
+            },
+            "efficiency": {
+              "meanScore": -0.07,
+              "winRate": 0.67,
+              "wallRate": 0.25,
+              "dealInRate": 0.355,
+              "changedDiscards": 160,
+              "changedExchanges": 0
+            },
+            "teacher-candidate": {
+              "meanScore": 0.655,
+              "winRate": 0.745,
+              "wallRate": 0.195,
+              "dealInRate": 0.315,
+              "changedDiscards": 84,
+              "changedExchanges": 168
+            },
+            "teacher-legacy-discard": {
+              "meanScore": 0.53,
+              "winRate": 0.755,
+              "wallRate": 0.195,
+              "dealInRate": 0.285,
+              "changedDiscards": 0,
+              "changedExchanges": 168
+            }
+          },
+          "comparisons": {
+            "efficiency": {
+              "meanScoreDifference": 0.025,
+              "standardError": 0.11329631625247995,
+              "betterSeedFraction": 0.08,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -0.1970607798548607, 0.2470607798548607
+              ]
+            },
+            "teacher-candidate": {
+              "meanScoreDifference": -0.7,
+              "standardError": 0.317338175434251,
+              "betterSeedFraction": 0.325,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.321982823851132, -0.07801717614886794
+              ]
+            },
+            "teacher-legacy-discard": {
+              "meanScoreDifference": -0.575,
+              "standardError": 0.3053490876466363,
+              "betterSeedFraction": 0.325,
+              "seedCount": 200,
+              "confidenceInterval95NormalApprox": [
+                -1.1734842117874071, 0.023484211787407228
+              ]
+            }
+          }
+        }
+      },
+      "teacherComparisons": {
+        "advice": {
+          "meanScoreDifference": 0.84125,
+          "standardError": 0.13059317583770172,
+          "betterSeedFraction": 0.685,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            0.5852873753581047, 1.0972126246418954
+          ],
+          "direction": "teacher-candidate-minus-advice"
+        },
+        "efficiency": {
+          "meanScoreDifference": 0.8175,
+          "standardError": 0.11745722518748573,
+          "betterSeedFraction": 0.675,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            0.587283838632528, 1.0477161613674721
+          ],
+          "direction": "teacher-candidate-minus-efficiency"
+        },
+        "teacher-legacy-discard": {
+          "meanScoreDifference": -0.0025,
+          "standardError": 0.0650664040398221,
+          "betterSeedFraction": 0.235,
+          "seedCount": 200,
+          "confidenceInterval95NormalApprox": [
+            -0.1300301519180513, 0.1250301519180513
+          ],
+          "direction": "teacher-candidate-minus-teacher-legacy-discard"
+        }
+      }
+    }
+  },
+  "overall": {
+    "byPolicy": {
+      "advice": {
+        "meanScore": 0.0125,
+        "winRate": 0.6725,
+        "wallRate": 0.25875,
+        "dealInRate": 0.343125,
+        "changedDiscards": 0,
+        "changedExchanges": 0
+      },
+      "efficiency": {
+        "meanScore": 0.03,
+        "winRate": 0.67875,
+        "wallRate": 0.251875,
+        "dealInRate": 0.340625,
+        "changedDiscards": 1208,
+        "changedExchanges": 0
+      },
+      "teacher-candidate": {
+        "meanScore": 0.930625,
+        "winRate": 0.781875,
+        "wallRate": 0.1775,
+        "dealInRate": 0.286875,
+        "changedDiscards": 577,
+        "changedExchanges": 1326
+      },
+      "teacher-legacy-discard": {
+        "meanScore": 0.914375,
+        "winRate": 0.786875,
+        "wallRate": 0.19375,
+        "dealInRate": 0.2775,
+        "changedDiscards": 0,
+        "changedExchanges": 1326
+      }
+    },
+    "comparisons": {
+      "efficiency": {
+        "meanScoreDifference": -0.0175,
+        "standardError": 0.056412314668263276,
+        "betterSeedFraction": 0.335,
+        "seedCount": 200,
+        "confidenceInterval95NormalApprox": [
+          -0.128068136749796, 0.09306813674979601
+        ]
+      },
+      "teacher-candidate": {
+        "meanScoreDifference": -0.918125,
+        "standardError": 0.11882881376915247,
+        "betterSeedFraction": 0.26,
+        "seedCount": 200,
+        "confidenceInterval95NormalApprox": [
+          -1.1510294749875387, -0.6852205250124611
+        ]
+      },
+      "teacher-legacy-discard": {
+        "meanScoreDifference": -0.901875,
+        "standardError": 0.11636937830853339,
+        "betterSeedFraction": 0.255,
+        "seedCount": 200,
+        "confidenceInterval95NormalApprox": [
+          -1.1299589814847255, -0.6737910185152746
+        ]
+      }
+    },
+    "teacherComparisons": {
+      "advice": {
+        "meanScoreDifference": 0.918125,
+        "standardError": 0.11882881376915247,
+        "betterSeedFraction": 0.73,
+        "seedCount": 200,
+        "confidenceInterval95NormalApprox": [
+          0.6852205250124611, 1.1510294749875387
+        ],
+        "direction": "teacher-candidate-minus-advice"
+      },
+      "efficiency": {
+        "meanScoreDifference": 0.900625,
+        "standardError": 0.11605324402669924,
+        "betterSeedFraction": 0.725,
+        "seedCount": 200,
+        "confidenceInterval95NormalApprox": [
+          0.6731606417076695, 1.1280893582923306
+        ],
+        "direction": "teacher-candidate-minus-efficiency"
+      },
+      "teacher-legacy-discard": {
+        "meanScoreDifference": 0.01625,
+        "standardError": 0.05731172749132763,
+        "betterSeedFraction": 0.315,
+        "seedCount": 200,
+        "confidenceInterval95NormalApprox": [
+          -0.09608098588300215, 0.12858098588300215
+        ],
+        "direction": "teacher-candidate-minus-teacher-legacy-discard"
+      }
+    }
+  },
+  "sourceFiles": [
+    {
+      "name": "teacher-v1-shard-70000.jsonl",
+      "sha256": "61dfaa48ed00b756d7752d4c00550543562de1d44d28c1be796dd6a2cba28b69",
+      "manifest": {
+        "kind": "manifest",
+        "version": 1,
+        "config": {
+          "count": 50,
+          "startSeed": 70000,
+          "seats": [0, 1, 2, 3],
+          "policies": [
+            "advice",
+            "efficiency",
+            "teacher-candidate",
+            "teacher-legacy-discard"
+          ],
+          "opponents": ["greedy", "patient"]
+        },
+        "rules": {
+          "exchangeDirection": "clockwise",
+          "fanCap": 3,
+          "selfDrawBonus": 1,
+          "flowerPenalty": 8,
+          "checkTenpai": true
+        },
+        "fingerprint": {
+          "docs/RULES_V1.md": "506e7e8753c1c9987c746bfb763381c682c6fed66feb0f1383aaafcffe2b7fdb",
+          "package-lock.json": "a9b653297e32a165807acbcc287fcb80c2a1ac17770d2797fc0bf63dec44b425",
+          "scripts/analyze-benchmark.ts": "da9ef8259f42fc0ad993792bab84f6fcbc07797b73a3253b62d9803108cacec1",
+          "scripts/benchmarkPolicies.ts": "33aac4b946089b41d1449b7c92a9a9a9d85777a2433b3c20490bab79e1f97962",
+          "scripts/benchmarkRunner.ts": "c0e777d7076c21c409c29d15ef94f96dc72a56b0a1151b0d008468caf71567c9",
+          "scripts/evaluate-advice.ts": "ca2654d686a55a5acf1611845da1e6329fb02046557f00c987773d3e0db310eb",
+          "scripts/evaluationStats.ts": "656de18454ec58483875bd09833dd898f75dfc8343386fdbb62a7eabf5f95560",
+          "src/game/actionAdvice.ts": "08036cafad433508906f0312801d4a418fc767180f9f0e7320162d9c29451ce4",
+          "src/game/advice.ts": "dba080f3c61d99bccefed33477f77ffdc394fd072a4a8ce9e265a2ba33b76e15",
+          "src/game/bot.ts": "7cf9998abb3a6b5ecc73ab7cbcf961cee5f299901c859418d0f220aced07b189",
+          "src/game/decision.ts": "13487f4ad5f6c049cca7e9691ec1845fd51878d1fa907bc5670af695108c4e97",
+          "src/game/demo.ts": "e0041c4141fe52310b92d92de8febbe1679e4160cee267ef6eeb6081d39ad3cb",
+          "src/game/game.ts": "3c1959c528d4bc9e6fe9489c33025170ed254653a5bfb4c2ba72a8e828bf9fa9",
+          "src/game/lookahead.ts": "abc9cd298f054b5544568f49f48ef2d215c5426ca79588e381e21e3bb0bd6171",
+          "src/game/openingAdvice.ts": "c34f9c41c16dfbab2ebad8aee62fe67c5d2dabdfe34337471e2a48ec6efd1ceb",
+          "src/game/rules.ts": "89600183168a491703fbdb0daff02905c0e29ad49d09be73e81dc5a39194a552",
+          "src/game/scoring.ts": "c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e",
+          "src/game/session.ts": "497d3cdf840070006ba5bbb870d30cb2f2fd434099a710fa422d5326ef0f0d09",
+          "src/game/teacher.ts": "ef3ccd51b9b68a3729ff85dcfe81d45419f5657ff196ab0afca6632dced0806d",
+          "src/game/teacherEvaluation.ts": "8f76b448018c48b428f6855946b681148e3e712d52489b8ea1bd57c2c33f7d12",
+          "src/game/testHelpers.ts": "9c69f85f668f9ede112fe613ba2ae1a1e7b0910472eb3b5d65e5d067a98a9ba3",
+          "src/game/tiles.ts": "1de601067eeb8f78d1774136b0ac19a6f174db6ec36aa19344a1477fc153b979",
+          "src/game/view.ts": "731b2b0e3c74176f277e8142a0ee2c059629233f630f25836c5f76d60c065039"
+        }
+      }
+    },
+    {
+      "name": "teacher-v1-shard-70050.jsonl",
+      "sha256": "7ebee747e7cfe35d3669b402c3673d63cfe2d83491cd0e343bcfeb5aece28b56",
+      "manifest": {
+        "kind": "manifest",
+        "version": 1,
+        "config": {
+          "count": 50,
+          "startSeed": 70050,
+          "seats": [0, 1, 2, 3],
+          "policies": [
+            "advice",
+            "efficiency",
+            "teacher-candidate",
+            "teacher-legacy-discard"
+          ],
+          "opponents": ["greedy", "patient"]
+        },
+        "rules": {
+          "exchangeDirection": "clockwise",
+          "fanCap": 3,
+          "selfDrawBonus": 1,
+          "flowerPenalty": 8,
+          "checkTenpai": true
+        },
+        "fingerprint": {
+          "docs/RULES_V1.md": "506e7e8753c1c9987c746bfb763381c682c6fed66feb0f1383aaafcffe2b7fdb",
+          "package-lock.json": "a9b653297e32a165807acbcc287fcb80c2a1ac17770d2797fc0bf63dec44b425",
+          "scripts/analyze-benchmark.ts": "da9ef8259f42fc0ad993792bab84f6fcbc07797b73a3253b62d9803108cacec1",
+          "scripts/benchmarkPolicies.ts": "33aac4b946089b41d1449b7c92a9a9a9d85777a2433b3c20490bab79e1f97962",
+          "scripts/benchmarkRunner.ts": "c0e777d7076c21c409c29d15ef94f96dc72a56b0a1151b0d008468caf71567c9",
+          "scripts/evaluate-advice.ts": "ca2654d686a55a5acf1611845da1e6329fb02046557f00c987773d3e0db310eb",
+          "scripts/evaluationStats.ts": "656de18454ec58483875bd09833dd898f75dfc8343386fdbb62a7eabf5f95560",
+          "src/game/actionAdvice.ts": "08036cafad433508906f0312801d4a418fc767180f9f0e7320162d9c29451ce4",
+          "src/game/advice.ts": "dba080f3c61d99bccefed33477f77ffdc394fd072a4a8ce9e265a2ba33b76e15",
+          "src/game/bot.ts": "7cf9998abb3a6b5ecc73ab7cbcf961cee5f299901c859418d0f220aced07b189",
+          "src/game/decision.ts": "13487f4ad5f6c049cca7e9691ec1845fd51878d1fa907bc5670af695108c4e97",
+          "src/game/demo.ts": "e0041c4141fe52310b92d92de8febbe1679e4160cee267ef6eeb6081d39ad3cb",
+          "src/game/game.ts": "3c1959c528d4bc9e6fe9489c33025170ed254653a5bfb4c2ba72a8e828bf9fa9",
+          "src/game/lookahead.ts": "abc9cd298f054b5544568f49f48ef2d215c5426ca79588e381e21e3bb0bd6171",
+          "src/game/openingAdvice.ts": "c34f9c41c16dfbab2ebad8aee62fe67c5d2dabdfe34337471e2a48ec6efd1ceb",
+          "src/game/rules.ts": "89600183168a491703fbdb0daff02905c0e29ad49d09be73e81dc5a39194a552",
+          "src/game/scoring.ts": "c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e",
+          "src/game/session.ts": "497d3cdf840070006ba5bbb870d30cb2f2fd434099a710fa422d5326ef0f0d09",
+          "src/game/teacher.ts": "ef3ccd51b9b68a3729ff85dcfe81d45419f5657ff196ab0afca6632dced0806d",
+          "src/game/teacherEvaluation.ts": "8f76b448018c48b428f6855946b681148e3e712d52489b8ea1bd57c2c33f7d12",
+          "src/game/testHelpers.ts": "9c69f85f668f9ede112fe613ba2ae1a1e7b0910472eb3b5d65e5d067a98a9ba3",
+          "src/game/tiles.ts": "1de601067eeb8f78d1774136b0ac19a6f174db6ec36aa19344a1477fc153b979",
+          "src/game/view.ts": "731b2b0e3c74176f277e8142a0ee2c059629233f630f25836c5f76d60c065039"
+        }
+      }
+    },
+    {
+      "name": "teacher-v1-shard-70100.jsonl",
+      "sha256": "a36428a06fee7a673009a2639aeab966a9a1ddbef7c54ae5e476991f4b514d16",
+      "manifest": {
+        "kind": "manifest",
+        "version": 1,
+        "config": {
+          "count": 50,
+          "startSeed": 70100,
+          "seats": [0, 1, 2, 3],
+          "policies": [
+            "advice",
+            "efficiency",
+            "teacher-candidate",
+            "teacher-legacy-discard"
+          ],
+          "opponents": ["greedy", "patient"]
+        },
+        "rules": {
+          "exchangeDirection": "clockwise",
+          "fanCap": 3,
+          "selfDrawBonus": 1,
+          "flowerPenalty": 8,
+          "checkTenpai": true
+        },
+        "fingerprint": {
+          "docs/RULES_V1.md": "506e7e8753c1c9987c746bfb763381c682c6fed66feb0f1383aaafcffe2b7fdb",
+          "package-lock.json": "a9b653297e32a165807acbcc287fcb80c2a1ac17770d2797fc0bf63dec44b425",
+          "scripts/analyze-benchmark.ts": "da9ef8259f42fc0ad993792bab84f6fcbc07797b73a3253b62d9803108cacec1",
+          "scripts/benchmarkPolicies.ts": "33aac4b946089b41d1449b7c92a9a9a9d85777a2433b3c20490bab79e1f97962",
+          "scripts/benchmarkRunner.ts": "c0e777d7076c21c409c29d15ef94f96dc72a56b0a1151b0d008468caf71567c9",
+          "scripts/evaluate-advice.ts": "ca2654d686a55a5acf1611845da1e6329fb02046557f00c987773d3e0db310eb",
+          "scripts/evaluationStats.ts": "656de18454ec58483875bd09833dd898f75dfc8343386fdbb62a7eabf5f95560",
+          "src/game/actionAdvice.ts": "08036cafad433508906f0312801d4a418fc767180f9f0e7320162d9c29451ce4",
+          "src/game/advice.ts": "dba080f3c61d99bccefed33477f77ffdc394fd072a4a8ce9e265a2ba33b76e15",
+          "src/game/bot.ts": "7cf9998abb3a6b5ecc73ab7cbcf961cee5f299901c859418d0f220aced07b189",
+          "src/game/decision.ts": "13487f4ad5f6c049cca7e9691ec1845fd51878d1fa907bc5670af695108c4e97",
+          "src/game/demo.ts": "e0041c4141fe52310b92d92de8febbe1679e4160cee267ef6eeb6081d39ad3cb",
+          "src/game/game.ts": "3c1959c528d4bc9e6fe9489c33025170ed254653a5bfb4c2ba72a8e828bf9fa9",
+          "src/game/lookahead.ts": "abc9cd298f054b5544568f49f48ef2d215c5426ca79588e381e21e3bb0bd6171",
+          "src/game/openingAdvice.ts": "c34f9c41c16dfbab2ebad8aee62fe67c5d2dabdfe34337471e2a48ec6efd1ceb",
+          "src/game/rules.ts": "89600183168a491703fbdb0daff02905c0e29ad49d09be73e81dc5a39194a552",
+          "src/game/scoring.ts": "c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e",
+          "src/game/session.ts": "497d3cdf840070006ba5bbb870d30cb2f2fd434099a710fa422d5326ef0f0d09",
+          "src/game/teacher.ts": "ef3ccd51b9b68a3729ff85dcfe81d45419f5657ff196ab0afca6632dced0806d",
+          "src/game/teacherEvaluation.ts": "8f76b448018c48b428f6855946b681148e3e712d52489b8ea1bd57c2c33f7d12",
+          "src/game/testHelpers.ts": "9c69f85f668f9ede112fe613ba2ae1a1e7b0910472eb3b5d65e5d067a98a9ba3",
+          "src/game/tiles.ts": "1de601067eeb8f78d1774136b0ac19a6f174db6ec36aa19344a1477fc153b979",
+          "src/game/view.ts": "731b2b0e3c74176f277e8142a0ee2c059629233f630f25836c5f76d60c065039"
+        }
+      }
+    },
+    {
+      "name": "teacher-v1-shard-70150.jsonl",
+      "sha256": "e3763249c66741dbc2d6a4154d16b32ec691dffdee1075f544f72b51642232f8",
+      "manifest": {
+        "kind": "manifest",
+        "version": 1,
+        "config": {
+          "count": 50,
+          "startSeed": 70150,
+          "seats": [0, 1, 2, 3],
+          "policies": [
+            "advice",
+            "efficiency",
+            "teacher-candidate",
+            "teacher-legacy-discard"
+          ],
+          "opponents": ["greedy", "patient"]
+        },
+        "rules": {
+          "exchangeDirection": "clockwise",
+          "fanCap": 3,
+          "selfDrawBonus": 1,
+          "flowerPenalty": 8,
+          "checkTenpai": true
+        },
+        "fingerprint": {
+          "docs/RULES_V1.md": "506e7e8753c1c9987c746bfb763381c682c6fed66feb0f1383aaafcffe2b7fdb",
+          "package-lock.json": "a9b653297e32a165807acbcc287fcb80c2a1ac17770d2797fc0bf63dec44b425",
+          "scripts/analyze-benchmark.ts": "da9ef8259f42fc0ad993792bab84f6fcbc07797b73a3253b62d9803108cacec1",
+          "scripts/benchmarkPolicies.ts": "33aac4b946089b41d1449b7c92a9a9a9d85777a2433b3c20490bab79e1f97962",
+          "scripts/benchmarkRunner.ts": "c0e777d7076c21c409c29d15ef94f96dc72a56b0a1151b0d008468caf71567c9",
+          "scripts/evaluate-advice.ts": "ca2654d686a55a5acf1611845da1e6329fb02046557f00c987773d3e0db310eb",
+          "scripts/evaluationStats.ts": "656de18454ec58483875bd09833dd898f75dfc8343386fdbb62a7eabf5f95560",
+          "src/game/actionAdvice.ts": "08036cafad433508906f0312801d4a418fc767180f9f0e7320162d9c29451ce4",
+          "src/game/advice.ts": "dba080f3c61d99bccefed33477f77ffdc394fd072a4a8ce9e265a2ba33b76e15",
+          "src/game/bot.ts": "7cf9998abb3a6b5ecc73ab7cbcf961cee5f299901c859418d0f220aced07b189",
+          "src/game/decision.ts": "13487f4ad5f6c049cca7e9691ec1845fd51878d1fa907bc5670af695108c4e97",
+          "src/game/demo.ts": "e0041c4141fe52310b92d92de8febbe1679e4160cee267ef6eeb6081d39ad3cb",
+          "src/game/game.ts": "3c1959c528d4bc9e6fe9489c33025170ed254653a5bfb4c2ba72a8e828bf9fa9",
+          "src/game/lookahead.ts": "abc9cd298f054b5544568f49f48ef2d215c5426ca79588e381e21e3bb0bd6171",
+          "src/game/openingAdvice.ts": "c34f9c41c16dfbab2ebad8aee62fe67c5d2dabdfe34337471e2a48ec6efd1ceb",
+          "src/game/rules.ts": "89600183168a491703fbdb0daff02905c0e29ad49d09be73e81dc5a39194a552",
+          "src/game/scoring.ts": "c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e",
+          "src/game/session.ts": "497d3cdf840070006ba5bbb870d30cb2f2fd434099a710fa422d5326ef0f0d09",
+          "src/game/teacher.ts": "ef3ccd51b9b68a3729ff85dcfe81d45419f5657ff196ab0afca6632dced0806d",
+          "src/game/teacherEvaluation.ts": "8f76b448018c48b428f6855946b681148e3e712d52489b8ea1bd57c2c33f7d12",
+          "src/game/testHelpers.ts": "9c69f85f668f9ede112fe613ba2ae1a1e7b0910472eb3b5d65e5d067a98a9ba3",
+          "src/game/tiles.ts": "1de601067eeb8f78d1774136b0ac19a6f174db6ec36aa19344a1477fc153b979",
+          "src/game/view.ts": "731b2b0e3c74176f277e8142a0ee2c059629233f630f25836c5f76d60c065039"
+        }
+      }
+    }
+  ]
+}
