@@ -1,4 +1,9 @@
-import { estimateShanten, publicCounts, recommendDiscards } from "./advice";
+import {
+  estimateShanten,
+  publicCounts,
+  recommendDiscards,
+  type DiscardAdvice,
+} from "./advice";
 import type { Meld } from "./scoring";
 import type { PlayerAction } from "./session";
 import { labelOf, suitOf, type Tile } from "./tiles";
@@ -83,7 +88,10 @@ function bestDiscard(
     )[0];
 }
 
-export function recommendActions(view: PlayerView): ActionAdvice[] {
+export function recommendActions(
+  view: PlayerView,
+  discardSource: (view: PlayerView) => DiscardAdvice[] = recommendDiscards,
+): ActionAdvice[] {
   const decision = view.decision;
   if (!view.missing || !decision) return [];
   if (
@@ -104,7 +112,7 @@ export function recommendActions(view: PlayerView): ActionAdvice[] {
     counts.reduce((sum, count) => sum + Math.floor(count / 2), 0) >= 5;
   const active = view.opponents.filter((opponent) => !opponent.won);
   const discarded =
-    decision.kind === "self" ? recommendDiscards(view)[0] : undefined;
+    decision.kind === "self" ? discardSource(view)[0] : undefined;
   if (decision.kind === "self" && !discarded) return [];
   const baseline = discarded
     ? efficiency(
