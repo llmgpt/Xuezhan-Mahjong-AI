@@ -10,6 +10,7 @@ import { AdviceCoach } from "./components/AdviceCoach";
 import { GameDialog } from "./components/GameDialog";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
+import { setupAdvice } from "./components/setupAdvice";
 import { actionKey } from "./game/actionAdvice";
 import {
   recommendTeacherDiscards,
@@ -221,6 +222,10 @@ function App() {
     .map((tile, index) => ({ tile, index }))
     .sort((a, b) => a.tile - b.tile || a.index - b.index);
   const view = useMemo(() => playerView(game, 0), [game]);
+  const openingChoices = useMemo(
+    () => setupAdvice(view, game.phase),
+    [view, game.phase],
+  );
   const legal = useMemo(() => new Set(view.legalDiscards), [view]);
   const advice = useMemo(
     () =>
@@ -668,6 +673,7 @@ function App() {
             advice={advice}
             view={view}
             actions={actionAdvice}
+            openingChoices={openingChoices}
             onSpeak={soundEnabled ? announceAdvice : undefined}
             onOpen={() => {
               setAutoPlay(false);
