@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "evaluate:advice": "vite-node scripts/evaluate-advice.ts",
+    "evaluate:independent": "vite-node scripts/evaluate-independent.ts",
     "typecheck": "tsc -b",
     "lint": "eslint .",
     "format": "prettier --write .",
