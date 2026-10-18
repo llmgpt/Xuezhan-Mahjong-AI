@@ -11,7 +11,11 @@ const input = () => {
   return playerView(state, 0);
 };
 
-function fake(body: string, timeoutMs = 3000) {
+function fake(
+  body: string,
+  timeoutMs = 3000,
+  policy?: "ebony72-advanced-public-v1",
+) {
   const worker = new ExternalMahjongWorker({
     executable: process.execPath,
     args: [
@@ -27,6 +31,7 @@ function fake(body: string, timeoutMs = 3000) {
     `,
     ],
     timeoutMs,
+    policy,
   });
   workers.push(worker);
   return worker;
@@ -37,6 +42,38 @@ afterEach(async () => {
 });
 
 describe("独立 Python 策略的常驻协议边界", () => {
+  it("公开动作来源必须是座位标量，不能经from字段夹带对象", () => {
+    const worker = fake("throw new Error('must not send');");
+    const view = input();
+    view.publicActions!.push({ seat: 1, kind: "pung", tile: 8, from: 0 });
+    Object.assign(view.publicActions![0], { from: { hand: [1, 2, 3] } });
+    expect(() => worker.act(view, "discard")).toThrow(/来源|from/);
+  });
+  it("公开摸牌历史不能夹带暗牌，未知历史字段在发送前拒绝", () => {
+    const worker = fake("throw new Error('must not send');");
+    const view = input();
+    view.publicActions!.push({ seat: 1, kind: "draw" });
+    Object.assign(view.publicActions![0], { tile: 8 });
+    expect(() => worker.act(view, "discard")).toThrow(/tile|未允许|隐藏/);
+  });
+
+  it("高级参考显式发送policy标识，缺失历史直接失败", async () => {
+    const worker = fake(
+      `
+      if(request.policy!=='ebony72-advanced-public-v1') throw new Error('wrong policy');
+      console.log(JSON.stringify({id:request.id,action:{type:'discard',tile:request.view.legalDiscards[0]}}));
+    `,
+      3000,
+      "ebony72-advanced-public-v1",
+    );
+    const view = input();
+    expect(await worker.act(view, "discard")).toEqual({
+      type: "discard",
+      tile: view.legalDiscards[0],
+    });
+    delete view.publicActions;
+    expect(() => worker.act(view, "discard")).toThrow(/历史|publicActions/);
+  });
   it("同一子进程处理多次请求，不传种子、牌墙或对手暗牌", async () => {
     const worker = fake(`
       if ('seed' in request || 'seed' in request.view || 'wall' in request.view ||

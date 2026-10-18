@@ -1,0 +1,3 @@
+*.py -text
+*.patch -text
+license.md -text

@@ -9,6 +9,7 @@ export interface ExternalMahjongOptions {
   executable?: string;
   args?: string[];
   timeoutMs?: number;
+  policy?: "ebony72-initial" | "ebony72-advanced-public-v1";
 }
 
 interface Pending {
@@ -40,12 +41,57 @@ function assertPublicView(view: PlayerView): void {
       "opponents",
       "wallRemaining",
       "publicTiles",
+      "publicActions",
       "decision",
     ],
     "view",
   );
   if (!Array.isArray(view.publicTiles))
     throw new Error("缺少真实公开牌时序 publicTiles");
+  if (view.publicActions !== undefined) {
+    if (!Array.isArray(view.publicActions))
+      throw new Error("publicActions 必须是公开历史数组");
+    for (const action of view.publicActions) {
+      const common = ["seat", "kind"];
+      const keys =
+        action.kind === "draw"
+          ? common
+          : action.kind === "discard" || action.kind === "added-kong-offer"
+            ? [...common, "tile"]
+            : action.kind === "pung"
+              ? [...common, "tile", "from"]
+              : action.kind === "kong"
+                ? [...common, "tile", "from", "kongKind"]
+                : action.kind === "win"
+                  ? [...common, "tile", "from", "winKind"]
+                  : undefined;
+      if (!keys) throw new Error("未知公开历史动作");
+      onlyFields(action, keys, "publicActions");
+      if (!Number.isInteger(action.seat) || action.seat < 0 || action.seat > 3)
+        throw new Error("公开历史座位无效");
+      if (
+        "tile" in action &&
+        (!Number.isInteger(action.tile) || action.tile < 0 || action.tile > 26)
+      )
+        throw new Error("公开历史牌面无效");
+      if (
+        "from" in action &&
+        action.from !== null &&
+        (!Number.isInteger(action.from) || action.from < 0 || action.from > 3)
+      )
+        throw new Error("公开历史来源from必须是座位标量或null");
+      if (
+        action.kind === "kong" &&
+        !["direct", "concealed"].includes(action.kongKind)
+      )
+        throw new Error("公开历史杠类型无效");
+      if (
+        action.kind === "win" &&
+        !["discard", "self", "rob-kong"].includes(action.winKind)
+      )
+        throw new Error("公开历史胡牌类型无效");
+    }
+  }
   for (const item of view.publicTiles)
     onlyFields(item, ["seat", "tile", "kind"], "publicTiles");
   const melds = [...view.melds];
@@ -114,8 +160,16 @@ export class ExternalMahjongWorker {
   private failure?: Error;
   private finishTask?: Promise<void>;
   private stderr = "";
+  private readonly policy: ExternalMahjongOptions["policy"];
 
   constructor(options: ExternalMahjongOptions = {}) {
+    if (
+      options.policy !== undefined &&
+      options.policy !== "ebony72-initial" &&
+      options.policy !== "ebony72-advanced-public-v1"
+    )
+      throw new Error("未知外部策略");
+    this.policy = options.policy;
     this.timeoutMs = options.timeoutMs ?? 10_000;
     if (!Number.isFinite(this.timeoutMs) || this.timeoutMs <= 0)
       throw new Error("外部策略超时必须是正数");
@@ -164,6 +218,11 @@ export class ExternalMahjongWorker {
     if (this.terminated || this.finishing)
       return Promise.reject(new Error("外部策略会话已终止或关闭"));
     assertPublicView(view);
+    if (
+      this.policy === "ebony72-advanced-public-v1" &&
+      !Array.isArray(view.publicActions)
+    )
+      throw new Error("高级参考缺少真实公开历史 publicActions");
     if (!["choose-missing", "discard", "respond"].includes(phase))
       throw new Error(`外部策略不支持阶段 ${phase}`);
     const snapshot = structuredClone(view);
@@ -176,7 +235,7 @@ export class ExternalMahjongWorker {
       );
       this.pending.set(id, { view: snapshot, phase, timer, resolve, reject });
       this.child.stdin.write(
-        `${JSON.stringify({ id, phase, view: snapshot })}\n`,
+        `${JSON.stringify({ id, phase, view: snapshot, ...(this.policy && { policy: this.policy }) })}\n`,
         (error) => {
           if (error) this.fail(new Error(`外部策略发送失败: ${error.message}`));
         },

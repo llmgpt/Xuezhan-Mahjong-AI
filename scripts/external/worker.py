@@ -84,8 +84,11 @@ def to_external(tile: int) -> list[int]:
 def from_external(tile: Any) -> int:
     if not isinstance(tile, (list, tuple)) or len(tile) != 2:
         raise AdapterError("illegal-action", "Upstream tile must be a [suit, rank] pair")
-    suit = integer(tile[0], 0, 2, "upstream suit")
-    rank = integer(tile[1], 1, 9, "upstream rank")
+    try:
+        suit = integer(tile[0], 0, 2, "upstream suit")
+        rank = integer(tile[1], 1, 9, "upstream rank")
+    except AdapterError as error:
+        raise AdapterError("illegal-action", str(error)) from error
     return EXTERNAL_TO_HOST_SUIT[suit] * 9 + rank - 1
 
 
@@ -185,11 +188,12 @@ class Context:
     player: OwnPlayer
     dealer: Dealer
     players: list
+    history: Any = None
 
 
 def build_context(view: Any) -> Context:
-    allowed = {"seat", "hand", "melds", "missing", "legalDiscards", "ownDiscards", "opponents", "wallRemaining", "decision", "publicTiles"}
-    fields(view, allowed, allowed - {"missing", "decision"}, "view")
+    allowed = {"seat", "hand", "melds", "missing", "legalDiscards", "ownDiscards", "opponents", "wallRemaining", "decision", "publicTiles", "publicActions"}
+    fields(view, allowed, allowed - {"missing", "decision", "publicActions"}, "view")
     seat = integer(view["seat"], 0, 3, "seat")
     hand = [to_external(tile) for tile in tile_list(view["hand"], "hand", 14)]
     pile = meld_list(view["melds"], "melds")
@@ -254,7 +258,11 @@ def build_context(view: Any) -> Context:
             raise AdapterError("invalid-view", "More than four copies of a known tile")
     player = OwnPlayer(seat, hand, pile, missing, knowledge)
     players[seat] = player
-    return Context(player, Dealer(table, wall), players)
+    context = Context(player, Dealer(table, wall), players)
+    if "publicActions" in view:
+        from public_history_validation import validate
+        context.history = validate(view, sys.modules[__name__])
+    return context
 
 
 def upstream_call(function, *args):
@@ -272,7 +280,7 @@ def checked_response(value: Any, choices: list[str]) -> dict:
     return {"type": "respond", "choice": translated[value]}
 
 
-def choose_action(phase: str, view: dict, context: Context) -> dict:
+def choose_action(phase: str, view: dict, context: Context, policy=INITIAL, advanced=False) -> dict:
     player, dealer, players = context.player, context.dealer, context.players
     total = len(player.hand) + 3 * len(player.pile)
     if phase == "exchange":
@@ -304,17 +312,24 @@ def choose_action(phase: str, view: dict, context: Context) -> dict:
             raise AdapterError("invalid-view", "Rob-kong permits only pass or hu")
         if "hu" in choices:
             if decision["responseKind"] == "rob-kong":
-                result = upstream_call(INITIAL.check_robkong, player, dealer, pending, players)
+                result = upstream_call(policy.check_robkong, player, dealer, pending, players)
             else:
-                result = upstream_call(INITIAL.check_hu, player, dealer, actor, players)
+                result = upstream_call(policy.check_hu, player, dealer, actor, players)
+            if advanced and result == "stand" and decision["responseKind"] == "discard":
+                # The source engine asks about melds after hu was declined.
+                # V1 collects these choices together, so preserve that sequence.
+                if "kong" in choices:
+                    result = upstream_call(policy.check_kong, player, dealer, players)
+                elif "pung" in choices:
+                    result = upstream_call(policy.check_pong, player, dealer, players)
         elif "kong" in choices:
             if len(dealer.deck) == 0 or player.hand.count(pending) != 3 or pending[0] == player.daque_color:
                 raise AdapterError("invalid-view", "Host offered an invalid direct kong")
-            result = upstream_call(INITIAL.check_kong, player, dealer, players)
+            result = upstream_call(policy.check_kong, player, dealer, players)
         elif "pung" in choices:
             if player.hand.count(pending) < 2 or pending[0] == player.daque_color:
                 raise AdapterError("invalid-view", "Host offered an invalid pung")
-            result = upstream_call(INITIAL.check_pong, player, dealer, players)
+            result = upstream_call(policy.check_pong, player, dealer, players)
         else:
             result = "stand"
         return checked_response(result, choices)
@@ -339,12 +354,12 @@ def choose_action(phase: str, view: dict, context: Context) -> dict:
         if tile not in own or target not in player.pile or to_external(tile)[0] == player.daque_color or not len(dealer.deck):
             raise AdapterError("invalid-view", "Host offered an invalid added kong")
     if decision["canWin"]:
-        result = upstream_call(INITIAL.check_zimo, player, dealer, None, players)
+        result = upstream_call(policy.check_zimo, player, dealer, None, players)
         if result != "zimo":
             raise AdapterError("illegal-action", f"Unexpected self-win response: {result!r}")
         return {"type": "win"}
     if concealed or added:
-        result = upstream_call(INITIAL.check_zikong, player, dealer, players)
+        result = upstream_call(policy.check_zikong, player, dealer, players)
         if not isinstance(result, list) or len(result) != 2:
             raise AdapterError("illegal-action", f"Unexpected self-kong response: {result!r}")
         if result != ["stand", "zikong"]:
@@ -354,7 +369,7 @@ def choose_action(phase: str, view: dict, context: Context) -> dict:
             if result[0] == "jiakong" and tile in added:
                 return {"type": "kong", "kind": "added", "tile": tile}
             raise AdapterError("illegal-action", f"Upstream self-kong is not in host legal actions: {result!r}")
-    result = upstream_call(INITIAL.select_a_card_to_discard, player, dealer, players)
+    result = upstream_call(policy.select_a_card_to_discard, player, dealer, players)
     tile = from_external(result)
     if tile not in legal_discards:
         raise AdapterError("illegal-action", f"Upstream discard is not legal: {tile}")
@@ -366,11 +381,23 @@ def handle_request(request: Any) -> dict:
     if type(identifier) not in (str, int):
         identifier = None
     try:
-        fields(request, {"id", "phase", "view"}, {"id", "phase", "view"}, "request")
+        fields(request, {"id", "phase", "view", "policy"}, {"id", "phase", "view"}, "request")
         if type(request["id"]) not in (str, int) or not isinstance(request["phase"], str):
             raise AdapterError("invalid-request", "id must be a string/integer and phase must be a string")
         context = build_context(request["view"])
-        action = choose_action(request["phase"], request["view"], context)
+        policy_id = request.get("policy", "ebony72-initial")
+        if policy_id == "ebony72-initial":
+            action = choose_action(request["phase"], request["view"], context)
+        elif policy_id == "ebony72-advanced-public-v1":
+            import advanced_policy
+            try:
+                context = advanced_policy.build_context(request["view"], context, sys.modules[__name__])
+                policy = advanced_policy.load_policy()
+            except ValueError as error:
+                raise AdapterError("provenance-error", str(error)) from error
+            action = choose_action(request["phase"], request["view"], context, policy, advanced=True)
+        else:
+            raise AdapterError("unsupported", f"Unknown external policy: {policy_id}")
         return {"id": identifier, "action": action}
     except AdapterError as error:
         return {"id": identifier, "error": {"code": error.code, "message": str(error)}}

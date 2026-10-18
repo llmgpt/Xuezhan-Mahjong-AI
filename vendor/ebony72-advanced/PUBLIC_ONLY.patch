@@ -1,0 +1,310 @@
+--- upstream/strategyz0614.py
++++ derived/ebony72_advanced_public/strategyz0614.py
+@@ -9,19 +9,19 @@
+ #Revised on June 7, 2020
+ #-- introduce DQC in discard_local_value(..,DQC) and discar_value(..,DQC)
+ 
+-import hytreekong as hk
++from . import hytreekong as hk
+ #import hytreekong19 as hkx
+ from copy import deepcopy
+-import utils.hutype as hutype
+-import utils.xzscore as score
+-import utils.hysolx as hs
+-import utils.pusolx as ps
+-from utils.xzutils import *
++from .utils import hutype as hutype
++from .utils import xzscore as score
++from .utils import hysolx as hs
++from .utils import pusolx as ps
++from .utils.xzutils import *
+ #introduced discard_local_value to speed up by focusing on a local hand whenver possible
+ #q: question
+ #todo: future improve
+ 
+-Oracle = False #change to True if we want to use the oracle of Phi
++
+ HU_DECLINE_THRESHOLD = 1 #check_hu declines a dianpao win when zimo_factor
+                          #exceeds this; 1 is the original behavior (variants
+                          #may lower it — see strategy_huev.py)
+@@ -676,26 +676,26 @@
+     
+     ''' Guess color distribution and use this to select the discard tile '''
+     Phi = [[]]*4
+-    GPhi = [[]]*4
++
+     for j in range(4):
+         if j == player.player_id:
+             Phi[j] = [0, 0, 0] #ignore the current player himself
+-            GPhi[j] = [0, 0, 0] #ignore the current player himself
++
+         else:
+             X = dealer.guess_color_distribution(j)
+             Phi[j] = X[:] #1 
+-            #genuine color distribution (this is an ideal assumption, can only be used as an oracle and for comparison with our guess)  
+-            Tj = players[j].hand[:]
+-            GX = [len([t for t in Tj if t[0] == c]) for c in range(0,3)]
+-            GPhi[j] = GX[:] #2
+-            #end of genuine color distribution
+-    #print(Phi)
+-    #print(GPhi)
+-    #DIFF = list(abs(GPhi[i][j] - Phi[i][j]) for i in range(0,4) for j in range(0,3))
+-    #print(round(sum(DIFF),2))
+-    '''If we want to use the oracle, we need to uncomment the following statement.'''
+-    if Oracle: #a Boolean introduced in xzgame.py
+-        Phi = GPhi[:] 
++
++
++
++
++
++
++
++
++
++
++
++
+     #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+     #<><><><><><><><><><><SOME SPECIAL CASES><><><><><><><><><><><><><><><><>#
+     #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#    
+--- upstream/hytreekong.py
++++ derived/ebony72_advanced_public/hytreekong.py
+@@ -10,7 +10,7 @@
+ # mpd: maximal pseudo-decomposition
+ 
+ from copy import deepcopy
+-from utils.xzutils import *
++from .utils.xzutils import *
+ 
+ #\__/#\#/\#\__/#\#/\__/--\__/#\__/#\#/~\
+ ''' A pseudo-decomposition (p-decomposition or p-d for short) pi is a list of five blocks, where each block is a list of mahjong tiles
+--- upstream/utils/hutype.py
++++ derived/ebony72_advanced_public/utils/hutype.py
+@@ -1,4 +1,4 @@
+-from utils.xzutils import *
++from .xzutils import *
+ 
+         
+ #\__/#\#/\#\__/#\#/\__/--\__/#\__/#\#/~\
+--- upstream/utils/xzscore.py
++++ derived/ebony72_advanced_public/utils/xzscore.py
+@@ -1,5 +1,5 @@
+-import utils.hysolx as hs
+-from utils.xzutils import MJ
++from . import hysolx as hs
++from .xzutils import MJ
+ base_score = 1
+ #base_score = 400
+     
+--- upstream/utils/hysolx.py
++++ derived/ebony72_advanced_public/utils/hysolx.py
+@@ -1,6 +1,6 @@
+ #@20.01.29 adapted for xuezhan
+-import utils.pusolx as ps
+-from utils.xzutils import *
++from . import pusolx as ps
++from .xzutils import *
+ 
+ ''' hysol.py and pusol.py do not conisder the knowledge base, and thus the result is differnt from hyval in hytreekong.py'''
+ #Bamboo, Character, Dot
+--- upstream/utils/pusolx.py
++++ derived/ebony72_advanced_public/utils/pusolx.py
+@@ -1,5 +1,5 @@
+ # import copy
+-from utils.xzutils import MJ
++from .xzutils import MJ
+ #\__/#\#/\#\__/#\#/\__/--\__/#\__/#\#/~\ 
+ ########################################
+ ### IMPORTANT ##########################
+--- upstream/utils/xzutils.py
++++ derived/ebony72_advanced_public/utils/xzutils.py
+@@ -1,7 +1,7 @@
+ '''21.05.17: Bugs with num_disjoint_melds fixed'''
+ # import math
+ # import numpy as np
+-from utils.xzcard import MahjongCard as Card
++from .xzcard import MahjongCard as Card
+ import time
+ #from hysolx import is_h_solx
+ 
+--- /dev/null
++++ derived/ebony72_advanced_public/public_history.py
+@@ -0,0 +1,134 @@
++"""Methods extracted unchanged from upstream xzdealer.py:50-174."""
++
++class PublicHistoryModel:
++    __slots__ = ("act_history", "dqc")
++
++    def __init__(self, history, missing_suits):
++        self.act_history = history
++        self.dqc = missing_suits
++
++    def extract_player_history(self, i):
++        ''' Extract the action history of Player i '''
++        i_act_history = list(x for x in self.act_history if x[0] == i)
++        return i_act_history
++
++    def proceed_color_distribution(self, phi, dc, action, last_card):
++        ''' Proceed the color distribution based on current distribution and the player's last action
++            Args:
++                phi (list): the current distribution
++                dc (int): daque color
++                last_card (mahjong tile): either the last discarded tile or the pong/kong tile
++                action (str): 'discard', 'pong', 'kong', etc
++
++
++        '''
++        if action == 'draw': #what is last_card here? set as None
++            for i in range(0,3):
++                phi[i] += 1/3
++            return phi
++        
++
++        c = last_card[0] #last_card could be the discarded tile or pong/kong-tile
++        if action == 'discard':
++            if c == dc:
++                if phi[c] >= 1: # we still have daque color
++                    phi[c] += -1
++                else: # for example, if we have discarded the daque color 3 times, phi[c] is at most 1 here if no pong/kong happend before 
++                    theta = (phi[c]-1)/2
++                    phi[(c+1)%3] += theta
++                    phi[(c+2)%3] += theta
++                    phi[c] = 0
++                return phi
++            ''' If c != dc, we retract as the player has no daque color in his hand'''
++            
++            theta = (phi[dc]-1)/2
++            phi[(dc+1)%3] += theta
++            phi[(dc+2)%3] += theta
++            phi[dc] = 0
++            return phi
++
++        if c == dc:
++            print('The color of last_card should not be the daque color here.')
++            return phi
++
++        ''' When last_action is pong/kong/hu/zimo/ankong/jiakong '''
++        
++        if dc == (c+1)%3:
++            cx = (c+2)%3
++        else:
++            cx = (c+1)%3
++        h = phi[c] + phi[cx] + phi[dc] #number of tiles in the hand
++
++        if action == 'pong':                            
++            if phi[c] >= 2.5:
++                phi[c] += -2
++            else: #adjust phi
++                phi[cx] += phi[c]-2.5
++                phi[c] = 0.5 # very unlikely we don't have color c in hand?
++            return phi
++        if action == 'kong': # revealed kong
++            if phi[c] >= 3.5:
++                phi[c] += -3
++            else: #adjust phi
++                phi[cx] += phi[c]-3.5
++                phi[c] = 0.5
++            return phi
++        if action == 'ankong': # ankong (the player just drew a tile)
++            if phi[c] >= 4.5:
++                phi[c] += -4
++            else: #adjust phi
++                phi[cx] += phi[c]-4.5
++                phi[c] = 0.5
++            return phi
++        if action == 'jiakong': # jiakong (the player just drew a tile)
++            if phi[c] >= 1.5:
++                phi[c] += -1
++            else: #adjust phi
++                phi[cx] += phi[c]-1.5
++                phi[c] = 0.5
++            return phi
++        if action in {'hu', 'zimo', 'robkong'}:
++            theta = phi[dc]
++            phi[(dc+1)%3] += theta/2
++            phi[(dc+2)%3] += theta/2
++            phi[dc] = 0
++            return phi
++
++    def guess_color_distribution(self, j):
++        ''' Compute the color distribution of the hand of player j from the viewpoint of player i
++        Args:
++            players (objects):
++            j (int): The id of a player
++        Return: 
++            pi (list): A distribution of three colors such that pi[0] + pi[1] + pi[2] is the
++                        length of the hand of player j and pi[0] is the estimated number of Bamboo tiles 
++        '''
++        j_act_history = self.extract_player_history(j)
++        #discard_list = deepcopy(self.discard_lists[j])
++        dc = self.dqc[j]
++        #win_info = self.win_info[j]
++        #draw_time = self.draw_times[j]
++
++        '''Set the initial distribution '''
++        phi = [0, 0, 0]
++        if j == 0:
++            phi[dc] = 4
++        else:
++            phi[dc] = 3
++        phi[(dc+1)%3] = 5
++        phi[(dc+2)%3] = 5
++
++        l = len(j_act_history)
++        for act in j_act_history:
++            if act[0] != j:
++                print('Something wrong! The actor is not %s' %j)
++                return phi
++            action = act[1]
++            if action == 'draw':
++                last_card = None
++            else:
++                last_card = act[2]
++            phi = self.proceed_color_distribution(phi, dc, action, last_card)
++
++        return [round(phi[0], 1), round(phi[1], 1), round(phi[2], 1)]
++
+--- /dev/null
++++ derived/ebony72_advanced_public/own_hand_helpers.py
+@@ -0,0 +1,40 @@
++"""Read-only own-hand methods extracted from upstream xzplayer.py:64-98."""
++
++class OwnHandHelpers:
++    __slots__ = ()
++
++    def get_dominant_color(self):
++        ''' Return the dominant color 0, 1, 2, or None'''
++        dc = self.daque_color
++        hand = self.hand
++        pile = self.pile
++        pile_color = set()
++        #2020021521-sl
++        if pile:
++            for p in pile:
++                pile_color.add(p[0][0])
++        if len(pile_color) > 1:
++            return None
++        for c in {0, 1, 2}:
++            if c == dc:
++                continue
++            #2020031017-sl: revised
++            hand_c = list(t for t in hand if t[0] == c)
++            if len(hand_c) + 3*len(pile) > 8 and \
++               (not pile or (pile and c in pile_color)): #2020031210-sl
++                #q is 8 a good estimation?
++                return c
++        return None
++
++    def get_pure_color_index(self):
++        ''' Return the dominant color '''
++        dc = self.daque_color
++        hand = self.hand
++        pile = self.pile
++        c = self.get_dominant_color()
++        if c == None:
++            return 0
++        hand_c = list(t for t in hand if t[0] == c)
++        index = len(hand_c) + 3*len(pile)
++        return index
++
