@@ -5,6 +5,45 @@ import { playerView } from "../src/game/view";
 import { createPolicySession, resolveLineup } from "./independentPolicies";
 
 describe("独立评测策略注册", () => {
+  it("续局候选沿用开局并明确报告未触发，不会转入外部worker", async () => {
+    const reports: string[] = [];
+    const session = createPolicySession("candidate-rollout-v3", {
+      onEvaluation: (report) => reports.push(report.status),
+      workerFactory: () => {
+        throw new Error("must not spawn");
+      },
+    });
+    const view = playerView(createGame(80000), 0);
+    try {
+      expect(await session.choose(view, "exchange")).toEqual(
+        chooseTeacherAction(view, "exchange"),
+      );
+      expect(reports).toEqual(["not-applicable"]);
+    } finally {
+      await session.close();
+    }
+  });
+  it("高级公有参考注册独立线阵与明确wire策略标识", async () => {
+    expect(resolveLineup("ebony-advanced")).toEqual(
+      Array(4).fill("ebony72-advanced-public-v1"),
+    );
+    let wire: unknown;
+    const session = createPolicySession("ebony72-advanced-public-v1", {
+      workerFactory: (options) => {
+        wire = options.policy;
+        return {
+          act: async () => ({ type: "missing", suit: "tong" }),
+          close: async () => {},
+        };
+      },
+    });
+    try {
+      await session.choose(playerView(createGame(80000), 0), "choose-missing");
+      expect(wire).toBe("ebony72-advanced-public-v1");
+    } finally {
+      await session.close();
+    }
+  });
   it("同一会话拒绝切换暗牌所属座位", async () => {
     const session = createPolicySession("teacher-v1");
     const state = createGame(80000);

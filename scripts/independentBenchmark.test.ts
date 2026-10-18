@@ -63,6 +63,48 @@ const options = () => ({
 });
 
 describe("独立评测v2的可复现持久化", () => {
+  it("采样或回退诊断与当步公开轨迹关联保存，不把回退隐去", async () => {
+    const output = directory();
+    await runIndependentBenchmark({ ...config(), seeds: [80000] }, output, {
+      ...options(),
+      play: async (_spec, observers) => {
+        observers.onEvaluation({
+          actor: 0,
+          report: {
+            status: "fallback",
+            samples: 0,
+            choices: [],
+            fallbackReason: "budget",
+          },
+        });
+        return result();
+      },
+    });
+    const saved = JSON.parse(
+      readFileSync(join(output, "traces.jsonl"), "utf8").trim().split("\n")[0],
+    );
+    expect(saved.evaluations).toEqual([
+      {
+        actor: 0,
+        decisionIndex: 0,
+        report: {
+          status: "fallback",
+          samples: 0,
+          choices: [],
+          fallbackReason: "budget",
+        },
+      },
+    ]);
+  });
+  it("高级参考的派生源码、审计补丁与来源清单纳入冻结指纹", () => {
+    const files = independentSourceFingerprint();
+    for (const path of [
+      "vendor/ebony72-advanced/UPSTREAM.json",
+      "vendor/ebony72-advanced/PUBLIC_ONLY.patch",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzscore.py",
+    ])
+      expect(files[path]).toMatch(/^[a-f0-9]{64}$/);
+  });
   it("指纹覆盖实际vite-node与TypeScript执行配置", () => {
     const files = independentSourceFingerprint();
     for (const path of [

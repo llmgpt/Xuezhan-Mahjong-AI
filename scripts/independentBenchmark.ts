@@ -15,6 +15,7 @@ import {
 import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_RULES, type Phase } from "../src/game/game";
+import type { RolloutDecision } from "../src/game/rolloutTeacher";
 import { chooseTeacherAction } from "../src/game/teacher";
 import type { PlayerView } from "../src/game/view";
 import {
@@ -53,6 +54,7 @@ interface Attempt {
 interface Observers {
   onDecision: (trace: IndependentDecisionTrace) => void;
   onAttempt: (attempt: Attempt) => void;
+  onEvaluation: (event: { actor: number; report: RolloutDecision }) => void;
 }
 interface RunOptions {
   runtime?: Runtime;
@@ -156,7 +158,7 @@ export function independentSourceFingerprint(): Record<string, string> {
       if (entry.isDirectory()) {
         if (entry.name !== "__pycache__") visit(path);
       } else if (
-        (/\.(ts|py|json|md)$/.test(entry.name) &&
+        (/\.(ts|py|json|md|patch)$/.test(entry.name) &&
           !/\.test\.ts$/.test(entry.name) &&
           !/^test_/.test(entry.name)) ||
         entry.name === ".gitattributes"
@@ -164,7 +166,12 @@ export function independentSourceFingerprint(): Record<string, string> {
         files.push(path);
     }
   };
-  for (const directory of ["src/game", "scripts", "vendor/ebony72-mahjong"])
+  for (const directory of [
+    "src/game",
+    "scripts",
+    "vendor/ebony72-mahjong",
+    "vendor/ebony72-advanced",
+  ])
     visit(join(root, directory));
   for (const path of [
     "package.json",
@@ -230,6 +237,10 @@ async function playRegisteredGame(
   const sessions = [0, 1, 2, 3].map((actor) =>
     createPolicySession(actor === spec.seat ? spec.policy : lineup[actor], {
       timeoutMs: config.timeoutMs,
+      onEvaluation: (report) => {
+        if (report.status !== "not-applicable")
+          observers.onEvaluation({ actor, report });
+      },
     }),
   );
   const policies = Object.fromEntries(
@@ -295,10 +306,11 @@ export async function runIndependentBenchmark(
     rules: DEFAULT_RULES,
     fingerprint: frozen,
     runtime: options.runtime ?? runtime(),
-    protocol: "public-view-v1/independent-jsonl-v2",
+    protocol: "public-view-v2/independent-jsonl-v2",
     opening: {
       common: "teacher-v1 exchange and missing for all seats",
-      composite: "each policy; ebony-initial shares teacher-v1 exchange only",
+      composite:
+        "each policy; both ebony references share teacher-v1 exchange only",
     },
     pairing:
       "same initial seed, then trajectories and draw recipients may diverge; seed-cluster statistics",
@@ -377,6 +389,11 @@ export async function runIndependentBenchmark(
             for (const policy of config.policies) {
               const spec = { seed, seat, lineup, opening, policy };
               const decisions: IndependentDecisionTrace[] = [];
+              const evaluations: {
+                actor: number;
+                decisionIndex: number;
+                report: RolloutDecision;
+              }[] = [];
               let pending: Attempt | undefined;
               const observers: Observers = {
                 onDecision: (trace) => {
@@ -384,6 +401,12 @@ export async function runIndependentBenchmark(
                 },
                 onAttempt: (attempt) => {
                   pending = structuredClone(attempt);
+                },
+                onEvaluation: (event) => {
+                  evaluations.push({
+                    ...structuredClone(event),
+                    decisionIndex: decisions.length,
+                  });
                 },
               };
               try {
@@ -394,7 +417,12 @@ export async function runIndependentBenchmark(
                 )(spec, observers);
                 appendFileSync(
                   join(output, "traces.jsonl"),
-                  JSON.stringify({ kind: "game", ...spec, decisions }) + "\n",
+                  JSON.stringify({
+                    kind: "game",
+                    ...spec,
+                    decisions,
+                    evaluations,
+                  }) + "\n",
                 );
                 seedRecords.push({ ...spec, result });
               } catch (error) {
@@ -405,6 +433,7 @@ export async function runIndependentBenchmark(
                     ...spec,
                     pending,
                     decisions,
+                    evaluations,
                     error:
                       error instanceof Error ? error.message : String(error),
                   }) + "\n",

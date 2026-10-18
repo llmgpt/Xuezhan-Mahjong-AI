@@ -1,15 +1,24 @@
 import type { DecisionAction } from "../src/game/decision";
 import type { Phase } from "../src/game/game";
+import {
+  evaluateRolloutDecision,
+  type RolloutDecision,
+} from "../src/game/rolloutTeacher";
 import { chooseStrongAction } from "../src/game/strongTeacher";
 import { chooseTeacherAction } from "../src/game/teacher";
 import type { PlayerView } from "../src/game/view";
-import { ExternalMahjongWorker } from "./externalMahjong";
+import {
+  ExternalMahjongWorker,
+  type ExternalMahjongOptions,
+} from "./externalMahjong";
 import type { Policy } from "./independentRunner";
 
 export const INDEPENDENT_POLICY_IDS = [
   "teacher-v1",
   "candidate-v2",
+  "candidate-rollout-v3",
   "ebony-initial",
+  "ebony72-advanced-public-v1",
 ] as const;
 export type IndependentPolicyId = (typeof INDEPENDENT_POLICY_IDS)[number];
 
@@ -23,6 +32,12 @@ export const INDEPENDENT_LINEUPS = {
     "ebony-initial",
   ],
   "teacher-v1": ["teacher-v1", "teacher-v1", "teacher-v1", "teacher-v1"],
+  "ebony-advanced": [
+    "ebony72-advanced-public-v1",
+    "ebony72-advanced-public-v1",
+    "ebony72-advanced-public-v1",
+    "ebony72-advanced-public-v1",
+  ],
 } as const satisfies Record<string, readonly IndependentPolicyId[]>;
 
 interface Worker {
@@ -45,7 +60,11 @@ export function resolveLineup(name: string): readonly IndependentPolicyId[] {
 
 export function createPolicySession(
   name: string,
-  options: { timeoutMs?: number; workerFactory?: () => Worker } = {},
+  options: {
+    timeoutMs?: number;
+    workerFactory?: (options: ExternalMahjongOptions) => Worker;
+    onEvaluation?: (report: RolloutDecision) => void;
+  } = {},
 ): PolicySession {
   if (!INDEPENDENT_POLICY_IDS.includes(name as IndependentPolicyId))
     throw new Error(`未知策略 ${name}`);
@@ -60,12 +79,21 @@ export function createPolicySession(
         throw new Error("一个策略会话不能读取不同座位的暗牌");
       if (name === "teacher-v1") return chooseTeacherAction(view, phase);
       if (name === "candidate-v2") return chooseStrongAction(view, phase);
+      if (name === "candidate-rollout-v3") {
+        const report = evaluateRolloutDecision(view, phase);
+        options.onEvaluation?.(structuredClone(report));
+        return report.choices[0]?.action;
+      }
       // Upstream has no exchange implementation. The composite strategy states
       // this shared exchange explicitly; daquex and all later decisions are external.
       if (phase === "exchange") return chooseTeacherAction(view, phase);
+      const workerOptions: ExternalMahjongOptions = {
+        timeoutMs: options.timeoutMs,
+        policy: name === "ebony72-advanced-public-v1" ? name : undefined,
+      };
       worker ??=
-        options.workerFactory?.() ??
-        new ExternalMahjongWorker({ timeoutMs: options.timeoutMs });
+        options.workerFactory?.(workerOptions) ??
+        new ExternalMahjongWorker(workerOptions);
       return worker.act(view, phase);
     },
     close: async () => {
