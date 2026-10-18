@@ -5,6 +5,7 @@ import {
   type GameState,
   type ResponseChoice,
   type PublicTile,
+  type PublicAction,
 } from "./game";
 import type { Meld } from "./scoring";
 import type { Suit, Tile } from "./tiles";
@@ -29,6 +30,7 @@ export interface PlayerView {
   opponents: PublicOpponent[];
   wallRemaining: number;
   publicTiles?: PublicTile[];
+  publicActions?: PublicAction[];
   decision?:
     | {
         kind: "respond";
@@ -87,6 +89,7 @@ export function playerView(state: GameState, seat: number): PlayerView {
     ),
     wallRemaining: state.wall.length,
     publicTiles: state.publicTiles.map((item) => ({ ...item })),
+    publicActions: state.publicActions.map((item) => ({ ...item })),
     decision,
   };
 }

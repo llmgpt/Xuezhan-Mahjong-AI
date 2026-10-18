@@ -70,6 +70,28 @@ export interface PublicTile {
   kind: "discard" | "self-win";
 }
 
+// 真实公开动作按发生顺序保留；摸牌只公开座位，不公开暗牌。
+// publicTiles 是当前公开库存，认领后删除；此历史保留被认领的弃牌。
+export type PublicAction =
+  | { seat: number; kind: "draw" }
+  | { seat: number; kind: "discard"; tile: Tile }
+  | { seat: number; kind: "pung"; tile: Tile; from: number }
+  | {
+      seat: number;
+      kind: "kong";
+      tile: Tile;
+      kongKind: "direct" | "concealed";
+      from: number | null;
+    }
+  | { seat: number; kind: "added-kong-offer"; tile: Tile }
+  | {
+      seat: number;
+      kind: "win";
+      tile: Tile;
+      winKind: "discard" | "self" | "rob-kong";
+      from: number | null;
+    };
+
 export interface ScoreTransfer {
   from: number;
   to: number;
@@ -97,6 +119,7 @@ export interface GameState {
   afterKong: boolean;
   wins: WinRecord[];
   publicTiles: PublicTile[];
+  publicActions: PublicAction[];
   transfers: ScoreTransfer[];
   endReason?: "three-wins" | "wall";
   log: string[];
@@ -121,6 +144,7 @@ function copy(state: GameState): GameState {
     },
     wins: [...state.wins],
     publicTiles: state.publicTiles.map((item) => ({ ...item })),
+    publicActions: state.publicActions.map((item) => ({ ...item })),
     transfers: state.transfers.map((item) => ({ ...item })),
     log: [...state.log],
   };
@@ -187,6 +211,7 @@ function supplement(state: GameState, seat: number): void {
   if (state.wall.length === 0) throw new Error("牌墙已空，不能补牌");
   const drawn = state.wall.pop()!;
   state.players[seat].hand.push(drawn);
+  state.publicActions.push({ seat, kind: "draw" });
   state.turn = seat;
   state.phase = "discard";
   state.afterKong = true;
@@ -232,6 +257,13 @@ function applyWin(
   }
   if (payer === null)
     state.publicTiles.push({ seat: winner, tile, kind: "self-win" });
+  state.publicActions.push({
+    seat: winner,
+    kind: "win",
+    tile,
+    winKind: payer === null ? "self" : context.robKong ? "rob-kong" : "discard",
+    from: payer,
+  });
   player.won = true;
   state.wins.push({
     winner,
@@ -304,6 +336,7 @@ export function createGame(
     afterKong: false,
     wins: [],
     publicTiles: [],
+    publicActions: [],
     transfers: [],
     log: [`本局种子 ${seed}，庄家为 0 号玩家。`],
   };
@@ -447,6 +480,7 @@ export function draw(state: GameState, seat: number): GameState {
   const next = copy(state);
   const drawn = next.wall.shift()!;
   next.players[seat].hand.push(drawn);
+  next.publicActions.push({ seat, kind: "draw" });
   next.lastDraw = {
     seat,
     tile: drawn,
@@ -469,6 +503,7 @@ export function discard(
   next.players[seat].hand = removeOwned(next.players[seat].hand, [chosen]);
   next.players[seat].discards.push(chosen);
   next.publicTiles.push({ seat, tile: chosen, kind: "discard" });
+  next.publicActions.push({ seat, kind: "discard", tile: chosen });
   next.lastDiscard = { seat, tile: chosen };
   log(next, `${seat} 号玩家打出 ${labelOf(chosen)}。`);
   const eligible = next.players.flatMap((_, other) =>
@@ -540,6 +575,17 @@ function claimDiscard(
     from: pending.from,
     ...(kind === "kong" && { kongKind: "direct" as const }),
   });
+  state.publicActions.push(
+    kind === "kong"
+      ? {
+          seat,
+          kind: "kong",
+          tile: pending.tile,
+          kongKind: "direct",
+          from: pending.from,
+        }
+      : { seat, kind: "pung", tile: pending.tile, from: pending.from },
+  );
   state.pending = undefined;
   state.turn = seat;
   log(
@@ -665,6 +711,13 @@ export function declareKong(
       from: null,
       kongKind: "concealed",
     });
+    next.publicActions.push({
+      seat,
+      kind: "kong",
+      tile: chosen,
+      kongKind: "concealed",
+      from: null,
+    });
     for (let other = 0; other < 4; other += 1) {
       if (other !== seat && !next.players[other].won)
         transfer(next, other, seat, 2, "concealed-kong");
@@ -673,6 +726,7 @@ export function declareKong(
     supplement(next, seat);
     return next;
   }
+  next.publicActions.push({ seat, kind: "added-kong-offer", tile: chosen });
   const eligible = next.players.flatMap((player, other) =>
     other !== seat &&
     !player.won &&
