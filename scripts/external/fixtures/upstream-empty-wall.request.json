@@ -1,0 +1,325 @@
+{
+  "id": "artificial-empty-wall",
+  "phase": "discard",
+  "view": {
+    "seat": 3,
+    "hand": [0, 0, 0, 0, 1, 1, 1, 1, 9, 10, 11, 13, 14, 15],
+    "melds": [],
+    "missing": "tong",
+    "legalDiscards": [0, 1, 9, 10, 11, 13, 14, 15],
+    "ownDiscards": [13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
+    "opponents": [
+      {
+        "seat": 0,
+        "handCount": 13,
+        "melds": [],
+        "discards": [12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
+        "missing": "tong",
+        "won": false,
+        "score": 0
+      },
+      {
+        "seat": 1,
+        "handCount": 13,
+        "melds": [],
+        "discards": [12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
+        "missing": "tong",
+        "won": false,
+        "score": 0
+      },
+      {
+        "seat": 2,
+        "handCount": 13,
+        "melds": [],
+        "discards": [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
+        "missing": "tong",
+        "won": false,
+        "score": 0
+      }
+    ],
+    "wallRemaining": 0,
+    "publicTiles": [
+      {
+        "seat": 0,
+        "tile": 12,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 12,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 13,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 13,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 13,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 14,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 14,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 14,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 15,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 15,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 15,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 16,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 16,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 16,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 16,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 17,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 17,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 17,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 17,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 18,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 18,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 18,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 18,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 19,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 19,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 19,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 19,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 20,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 20,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 20,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 20,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 21,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 21,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 21,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 21,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 22,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 22,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 22,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 22,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 23,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 23,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 23,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 23,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 24,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 24,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 24,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 24,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 25,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 25,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 25,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 25,
+        "kind": "discard"
+      },
+      {
+        "seat": 3,
+        "tile": 26,
+        "kind": "discard"
+      },
+      {
+        "seat": 0,
+        "tile": 26,
+        "kind": "discard"
+      },
+      {
+        "seat": 1,
+        "tile": 26,
+        "kind": "discard"
+      },
+      {
+        "seat": 2,
+        "tile": 26,
+        "kind": "discard"
+      }
+    ],
+    "decision": {
+      "kind": "self",
+      "canWin": false,
+      "concealedKongs": [],
+      "addedKongs": []
+    }
+  }
+}
