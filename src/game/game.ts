@@ -64,6 +64,26 @@ export interface PendingResponse {
   seaBottom?: boolean;
 }
 
+export interface PublicTile {
+  seat: number;
+  tile: Tile;
+  kind: "discard" | "self-win";
+}
+
+export interface ScoreTransfer {
+  from: number;
+  to: number;
+  points: number;
+  reason:
+    | "self-win"
+    | "discard-win"
+    | "direct-kong"
+    | "concealed-kong"
+    | "added-kong"
+    | "flower"
+    | "ready";
+}
+
 export interface GameState {
   seed: number;
   rules: GameRules;
@@ -76,6 +96,8 @@ export interface GameState {
   lastDraw?: { seat: number; tile: Tile; fromKong: boolean; last: boolean };
   afterKong: boolean;
   wins: WinRecord[];
+  publicTiles: PublicTile[];
+  transfers: ScoreTransfer[];
   endReason?: "three-wins" | "wall";
   log: string[];
 }
@@ -98,6 +120,8 @@ function copy(state: GameState): GameState {
       answers: { ...state.pending.answers },
     },
     wins: [...state.wins],
+    publicTiles: state.publicTiles.map((item) => ({ ...item })),
+    transfers: state.transfers.map((item) => ({ ...item })),
     log: [...state.log],
   };
 }
@@ -130,9 +154,11 @@ function transfer(
   from: number,
   to: number,
   points: number,
+  reason: ScoreTransfer["reason"],
 ): void {
   state.players[from].score -= points;
   state.players[to].score += points;
+  state.transfers.push({ from, to, points, reason });
 }
 
 function log(state: GameState, message: string): void {
@@ -197,12 +223,15 @@ function applyWin(
           seat,
           winner,
           evaluation.points + state.rules.selfDrawBonus,
+          "self-win",
         );
       }
     }
   } else {
-    transfer(state, payer, winner, evaluation.points);
+    transfer(state, payer, winner, evaluation.points, "discard-win");
   }
+  if (payer === null)
+    state.publicTiles.push({ seat: winner, tile, kind: "self-win" });
   player.won = true;
   state.wins.push({
     winner,
@@ -274,6 +303,8 @@ export function createGame(
     turn: 0,
     afterKong: false,
     wins: [],
+    publicTiles: [],
+    transfers: [],
     log: [`本局种子 ${seed}，庄家为 0 号玩家。`],
   };
 }
@@ -437,6 +468,7 @@ export function discard(
   const next = copy(state);
   next.players[seat].hand = removeOwned(next.players[seat].hand, [chosen]);
   next.players[seat].discards.push(chosen);
+  next.publicTiles.push({ seat, tile: chosen, kind: "discard" });
   next.lastDiscard = { seat, tile: chosen };
   log(next, `${seat} 号玩家打出 ${labelOf(chosen)}。`);
   const eligible = next.players.flatMap((_, other) =>
@@ -488,6 +520,16 @@ function claimDiscard(
   const index = source.lastIndexOf(pending.tile);
   if (index < 0) throw new Error("待响应的弃牌不存在");
   source.splice(index, 1);
+  const publicIndex = state.publicTiles
+    .map(
+      (item) =>
+        item.kind === "discard" &&
+        item.seat === pending.from &&
+        item.tile === pending.tile,
+    )
+    .lastIndexOf(true);
+  if (publicIndex < 0) throw new Error("待认领的公开弃牌时序缺失");
+  state.publicTiles.splice(publicIndex, 1);
   state.players[seat].hand = removeOwned(
     state.players[seat].hand,
     Array(kind === "kong" ? 3 : 2).fill(pending.tile),
@@ -505,7 +547,7 @@ function claimDiscard(
     `${seat} 号玩家${kind === "kong" ? "直杠" : "碰"} ${labelOf(pending.tile)}。`,
   );
   if (kind === "kong") {
-    transfer(state, pending.from, seat, 2);
+    transfer(state, pending.from, seat, 2, "direct-kong");
     supplement(state, seat);
   } else {
     state.phase = "discard";
@@ -530,7 +572,7 @@ function finishAddedKong(
   meld.kongKind = "added";
   for (let other = 0; other < 4; other += 1) {
     if (other !== seat && !state.players[other].won)
-      transfer(state, other, seat, 1);
+      transfer(state, other, seat, 1, "added-kong");
   }
   state.pending = undefined;
   log(state, `${seat} 号玩家补杠 ${labelOf(chosen)}。`);
@@ -552,6 +594,11 @@ function resolveResponses(state: GameState): GameState {
         [pending.tile],
       );
       state.players[pending.from].discards.push(pending.tile);
+      state.publicTiles.push({
+        seat: pending.from,
+        tile: pending.tile,
+        kind: "discard",
+      });
       state.lastDiscard = { seat: pending.from, tile: pending.tile };
     }
     for (const seat of huSeats) {
@@ -620,7 +667,7 @@ export function declareKong(
     });
     for (let other = 0; other < 4; other += 1) {
       if (other !== seat && !next.players[other].won)
-        transfer(next, other, seat, 2);
+        transfer(next, other, seat, 2, "concealed-kong");
     }
     log(next, `${seat} 号玩家暗杠 ${labelOf(chosen)}。`);
     supplement(next, seat);
@@ -693,7 +740,8 @@ export function finishWall(state: GameState): GameState {
   );
   const clean = remaining.filter((seat) => !flowers.includes(seat));
   for (const from of flowers) {
-    for (const to of clean) transfer(next, from, to, next.rules.flowerPenalty);
+    for (const to of clean)
+      transfer(next, from, to, next.rules.flowerPenalty, "flower");
   }
   if (flowers.length) log(next, `查花猪：${flowers.join("、")} 号玩家支付。`);
   if (next.rules.checkTenpai) {
@@ -714,7 +762,7 @@ export function finishWall(state: GameState): GameState {
     const notReady = clean.filter((seat) => !ready.includes(seat));
     for (const from of notReady) {
       for (const to of ready)
-        transfer(next, from, to, waits.get(to)!.maxPoints);
+        transfer(next, from, to, waits.get(to)!.maxPoints, "ready");
     }
     if (ready.length && notReady.length)
       log(next, `查叫：${notReady.join("、")} 号玩家向听牌者支付。`);

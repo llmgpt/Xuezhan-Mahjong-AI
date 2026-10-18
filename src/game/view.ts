@@ -4,6 +4,7 @@ import {
   legalSelfActions,
   type GameState,
   type ResponseChoice,
+  type PublicTile,
 } from "./game";
 import type { Meld } from "./scoring";
 import type { Suit, Tile } from "./tiles";
@@ -27,6 +28,7 @@ export interface PlayerView {
   ownDiscards: Tile[];
   opponents: PublicOpponent[];
   wallRemaining: number;
+  publicTiles?: PublicTile[];
   decision?:
     | {
         kind: "respond";
@@ -84,6 +86,7 @@ export function playerView(state: GameState, seat: number): PlayerView {
           ],
     ),
     wallRemaining: state.wall.length,
+    publicTiles: state.publicTiles.map((item) => ({ ...item })),
     decision,
   };
 }
