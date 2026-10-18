@@ -1,0 +1,17 @@
+{
+  "repository": "https://github.com/ebony72/Mahjong",
+  "commit": "2d46ffa0ba84f486c336935d8f3e105f4e39e5a2",
+  "license": "MIT",
+  "strategy": "strategy_initial21_7attr",
+  "files": {
+    "strategy_initial21_7attr.py": "7a8a5c752e8866ce6f883a099b560ba5d94d9a4272891df5fbc602c725e4d387",
+    "dfncy/block_dfncy.py": "d91c3748b7d993a821f3ac675e17da114958b64750dc917e4febbf3871dd9bc5",
+    "utils/xzutils.py": "81ef9c8faed63df845cee4be71a16bbf124f6deadeffa9a18979c173a4f28968",
+    "utils/xzcard.py": "77285fe60d3e50618b469545211e12bfc10d758a82964e919fdb5e5ca85ae2da",
+    "utils/daque.py": "94fd752ce4fc47df17f6ef6310ac3031b9a4f6a62d6ee53e6edc805aec449010",
+    "utils/pusolx.py": "2fd5fb69393b83ed0f100a9f6c509959c151b88517c396ffd808e585455e02d1",
+    "license.md": "20b7d2ddbd084a84030ba985d5cb7011c406e75edcd40ddc5f974a3bc46b07f3"
+  },
+  "closureSha256": "ab085c0b203155dd8f9396ba01d2cf39cf92349b71d8ff6e10f18738450eabe9",
+  "modifications": "None. Files are exact Git object bytes at the pinned commit. The host adapter is separate."
+}
