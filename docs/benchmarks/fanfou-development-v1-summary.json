@@ -1,0 +1,2129 @@
+{
+  "version": 2,
+  "mode": "development",
+  "complete": true,
+  "completedSeeds": 40,
+  "totalSeeds": 40,
+  "manifest": {
+    "kind": "manifest",
+    "version": 2,
+    "config": {
+      "mode": "development",
+      "seeds": [
+        60000, 60001, 60002, 60003, 60004, 60005, 60006, 60007, 60008, 60009,
+        60010, 60011, 60012, 60013, 60014, 60015, 60016, 60017, 60018, 60019,
+        60020, 60021, 60022, 60023, 60024, 60025, 60026, 60027, 60028, 60029,
+        60030, 60031, 60032, 60033, 60034, 60035, 60036, 60037, 60038, 60039
+      ],
+      "seats": [0, 1, 2, 3],
+      "lineups": ["ebony-advanced", "fanfou-ba"],
+      "openings": ["common", "composite"],
+      "policies": [
+        "teacher-v1",
+        "ebony72-advanced-public-v1",
+        "candidate-advanced-discard-v5",
+        "fanfou-ba-composite-v1"
+      ],
+      "comparisons": [
+        {
+          "candidate": "candidate-advanced-discard-v5",
+          "baseline": "teacher-v1"
+        },
+        {
+          "candidate": "candidate-advanced-discard-v5",
+          "baseline": "ebony72-advanced-public-v1"
+        },
+        {
+          "candidate": "candidate-advanced-discard-v5",
+          "baseline": "fanfou-ba-composite-v1"
+        },
+        {
+          "candidate": "fanfou-ba-composite-v1",
+          "baseline": "teacher-v1"
+        },
+        {
+          "candidate": "ebony72-advanced-public-v1",
+          "baseline": "teacher-v1"
+        }
+      ],
+      "timeoutMs": 60000
+    },
+    "rules": {
+      "exchangeDirection": "clockwise",
+      "fanCap": 3,
+      "selfDrawBonus": 1,
+      "flowerPenalty": 8,
+      "checkTenpai": true
+    },
+    "fingerprint": {
+      "docs/RULES_V1.md": "506e7e8753c1c9987c746bfb763381c682c6fed66feb0f1383aaafcffe2b7fdb",
+      "package-lock.json": "a9b653297e32a165807acbcc287fcb80c2a1ac17770d2797fc0bf63dec44b425",
+      "package.json": "d63a148f7389f3718edfb747dc24052b28c629ae909a06e1e95beb9d98a79cd4",
+      "scripts/analyze-benchmark.ts": "da9ef8259f42fc0ad993792bab84f6fcbc07797b73a3253b62d9803108cacec1",
+      "scripts/benchmarkPolicies.ts": "33aac4b946089b41d1449b7c92a9a9a9d85777a2433b3c20490bab79e1f97962",
+      "scripts/benchmarkRunner.ts": "c0e777d7076c21c409c29d15ef94f96dc72a56b0a1151b0d008468caf71567c9",
+      "scripts/evaluate-advice.ts": "ca2654d686a55a5acf1611845da1e6329fb02046557f00c987773d3e0db310eb",
+      "scripts/evaluate-independent.ts": "90d47defebc29c9798e9c100fdb86e572cb798248a022052211dd88c2f635878",
+      "scripts/evaluationStats.ts": "656de18454ec58483875bd09833dd898f75dfc8343386fdbb62a7eabf5f95560",
+      "scripts/externalMahjong.ts": "edd0453e827d199c6a101f8cb5f47e49c0329bef21a8a6a747a4a10316a23619",
+      "scripts/external/README.md": "d82d33c754e38a337b1ed1cfdb0d9444dac0ea9b1714c74fa62ca2f6d11d1d28",
+      "scripts/external/advanced_policy.py": "2136a336b73bf3593b9874d3602234067f444e650af00943e11056bd0d8b5431",
+      "scripts/external/cap8_policy.py": "7a1ad260bee65d62fc36ceb2a0d5ba2dcc46687b9ea59db186bd4aef9d9a7898",
+      "scripts/external/fanfou_policy.py": "6ec88acd80f26ba0d4bcaf50e22bf45e3a49dc60fe326023a1bad6f3b7c41540",
+      "scripts/external/fixtures/advanced-dev-80007-wall-empty.request.json": "af5269d3c90ddce95db6a9a125db7545d834cb41c2747b250c10fba56108638c",
+      "scripts/external/fixtures/fanfou-dev-public.json": "04c7504b9f54e00a7c8c5ec5d59f8e083d317bda6ef68614aabe688e118bad26",
+      "scripts/external/fixtures/upstream-empty-wall.request.json": "bc8ea10fa0f18ff1f1c8b23a6e6811b6a9ef78226693ea6fccf15d53709cae1e",
+      "scripts/external/public_history_validation.py": "6dfb9bce71fd9cc7ecf878e2d3cb25f466c450db5417214e71ae4794fbabf328",
+      "scripts/external/worker.py": "fb9cfbc4ade43b0dd09546d86f417d620054e63cd2834f7f28c6b57aab2f3d11",
+      "scripts/formalAudit.ts": "d16a30503ae58b059a61ee64afaee987dd3e2000f2f1edb77ef93b1e2924f90c",
+      "scripts/formalProtocol.ts": "1ea2ee679f9b6b30d939c39e918684188264a34facc2d2c3a7ac5f416b67cf0f",
+      "scripts/independentBenchmark.ts": "7130405a705d184b24b36f72d025588cce97abcdc7427eb6dd7f87aeb84034d3",
+      "scripts/independentEvaluation.ts": "b68f5895881325bd12ac3dc34c604522f8a1c101be8e589f9824d4d1109541ed",
+      "scripts/independentPolicies.ts": "8e309cf6728da1b72c058f2f2e95bbe147272e8080f49d9f106d22ea46edabe6",
+      "scripts/independentRunner.ts": "131c493528f053594cd655724b0f0ff19fc043409adfc0f70731c831221643ee",
+      "src/game/actionAdvice.ts": "08036cafad433508906f0312801d4a418fc767180f9f0e7320162d9c29451ce4",
+      "src/game/advancedComponents.ts": "99cc9c60287d498d448e708ed932a4b06ccec71c59ebb463dcfe5761995ff681",
+      "src/game/advice.ts": "dba080f3c61d99bccefed33477f77ffdc394fd072a4a8ce9e265a2ba33b76e15",
+      "src/game/bot.ts": "7cf9998abb3a6b5ecc73ab7cbcf961cee5f299901c859418d0f220aced07b189",
+      "src/game/candidateEvaluation.ts": "62cac95d93809204168ffec5c537667bcfead9e80deec8b5cfeecce545de93f5",
+      "src/game/decision.ts": "13487f4ad5f6c049cca7e9691ec1845fd51878d1fa907bc5670af695108c4e97",
+      "src/game/demo.ts": "e0041c4141fe52310b92d92de8febbe1679e4160cee267ef6eeb6081d39ad3cb",
+      "src/game/game.ts": "c2c47f5e4bdb13aa5c3a88b108bdf7e8338d699c6945551de421b2c730cf7b55",
+      "src/game/immediateWin.ts": "b0f0c6f8ce39cdf8fed58a16426f0201c17188a18cb586062bbf2766dd455749",
+      "src/game/lookahead.ts": "abc9cd298f054b5544568f49f48ef2d215c5426ca79588e381e21e3bb0bd6171",
+      "src/game/openingAdvice.ts": "c34f9c41c16dfbab2ebad8aee62fe67c5d2dabdfe34337471e2a48ec6efd1ceb",
+      "src/game/publicSampler.ts": "2b4f0499f98511ccab8202ef2834d56c2201fdb61502f2cf7234302efcf59ad5",
+      "src/game/rolloutTeacher.ts": "6d5f4c67efb05dd338aab960156ba6acd669d10056e89c3e01fb4715ecab72c5",
+      "src/game/rules.ts": "89600183168a491703fbdb0daff02905c0e29ad49d09be73e81dc5a39194a552",
+      "src/game/sampledContinuation.ts": "61957e91b6389bb19e19d38dd209f6cf668a7769109b5f580d7535d3827936b6",
+      "src/game/scoring.ts": "c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e",
+      "src/game/session.ts": "497d3cdf840070006ba5bbb870d30cb2f2fd434099a710fa422d5326ef0f0d09",
+      "src/game/strongTeacher.ts": "18d611bb9885445654c6159ab97fe01694583aae115f7a11f5eecc8822086a6f",
+      "src/game/teacher.ts": "ef3ccd51b9b68a3729ff85dcfe81d45419f5657ff196ab0afca6632dced0806d",
+      "src/game/teacherEvaluation.ts": "8f76b448018c48b428f6855946b681148e3e712d52489b8ea1bd57c2c33f7d12",
+      "src/game/testHelpers.ts": "9c69f85f668f9ede112fe613ba2ae1a1e7b0910472eb3b5d65e5d067a98a9ba3",
+      "src/game/tiles.ts": "1de601067eeb8f78d1774136b0ac19a6f174db6ec36aa19344a1477fc153b979",
+      "src/game/view.ts": "3dfafba0db3775ae5b1bb2972edff360681411739dc16da594dc731a6db67981",
+      "tsconfig.app.json": "e45e6fb433318256734657fc4cef6815f9ae691210578d65cb2e5c7b5a848396",
+      "tsconfig.json": "ad28d132ee48d6e23917cf5827cace785d0fc01a44ca68b0dda51cc8c3fd3f52",
+      "tsconfig.node.json": "5ddf31a6eeab0925e8d10eb31708c8ae0a2bb973c3a18e662c1dad78f79962e5",
+      "vendor/ebony72-advanced/.gitattributes": "dbf3b6370c340788f04d61a0191f28774b6765a319f46d9565fbe19538a0308a",
+      "vendor/ebony72-advanced/PUBLIC_ONLY.patch": "a557c222d42db4837ae0ba5ab708705c533b9e0d0c73555984ed1ea098f32407",
+      "vendor/ebony72-advanced/UPSTREAM.json": "c0da2c0109aa701b42a0181c16e3acf5149c1f8e3ec47e3d0794ad5790cc6e12",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/__init__.py": "e5cc55ea4819c3e7879ce4f5602c9bc871f6de4c5a9ba02cb0eb0ea881f1db4b",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/hytreekong.py": "ff118a2cb16db3e1506f7cb6f59625a35ff091d3e879d02e66f5f581e66a2a57",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/own_hand_helpers.py": "572ac6fd4a0f4c874624afb039e5897de601bf50edd52e68217082f526a31f6a",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/public_history.py": "30a019cb33a06ff3b4cc6e5a2f4a358ce0050fb869734289f302450bc3b1976a",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/strategyz0614.py": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/__init__.py": "e5cc55ea4819c3e7879ce4f5602c9bc871f6de4c5a9ba02cb0eb0ea881f1db4b",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/hutype.py": "0990af6af0377b33806c5a51794616db42efb36dd4300535eda63d0d171e66db",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/hysolx.py": "6d4fea41dfbe45e067205ba3dfc73f2c8d0cdf10bc1543863723c17beac74b6f",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/pusolx.py": "b4888f599ec691806e99c0742be08c0e2cafa06b33e7f91553b58b21a92eda1a",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzcard.py": "77285fe60d3e50618b469545211e12bfc10d758a82964e919fdb5e5ca85ae2da",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzscore.py": "0eb1ce9a03eef24e2893966a9a5e57b191cf5b3dac2664b59c79f73a6a9be9c5",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzutils.py": "097f7397e542fe0bcc9b54be05d15f43e5dc866ee238d189736d2afb2be701cd",
+      "vendor/ebony72-advanced/upstream/hytreekong.py": "0f74179f96f85359809abe1be74c305eed33efbb8902c3d54717f742b62917e1",
+      "vendor/ebony72-advanced/upstream/license.md": "20b7d2ddbd084a84030ba985d5cb7011c406e75edcd40ddc5f974a3bc46b07f3",
+      "vendor/ebony72-advanced/upstream/strategyz0614.py": "ddb00bba5dad82cfc538856d067f9027b0a4db796dde5d498c8d5c4a67be25f4",
+      "vendor/ebony72-advanced/upstream/utils/hutype.py": "d2eac6144ba3092b3a97b9aa8ca8385af954525c4573f4be4c1a2d918a262f86",
+      "vendor/ebony72-advanced/upstream/utils/hysolx.py": "0c53070f56d19b9292063b4646bcaa42e47ce05c124ea4a4da06e86638d746ac",
+      "vendor/ebony72-advanced/upstream/utils/pusolx.py": "2fd5fb69393b83ed0f100a9f6c509959c151b88517c396ffd808e585455e02d1",
+      "vendor/ebony72-advanced/upstream/utils/xzcard.py": "77285fe60d3e50618b469545211e12bfc10d758a82964e919fdb5e5ca85ae2da",
+      "vendor/ebony72-advanced/upstream/utils/xzscore.py": "4a4ceabdbcbea23835e01de475e770474419813f563716038da69e1265ad81c8",
+      "vendor/ebony72-advanced/upstream/utils/xzutils.py": "81ef9c8faed63df845cee4be71a16bbf124f6deadeffa9a18979c173a4f28968",
+      "vendor/ebony72-advanced/upstream/xzdealer.py": "4e5aadeeddd3f3c763afb49cd1a5e535017019640990499d319c0584cc522fec",
+      "vendor/ebony72-advanced/upstream/xzplayer.py": "b4fa2d725a4a259dd390889a3cf2ae7356a846705c9edfd876ed2a18dfbe231d",
+      "vendor/ebony72-mahjong/.gitattributes": "fe885badf4b922fbb0a0ef013878ce2cc409cd18ac9dc527749d77669d92f770",
+      "vendor/ebony72-mahjong/UPSTREAM.json": "95903ffc4ff97acf3f3991fc442914fc6aaaa0d0cc0a9430ef55c0b657f383a1",
+      "vendor/ebony72-mahjong/dfncy/block_dfncy.py": "d91c3748b7d993a821f3ac675e17da114958b64750dc917e4febbf3871dd9bc5",
+      "vendor/ebony72-mahjong/license.md": "20b7d2ddbd084a84030ba985d5cb7011c406e75edcd40ddc5f974a3bc46b07f3",
+      "vendor/ebony72-mahjong/strategy_initial21_7attr.py": "7a8a5c752e8866ce6f883a099b560ba5d94d9a4272891df5fbc602c725e4d387",
+      "vendor/ebony72-mahjong/utils/daque.py": "94fd752ce4fc47df17f6ef6310ac3031b9a4f6a62d6ee53e6edc805aec449010",
+      "vendor/ebony72-mahjong/utils/pusolx.py": "2fd5fb69393b83ed0f100a9f6c509959c151b88517c396ffd808e585455e02d1",
+      "vendor/ebony72-mahjong/utils/xzcard.py": "77285fe60d3e50618b469545211e12bfc10d758a82964e919fdb5e5ca85ae2da",
+      "vendor/ebony72-mahjong/utils/xzutils.py": "81ef9c8faed63df845cee4be71a16bbf124f6deadeffa9a18979c173a4f28968",
+      "vendor/fanfou-ba/.gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+      "vendor/fanfou-ba/BA_CORE.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "vendor/fanfou-ba/README.md": "bc2dcf53052ab2fdb1fb991c94b1b4f553d9ede3cff7aeb30205f525cbac8089",
+      "vendor/fanfou-ba/UPSTREAM.json": "161407c492a5b0a97025708c77da65ae4980853c7bb7329f6f64d4abd0d6ff19",
+      "vendor/fanfou-ba/derived/ba-class.py": "63979cb3f000a0f5d3006d7f7c6dcacc0e2911b939bfd2511e999b0448d20aa2",
+      "vendor/fanfou-ba/derived/base-class.py": "b21e2058ce67eb2921c374cdf08327b403711050af347dccc15542058d52b927",
+      "vendor/fanfou-ba/requirements.txt": "6cd2b5e48aa4b25686cd42331ef15f999c029cc1063d0bcd52dbcc5ec2382efa",
+      "vendor/fanfou-ba/upstream/LICENSE": "a82198f7675beec151185825e4a2f5ab05187f7226901da208ca0731ba2a10ab",
+      "vendor/fanfou-ba/upstream/完整实验2.1/ai-demo/config/HuIndex.csv": "676c41b84eca6a2d302f2696fc3132dffa07e1d4d8c2b724856fda64b8020695",
+      "vendor/fanfou-ba/upstream/完整实验2.1/ai-demo/config/game_config.py": "ef831957199c387c4d1e8432fab18775f9cf21067ba02bbbc22ddddd793a8da3",
+      "vendor/fanfou-ba/upstream/完整实验2.1/ai-demo/config/log_config.py": "f41a836a217196b5d22d0add55d2209ff442f9bd8e9d28d9fcc408b7e38775fd",
+      "vendor/fanfou-ba/upstream/完整实验2.1/ai-demo/src/dazhong_mahjong_1.py": "4a3ce762062b9efa7f8c6a8ca4ceb1ca6720bf26e0f6c2ea172163e7ea4570c9",
+      "vendor/fanfou-ba/upstream/完整实验2.1/ai-demo/src/mahjong_no_state.py": "5f37c7967b5e0ccf63dabf32112e45239c577f4a05627e26eaae40f45c21c3a7",
+      "vite.config.ts": "252f601700bf38129f73542b01b385383814bfeeb1bc00c5cfa93ebe2314425b"
+    },
+    "runtime": {
+      "node": "v22.22.1",
+      "python": "3.13.5",
+      "numpy": "2.1.3"
+    },
+    "protocol": "public-view-v2/independent-jsonl-v2",
+    "opening": {
+      "common": "teacher-v1 exchange and missing for all seats",
+      "composite": "each policy; both ebony references share teacher-v1 exchange only"
+    },
+    "pairing": "same initial seed, then trajectories and draw recipients may diverge; seed-cluster statistics"
+  },
+  "summary": {
+    "version": 2,
+    "recordCount": 2560,
+    "uncertainty": "同种子内指定座位、阵容和开局等权平均，再按种子估计标准误及95%正态近似区间。共享初始牌墙不保证动作分歧后各家摸牌相同，也不保证降噪；小样本只作诊断，各开局分层单独解释，不自动判定通过。",
+    "overall": {
+      "byPolicy": {
+        "teacher-v1": {
+          "games": 640,
+          "meanScore": 0.0421875,
+          "winRate": 0.784375,
+          "dealInRate": 0.2359375,
+          "income": {
+            "attack": 0.2953125000000001,
+            "kong": -0.303125,
+            "penalty": 0.05,
+            "detail": {
+              "selfWin": 1.06875,
+              "discardWin": 0.90625,
+              "dealIn": -0.546875,
+              "paidSelfWin": -1.1328125,
+              "kong": -0.303125,
+              "flower": 0,
+              "ready": 0.05
+            }
+          }
+        },
+        "ebony72-advanced-public-v1": {
+          "games": 640,
+          "meanScore": 0.1203125,
+          "winRate": 0.6875,
+          "dealInRate": 0.3703125,
+          "income": {
+            "attack": 0.09687499999999982,
+            "kong": 0.003125,
+            "penalty": 0.0203125,
+            "detail": {
+              "selfWin": 2.096875,
+              "discardWin": 1.025,
+              "dealIn": -1.040625,
+              "paidSelfWin": -1.984375,
+              "kong": 0.003125,
+              "flower": 0,
+              "ready": 0.0203125
+            }
+          }
+        },
+        "candidate-advanced-discard-v5": {
+          "games": 640,
+          "meanScore": 0.1859375,
+          "winRate": 0.778125,
+          "dealInRate": 0.2859375,
+          "income": {
+            "attack": 0.48124999999999973,
+            "kong": -0.2875,
+            "penalty": -0.0078125,
+            "detail": {
+              "selfWin": 1.390625,
+              "discardWin": 1.2359375,
+              "dealIn": -0.85,
+              "paidSelfWin": -1.2953125,
+              "kong": -0.2875,
+              "flower": 0,
+              "ready": -0.0078125
+            }
+          }
+        },
+        "fanfou-ba-composite-v1": {
+          "games": 640,
+          "meanScore": -0.5359375,
+          "winRate": 0.7,
+          "dealInRate": 0.3375,
+          "income": {
+            "attack": -0.37656250000000013,
+            "kong": -0.0515625,
+            "penalty": -0.1078125,
+            "detail": {
+              "selfWin": 1.009375,
+              "discardWin": 0.9859375,
+              "dealIn": -0.8703125,
+              "paidSelfWin": -1.5015625,
+              "kong": -0.0515625,
+              "flower": 0,
+              "ready": -0.1078125
+            }
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "candidate": "candidate-advanced-discard-v5",
+          "baseline": "teacher-v1",
+          "meanScoreDifference": 0.14375,
+          "standardError": 0.2903547647673049,
+          "betterSeedFraction": 0.55,
+          "seedCount": 40,
+          "pairedGames": 640,
+          "confidenceInterval95NormalApprox": [
+            -0.4253453389439175, 0.7128453389439176
+          ],
+          "incomeDifference": {
+            "attack": 0.18593750000000006,
+            "kong": 0.015625,
+            "penalty": -0.0578125,
+            "detail": {
+              "selfWin": 0.321875,
+              "discardWin": 0.3296875,
+              "dealIn": -0.303125,
+              "paidSelfWin": -0.1625,
+              "kong": 0.015625,
+              "flower": 0,
+              "ready": -0.0578125
+            }
+          }
+        },
+        {
+          "candidate": "candidate-advanced-discard-v5",
+          "baseline": "ebony72-advanced-public-v1",
+          "meanScoreDifference": 0.065625,
+          "standardError": 0.2986007532739481,
+          "betterSeedFraction": 0.525,
+          "seedCount": 40,
+          "pairedGames": 640,
+          "confidenceInterval95NormalApprox": [
+            -0.5196324764169382, 0.6508824764169383
+          ],
+          "incomeDifference": {
+            "attack": 0.38437499999999997,
+            "kong": -0.290625,
+            "penalty": -0.028125,
+            "detail": {
+              "selfWin": -0.70625,
+              "discardWin": 0.2109375,
+              "dealIn": 0.190625,
+              "paidSelfWin": 0.6890625,
+              "kong": -0.290625,
+              "flower": 0,
+              "ready": -0.028125
+            }
+          }
+        },
+        {
+          "candidate": "candidate-advanced-discard-v5",
+          "baseline": "fanfou-ba-composite-v1",
+          "meanScoreDifference": 0.721875,
+          "standardError": 0.3333054124924989,
+          "betterSeedFraction": 0.675,
+          "seedCount": 40,
+          "pairedGames": 640,
+          "confidenceInterval95NormalApprox": [
+            0.0685963915147022, 1.3751536084852978
+          ],
+          "incomeDifference": {
+            "attack": 0.8578124999999999,
+            "kong": -0.2359375,
+            "penalty": 0.1,
+            "detail": {
+              "selfWin": 0.38125,
+              "discardWin": 0.25,
+              "dealIn": 0.0203125,
+              "paidSelfWin": 0.20625,
+              "kong": -0.2359375,
+              "flower": 0,
+              "ready": 0.1
+            }
+          }
+        },
+        {
+          "candidate": "fanfou-ba-composite-v1",
+          "baseline": "teacher-v1",
+          "meanScoreDifference": -0.578125,
+          "standardError": 0.23377594381597797,
+          "betterSeedFraction": 0.325,
+          "seedCount": 40,
+          "pairedGames": 640,
+          "confidenceInterval95NormalApprox": [
+            -1.0363258498793169, -0.11992415012068319
+          ],
+          "incomeDifference": {
+            "attack": -0.671875,
+            "kong": 0.2515625,
+            "penalty": -0.1578125,
+            "detail": {
+              "selfWin": -0.059375,
+              "discardWin": 0.0796875,
+              "dealIn": -0.3234375,
+              "paidSelfWin": -0.36875,
+              "kong": 0.2515625,
+              "flower": 0,
+              "ready": -0.1578125
+            }
+          }
+        },
+        {
+          "candidate": "ebony72-advanced-public-v1",
+          "baseline": "teacher-v1",
+          "meanScoreDifference": 0.078125,
+          "standardError": 0.29938630806757566,
+          "betterSeedFraction": 0.45,
+          "seedCount": 40,
+          "pairedGames": 640,
+          "confidenceInterval95NormalApprox": [
+            -0.5086721638124483, 0.6649221638124483
+          ],
+          "incomeDifference": {
+            "attack": -0.19843750000000016,
+            "kong": 0.30625,
+            "penalty": -0.0296875,
+            "detail": {
+              "selfWin": 1.028125,
+              "discardWin": 0.11875,
+              "dealIn": -0.49375,
+              "paidSelfWin": -0.8515625,
+              "kong": 0.30625,
+              "flower": 0,
+              "ready": -0.0296875
+            }
+          }
+        }
+      ]
+    },
+    "byOpening": {
+      "common": {
+        "byPolicy": {
+          "teacher-v1": {
+            "games": 320,
+            "meanScore": -0.015625,
+            "winRate": 0.78125,
+            "dealInRate": 0.2375,
+            "income": {
+              "attack": 0.2531249999999998,
+              "kong": -0.309375,
+              "penalty": 0.040625,
+              "detail": {
+                "selfWin": 1.0875,
+                "discardWin": 0.90625,
+                "dealIn": -0.553125,
+                "paidSelfWin": -1.1875,
+                "kong": -0.309375,
+                "flower": 0,
+                "ready": 0.040625
+              }
+            }
+          },
+          "ebony72-advanced-public-v1": {
+            "games": 320,
+            "meanScore": 0.10625,
+            "winRate": 0.68125,
+            "dealInRate": 0.3875,
+            "income": {
+              "attack": 0.06874999999999964,
+              "kong": 0.021875,
+              "penalty": 0.015625,
+              "detail": {
+                "selfWin": 2.178125,
+                "discardWin": 1.0125,
+                "dealIn": -1.0625,
+                "paidSelfWin": -2.059375,
+                "kong": 0.021875,
+                "flower": 0,
+                "ready": 0.015625
+              }
+            }
+          },
+          "candidate-advanced-discard-v5": {
+            "games": 320,
+            "meanScore": 0.103125,
+            "winRate": 0.771875,
+            "dealInRate": 0.296875,
+            "income": {
+              "attack": 0.3968750000000001,
+              "kong": -0.28125,
+              "penalty": -0.0125,
+              "detail": {
+                "selfWin": 1.39375,
+                "discardWin": 1.215625,
+                "dealIn": -0.859375,
+                "paidSelfWin": -1.353125,
+                "kong": -0.28125,
+                "flower": 0,
+                "ready": -0.0125
+              }
+            }
+          },
+          "fanfou-ba-composite-v1": {
+            "games": 320,
+            "meanScore": -0.6375,
+            "winRate": 0.684375,
+            "dealInRate": 0.346875,
+            "income": {
+              "attack": -0.4750000000000001,
+              "kong": -0.065625,
+              "penalty": -0.096875,
+              "detail": {
+                "selfWin": 0.99375,
+                "discardWin": 0.965625,
+                "dealIn": -0.865625,
+                "paidSelfWin": -1.56875,
+                "kong": -0.065625,
+                "flower": 0,
+                "ready": -0.096875
+              }
+            }
+          }
+        },
+        "comparisons": [
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": 0.11875,
+            "standardError": 0.3076205595434839,
+            "betterSeedFraction": 0.525,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.4841862967052284, 0.7216862967052284
+            ],
+            "incomeDifference": {
+              "attack": 0.14375000000000007,
+              "kong": 0.028125,
+              "penalty": -0.053125,
+              "detail": {
+                "selfWin": 0.30625,
+                "discardWin": 0.309375,
+                "dealIn": -0.30625,
+                "paidSelfWin": -0.165625,
+                "kong": 0.028125,
+                "flower": 0,
+                "ready": -0.053125
+              }
+            }
+          },
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "ebony72-advanced-public-v1",
+            "meanScoreDifference": -0.003125,
+            "standardError": 0.295752770946336,
+            "betterSeedFraction": 0.5,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.5828004310548186, 0.5765504310548185
+            ],
+            "incomeDifference": {
+              "attack": 0.328125,
+              "kong": -0.303125,
+              "penalty": -0.028125,
+              "detail": {
+                "selfWin": -0.784375,
+                "discardWin": 0.203125,
+                "dealIn": 0.203125,
+                "paidSelfWin": 0.70625,
+                "kong": -0.303125,
+                "flower": 0,
+                "ready": -0.028125
+              }
+            }
+          },
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "fanfou-ba-composite-v1",
+            "meanScoreDifference": 0.740625,
+            "standardError": 0.3407543567595887,
+            "betterSeedFraction": 0.675,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              0.07274646075120617, 1.4085035392487937
+            ],
+            "incomeDifference": {
+              "attack": 0.871875,
+              "kong": -0.215625,
+              "penalty": 0.084375,
+              "detail": {
+                "selfWin": 0.4,
+                "discardWin": 0.25,
+                "dealIn": 0.00625,
+                "paidSelfWin": 0.215625,
+                "kong": -0.215625,
+                "flower": 0,
+                "ready": 0.084375
+              }
+            }
+          },
+          {
+            "candidate": "fanfou-ba-composite-v1",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": -0.621875,
+            "standardError": 0.2339172881090281,
+            "betterSeedFraction": 0.3,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -1.080352884693695, -0.1633971153063049
+            ],
+            "incomeDifference": {
+              "attack": -0.7281249999999999,
+              "kong": 0.24375,
+              "penalty": -0.1375,
+              "detail": {
+                "selfWin": -0.09375,
+                "discardWin": 0.059375,
+                "dealIn": -0.3125,
+                "paidSelfWin": -0.38125,
+                "kong": 0.24375,
+                "flower": 0,
+                "ready": -0.1375
+              }
+            }
+          },
+          {
+            "candidate": "ebony72-advanced-public-v1",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": 0.121875,
+            "standardError": 0.31003797779672415,
+            "betterSeedFraction": 0.475,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.48579943648157936, 0.7295494364815793
+            ],
+            "incomeDifference": {
+              "attack": -0.18437500000000007,
+              "kong": 0.33125,
+              "penalty": -0.025,
+              "detail": {
+                "selfWin": 1.090625,
+                "discardWin": 0.10625,
+                "dealIn": -0.509375,
+                "paidSelfWin": -0.871875,
+                "kong": 0.33125,
+                "flower": 0,
+                "ready": -0.025
+              }
+            }
+          }
+        ],
+        "byLineup": {
+          "ebony-advanced": {
+            "byPolicy": {
+              "teacher-v1": {
+                "games": 160,
+                "meanScore": -0.225,
+                "winRate": 0.80625,
+                "dealInRate": 0.18125,
+                "income": {
+                  "attack": 0.19374999999999987,
+                  "kong": -0.3875,
+                  "penalty": -0.03125,
+                  "detail": {
+                    "selfWin": 1.26875,
+                    "discardWin": 0.95,
+                    "dealIn": -0.475,
+                    "paidSelfWin": -1.55,
+                    "kong": -0.3875,
+                    "flower": 0,
+                    "ready": -0.03125
+                  }
+                }
+              },
+              "ebony72-advanced-public-v1": {
+                "games": 160,
+                "meanScore": 0,
+                "winRate": 0.7,
+                "dealInRate": 0.3125,
+                "income": {
+                  "attack": 0,
+                  "kong": 0,
+                  "penalty": 0,
+                  "detail": {
+                    "selfWin": 2.5375,
+                    "discardWin": 0.96875,
+                    "dealIn": -0.96875,
+                    "paidSelfWin": -2.5375,
+                    "kong": 0,
+                    "flower": 0,
+                    "ready": 0
+                  }
+                }
+              },
+              "candidate-advanced-discard-v5": {
+                "games": 160,
+                "meanScore": -0.14375,
+                "winRate": 0.7875,
+                "dealInRate": 0.23125,
+                "income": {
+                  "attack": 0.11874999999999991,
+                  "kong": -0.25,
+                  "penalty": -0.0125,
+                  "detail": {
+                    "selfWin": 1.35,
+                    "discardWin": 1.275,
+                    "dealIn": -0.81875,
+                    "paidSelfWin": -1.6875,
+                    "kong": -0.25,
+                    "flower": 0,
+                    "ready": -0.0125
+                  }
+                }
+              },
+              "fanfou-ba-composite-v1": {
+                "games": 160,
+                "meanScore": -1.275,
+                "winRate": 0.675,
+                "dealInRate": 0.28125,
+                "income": {
+                  "attack": -0.95,
+                  "kong": -0.13125,
+                  "penalty": -0.19375,
+                  "detail": {
+                    "selfWin": 0.875,
+                    "discardWin": 1.04375,
+                    "dealIn": -0.84375,
+                    "paidSelfWin": -2.025,
+                    "kong": -0.13125,
+                    "flower": 0,
+                    "ready": -0.19375
+                  }
+                }
+              }
+            },
+            "comparisons": [
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": 0.08125,
+                "standardError": 0.45019471392800464,
+                "betterSeedFraction": 0.5,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.8011316392988891, 0.9636316392988892
+                ],
+                "incomeDifference": {
+                  "attack": -0.07500000000000001,
+                  "kong": 0.1375,
+                  "penalty": 0.01875,
+                  "detail": {
+                    "selfWin": 0.08125,
+                    "discardWin": 0.325,
+                    "dealIn": -0.34375,
+                    "paidSelfWin": -0.1375,
+                    "kong": 0.1375,
+                    "flower": 0,
+                    "ready": 0.01875
+                  }
+                }
+              },
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "ebony72-advanced-public-v1",
+                "meanScoreDifference": -0.14375,
+                "standardError": 0.36094244293984684,
+                "betterSeedFraction": 0.45,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.8511971881620999, 0.5636971881620998
+                ],
+                "incomeDifference": {
+                  "attack": 0.11875000000000002,
+                  "kong": -0.25,
+                  "penalty": -0.0125,
+                  "detail": {
+                    "selfWin": -1.1875,
+                    "discardWin": 0.30625,
+                    "dealIn": 0.15,
+                    "paidSelfWin": 0.85,
+                    "kong": -0.25,
+                    "flower": 0,
+                    "ready": -0.0125
+                  }
+                }
+              },
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "fanfou-ba-composite-v1",
+                "meanScoreDifference": 1.13125,
+                "standardError": 0.531310328399611,
+                "betterSeedFraction": 0.675,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  0.08988175633676243, 2.172618243663238
+                ],
+                "incomeDifference": {
+                  "attack": 1.06875,
+                  "kong": -0.11875,
+                  "penalty": 0.18125,
+                  "detail": {
+                    "selfWin": 0.475,
+                    "discardWin": 0.23125,
+                    "dealIn": 0.025,
+                    "paidSelfWin": 0.3375,
+                    "kong": -0.11875,
+                    "flower": 0,
+                    "ready": 0.18125
+                  }
+                }
+              },
+              {
+                "candidate": "fanfou-ba-composite-v1",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": -1.05,
+                "standardError": 0.4115908785214406,
+                "betterSeedFraction": 0.3,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -1.8567181219020235, -0.24328187809797652
+                ],
+                "incomeDifference": {
+                  "attack": -1.1437499999999998,
+                  "kong": 0.25625,
+                  "penalty": -0.1625,
+                  "detail": {
+                    "selfWin": -0.39375,
+                    "discardWin": 0.09375,
+                    "dealIn": -0.36875,
+                    "paidSelfWin": -0.475,
+                    "kong": 0.25625,
+                    "flower": 0,
+                    "ready": -0.1625
+                  }
+                }
+              },
+              {
+                "candidate": "ebony72-advanced-public-v1",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": 0.225,
+                "standardError": 0.3414242417001359,
+                "betterSeedFraction": 0.5,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.4441915137322664, 0.8941915137322664
+                ],
+                "incomeDifference": {
+                  "attack": -0.19374999999999998,
+                  "kong": 0.3875,
+                  "penalty": 0.03125,
+                  "detail": {
+                    "selfWin": 1.26875,
+                    "discardWin": 0.01875,
+                    "dealIn": -0.49375,
+                    "paidSelfWin": -0.9875,
+                    "kong": 0.3875,
+                    "flower": 0,
+                    "ready": 0.03125
+                  }
+                }
+              }
+            ]
+          },
+          "fanfou-ba": {
+            "byPolicy": {
+              "teacher-v1": {
+                "games": 160,
+                "meanScore": 0.19375,
+                "winRate": 0.75625,
+                "dealInRate": 0.29375,
+                "income": {
+                  "attack": 0.3125000000000002,
+                  "kong": -0.23125,
+                  "penalty": 0.1125,
+                  "detail": {
+                    "selfWin": 0.90625,
+                    "discardWin": 0.8625,
+                    "dealIn": -0.63125,
+                    "paidSelfWin": -0.825,
+                    "kong": -0.23125,
+                    "flower": 0,
+                    "ready": 0.1125
+                  }
+                }
+              },
+              "ebony72-advanced-public-v1": {
+                "games": 160,
+                "meanScore": 0.2125,
+                "winRate": 0.6625,
+                "dealInRate": 0.4625,
+                "income": {
+                  "attack": 0.13749999999999996,
+                  "kong": 0.04375,
+                  "penalty": 0.03125,
+                  "detail": {
+                    "selfWin": 1.81875,
+                    "discardWin": 1.05625,
+                    "dealIn": -1.15625,
+                    "paidSelfWin": -1.58125,
+                    "kong": 0.04375,
+                    "flower": 0,
+                    "ready": 0.03125
+                  }
+                }
+              },
+              "candidate-advanced-discard-v5": {
+                "games": 160,
+                "meanScore": 0.35,
+                "winRate": 0.75625,
+                "dealInRate": 0.3625,
+                "income": {
+                  "attack": 0.675,
+                  "kong": -0.3125,
+                  "penalty": -0.0125,
+                  "detail": {
+                    "selfWin": 1.4375,
+                    "discardWin": 1.15625,
+                    "dealIn": -0.9,
+                    "paidSelfWin": -1.01875,
+                    "kong": -0.3125,
+                    "flower": 0,
+                    "ready": -0.0125
+                  }
+                }
+              },
+              "fanfou-ba-composite-v1": {
+                "games": 160,
+                "meanScore": 0,
+                "winRate": 0.69375,
+                "dealInRate": 0.4125,
+                "income": {
+                  "attack": 0,
+                  "kong": 0,
+                  "penalty": 0,
+                  "detail": {
+                    "selfWin": 1.1125,
+                    "discardWin": 0.8875,
+                    "dealIn": -0.8875,
+                    "paidSelfWin": -1.1125,
+                    "kong": 0,
+                    "flower": 0,
+                    "ready": 0
+                  }
+                }
+              }
+            },
+            "comparisons": [
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": 0.15625,
+                "standardError": 0.35363128840789193,
+                "betterSeedFraction": 0.475,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.5368673252794681, 0.8493673252794681
+                ],
+                "incomeDifference": {
+                  "attack": 0.36249999999999993,
+                  "kong": -0.08125,
+                  "penalty": -0.125,
+                  "detail": {
+                    "selfWin": 0.53125,
+                    "discardWin": 0.29375,
+                    "dealIn": -0.26875,
+                    "paidSelfWin": -0.19375,
+                    "kong": -0.08125,
+                    "flower": 0,
+                    "ready": -0.125
+                  }
+                }
+              },
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "ebony72-advanced-public-v1",
+                "meanScoreDifference": 0.1375,
+                "standardError": 0.3947725326869924,
+                "betterSeedFraction": 0.375,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.6362541640665051, 0.9112541640665051
+                ],
+                "incomeDifference": {
+                  "attack": 0.5375,
+                  "kong": -0.35625,
+                  "penalty": -0.04375,
+                  "detail": {
+                    "selfWin": -0.38125,
+                    "discardWin": 0.1,
+                    "dealIn": 0.25625,
+                    "paidSelfWin": 0.5625,
+                    "kong": -0.35625,
+                    "flower": 0,
+                    "ready": -0.04375
+                  }
+                }
+              },
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "fanfou-ba-composite-v1",
+                "meanScoreDifference": 0.35,
+                "standardError": 0.352850117086852,
+                "betterSeedFraction": 0.5,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.3415862294902299, 1.0415862294902298
+                ],
+                "incomeDifference": {
+                  "attack": 0.675,
+                  "kong": -0.3125,
+                  "penalty": -0.0125,
+                  "detail": {
+                    "selfWin": 0.325,
+                    "discardWin": 0.26875,
+                    "dealIn": -0.0125,
+                    "paidSelfWin": 0.09375,
+                    "kong": -0.3125,
+                    "flower": 0,
+                    "ready": -0.0125
+                  }
+                }
+              },
+              {
+                "candidate": "fanfou-ba-composite-v1",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": -0.19375,
+                "standardError": 0.2545243647346747,
+                "betterSeedFraction": 0.425,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.6926177548799625, 0.3051177548799624
+                ],
+                "incomeDifference": {
+                  "attack": -0.3125,
+                  "kong": 0.23125,
+                  "penalty": -0.1125,
+                  "detail": {
+                    "selfWin": 0.20625,
+                    "discardWin": 0.025,
+                    "dealIn": -0.25625,
+                    "paidSelfWin": -0.2875,
+                    "kong": 0.23125,
+                    "flower": 0,
+                    "ready": -0.1125
+                  }
+                }
+              },
+              {
+                "candidate": "ebony72-advanced-public-v1",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": 0.01875,
+                "standardError": 0.4810834710211354,
+                "betterSeedFraction": 0.55,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.9241736032014254, 0.9616736032014255
+                ],
+                "incomeDifference": {
+                  "attack": -0.17500000000000004,
+                  "kong": 0.275,
+                  "penalty": -0.08125,
+                  "detail": {
+                    "selfWin": 0.9125,
+                    "discardWin": 0.19375,
+                    "dealIn": -0.525,
+                    "paidSelfWin": -0.75625,
+                    "kong": 0.275,
+                    "flower": 0,
+                    "ready": -0.08125
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "composite": {
+        "byPolicy": {
+          "teacher-v1": {
+            "games": 320,
+            "meanScore": 0.1,
+            "winRate": 0.7875,
+            "dealInRate": 0.234375,
+            "income": {
+              "attack": 0.3374999999999999,
+              "kong": -0.296875,
+              "penalty": 0.059375,
+              "detail": {
+                "selfWin": 1.05,
+                "discardWin": 0.90625,
+                "dealIn": -0.540625,
+                "paidSelfWin": -1.078125,
+                "kong": -0.296875,
+                "flower": 0,
+                "ready": 0.059375
+              }
+            }
+          },
+          "ebony72-advanced-public-v1": {
+            "games": 320,
+            "meanScore": 0.134375,
+            "winRate": 0.69375,
+            "dealInRate": 0.353125,
+            "income": {
+              "attack": 0.12499999999999978,
+              "kong": -0.015625,
+              "penalty": 0.025,
+              "detail": {
+                "selfWin": 2.015625,
+                "discardWin": 1.0375,
+                "dealIn": -1.01875,
+                "paidSelfWin": -1.909375,
+                "kong": -0.015625,
+                "flower": 0,
+                "ready": 0.025
+              }
+            }
+          },
+          "candidate-advanced-discard-v5": {
+            "games": 320,
+            "meanScore": 0.26875,
+            "winRate": 0.784375,
+            "dealInRate": 0.275,
+            "income": {
+              "attack": 0.5656249999999998,
+              "kong": -0.29375,
+              "penalty": -0.003125,
+              "detail": {
+                "selfWin": 1.3875,
+                "discardWin": 1.25625,
+                "dealIn": -0.840625,
+                "paidSelfWin": -1.2375,
+                "kong": -0.29375,
+                "flower": 0,
+                "ready": -0.003125
+              }
+            }
+          },
+          "fanfou-ba-composite-v1": {
+            "games": 320,
+            "meanScore": -0.434375,
+            "winRate": 0.715625,
+            "dealInRate": 0.328125,
+            "income": {
+              "attack": -0.27812499999999996,
+              "kong": -0.0375,
+              "penalty": -0.11875,
+              "detail": {
+                "selfWin": 1.025,
+                "discardWin": 1.00625,
+                "dealIn": -0.875,
+                "paidSelfWin": -1.434375,
+                "kong": -0.0375,
+                "flower": 0,
+                "ready": -0.11875
+              }
+            }
+          }
+        },
+        "comparisons": [
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": 0.16875,
+            "standardError": 0.29049271527562465,
+            "betterSeedFraction": 0.5,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.40061572194022427, 0.7381157219402243
+            ],
+            "incomeDifference": {
+              "attack": 0.22812500000000002,
+              "kong": 0.003125,
+              "penalty": -0.0625,
+              "detail": {
+                "selfWin": 0.3375,
+                "discardWin": 0.35,
+                "dealIn": -0.3,
+                "paidSelfWin": -0.159375,
+                "kong": 0.003125,
+                "flower": 0,
+                "ready": -0.0625
+              }
+            }
+          },
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "ebony72-advanced-public-v1",
+            "meanScoreDifference": 0.134375,
+            "standardError": 0.31203129915225014,
+            "betterSeedFraction": 0.5,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.4772063463384102, 0.7459563463384102
+            ],
+            "incomeDifference": {
+              "attack": 0.44062499999999993,
+              "kong": -0.278125,
+              "penalty": -0.028125,
+              "detail": {
+                "selfWin": -0.628125,
+                "discardWin": 0.21875,
+                "dealIn": 0.178125,
+                "paidSelfWin": 0.671875,
+                "kong": -0.278125,
+                "flower": 0,
+                "ready": -0.028125
+              }
+            }
+          },
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "fanfou-ba-composite-v1",
+            "meanScoreDifference": 0.703125,
+            "standardError": 0.342112577414219,
+            "betterSeedFraction": 0.675,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              0.032584348268130725, 1.3736656517318693
+            ],
+            "incomeDifference": {
+              "attack": 0.8437500000000001,
+              "kong": -0.25625,
+              "penalty": 0.115625,
+              "detail": {
+                "selfWin": 0.3625,
+                "discardWin": 0.25,
+                "dealIn": 0.034375,
+                "paidSelfWin": 0.196875,
+                "kong": -0.25625,
+                "flower": 0,
+                "ready": 0.115625
+              }
+            }
+          },
+          {
+            "candidate": "fanfou-ba-composite-v1",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": -0.534375,
+            "standardError": 0.2560559576450289,
+            "betterSeedFraction": 0.325,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -1.0362446769842566, -0.03250532301574338
+            ],
+            "incomeDifference": {
+              "attack": -0.615625,
+              "kong": 0.259375,
+              "penalty": -0.178125,
+              "detail": {
+                "selfWin": -0.025,
+                "discardWin": 0.1,
+                "dealIn": -0.334375,
+                "paidSelfWin": -0.35625,
+                "kong": 0.259375,
+                "flower": 0,
+                "ready": -0.178125
+              }
+            }
+          },
+          {
+            "candidate": "ebony72-advanced-public-v1",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": 0.034375,
+            "standardError": 0.30729601257248473,
+            "betterSeedFraction": 0.475,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.56792518464207, 0.6366751846420701
+            ],
+            "incomeDifference": {
+              "attack": -0.21250000000000002,
+              "kong": 0.28125,
+              "penalty": -0.034375,
+              "detail": {
+                "selfWin": 0.965625,
+                "discardWin": 0.13125,
+                "dealIn": -0.478125,
+                "paidSelfWin": -0.83125,
+                "kong": 0.28125,
+                "flower": 0,
+                "ready": -0.034375
+              }
+            }
+          }
+        ],
+        "byLineup": {
+          "ebony-advanced": {
+            "byPolicy": {
+              "teacher-v1": {
+                "games": 160,
+                "meanScore": 0.06875,
+                "winRate": 0.825,
+                "dealInRate": 0.16875,
+                "income": {
+                  "attack": 0.4249999999999998,
+                  "kong": -0.3625,
+                  "penalty": 0.00625,
+                  "detail": {
+                    "selfWin": 1.19375,
+                    "discardWin": 0.9625,
+                    "dealIn": -0.44375,
+                    "paidSelfWin": -1.2875,
+                    "kong": -0.3625,
+                    "flower": 0,
+                    "ready": 0.00625
+                  }
+                }
+              },
+              "ebony72-advanced-public-v1": {
+                "games": 160,
+                "meanScore": 0,
+                "winRate": 0.7,
+                "dealInRate": 0.3125,
+                "income": {
+                  "attack": 0,
+                  "kong": 0,
+                  "penalty": 0,
+                  "detail": {
+                    "selfWin": 2.20625,
+                    "discardWin": 1.05,
+                    "dealIn": -1.05,
+                    "paidSelfWin": -2.20625,
+                    "kong": 0,
+                    "flower": 0,
+                    "ready": 0
+                  }
+                }
+              },
+              "candidate-advanced-discard-v5": {
+                "games": 160,
+                "meanScore": 0.0625,
+                "winRate": 0.80625,
+                "dealInRate": 0.2125,
+                "income": {
+                  "attack": 0.3374999999999999,
+                  "kong": -0.26875,
+                  "penalty": -0.00625,
+                  "detail": {
+                    "selfWin": 1.3375,
+                    "discardWin": 1.30625,
+                    "dealIn": -0.8125,
+                    "paidSelfWin": -1.49375,
+                    "kong": -0.26875,
+                    "flower": 0,
+                    "ready": -0.00625
+                  }
+                }
+              },
+              "fanfou-ba-composite-v1": {
+                "games": 160,
+                "meanScore": -0.86875,
+                "winRate": 0.73125,
+                "dealInRate": 0.25625,
+                "income": {
+                  "attack": -0.5562500000000001,
+                  "kong": -0.075,
+                  "penalty": -0.2375,
+                  "detail": {
+                    "selfWin": 0.91875,
+                    "discardWin": 1.14375,
+                    "dealIn": -0.88125,
+                    "paidSelfWin": -1.7375,
+                    "kong": -0.075,
+                    "flower": 0,
+                    "ready": -0.2375
+                  }
+                }
+              }
+            },
+            "comparisons": [
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": -0.00625,
+                "standardError": 0.40809983185050486,
+                "betterSeedFraction": 0.45,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.8061256704269895, 0.7936256704269895
+                ],
+                "incomeDifference": {
+                  "attack": -0.08750000000000002,
+                  "kong": 0.09375,
+                  "penalty": -0.0125,
+                  "detail": {
+                    "selfWin": 0.14375,
+                    "discardWin": 0.34375,
+                    "dealIn": -0.36875,
+                    "paidSelfWin": -0.20625,
+                    "kong": 0.09375,
+                    "flower": 0,
+                    "ready": -0.0125
+                  }
+                }
+              },
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "ebony72-advanced-public-v1",
+                "meanScoreDifference": 0.0625,
+                "standardError": 0.34631184072399407,
+                "betterSeedFraction": 0.525,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.6162712078190283, 0.7412712078190283
+                ],
+                "incomeDifference": {
+                  "attack": 0.33749999999999997,
+                  "kong": -0.26875,
+                  "penalty": -0.00625,
+                  "detail": {
+                    "selfWin": -0.86875,
+                    "discardWin": 0.25625,
+                    "dealIn": 0.2375,
+                    "paidSelfWin": 0.7125,
+                    "kong": -0.26875,
+                    "flower": 0,
+                    "ready": -0.00625
+                  }
+                }
+              },
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "fanfou-ba-composite-v1",
+                "meanScoreDifference": 0.93125,
+                "standardError": 0.5337929334801402,
+                "betterSeedFraction": 0.625,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.11498414962107473, 1.9774841496210747
+                ],
+                "incomeDifference": {
+                  "attack": 0.89375,
+                  "kong": -0.19375,
+                  "penalty": 0.23125,
+                  "detail": {
+                    "selfWin": 0.41875,
+                    "discardWin": 0.1625,
+                    "dealIn": 0.06875,
+                    "paidSelfWin": 0.24375,
+                    "kong": -0.19375,
+                    "flower": 0,
+                    "ready": 0.23125
+                  }
+                }
+              },
+              {
+                "candidate": "fanfou-ba-composite-v1",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": -0.9375,
+                "standardError": 0.4459351668986458,
+                "betterSeedFraction": 0.325,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -1.8115329271213458, -0.06346707287865416
+                ],
+                "incomeDifference": {
+                  "attack": -0.98125,
+                  "kong": 0.2875,
+                  "penalty": -0.24375,
+                  "detail": {
+                    "selfWin": -0.275,
+                    "discardWin": 0.18125,
+                    "dealIn": -0.4375,
+                    "paidSelfWin": -0.45,
+                    "kong": 0.2875,
+                    "flower": 0,
+                    "ready": -0.24375
+                  }
+                }
+              },
+              {
+                "candidate": "ebony72-advanced-public-v1",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": -0.06875,
+                "standardError": 0.31137457603755014,
+                "betterSeedFraction": 0.475,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.6790441690335982, 0.5415441690335983
+                ],
+                "incomeDifference": {
+                  "attack": -0.42500000000000004,
+                  "kong": 0.3625,
+                  "penalty": -0.00625,
+                  "detail": {
+                    "selfWin": 1.0125,
+                    "discardWin": 0.0875,
+                    "dealIn": -0.60625,
+                    "paidSelfWin": -0.91875,
+                    "kong": 0.3625,
+                    "flower": 0,
+                    "ready": -0.00625
+                  }
+                }
+              }
+            ]
+          },
+          "fanfou-ba": {
+            "byPolicy": {
+              "teacher-v1": {
+                "games": 160,
+                "meanScore": 0.13125,
+                "winRate": 0.75,
+                "dealInRate": 0.3,
+                "income": {
+                  "attack": 0.2500000000000001,
+                  "kong": -0.23125,
+                  "penalty": 0.1125,
+                  "detail": {
+                    "selfWin": 0.90625,
+                    "discardWin": 0.85,
+                    "dealIn": -0.6375,
+                    "paidSelfWin": -0.86875,
+                    "kong": -0.23125,
+                    "flower": 0,
+                    "ready": 0.1125
+                  }
+                }
+              },
+              "ebony72-advanced-public-v1": {
+                "games": 160,
+                "meanScore": 0.26875,
+                "winRate": 0.6875,
+                "dealInRate": 0.39375,
+                "income": {
+                  "attack": 0.24999999999999956,
+                  "kong": -0.03125,
+                  "penalty": 0.05,
+                  "detail": {
+                    "selfWin": 1.825,
+                    "discardWin": 1.025,
+                    "dealIn": -0.9875,
+                    "paidSelfWin": -1.6125,
+                    "kong": -0.03125,
+                    "flower": 0,
+                    "ready": 0.05
+                  }
+                }
+              },
+              "candidate-advanced-discard-v5": {
+                "games": 160,
+                "meanScore": 0.475,
+                "winRate": 0.7625,
+                "dealInRate": 0.3375,
+                "income": {
+                  "attack": 0.79375,
+                  "kong": -0.31875,
+                  "penalty": 0,
+                  "detail": {
+                    "selfWin": 1.4375,
+                    "discardWin": 1.20625,
+                    "dealIn": -0.86875,
+                    "paidSelfWin": -0.98125,
+                    "kong": -0.31875,
+                    "flower": 0,
+                    "ready": 0
+                  }
+                }
+              },
+              "fanfou-ba-composite-v1": {
+                "games": 160,
+                "meanScore": 0,
+                "winRate": 0.7,
+                "dealInRate": 0.4,
+                "income": {
+                  "attack": 0,
+                  "kong": 0,
+                  "penalty": 0,
+                  "detail": {
+                    "selfWin": 1.13125,
+                    "discardWin": 0.86875,
+                    "dealIn": -0.86875,
+                    "paidSelfWin": -1.13125,
+                    "kong": 0,
+                    "flower": 0,
+                    "ready": 0
+                  }
+                }
+              }
+            },
+            "comparisons": [
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": 0.34375,
+                "standardError": 0.35701391330713117,
+                "betterSeedFraction": 0.525,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.3559972700819771, 1.0434972700819771
+                ],
+                "incomeDifference": {
+                  "attack": 0.54375,
+                  "kong": -0.0875,
+                  "penalty": -0.1125,
+                  "detail": {
+                    "selfWin": 0.53125,
+                    "discardWin": 0.35625,
+                    "dealIn": -0.23125,
+                    "paidSelfWin": -0.1125,
+                    "kong": -0.0875,
+                    "flower": 0,
+                    "ready": -0.1125
+                  }
+                }
+              },
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "ebony72-advanced-public-v1",
+                "meanScoreDifference": 0.20625,
+                "standardError": 0.4372377877229054,
+                "betterSeedFraction": 0.4,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.6507360639368946, 1.0632360639368945
+                ],
+                "incomeDifference": {
+                  "attack": 0.54375,
+                  "kong": -0.2875,
+                  "penalty": -0.05,
+                  "detail": {
+                    "selfWin": -0.3875,
+                    "discardWin": 0.18125,
+                    "dealIn": 0.11875,
+                    "paidSelfWin": 0.63125,
+                    "kong": -0.2875,
+                    "flower": 0,
+                    "ready": -0.05
+                  }
+                }
+              },
+              {
+                "candidate": "candidate-advanced-discard-v5",
+                "baseline": "fanfou-ba-composite-v1",
+                "meanScoreDifference": 0.475,
+                "standardError": 0.3487385693375336,
+                "betterSeedFraction": 0.525,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.2085275959015659, 1.1585275959015657
+                ],
+                "incomeDifference": {
+                  "attack": 0.7937500000000001,
+                  "kong": -0.31875,
+                  "penalty": 0,
+                  "detail": {
+                    "selfWin": 0.30625,
+                    "discardWin": 0.3375,
+                    "dealIn": 0,
+                    "paidSelfWin": 0.15,
+                    "kong": -0.31875,
+                    "flower": 0,
+                    "ready": 0
+                  }
+                }
+              },
+              {
+                "candidate": "fanfou-ba-composite-v1",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": -0.13125,
+                "standardError": 0.2602063253089156,
+                "betterSeedFraction": 0.425,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.6412543976054745, 0.3787543976054746
+                ],
+                "incomeDifference": {
+                  "attack": -0.25,
+                  "kong": 0.23125,
+                  "penalty": -0.1125,
+                  "detail": {
+                    "selfWin": 0.225,
+                    "discardWin": 0.01875,
+                    "dealIn": -0.23125,
+                    "paidSelfWin": -0.2625,
+                    "kong": 0.23125,
+                    "flower": 0,
+                    "ready": -0.1125
+                  }
+                }
+              },
+              {
+                "candidate": "ebony72-advanced-public-v1",
+                "baseline": "teacher-v1",
+                "meanScoreDifference": 0.1375,
+                "standardError": 0.4666738209158567,
+                "betterSeedFraction": 0.55,
+                "seedCount": 40,
+                "pairedGames": 160,
+                "confidenceInterval95NormalApprox": [
+                  -0.777180688995079, 1.052180688995079
+                ],
+                "incomeDifference": {
+                  "attack": 0,
+                  "kong": 0.2,
+                  "penalty": -0.0625,
+                  "detail": {
+                    "selfWin": 0.91875,
+                    "discardWin": 0.175,
+                    "dealIn": -0.35,
+                    "paidSelfWin": -0.74375,
+                    "kong": 0.2,
+                    "flower": 0,
+                    "ready": -0.0625
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "byLineup": {
+      "ebony-advanced": {
+        "byPolicy": {
+          "teacher-v1": {
+            "games": 320,
+            "meanScore": -0.078125,
+            "winRate": 0.815625,
+            "dealInRate": 0.175,
+            "income": {
+              "attack": 0.30937499999999996,
+              "kong": -0.375,
+              "penalty": -0.0125,
+              "detail": {
+                "selfWin": 1.23125,
+                "discardWin": 0.95625,
+                "dealIn": -0.459375,
+                "paidSelfWin": -1.41875,
+                "kong": -0.375,
+                "flower": 0,
+                "ready": -0.0125
+              }
+            }
+          },
+          "ebony72-advanced-public-v1": {
+            "games": 320,
+            "meanScore": 0,
+            "winRate": 0.7,
+            "dealInRate": 0.3125,
+            "income": {
+              "attack": 0,
+              "kong": 0,
+              "penalty": 0,
+              "detail": {
+                "selfWin": 2.371875,
+                "discardWin": 1.009375,
+                "dealIn": -1.009375,
+                "paidSelfWin": -2.371875,
+                "kong": 0,
+                "flower": 0,
+                "ready": 0
+              }
+            }
+          },
+          "candidate-advanced-discard-v5": {
+            "games": 320,
+            "meanScore": -0.040625,
+            "winRate": 0.796875,
+            "dealInRate": 0.221875,
+            "income": {
+              "attack": 0.2281249999999999,
+              "kong": -0.259375,
+              "penalty": -0.009375,
+              "detail": {
+                "selfWin": 1.34375,
+                "discardWin": 1.290625,
+                "dealIn": -0.815625,
+                "paidSelfWin": -1.590625,
+                "kong": -0.259375,
+                "flower": 0,
+                "ready": -0.009375
+              }
+            }
+          },
+          "fanfou-ba-composite-v1": {
+            "games": 320,
+            "meanScore": -1.071875,
+            "winRate": 0.703125,
+            "dealInRate": 0.26875,
+            "income": {
+              "attack": -0.753125,
+              "kong": -0.103125,
+              "penalty": -0.215625,
+              "detail": {
+                "selfWin": 0.896875,
+                "discardWin": 1.09375,
+                "dealIn": -0.8625,
+                "paidSelfWin": -1.88125,
+                "kong": -0.103125,
+                "flower": 0,
+                "ready": -0.215625
+              }
+            }
+          }
+        },
+        "comparisons": [
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": 0.0375,
+            "standardError": 0.4114789227240611,
+            "betterSeedFraction": 0.5,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.7689986885391598, 0.8439986885391597
+            ],
+            "incomeDifference": {
+              "attack": -0.08125000000000004,
+              "kong": 0.115625,
+              "penalty": 0.003125,
+              "detail": {
+                "selfWin": 0.1125,
+                "discardWin": 0.334375,
+                "dealIn": -0.35625,
+                "paidSelfWin": -0.171875,
+                "kong": 0.115625,
+                "flower": 0,
+                "ready": 0.003125
+              }
+            }
+          },
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "ebony72-advanced-public-v1",
+            "meanScoreDifference": -0.040625,
+            "standardError": 0.32630984506136856,
+            "betterSeedFraction": 0.525,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.6801922963202824, 0.5989422963202824
+            ],
+            "incomeDifference": {
+              "attack": 0.22812500000000002,
+              "kong": -0.259375,
+              "penalty": -0.009375,
+              "detail": {
+                "selfWin": -1.028125,
+                "discardWin": 0.28125,
+                "dealIn": 0.19375,
+                "paidSelfWin": 0.78125,
+                "kong": -0.259375,
+                "flower": 0,
+                "ready": -0.009375
+              }
+            }
+          },
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "fanfou-ba-composite-v1",
+            "meanScoreDifference": 1.03125,
+            "standardError": 0.508949356140063,
+            "betterSeedFraction": 0.6,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              0.03370926196547652, 2.0287907380345236
+            ],
+            "incomeDifference": {
+              "attack": 0.9812500000000001,
+              "kong": -0.15625,
+              "penalty": 0.20625,
+              "detail": {
+                "selfWin": 0.446875,
+                "discardWin": 0.196875,
+                "dealIn": 0.046875,
+                "paidSelfWin": 0.290625,
+                "kong": -0.15625,
+                "flower": 0,
+                "ready": 0.20625
+              }
+            }
+          },
+          {
+            "candidate": "fanfou-ba-composite-v1",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": -0.99375,
+            "standardError": 0.40780520857515495,
+            "betterSeedFraction": 0.275,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -1.7930482088073036, -0.1944517911926963
+            ],
+            "incomeDifference": {
+              "attack": -1.0625,
+              "kong": 0.271875,
+              "penalty": -0.203125,
+              "detail": {
+                "selfWin": -0.334375,
+                "discardWin": 0.1375,
+                "dealIn": -0.403125,
+                "paidSelfWin": -0.4625,
+                "kong": 0.271875,
+                "flower": 0,
+                "ready": -0.203125
+              }
+            }
+          },
+          {
+            "candidate": "ebony72-advanced-public-v1",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": 0.078125,
+            "standardError": 0.30367960762378904,
+            "betterSeedFraction": 0.5,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.5170870309426265, 0.6733370309426265
+            ],
+            "incomeDifference": {
+              "attack": -0.30937499999999996,
+              "kong": 0.375,
+              "penalty": 0.0125,
+              "detail": {
+                "selfWin": 1.140625,
+                "discardWin": 0.053125,
+                "dealIn": -0.55,
+                "paidSelfWin": -0.953125,
+                "kong": 0.375,
+                "flower": 0,
+                "ready": 0.0125
+              }
+            }
+          }
+        ]
+      },
+      "fanfou-ba": {
+        "byPolicy": {
+          "teacher-v1": {
+            "games": 320,
+            "meanScore": 0.1625,
+            "winRate": 0.753125,
+            "dealInRate": 0.296875,
+            "income": {
+              "attack": 0.2812499999999998,
+              "kong": -0.23125,
+              "penalty": 0.1125,
+              "detail": {
+                "selfWin": 0.90625,
+                "discardWin": 0.85625,
+                "dealIn": -0.634375,
+                "paidSelfWin": -0.846875,
+                "kong": -0.23125,
+                "flower": 0,
+                "ready": 0.1125
+              }
+            }
+          },
+          "ebony72-advanced-public-v1": {
+            "games": 320,
+            "meanScore": 0.240625,
+            "winRate": 0.675,
+            "dealInRate": 0.428125,
+            "income": {
+              "attack": 0.19374999999999987,
+              "kong": 0.00625,
+              "penalty": 0.040625,
+              "detail": {
+                "selfWin": 1.821875,
+                "discardWin": 1.040625,
+                "dealIn": -1.071875,
+                "paidSelfWin": -1.596875,
+                "kong": 0.00625,
+                "flower": 0,
+                "ready": 0.040625
+              }
+            }
+          },
+          "candidate-advanced-discard-v5": {
+            "games": 320,
+            "meanScore": 0.4125,
+            "winRate": 0.759375,
+            "dealInRate": 0.35,
+            "income": {
+              "attack": 0.734375,
+              "kong": -0.315625,
+              "penalty": -0.00625,
+              "detail": {
+                "selfWin": 1.4375,
+                "discardWin": 1.18125,
+                "dealIn": -0.884375,
+                "paidSelfWin": -1,
+                "kong": -0.315625,
+                "flower": 0,
+                "ready": -0.00625
+              }
+            }
+          },
+          "fanfou-ba-composite-v1": {
+            "games": 320,
+            "meanScore": 0,
+            "winRate": 0.696875,
+            "dealInRate": 0.40625,
+            "income": {
+              "attack": 0,
+              "kong": 0,
+              "penalty": 0,
+              "detail": {
+                "selfWin": 1.121875,
+                "discardWin": 0.878125,
+                "dealIn": -0.878125,
+                "paidSelfWin": -1.121875,
+                "kong": 0,
+                "flower": 0,
+                "ready": 0
+              }
+            }
+          }
+        },
+        "comparisons": [
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": 0.25,
+            "standardError": 0.34844549476282916,
+            "betterSeedFraction": 0.5,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.4329531697351451, 0.9329531697351451
+            ],
+            "incomeDifference": {
+              "attack": 0.45312499999999994,
+              "kong": -0.084375,
+              "penalty": -0.11875,
+              "detail": {
+                "selfWin": 0.53125,
+                "discardWin": 0.325,
+                "dealIn": -0.25,
+                "paidSelfWin": -0.153125,
+                "kong": -0.084375,
+                "flower": 0,
+                "ready": -0.11875
+              }
+            }
+          },
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "ebony72-advanced-public-v1",
+            "meanScoreDifference": 0.171875,
+            "standardError": 0.3976011678829969,
+            "betterSeedFraction": 0.375,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.6074232890506739, 0.9511732890506739
+            ],
+            "incomeDifference": {
+              "attack": 0.540625,
+              "kong": -0.321875,
+              "penalty": -0.046875,
+              "detail": {
+                "selfWin": -0.384375,
+                "discardWin": 0.140625,
+                "dealIn": 0.1875,
+                "paidSelfWin": 0.596875,
+                "kong": -0.321875,
+                "flower": 0,
+                "ready": -0.046875
+              }
+            }
+          },
+          {
+            "candidate": "candidate-advanced-discard-v5",
+            "baseline": "fanfou-ba-composite-v1",
+            "meanScoreDifference": 0.4125,
+            "standardError": 0.347991029209456,
+            "betterSeedFraction": 0.525,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.26956241725053376, 1.0945624172505337
+            ],
+            "incomeDifference": {
+              "attack": 0.7343749999999999,
+              "kong": -0.315625,
+              "penalty": -0.00625,
+              "detail": {
+                "selfWin": 0.315625,
+                "discardWin": 0.303125,
+                "dealIn": -0.00625,
+                "paidSelfWin": 0.121875,
+                "kong": -0.315625,
+                "flower": 0,
+                "ready": -0.00625
+              }
+            }
+          },
+          {
+            "candidate": "fanfou-ba-composite-v1",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": -0.1625,
+            "standardError": 0.25594689703640505,
+            "betterSeedFraction": 0.4,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.6641559181913539, 0.33915591819135393
+            ],
+            "incomeDifference": {
+              "attack": -0.28125,
+              "kong": 0.23125,
+              "penalty": -0.1125,
+              "detail": {
+                "selfWin": 0.215625,
+                "discardWin": 0.021875,
+                "dealIn": -0.24375,
+                "paidSelfWin": -0.275,
+                "kong": 0.23125,
+                "flower": 0,
+                "ready": -0.1125
+              }
+            }
+          },
+          {
+            "candidate": "ebony72-advanced-public-v1",
+            "baseline": "teacher-v1",
+            "meanScoreDifference": 0.078125,
+            "standardError": 0.45970847393714137,
+            "betterSeedFraction": 0.55,
+            "seedCount": 40,
+            "pairedGames": 320,
+            "confidenceInterval95NormalApprox": [
+              -0.822903608916797, 0.979153608916797
+            ],
+            "incomeDifference": {
+              "attack": -0.08749999999999991,
+              "kong": 0.2375,
+              "penalty": -0.071875,
+              "detail": {
+                "selfWin": 0.915625,
+                "discardWin": 0.184375,
+                "dealIn": -0.4375,
+                "paidSelfWin": -0.75,
+                "kong": 0.2375,
+                "flower": 0,
+                "ready": -0.071875
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

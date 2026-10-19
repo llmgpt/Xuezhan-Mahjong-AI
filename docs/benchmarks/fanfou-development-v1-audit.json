@@ -1,0 +1,775 @@
+{
+  "schemaVersion": 1,
+  "kind": "complete-exploratory-development-independent-audit",
+  "recordedAtUtc": "2026-10-19T23:42:28.258819+00:00",
+  "valid": true,
+  "developmentOnly": true,
+  "noFormalPassOrExpertClaim": true,
+  "scope": "40 previously used seeds 60000..60039, all four seats, two opponent lineups, two openings, four policies, 2560 actual policy games; no new policy execution during this audit.",
+  "versionedCompleteSummary": {
+    "path": "docs/benchmarks/fanfou-development-v1-summary.json",
+    "sha256": "614e125f6ffce123c1c92fe7a1f461e8a178822f6f4dd87934d419e050abb7b0",
+    "source": "local/strength-goal-20261018/fanfou-development-v1-combined/summary.json",
+    "sourceSha256": "11bcd43a1d9f58ee977b6af6375da1c559aaf150e3de1c40d138a0351530a559",
+    "completeJsonSemanticsEqual": true,
+    "allOfficialPanelsRetained": 9,
+    "allComparisonsRetained": 45,
+    "allIncomeDetailsRetained": 315
+  },
+  "originalIndependentAudit": {
+    "path": "local/strength-goal-20261018/fanfou-development-v1-independent-audit/independent-audit.json",
+    "sha256": "bb0a5599bde787e1313a80a3f987cf91d85717d74b31eeeab6bbe81dac3bb93a",
+    "finalAuditFilesIndex": "local/strength-goal-20261018/fanfou-development-v1-independent-audit/audit-files-final.json",
+    "finalAuditFilesIndexSha256": "a84a5098e66616ef66153c4e9403071dab30bf0db41f0b44e75bdd2e1f43f37c",
+    "findingsPath": "local/strength-goal-20261018/fanfou-development-v1-independent-audit/findings.md",
+    "findingsSha256": "d9d210d81c182d4ae3cd3f6fe3994f3fa5cc2c27bf04ce043de93054c935c187"
+  },
+  "actualAuditToolTerminals": {
+    "authority": "Actual tool results observed by this subagent",
+    "stages": [
+      {
+        "stage": "combine",
+        "sessionId": 65098,
+        "terminalChunk": "3e067d",
+        "exitCode": 0
+      },
+      {
+        "stage": "frozen-cli-resume",
+        "terminalChunk": "749e17",
+        "exitCode": 0
+      },
+      {
+        "stage": "statistics",
+        "terminalChunk": "98c7dc",
+        "exitCode": 0
+      },
+      {
+        "stage": "replay",
+        "sessionId": 21457,
+        "nodePidObserved": 10676,
+        "terminalChunk": "5fd647",
+        "exitCode": 0
+      },
+      {
+        "stage": "independent-crosscheck",
+        "sessionId": 53841,
+        "terminalChunk": "5dab08",
+        "exitCode": 0
+      }
+    ]
+  },
+  "independentCrosscheckExecution": {
+    "stage": "independent-source-and-first-divergence-crosscheck",
+    "startUtc": "2026-10-19T23:37:24.1958188+00:00",
+    "endUtc": "2026-10-19T23:38:02.1686821+00:00",
+    "shellPid": 31924,
+    "exitCode": 0,
+    "command": "python -B local/strength-goal-20261018/fanfou-development-v1-independent-audit/check-and-report.py"
+  },
+  "statisticsDefinition": {
+    "unit": "seed",
+    "seedCount": 40,
+    "pairedGamesPerOverallComparison": 640,
+    "withinSeedPairsPerOverallComparison": 16,
+    "estimator": "mean of 40 equal-size within-seed mean paired net-score differences",
+    "standardError": "sample standard deviation of the 40 seed means divided by sqrt(40)",
+    "interval": "mean +/- 1.96 * SE normal approximation",
+    "bootstrap": false,
+    "multipleComparisonCorrection": false,
+    "formalAcceptance": false
+  },
+  "independentAudit": {
+    "valid": true,
+    "developmentOnly": true,
+    "games": 2560,
+    "seedCount": 40,
+    "balancedOverallPairsPerSeed": 16,
+    "overallPairedGamesPerComparison": 640,
+    "sourceFiles": 100,
+    "bothSnapshotsVerified": true,
+    "sourceTraceOwnershipByteExact": true,
+    "combinedSeedEnvelopesByteExact": true,
+    "shards": [
+      {
+        "output": "local/strength-goal-20261018/fanfou-development-v1-shard-1",
+        "seeds": [
+          60000, 60004, 60008, 60012, 60016, 60020, 60024, 60028, 60032, 60036
+        ],
+        "games": 640,
+        "gamesSha256": "ade0e91e0302fecf8ef6ee833b224f0d604d41c4fa8ae40bd1f3609f5f8c1ca1",
+        "tracesSha256": "27d58bb98897a913b59851c076be31fd94bc5f289367757de15783051eb65c10"
+      },
+      {
+        "output": "local/strength-goal-20261018/fanfou-development-v1-shard-2",
+        "seeds": [
+          60001, 60005, 60009, 60013, 60017, 60021, 60025, 60029, 60033, 60037
+        ],
+        "games": 640,
+        "gamesSha256": "123e33c89147f7eacb1795feb8adbe11196aabbf9c0e3dd6db24bd7938f2d58a",
+        "tracesSha256": "f8789e98744ed52842fe6d1bbc16671cefe6e9da272144eba42b3ba1533a05a8"
+      },
+      {
+        "output": "local/strength-goal-20261018/fanfou-development-v1-shard-3",
+        "seeds": [
+          60002, 60006, 60010, 60014, 60018, 60022, 60026, 60030, 60034, 60038
+        ],
+        "games": 640,
+        "gamesSha256": "b11f3ff6ef783e3f31659e604f2f864c6694e5b2b8d78cf01dce0a378a020436",
+        "tracesSha256": "e5422cd2a44dc754e55467154aac3299e260870ddbd646960294c3fd37aa6540"
+      },
+      {
+        "output": "local/strength-goal-20261018/fanfou-development-v1-shard-4",
+        "seeds": [
+          60003, 60007, 60011, 60015, 60019, 60023, 60027, 60031, 60035, 60039
+        ],
+        "games": 640,
+        "gamesSha256": "dfb4d0413ab0c46794767d0f1fe659ba153bb36d8ad29bf2c4d428139b68d01b",
+        "tracesSha256": "2604e3ba08afd640ab56ac30b1cc76e68577e9074a953e6694668cd414d3d7c5"
+      }
+    ],
+    "allFirstDifferencesIndependentlyRechecked": 2697,
+    "comparisons": {
+      "candidate-advanced-discard-v5 minus teacher-v1": {
+        "pairs": 640,
+        "identicalDecisions": 112,
+        "firstDifferences": 528,
+        "uniqueCompleteViews": 261,
+        "firstActionTypes": {
+          "discard vs discard": 528
+        },
+        "firstPhases": {
+          "discard": 528
+        },
+        "byOpening": {
+          "common": 265,
+          "composite": 263
+        },
+        "byLineup": {
+          "ebony-advanced": 277,
+          "fanfou-ba": 251
+        },
+        "netBetterGames": 190,
+        "netWorseGames": 180,
+        "netEqualGames": 270
+      },
+      "candidate-advanced-discard-v5 minus ebony72-advanced-public-v1": {
+        "pairs": 640,
+        "identicalDecisions": 268,
+        "firstDifferences": 372,
+        "uniqueCompleteViews": 209,
+        "firstActionTypes": {
+          "discard vs kong": 37,
+          "respond vs respond": 315,
+          "missing vs missing": 20
+        },
+        "firstPhases": {
+          "discard": 37,
+          "respond": 315,
+          "choose-missing": 20
+        },
+        "byOpening": {
+          "common": 178,
+          "composite": 194
+        },
+        "byLineup": {
+          "ebony-advanced": 187,
+          "fanfou-ba": 185
+        },
+        "netBetterGames": 147,
+        "netWorseGames": 172,
+        "netEqualGames": 321
+      },
+      "candidate-advanced-discard-v5 minus fanfou-ba-composite-v1": {
+        "pairs": 640,
+        "identicalDecisions": 40,
+        "firstDifferences": 600,
+        "uniqueCompleteViews": 294,
+        "firstActionTypes": {
+          "discard vs kong": 12,
+          "discard vs discard": 506,
+          "respond vs respond": 76,
+          "missing vs missing": 6
+        },
+        "firstPhases": {
+          "discard": 518,
+          "respond": 76,
+          "choose-missing": 6
+        },
+        "byOpening": {
+          "common": 300,
+          "composite": 300
+        },
+        "byLineup": {
+          "ebony-advanced": 299,
+          "fanfou-ba": 301
+        },
+        "netBetterGames": 256,
+        "netWorseGames": 211,
+        "netEqualGames": 173
+      },
+      "fanfou-ba-composite-v1 minus teacher-v1": {
+        "pairs": 640,
+        "identicalDecisions": 54,
+        "firstDifferences": 586,
+        "uniqueCompleteViews": 307,
+        "firstActionTypes": {
+          "kong vs discard": 17,
+          "discard vs discard": 471,
+          "respond vs respond": 92,
+          "missing vs missing": 6
+        },
+        "firstPhases": {
+          "discard": 488,
+          "respond": 92,
+          "choose-missing": 6
+        },
+        "byOpening": {
+          "common": 294,
+          "composite": 292
+        },
+        "byLineup": {
+          "ebony-advanced": 288,
+          "fanfou-ba": 298
+        },
+        "netBetterGames": 219,
+        "netWorseGames": 240,
+        "netEqualGames": 181
+      },
+      "ebony72-advanced-public-v1 minus teacher-v1": {
+        "pairs": 640,
+        "identicalDecisions": 29,
+        "firstDifferences": 611,
+        "uniqueCompleteViews": 311,
+        "firstActionTypes": {
+          "kong vs discard": 14,
+          "discard vs discard": 451,
+          "missing vs missing": 20,
+          "respond vs respond": 126
+        },
+        "firstPhases": {
+          "discard": 465,
+          "choose-missing": 20,
+          "respond": 126
+        },
+        "byOpening": {
+          "common": 306,
+          "composite": 305
+        },
+        "byLineup": {
+          "ebony-advanced": 311,
+          "fanfou-ba": 300
+        },
+        "netBetterGames": 263,
+        "netWorseGames": 251,
+        "netEqualGames": 126
+      }
+    },
+    "completeReplay": {
+      "valid": true,
+      "developmentOnly": true,
+      "input": "fanfou-development-v1-combined",
+      "sourceSnapshot": "fanfou-development-v1-source",
+      "sourceFiles": 100,
+      "gameCount": 2560,
+      "independentSeedUnits": 40,
+      "decisionCount": 170956,
+      "replayedStates": 282843,
+      "allRawGridAndViewsReplayed": true,
+      "rawHashes": {
+        "gamesSha256": "791e277751334a32aaad56fdd4cd27dcce0aabf123d400ef0ed72043f95437ed",
+        "tracesSha256": "34a05a9320ccff99341578cc3b5cb8449713410a5838fa0ab738b8dd951212b7",
+        "summarySha256": "11bcd43a1d9f58ee977b6af6375da1c559aaf150e3de1c40d138a0351530a559"
+      },
+      "controlOverlapGames": 960,
+      "controls": "development-v5-expanded-combined",
+      "controlRawHashes": [
+        "b65b684b17d92a9dd912a966139c4e11fe91c98ffc9e5e6eb63cf44cd33e9036",
+        "a4b03b44fdcba82148bb8e7cbb7192afb2523d3c8a5de28fa6fd06a8b5458ffe"
+      ],
+      "allFirstDifferences": 2697,
+      "comparisons": {
+        "candidate-advanced-discard-v5 minus teacher-v1": {
+          "pairs": 640,
+          "sameTrace": 112,
+          "firstDifferences": 528
+        },
+        "candidate-advanced-discard-v5 minus ebony72-advanced-public-v1": {
+          "pairs": 640,
+          "sameTrace": 268,
+          "firstDifferences": 372
+        },
+        "candidate-advanced-discard-v5 minus fanfou-ba-composite-v1": {
+          "pairs": 640,
+          "sameTrace": 40,
+          "firstDifferences": 600
+        },
+        "fanfou-ba-composite-v1 minus teacher-v1": {
+          "pairs": 640,
+          "sameTrace": 54,
+          "firstDifferences": 586
+        },
+        "ebony72-advanced-public-v1 minus teacher-v1": {
+          "pairs": 640,
+          "sameTrace": 29,
+          "firstDifferences": 611
+        }
+      },
+      "audits": [
+        {
+          "seed": 60000,
+          "gamesSha256": "35e2d5e6c6aafaefa6fe94097c299c3a62a2e94c1ae3fb661445dcbd912a4270",
+          "tracesSha256": "93bf275f3c41e6df1e7636a344fe16fdba3fc7895bf24d4ae87be6162b83cb4d",
+          "gameCount": 64,
+          "decisionCount": 4448,
+          "replayedStates": 7224
+        },
+        {
+          "seed": 60001,
+          "gamesSha256": "6d9b54772fcaa49be349e054da2ca2a2c26f1fd0a662f4a30174350f71ef128b",
+          "tracesSha256": "5fcf652fd3545688804440e75056edccb6813118c0b490444e120e65c2a0b17f",
+          "gameCount": 64,
+          "decisionCount": 4562,
+          "replayedStates": 7988
+        },
+        {
+          "seed": 60002,
+          "gamesSha256": "328cf8566d2321248b2987764b8213f1232d9aa6bc5e1b43ec37a40275b51f24",
+          "tracesSha256": "82ae9586d9a56dbb128ff51218b2653c606e15821cdb56e19ad4c029c6673150",
+          "gameCount": 64,
+          "decisionCount": 3938,
+          "replayedStates": 6418
+        },
+        {
+          "seed": 60003,
+          "gamesSha256": "0a2bb440244230f2a1df82b111d93d4721739984f2dba6558665fbb2bb150162",
+          "tracesSha256": "8924af3e46501eec31ac2810de3fbb9d4e6e93f06dc2f2db5e6c649d452a5fa2",
+          "gameCount": 64,
+          "decisionCount": 4314,
+          "replayedStates": 7040
+        },
+        {
+          "seed": 60004,
+          "gamesSha256": "f71980631907e9f4d655c03f93266c0975de15c1c5441694cf44b6f2924d60f7",
+          "tracesSha256": "0444932823c1d5e5e0d277923989ac20e4a6f40cbcdcc9e0c294f9b26015dba5",
+          "gameCount": 64,
+          "decisionCount": 3991,
+          "replayedStates": 6467
+        },
+        {
+          "seed": 60005,
+          "gamesSha256": "95f2e8fb158db264633e9b52bc86b2b70c6cf4264971b795d3019ec2bba0e7ff",
+          "tracesSha256": "f72511ad68a37c70d8056051c35db282f2d13abd20f9f14d7a777b04d3cce739",
+          "gameCount": 64,
+          "decisionCount": 4054,
+          "replayedStates": 6680
+        },
+        {
+          "seed": 60006,
+          "gamesSha256": "269a6bdb30ee15ae622184e4cde355296ba3da6178a0863908c37608ecfc5004",
+          "tracesSha256": "e9fef0b8f82606eeb44f990598aa4e704820af4056b613560f19fddacbf69781",
+          "gameCount": 64,
+          "decisionCount": 4779,
+          "replayedStates": 7757
+        },
+        {
+          "seed": 60007,
+          "gamesSha256": "8947b472ffd098686cae3f17e6721311ab1c8d65130eada053da2893d309ffae",
+          "tracesSha256": "4b42c74ce7ae51342a808e5a72f2caec7be9c2b86a637e909dcd1eda2b868fba",
+          "gameCount": 64,
+          "decisionCount": 4164,
+          "replayedStates": 6774
+        },
+        {
+          "seed": 60008,
+          "gamesSha256": "a82214db885aa7c4b0a96962ac767f021f83b671e08319c109a6214001303579",
+          "tracesSha256": "7a4e2292d300afefd868b3413390819a0314edf9b91ac2a2d18f81180f1aa6b7",
+          "gameCount": 64,
+          "decisionCount": 3986,
+          "replayedStates": 6876
+        },
+        {
+          "seed": 60009,
+          "gamesSha256": "0315a71eaf79381d2215a1dc159f665fff7d29b7225423c03ef88393f9db8589",
+          "tracesSha256": "2c542bcb1c695056f4e75603c966700fc38104a519a9e5062c01cbe623a9e84f",
+          "gameCount": 64,
+          "decisionCount": 4596,
+          "replayedStates": 7576
+        },
+        {
+          "seed": 60010,
+          "gamesSha256": "0e4ce49fd0efbf3d34768091955ac1a4f8f5cea2355aa2e782a7c78f5df43f78",
+          "tracesSha256": "4a1c9e4f246a20e1280da53207d1355d8a6377d1dce4bd262211c16da7e1b98b",
+          "gameCount": 64,
+          "decisionCount": 4498,
+          "replayedStates": 7432
+        },
+        {
+          "seed": 60011,
+          "gamesSha256": "307dc04db4728d2915618d4ca52e015553be83f7ecabd9e1d5a0d7d194a2a306",
+          "tracesSha256": "25ef8a67962a11d23b8981a9f8fe7cf0ac4ec31c12487fa7d34ddcd9fda01e26",
+          "gameCount": 64,
+          "decisionCount": 4636,
+          "replayedStates": 7794
+        },
+        {
+          "seed": 60012,
+          "gamesSha256": "f280b961d9e9f1b7bd67da54ddcc8e091be7dc8d88ea26122f95eee44ff9aef3",
+          "tracesSha256": "c6dccb10b4745b614c3be3042f87627d7c19e8256a53af787a654bf454a42f90",
+          "gameCount": 64,
+          "decisionCount": 3544,
+          "replayedStates": 6102
+        },
+        {
+          "seed": 60013,
+          "gamesSha256": "febdb2e35c9ddf70410db03f8d4e400f69e0359650d176e1249984aec3676f71",
+          "tracesSha256": "320fb1565fd1377815fa70024e8792c6cd3ccce054444e06882c43e02263cb8c",
+          "gameCount": 64,
+          "decisionCount": 4159,
+          "replayedStates": 6953
+        },
+        {
+          "seed": 60014,
+          "gamesSha256": "7625fd4575560b15336f8146c43cd153790b3e1135d3f61a2f2532cfb68bb7fe",
+          "tracesSha256": "baefb9cd032a86541b4b5d86941428f6245a1f59925770e2134d6a96727b66ad",
+          "gameCount": 64,
+          "decisionCount": 4114,
+          "replayedStates": 6834
+        },
+        {
+          "seed": 60015,
+          "gamesSha256": "a4439cdf33c3633bc1de2617509b1fff96c380ed702f625a94d00c89ddd8a34c",
+          "tracesSha256": "d41b28ce51b4828a80b3e6028d84b93faaf64b6e8f2fef3f5128f7b9a0ca589b",
+          "gameCount": 64,
+          "decisionCount": 3802,
+          "replayedStates": 6434
+        },
+        {
+          "seed": 60016,
+          "gamesSha256": "8a56ec777e540fcdce519ef32c47942a11a1667536b6f2de103eebfc78ee4621",
+          "tracesSha256": "c3b85c9322777b8c691b5837309a1f02cfc7a5af12d23f3ef082054b1c763cd6",
+          "gameCount": 64,
+          "decisionCount": 4312,
+          "replayedStates": 6836
+        },
+        {
+          "seed": 60017,
+          "gamesSha256": "da3a1ddcf452526f0c1f8ad89192b625d48911af7dd84268511d6f1a011bda90",
+          "tracesSha256": "9b829f9f9e7989e44e28889153bf703a06fd6424756d8185f49ef0ee0386aebc",
+          "gameCount": 64,
+          "decisionCount": 4476,
+          "replayedStates": 7442
+        },
+        {
+          "seed": 60018,
+          "gamesSha256": "8665460d93b26cb305d7d06c9e99098686adaa1d85069ab0cf8a6ac4c16eaad6",
+          "tracesSha256": "b389dd3daa4aec9b5f85cf3b26bd803ff17e87e5fe136973164681518a858c35",
+          "gameCount": 64,
+          "decisionCount": 4386,
+          "replayedStates": 7290
+        },
+        {
+          "seed": 60019,
+          "gamesSha256": "214d8293ebba86aa993be8db29fc3ccbabd29030826e9aa9370b035679e7249b",
+          "tracesSha256": "dd8385261ce1d69b2cb26f36d858b1ec765d42f592a5fca2a98e3cce0d4710e3",
+          "gameCount": 64,
+          "decisionCount": 4195,
+          "replayedStates": 6984
+        },
+        {
+          "seed": 60020,
+          "gamesSha256": "0711027c7c8d2cbeb70f64b5d52bd5437f334b2a77e193fa28899e310fa390f2",
+          "tracesSha256": "8b41bcb9ac0d997a3975102acd151de6e2322ffe6b79df5616308f5615e8b58f",
+          "gameCount": 64,
+          "decisionCount": 4316,
+          "replayedStates": 7170
+        },
+        {
+          "seed": 60021,
+          "gamesSha256": "a8ff5e35f014c285b3a9ff76d0434366caec4b3a723e1c53ddc0215100c5851f",
+          "tracesSha256": "e166e12ca619c1fab8df99a362bf5a127354b0ee9604d3b476529310cf1c934c",
+          "gameCount": 64,
+          "decisionCount": 4530,
+          "replayedStates": 7548
+        },
+        {
+          "seed": 60022,
+          "gamesSha256": "0bc3e5b98717c9120ecb1aeccb9e67c34129927fb333917ef27d9b66ee133c82",
+          "tracesSha256": "9e6aba7646f0dd20b0672c998142bcf5c241ac2f1675e3dd089618850b1c589b",
+          "gameCount": 64,
+          "decisionCount": 4147,
+          "replayedStates": 6946
+        },
+        {
+          "seed": 60023,
+          "gamesSha256": "1f2681dd4a12015e98884669a295331bfe2f91adc5dc8ecae39a642defc72a5f",
+          "tracesSha256": "fb6117f178677ba0d6f5bb1b23888258398f8546f5790a86b99d2bc6e8534e6c",
+          "gameCount": 64,
+          "decisionCount": 4396,
+          "replayedStates": 7234
+        },
+        {
+          "seed": 60024,
+          "gamesSha256": "7840effaf27dedb72369cfee095d88260a0f7fe30fac666c4433f714ca9bb6d4",
+          "tracesSha256": "15182345b87ddd39e6523a7e177ffe16e09eb99c5764ce34165a2c11f5f307e9",
+          "gameCount": 64,
+          "decisionCount": 4888,
+          "replayedStates": 8018
+        },
+        {
+          "seed": 60025,
+          "gamesSha256": "00bfcb51f9004376afb1d7e163c7d66ac641f3ae7b55bc5686ec6c24b859328c",
+          "tracesSha256": "68d9304134fdf936574c5a30b987c1ae7388cc9e54a2f15f9d2dbabc3c29a7f5",
+          "gameCount": 64,
+          "decisionCount": 4668,
+          "replayedStates": 7942
+        },
+        {
+          "seed": 60026,
+          "gamesSha256": "434b6fff4f8a3c69148ea46b554c5dcfcf1cb5b2960ac10c3708123e6e2d7f40",
+          "tracesSha256": "0e8cd8dc0c8c80e70ecd44942e399db411a3e6aabdd7c388f78255cf17cf3def",
+          "gameCount": 64,
+          "decisionCount": 4471,
+          "replayedStates": 7239
+        },
+        {
+          "seed": 60027,
+          "gamesSha256": "75cff2771f3f21ff8a553e7a9c48da06f61841d3a1584af1c035ebf5c81be7bb",
+          "tracesSha256": "42c98b2d9b5b5c06ec8b7989b05eb2f199a5778aff4d41a3004e5d9e18ddebb4",
+          "gameCount": 64,
+          "decisionCount": 4672,
+          "replayedStates": 7990
+        },
+        {
+          "seed": 60028,
+          "gamesSha256": "f9159f291c4ecb7017e39c5a5a792af173ee10d2352b65ca1cf3982e7ca742f5",
+          "tracesSha256": "9e3262cd5b0dd9d84b77c30b2a3813f83ed4d1677dc55fd434eee47c8e44a66d",
+          "gameCount": 64,
+          "decisionCount": 3878,
+          "replayedStates": 6380
+        },
+        {
+          "seed": 60029,
+          "gamesSha256": "d63e30a6546d5a8c8f8d0760514bfeb5f62eeb325ba9699a585a0b82b55b4cc3",
+          "tracesSha256": "75add69ad5ebc8bbc9f756028511211b72f92060abbef395bba412acd2ba3047",
+          "gameCount": 64,
+          "decisionCount": 4068,
+          "replayedStates": 6812
+        },
+        {
+          "seed": 60030,
+          "gamesSha256": "9fb6964a62c98345de8a76be112d533c209d245c15de5e16b1b1c406e37fbbd7",
+          "tracesSha256": "eb38c902ecc300ce6e02657e8e529e125f24e99de42af0de9246e987f7b7f2af",
+          "gameCount": 64,
+          "decisionCount": 4349,
+          "replayedStates": 7168
+        },
+        {
+          "seed": 60031,
+          "gamesSha256": "5c2afcb4f0c6f923123fab529d986f1ed5165d4717eed2a34c55eedff2482410",
+          "tracesSha256": "1bdca9fca7832a2fa354f2619720a7a76abc003379835898669bd558f16d46ce",
+          "gameCount": 64,
+          "decisionCount": 4262,
+          "replayedStates": 6860
+        },
+        {
+          "seed": 60032,
+          "gamesSha256": "682c445650d6fa51237fa218f8051fdbb41ee4ae732a655fea7144a06eb8d76c",
+          "tracesSha256": "3f925c111c219f4f4e43af24a0b9dc9658ed1866b6166b0adcfa95011e28686c",
+          "gameCount": 64,
+          "decisionCount": 4772,
+          "replayedStates": 7774
+        },
+        {
+          "seed": 60033,
+          "gamesSha256": "a77080d4734505b61595755731d800de60e162026307e64199d10f8490649b85",
+          "tracesSha256": "fb77b89bc95ee54b6d3c6817cfa6e460a36e6da3707f2c7daed66d890751ee5b",
+          "gameCount": 64,
+          "decisionCount": 4094,
+          "replayedStates": 6647
+        },
+        {
+          "seed": 60034,
+          "gamesSha256": "6a9931fad6326ac92ef3b490b8602711446c51489213386668033c932358b848",
+          "tracesSha256": "4ba42b8ccdfcac2db2e35da722bcc9e533ee61332cce271ea759935fcd8e6951",
+          "gameCount": 64,
+          "decisionCount": 3142,
+          "replayedStates": 5066
+        },
+        {
+          "seed": 60035,
+          "gamesSha256": "8ca247c827cfe4f5e1904652dac016d5866cf0863b774eff8d7dc803df215392",
+          "tracesSha256": "01f4fe9275d5d469a730fb6a0a989d85ed5eef8b03cb6ab57347fe13a1d87bfe",
+          "gameCount": 64,
+          "decisionCount": 3726,
+          "replayedStates": 6126
+        },
+        {
+          "seed": 60036,
+          "gamesSha256": "f575cc2c41281172655cf826c02802f1771a22cf8b82739b215885da0ba55abc",
+          "tracesSha256": "6cd38ada35b69c3ee56e46282aff49954ec7e6ec624d3dec80280411bb6aec3c",
+          "gameCount": 64,
+          "decisionCount": 4526,
+          "replayedStates": 7118
+        },
+        {
+          "seed": 60037,
+          "gamesSha256": "e8d9cc4da02ae652126ee1dd0026c6ef4a47dd434094b325575976e24535e496",
+          "tracesSha256": "2366687c1f90352bcd770b529bea612f42e21227267103c52018524a0125ebcd",
+          "gameCount": 64,
+          "decisionCount": 4543,
+          "replayedStates": 7530
+        },
+        {
+          "seed": 60038,
+          "gamesSha256": "6b7b00af3380307ee6cd40f3d8deabc53868d91ca1f88348e9b5bf27ac505a22",
+          "tracesSha256": "8d11ad092b0ac93533fcf9b3077756734e039b2ec15c21fd6f86ae52aa42f195",
+          "gameCount": 64,
+          "decisionCount": 4534,
+          "replayedStates": 7658
+        },
+        {
+          "seed": 60039,
+          "gamesSha256": "72976e3906a6186828cfbe405f88b70b5b68ab177d71dc7a560bbe2deaa54f0f",
+          "tracesSha256": "eaf6fb13be6751bab9ecb7cc16987b664a1d825305e4dc8cb56c6612dca0e5d7",
+          "gameCount": 64,
+          "decisionCount": 4020,
+          "replayedStates": 6716
+        }
+      ],
+      "derivedCopyExplanation": "Only each copied header config.seeds changes to one seed; original seed envelope and every selected trace raw line preserved. Explicit audit copies, no new policy game executions.",
+      "analyzerSha256": "4d5f9fc5e73460094255a90e11352f1f417dd0cdfb5121a860975907873a212c",
+      "limitation": "Complete exploratory development data; no new holdout, statistical acceptance or expert claim"
+    },
+    "statisticsVerified": {
+      "officialPanels": 9,
+      "officialComparisonsChecked": 45,
+      "incomeDetailsChecked": 315,
+      "supplementalSeatPanels": 4
+    },
+    "currentWorkspaceDifferences": [
+      {
+        "path": "scripts/formalProtocol.ts",
+        "frozenSha256": "1ea2ee679f9b6b30d939c39e918684188264a34facc2d2c3a7ac5f416b67cf0f",
+        "currentSha256": "6bc1b22c9e87c1f33c3bccddaa5f80263f8e0d7007e0dfdab3905cea5972e37f"
+      },
+      {
+        "path": "scripts/independentBenchmark.ts",
+        "frozenSha256": "7130405a705d184b24b36f72d025588cce97abcdc7427eb6dd7f87aeb84034d3",
+        "currentSha256": "65a97796673f431ed369bafe28834aa98c15b915d3faf931a1a52ae6a50aea4c"
+      },
+      {
+        "path": "scripts/independentPolicies.ts",
+        "frozenSha256": "8e309cf6728da1b72c058f2f2e95bbe147272e8080f49d9f106d22ea46edabe6",
+        "currentSha256": "3e94771245a405db87266f2d1d7509fc84513b00f42c6d069ab99134948d9ec9"
+      }
+    ],
+    "unchangedReplayModules": [
+      "scripts/formalAudit.ts",
+      "scripts/independentRunner.ts",
+      "scripts/independentEvaluation.ts"
+    ],
+    "activeDifferenceExplanation": "Current formalProtocol is later work; independentBenchmark only exports existing playRegisteredGame; independentPolicies adds ui-greedy-v1/ui-bots. None changes the frozen execution or the configured replay paths. Current audit dependencies and frozen modules were inspected separately.",
+    "executions": {
+      "combine": {
+        "stage": "combine",
+        "startUtc": "2026-10-19T23:32:52.6629608+00:00",
+        "endUtc": "2026-10-19T23:33:04.8907624+00:00",
+        "shellPid": 29360,
+        "exitCode": 0,
+        "command": "python -B local/strength-goal-20261018/combine-independent-streaming.py fanfou-development-v1-shard-plan.json fanfou-development-v1-combined fanfou-development-v1-source"
+      },
+      "resume": {
+        "stage": "frozen-cli-resume",
+        "startUtc": "2026-10-19T23:33:41.5536270+00:00",
+        "endUtc": "2026-10-19T23:33:47.9246023+00:00",
+        "shellPid": 27404,
+        "exitCode": 0,
+        "command": "node node_modules/vite-node/vite-node.mjs local/strength-goal-20261018/fanfou-development-v1-combined/source/scripts/evaluate-independent.ts local/strength-goal-20261018/fanfou-development-v1.config.json local/strength-goal-20261018/fanfou-development-v1-combined"
+      },
+      "replay": {
+        "stage": "stored-action-replay-and-divergence",
+        "startUtc": "2026-10-19T23:34:08.6951845+00:00",
+        "endUtc": "2026-10-19T23:37:09.1689981+00:00",
+        "shellPid": 33100,
+        "exitCode": 0,
+        "command": "node --max-old-space-size=4096 node_modules/vite-node/vite-node.mjs local/strength-goal-20261018/audit-complete-development.ts --execute-complete-data fanfou-development-v1-combined fanfou-development-v1-analysis fanfou-development-v1-source development-v5-expanded-combined"
+      },
+      "statistics": {
+        "stage": "independent-python-statistics",
+        "startUtc": "2026-10-19T23:34:08.6961925+00:00",
+        "endUtc": "2026-10-19T23:34:09.4459217+00:00",
+        "shellPid": 23912,
+        "exitCode": 0,
+        "command": "python -B local/strength-goal-20261018/independent-statistics-audit.py --execute-complete-data fanfou-development-v1-combined fanfou-development-v1-statistics"
+      }
+    },
+    "originalShardTerminalEvidence": {
+      "authority": "parent's current direct terminal confirmation; not independently repolled",
+      "sessions": [
+        {
+          "sessionId": 46907,
+          "exitCode": 0
+        },
+        {
+          "sessionId": 94267,
+          "exitCode": 0
+        },
+        {
+          "sessionId": 7966,
+          "exitCode": 0
+        },
+        {
+          "sessionId": 98449,
+          "exitCode": 0
+        }
+      ],
+      "originalExecutionFileMayBeStale": true
+    },
+    "hashes": {
+      "local/strength-goal-20261018/fanfou-development-v1-combined/games.jsonl": "791e277751334a32aaad56fdd4cd27dcce0aabf123d400ef0ed72043f95437ed",
+      "local/strength-goal-20261018/fanfou-development-v1-combined/traces.jsonl": "34a05a9320ccff99341578cc3b5cb8449713410a5838fa0ab738b8dd951212b7",
+      "local/strength-goal-20261018/fanfou-development-v1-combined/summary.json": "11bcd43a1d9f58ee977b6af6375da1c559aaf150e3de1c40d138a0351530a559",
+      "local/strength-goal-20261018/fanfou-development-v1-combined/aggregation.json": "8f3fe73ed981d027c0cbf2a48e54456cdbe7b233a1aabcf25c44095602407c56",
+      "local/strength-goal-20261018/fanfou-development-v1-analysis/replay-and-divergence-audit.json": "82b371654cc5b75eb37f6eb6f8c054a3820ff50cd8a1ebeb00fb956fd85f34fc",
+      "local/strength-goal-20261018/fanfou-development-v1-analysis/first-divergences.jsonl": "695f287c5485d605f23bbfecb6c63afdc365d8e15c1feff44b1ea4803465b062",
+      "local/strength-goal-20261018/fanfou-development-v1-statistics/statistics-audit.json": "17b7bdff3eea0d8badce940b3932f541a46bd5d3bfdeaffa563d0832a02c61ee",
+      "local/strength-goal-20261018/fanfou-development-v1.config.json": "a1ca52cdcb0cbedd82509d3088a773c640a5bce7336ab531884f6e5b321a0576",
+      "local/strength-goal-20261018/fanfou-development-v1-shard-plan.json": "4e3f862d1ccf58859ddf30dad7c22d8c7e2d556dd60e1f7a40e132f9f9797835",
+      "local/strength-goal-20261018/fanfou-development-v1-freeze.json": "b4d5b014c9a8abfc2d1a7f1722c9aab51a8d9c6bf04e3aa975fd5f7a5d9dfadf",
+      "local/strength-goal-20261018/fanfou-development-v1-scheduling-amendment.json": "356e0d149e5ad8b23ffb2965ed9a29c7a869aec60e3c0d12c75b242a193d59a6",
+      "local/strength-goal-20261018/combine-independent-streaming.py": "8733def321260c68b28e39fd8dc2c2246f0b90c618ab26b1cd4ec35f022d803b",
+      "local/strength-goal-20261018/audit-complete-development.ts": "4d5f9fc5e73460094255a90e11352f1f417dd0cdfb5121a860975907873a212c",
+      "local/strength-goal-20261018/independent-statistics-audit.py": "a2983fa26274d111e76fec90ca47c76dea69eb62baec1ca4c0e61a73f403d890",
+      "local/strength-goal-20261018/fanfou-development-v1-independent-audit/check-and-report.py": "68e476dd6bc7bec04c4b7312035f31771b2e0411baa1f9bb3f41b2f9f553db78"
+    },
+    "limits": [
+      "All 40 seeds are reused exploratory development seeds, not a fresh holdout.",
+      "Standard errors use 40 seed means; games, first nodes and particles are not independent units.",
+      "Normal 1.96SE intervals are exploratory, without multiple-comparison correction or formal acceptance.",
+      "Whole-game differences after a first divergence do not label that action as optimal or causal in isolation.",
+      "Common opening shares teacher exchange/missing; composite includes each subject's opening behavior.",
+      "Fanfou is byte-preserved BA discards plus a separately specified host rule shell and shared exchange, not the original complete program.",
+      "Two author references and this limited opponent grid do not establish expert/human-level strength.",
+      "Stored-action replay re-executes recorded actions in the engine; it does not call a policy or run new seed games."
+    ]
+  },
+  "predeclaredProtocolArtifacts": {
+    "docs/benchmarks/fanfou-development-v1-protocol.json": "eb73a61e2b37b0fa85ebb7a30f9d83c672d3edd70181b2806b76dbf80c23fc1f",
+    "docs/benchmarks/fanfou-development-v1-scheduling.json": "b48875274888e86ca124d93968b6e2a677dd0951e076459c4993359d0462fa08"
+  },
+  "mutableExecutionStateObservation": {
+    "path": "local/strength-goal-20261018/fanfou-development-v1-execution.json",
+    "observedAtOriginalAuditSha256": "6d9c55b0f0dfc64e3fc394994b21214bf446a2b7b91155074cda349fed3f16bb",
+    "originalBytesCopied": false,
+    "scope": "Hash recorded when the independently read status file still had three running labels. It was mutable operational metadata, not a frozen raw game artifact. The root subsequently updated that file using actual original-handle terminal outputs; no old byte snapshot is claimed."
+  },
+  "postAuditRootCompletionUpdate": {
+    "recordedAtUtc": "2026-10-19T23:52:38.830155+00:00",
+    "snapshot": "local/strength-goal-20261018/fanfou-development-v1-completion-observation.json",
+    "sha256": "c76b1a342f4375f2972e8f89713ddee9e3f17a0b06712d26dc353331e881b46e",
+    "originalHandles": [46907, 94267, 7966, 98449],
+    "allActualTerminalExitCodes": 0,
+    "rawGameEvidenceChanged": false,
+    "authority": "Root actual tool observations, separate from subagent's original audit metadata"
+  }
+}
