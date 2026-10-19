@@ -1,7 +1,10 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { createGame } from "../src/game/game";
 import { playerView } from "../src/game/view";
-import { ExternalMahjongWorker } from "./externalMahjong";
+import {
+  ExternalMahjongWorker,
+  type ExternalMahjongOptions,
+} from "./externalMahjong";
 
 const workers: ExternalMahjongWorker[] = [];
 const input = () => {
@@ -14,7 +17,7 @@ const input = () => {
 function fake(
   body: string,
   timeoutMs = 3000,
-  policy?: "ebony72-advanced-public-v1" | "ebony72-advanced-cap8-discard-v1",
+  policy?: ExternalMahjongOptions["policy"],
 ) {
   const worker = new ExternalMahjongWorker({
     executable: process.execPath,
@@ -60,6 +63,7 @@ describe("独立 Python 策略的常驻协议边界", () => {
   it.each([
     "ebony72-advanced-public-v1",
     "ebony72-advanced-cap8-discard-v1",
+    "fanfou-ba-composite-v1",
   ] as const)(
     "高级参考%s显式发送policy标识，缺失历史直接失败",
     async (policy) => {

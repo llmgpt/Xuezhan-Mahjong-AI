@@ -25,6 +25,63 @@ function openingViews() {
 }
 
 describe("独立评测策略注册", () => {
+  it("BA组合参考明确共用换牌，其他阶段均交给独立wire且复用同一进程", async () => {
+    let started = 0;
+    let finished = 0;
+    const calls: string[] = [];
+    const views = openingViews();
+    const session = createPolicySession("fanfou-ba-composite-v1", {
+      timeoutMs: 1234,
+      workerFactory: (options) => {
+        expect(options.policy).toBe("fanfou-ba-composite-v1");
+        expect(options.timeoutMs).toBe(1234);
+        started++;
+        return {
+          act: async (view, phase) => {
+            calls.push(phase);
+            if (phase === "choose-missing")
+              return { type: "missing", suit: "tong" };
+            if (phase === "discard")
+              return { type: "discard", tile: view.legalDiscards[0] };
+            throw new Error("BA explicit failure");
+          },
+          close: async () => {},
+          finish: async () => {
+            finished++;
+          },
+        };
+      },
+    });
+    expect(resolveLineup("fanfou-ba")).toEqual([
+      "fanfou-ba-composite-v1",
+      "fanfou-ba-composite-v1",
+      "fanfou-ba-composite-v1",
+      "fanfou-ba-composite-v1",
+    ]);
+    expect(await session.choose(views.exchange, "exchange")).toEqual(
+      chooseTeacherAction(views.exchange, "exchange"),
+    );
+    expect(started).toBe(0);
+    expect(await session.choose(views.missing, "choose-missing")).toEqual({
+      type: "missing",
+      suit: "tong",
+    });
+    expect(await session.choose(views.self, "discard")).toEqual({
+      type: "discard",
+      tile: views.self.legalDiscards[0],
+    });
+    await expect(session.choose(views.self, "respond")).rejects.toThrow(
+      "BA explicit failure",
+    );
+    expect(started).toBe(1);
+    expect(calls).toEqual(["choose-missing", "discard", "respond"]);
+    await session.finish();
+    expect(finished).toBe(1);
+    await expect(session.choose(views.exchange, "exchange")).rejects.toThrow(
+      /关闭/,
+    );
+  });
+
   it("封顶弃牌候选只共用换牌，其余委派独立cap8 wire且不吞错误", async () => {
     let started = 0;
     let finished = 0;

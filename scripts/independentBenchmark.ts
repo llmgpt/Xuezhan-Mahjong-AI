@@ -44,6 +44,7 @@ export interface IndependentConfig extends IndependentExpected {
 interface Runtime {
   node: string;
   python: string;
+  numpy?: string;
 }
 type GameSpec = Omit<IndependentRecord, "result">;
 interface Attempt {
@@ -158,10 +159,11 @@ export function independentSourceFingerprint(): Record<string, string> {
       if (entry.isDirectory()) {
         if (entry.name !== "__pycache__") visit(path);
       } else if (
-        (/\.(ts|py|json|md|patch)$/.test(entry.name) &&
+        (/\.(ts|py|json|md|patch|csv|txt)$/.test(entry.name) &&
           !/\.test\.ts$/.test(entry.name) &&
           !/^test_/.test(entry.name)) ||
-        entry.name === ".gitattributes"
+        entry.name === ".gitattributes" ||
+        entry.name === "LICENSE"
       )
         files.push(path);
     }
@@ -171,6 +173,7 @@ export function independentSourceFingerprint(): Record<string, string> {
     "scripts",
     "vendor/ebony72-mahjong",
     "vendor/ebony72-advanced",
+    "vendor/fanfou-ba",
   ])
     visit(join(root, directory));
   for (const path of [
@@ -193,14 +196,37 @@ export function independentSourceFingerprint(): Record<string, string> {
   );
 }
 
-function runtime(): Runtime {
+export function independentRuntime(
+  config: Pick<IndependentConfig, "policies" | "lineups">,
+  queryPython: (source: string) => string = (source) =>
+    execFileSync(process.env.STRENGTH_PYTHON ?? "python", ["-c", source], {
+      encoding: "utf8",
+      timeout: 5000,
+      windowsHide: true,
+    }),
+): Runtime {
+  const numpy =
+    config.policies.includes("fanfou-ba-composite-v1") ||
+    config.lineups.some((name) =>
+      resolveLineup(name).includes("fanfou-ba-composite-v1"),
+    );
+  const source = [
+    "import json, platform",
+    ...(numpy ? ["import numpy"] : []),
+    `print(json.dumps({'python': platform.python_version()${numpy ? ", 'numpy': numpy.__version__" : ""}}))`,
+  ].join("\n");
+  const versions = JSON.parse(queryPython(source)) as {
+    python?: unknown;
+    numpy?: unknown;
+  };
+  if (typeof versions?.python !== "string" || !versions.python.trim())
+    throw new Error("缺少有效Python运行时版本");
+  if (numpy && (typeof versions.numpy !== "string" || !versions.numpy.trim()))
+    throw new Error("BA参考需要有效NumPy运行时版本");
   return {
     node: process.version,
-    python: execFileSync(
-      process.env.STRENGTH_PYTHON ?? "python",
-      ["-c", "import platform; print(platform.python_version())"],
-      { encoding: "utf8", timeout: 5000, windowsHide: true },
-    ).trim(),
+    python: versions.python.trim(),
+    ...(numpy ? { numpy: (versions.numpy as string).trim() } : {}),
   };
 }
 
@@ -305,7 +331,7 @@ export async function runIndependentBenchmark(
     config,
     rules: DEFAULT_RULES,
     fingerprint: frozen,
-    runtime: options.runtime ?? runtime(),
+    runtime: options.runtime ?? independentRuntime(config),
     protocol: "public-view-v2/independent-jsonl-v2",
     opening: {
       common: "teacher-v1 exchange and missing for all seats",

@@ -12,7 +12,8 @@ export interface ExternalMahjongOptions {
   policy?:
     | "ebony72-initial"
     | "ebony72-advanced-public-v1"
-    | "ebony72-advanced-cap8-discard-v1";
+    | "ebony72-advanced-cap8-discard-v1"
+    | "fanfou-ba-composite-v1";
 }
 
 interface Pending {
@@ -170,7 +171,8 @@ export class ExternalMahjongWorker {
       options.policy !== undefined &&
       options.policy !== "ebony72-initial" &&
       options.policy !== "ebony72-advanced-public-v1" &&
-      options.policy !== "ebony72-advanced-cap8-discard-v1"
+      options.policy !== "ebony72-advanced-cap8-discard-v1" &&
+      options.policy !== "fanfou-ba-composite-v1"
     )
       throw new Error("未知外部策略");
     this.policy = options.policy;
@@ -224,10 +226,11 @@ export class ExternalMahjongWorker {
     assertPublicView(view);
     if (
       (this.policy === "ebony72-advanced-public-v1" ||
-        this.policy === "ebony72-advanced-cap8-discard-v1") &&
+        this.policy === "ebony72-advanced-cap8-discard-v1" ||
+        this.policy === "fanfou-ba-composite-v1") &&
       !Array.isArray(view.publicActions)
     )
-      throw new Error("高级参考缺少真实公开历史 publicActions");
+      throw new Error("外部参考缺少真实公开历史 publicActions");
     if (!["choose-missing", "discard", "respond"].includes(phase))
       throw new Error(`外部策略不支持阶段 ${phase}`);
     const snapshot = structuredClone(view);

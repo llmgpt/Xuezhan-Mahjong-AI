@@ -26,6 +26,7 @@ export const INDEPENDENT_POLICY_IDS = [
   "candidate-advanced-cap8-v6",
   "ebony-initial",
   "ebony72-advanced-public-v1",
+  "fanfou-ba-composite-v1",
 ] as const;
 export type IndependentPolicyId = (typeof INDEPENDENT_POLICY_IDS)[number];
 
@@ -50,6 +51,12 @@ export const INDEPENDENT_LINEUPS = {
     "ebony72-advanced-public-v1",
     "ebony72-advanced-public-v1",
     "ebony72-advanced-public-v1",
+  ],
+  "fanfou-ba": [
+    "fanfou-ba-composite-v1",
+    "fanfou-ba-composite-v1",
+    "fanfou-ba-composite-v1",
+    "fanfou-ba-composite-v1",
   ],
 } as const satisfies Record<string, readonly IndependentPolicyId[]>;
 
@@ -91,13 +98,15 @@ export function createPolicySession(
     const workerOptions: ExternalMahjongOptions = {
       timeoutMs: options.timeoutMs,
       policy:
-        name === "candidate-advanced-cap8-v6"
-          ? "ebony72-advanced-cap8-discard-v1"
-          : name === "ebony72-advanced-public-v1" ||
-              name === "candidate-advanced-hu-v4" ||
-              component !== undefined
-            ? "ebony72-advanced-public-v1"
-            : undefined,
+        name === "fanfou-ba-composite-v1"
+          ? "fanfou-ba-composite-v1"
+          : name === "candidate-advanced-cap8-v6"
+            ? "ebony72-advanced-cap8-discard-v1"
+            : name === "ebony72-advanced-public-v1" ||
+                name === "candidate-advanced-hu-v4" ||
+                component !== undefined
+              ? "ebony72-advanced-public-v1"
+              : undefined,
     };
     worker ??=
       options.workerFactory?.(workerOptions) ??
@@ -129,7 +138,8 @@ export function createPolicySession(
           externalChoose,
         );
       // Upstream has no exchange implementation. The composite strategy states
-      // this shared exchange explicitly; daquex and all later decisions are external.
+      // this shared exchange explicitly; all later decisions use the named
+      // external policy (including any explicitly documented V1 rule shell).
       if (phase === "exchange") return chooseTeacherAction(view, phase);
       return externalChoose(view, phase);
     },

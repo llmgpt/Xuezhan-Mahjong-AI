@@ -1,0 +1,280 @@
+{
+  "repository": "https://github.com/xingdream/mahjong",
+  "commit": "02e3373649699bc73af87db46ee144bba65ae830",
+  "policy": "fanfou-ba-composite-v1",
+  "license": "MIT",
+  "files": {
+    ".gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+    "BA_CORE.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "derived/ba-class.py": "63979cb3f000a0f5d3006d7f7c6dcacc0e2911b939bfd2511e999b0448d20aa2",
+    "derived/base-class.py": "b21e2058ce67eb2921c374cdf08327b403711050af347dccc15542058d52b927",
+    "README.md": "bc2dcf53052ab2fdb1fb991c94b1b4f553d9ede3cff7aeb30205f525cbac8089",
+    "requirements.txt": "6cd2b5e48aa4b25686cd42331ef15f999c029cc1063d0bcd52dbcc5ec2382efa",
+    "upstream/LICENSE": "a82198f7675beec151185825e4a2f5ab05187f7226901da208ca0731ba2a10ab",
+    "upstream/完整实验2.1/ai-demo/config/game_config.py": "ef831957199c387c4d1e8432fab18775f9cf21067ba02bbbc22ddddd793a8da3",
+    "upstream/完整实验2.1/ai-demo/config/HuIndex.csv": "676c41b84eca6a2d302f2696fc3132dffa07e1d4d8c2b724856fda64b8020695",
+    "upstream/完整实验2.1/ai-demo/config/log_config.py": "f41a836a217196b5d22d0add55d2209ff442f9bd8e9d28d9fcc408b7e38775fd",
+    "upstream/完整实验2.1/ai-demo/src/dazhong_mahjong_1.py": "4a3ce762062b9efa7f8c6a8ca4ceb1ca6720bf26e0f6c2ea172163e7ea4570c9",
+    "upstream/完整实验2.1/ai-demo/src/mahjong_no_state.py": "5f37c7967b5e0ccf63dabf32112e45239c577f4a05627e26eaae40f45c21c3a7"
+  },
+  "sources": [
+    {
+      "path": "upstream/LICENSE",
+      "bytes": 1066,
+      "sha256": "a82198f7675beec151185825e4a2f5ab05187f7226901da208ca0731ba2a10ab",
+      "url": "https://raw.githubusercontent.com/xingdream/mahjong/02e3373649699bc73af87db46ee144bba65ae830/LICENSE",
+      "upstreamCommit": "02e3373649699bc73af87db46ee144bba65ae830"
+    },
+    {
+      "path": "upstream/完整实验2.1/ai-demo/config/game_config.py",
+      "bytes": 1798,
+      "sha256": "ef831957199c387c4d1e8432fab18775f9cf21067ba02bbbc22ddddd793a8da3",
+      "url": "https://raw.githubusercontent.com/xingdream/mahjong/02e3373649699bc73af87db46ee144bba65ae830/%E5%AE%8C%E6%95%B4%E5%AE%9E%E9%AA%8C2.1/ai-demo/config/game_config.py",
+      "upstreamCommit": "02e3373649699bc73af87db46ee144bba65ae830"
+    },
+    {
+      "path": "upstream/完整实验2.1/ai-demo/config/HuIndex.csv",
+      "bytes": 162970,
+      "sha256": "676c41b84eca6a2d302f2696fc3132dffa07e1d4d8c2b724856fda64b8020695",
+      "url": "https://raw.githubusercontent.com/xingdream/mahjong/02e3373649699bc73af87db46ee144bba65ae830/%E5%AE%8C%E6%95%B4%E5%AE%9E%E9%AA%8C2.1/ai-demo/config/HuIndex.csv",
+      "upstreamCommit": "02e3373649699bc73af87db46ee144bba65ae830"
+    },
+    {
+      "path": "upstream/完整实验2.1/ai-demo/config/log_config.py",
+      "bytes": 354,
+      "sha256": "f41a836a217196b5d22d0add55d2209ff442f9bd8e9d28d9fcc408b7e38775fd",
+      "url": "https://raw.githubusercontent.com/xingdream/mahjong/02e3373649699bc73af87db46ee144bba65ae830/%E5%AE%8C%E6%95%B4%E5%AE%9E%E9%AA%8C2.1/ai-demo/config/log_config.py",
+      "upstreamCommit": "02e3373649699bc73af87db46ee144bba65ae830"
+    },
+    {
+      "path": "upstream/完整实验2.1/ai-demo/src/dazhong_mahjong_1.py",
+      "bytes": 156228,
+      "sha256": "4a3ce762062b9efa7f8c6a8ca4ceb1ca6720bf26e0f6c2ea172163e7ea4570c9",
+      "url": "https://raw.githubusercontent.com/xingdream/mahjong/02e3373649699bc73af87db46ee144bba65ae830/%E5%AE%8C%E6%95%B4%E5%AE%9E%E9%AA%8C2.1/ai-demo/src/dazhong_mahjong_1.py",
+      "upstreamCommit": "02e3373649699bc73af87db46ee144bba65ae830"
+    },
+    {
+      "path": "upstream/完整实验2.1/ai-demo/src/mahjong_no_state.py",
+      "bytes": 72295,
+      "sha256": "5f37c7967b5e0ccf63dabf32112e45239c577f4a05627e26eaae40f45c21c3a7",
+      "url": "https://raw.githubusercontent.com/xingdream/mahjong/02e3373649699bc73af87db46ee144bba65ae830/%E5%AE%8C%E6%95%B4%E5%AE%9E%E9%AA%8C2.1/ai-demo/src/mahjong_no_state.py",
+      "upstreamCommit": "02e3373649699bc73af87db46ee144bba65ae830"
+    }
+  ],
+  "derivation": {
+    "classes": [
+      {
+        "name": "MahJong_NO_State_Base",
+        "source": "upstream/完整实验2.1/ai-demo/src/mahjong_no_state.py",
+        "derived": "derived/base-class.py",
+        "line": 18,
+        "endLine": 1187,
+        "methods": [
+          {
+            "name": "__init__",
+            "line": 33,
+            "astSha256": "219fbc4ee47a5645fdb071928bc8468b857f248587c4ae6ce6f9e40356bf3455"
+          },
+          {
+            "name": "_organize",
+            "line": 75,
+            "astSha256": "02d4ddef0a371f2790abba5332945678aabcf9e18c639074f12bd935cf61b2ea"
+          },
+          {
+            "name": "get_new_majiang",
+            "line": 85,
+            "astSha256": "7a31eb8ee171987ddf04a03b5bd60d16aea168787171a24ca31e9a0b82e8bc58"
+          },
+          {
+            "name": "_check_card_legal",
+            "line": 101,
+            "astSha256": "0236b68298857ce5bfd7fe355a5d8e5b2d69c8f9f66c91bfcbaeebabaf4b73c8"
+          },
+          {
+            "name": "_get_card_index",
+            "line": 112,
+            "astSha256": "5cca2d54a175450e773d09ed2f0e50cc046395dca0a17539aca815d116a5eeae"
+          },
+          {
+            "name": "_full_array",
+            "line": 156,
+            "astSha256": "ff72b414e9b07745a7ce988b8b8e23a5bbf60f937bcd57bb1f8c3f52b9fd54c7"
+          },
+          {
+            "name": "_cut_string",
+            "line": 170,
+            "astSha256": "42f382fdc56065e62eb21525e739ce1a4ff0a7e96f20a82a6bfc2946ecdc4e51"
+          },
+          {
+            "name": "_get_card_str",
+            "line": 182,
+            "astSha256": "717a831385af70b26998e041c0137633f40c2820f96ed3fcc6eb418b7b7d9cb8"
+          },
+          {
+            "name": "_get_array_index",
+            "line": 217,
+            "astSha256": "4f5bcb97fea30343ee1a6e3e6bc1656ee9b766b0b2a584c62008340d42bd29b9"
+          },
+          {
+            "name": "_get_card_cod",
+            "line": 227,
+            "astSha256": "90e5bdba7420a84a99a7ceaaa638261587c94195e1fb4456a45f5cf55e753bfa"
+          },
+          {
+            "name": "_check_random_gang",
+            "line": 237,
+            "astSha256": "2620df423fdf0a483c91fa70f48ce358f11aebcbf0667f4693a12988de12ad73"
+          },
+          {
+            "name": "_check_gang",
+            "line": 274,
+            "astSha256": "89c4ba824c6540105ed5c82ea2b6bd336c065132ac2f07c803bcf6ea1140da74"
+          },
+          {
+            "name": "_check_peng",
+            "line": 335,
+            "astSha256": "a30e79e3593d62847b0d5825aa99a6cb62c9c78497dfd95d4de4185f7fbd902e"
+          },
+          {
+            "name": "_check_random_chi",
+            "line": 352,
+            "astSha256": "d09c31436f3122d5da914cf4d87f6b668fcaa4851d146b7a8d2ed026a313e65e"
+          },
+          {
+            "name": "_check_chi",
+            "line": 412,
+            "astSha256": "3d32d6ee2152a0191179c4a5244e9579ee120d5193a1c0862fd92e18fc14f8de"
+          },
+          {
+            "name": "_check_ting",
+            "line": 519,
+            "astSha256": "a363815d93de2c14d9c9adc18305a698f2c1a6b6ef915d8a0e01636c8b9a8c53"
+          },
+          {
+            "name": "_check_hu",
+            "line": 605,
+            "astSha256": "a84cc4febee0e50f56d9fb790c7a6b6e9ee1c60c2da024d710f8f40161739e8c"
+          },
+          {
+            "name": "_cont_hu_list",
+            "line": 617,
+            "astSha256": "500a22e6364817ca9789ad157604d0155dafa15f363117cb8ed7495507e56482"
+          },
+          {
+            "name": "_call_key",
+            "line": 638,
+            "astSha256": "31b85f4aa460ae2cbbe77449dd600a01f21041b603edc1272b37e66ce70c0c99"
+          },
+          {
+            "name": "_conv_req_mess",
+            "line": 661,
+            "astSha256": "ca6aff8d50a0a1abda4bedb89e6670c7d06193d4ceae6ae2d1b0b970894b9486"
+          },
+          {
+            "name": "ai_del_tting",
+            "line": 681,
+            "astSha256": "0b61f538427ab9d7cae2c4bf8713ef7903422b6522152f235a905268a21433f2"
+          },
+          {
+            "name": "ai_del_ting",
+            "line": 698,
+            "astSha256": "b26718b4c98358b77f6cfdbc2912fdd79ac3b5b504cbdc153369179c47ec219c"
+          },
+          {
+            "name": "ai_del_zihu",
+            "line": 718,
+            "astSha256": "da5337852442ec56f9569ba33599f0d3364480a8a45c2cc154632e6e79dccc6c"
+          },
+          {
+            "name": "ai_del_angang",
+            "line": 740,
+            "astSha256": "ea5c8697d31a923426e3272e83aeb074045b708c2866eb83dd4c8a7ebef740d3"
+          },
+          {
+            "name": "ai_del_bugang",
+            "line": 768,
+            "astSha256": "a906db740ab9dd53adb426b055ebc4d8dc3090747e007c3ebe74742c4936d30f"
+          },
+          {
+            "name": "del_ourself_drw",
+            "line": 791,
+            "astSha256": "f6548d16eafd937ee2ee19b3cff1af8a643823a8dc55cd2adba851f60976d5a7"
+          },
+          {
+            "name": "del_ting_drw",
+            "line": 831,
+            "astSha256": "795ec581dda982ea63d6ae3dc86f407e11dd8d9e3346df39c7e6a7f9c7052aae"
+          },
+          {
+            "name": "ai_del_paohu",
+            "line": 874,
+            "astSha256": "454568a4faaad75a19967c91618669a2dd3338dc6cec41de1f795e1f16fd9511"
+          },
+          {
+            "name": "ai_del_minggang",
+            "line": 896,
+            "astSha256": "e28a69a182389c8ca69b4b5e8ddc1b8a4bbf036d440cedc03cc90544c0902762"
+          },
+          {
+            "name": "ai_del_peng",
+            "line": 917,
+            "astSha256": "da662afc73ff17681a06cb727cdc52570b1278d96fde07757faa2109a781b36f"
+          },
+          {
+            "name": "ai_del_chi",
+            "line": 938,
+            "astSha256": "1ad33674a9ab9e7fcce549f1967ed631a5731103e74bd2f9168481273f8d2db2"
+          },
+          {
+            "name": "chi_hou",
+            "line": 1126,
+            "astSha256": "7a511a520df6eeb896a3b5577a255e7332c8c0560dee076d1a7cdb7a79f65b29"
+          },
+          {
+            "name": "ai_del_logic",
+            "line": 1157,
+            "astSha256": "584b8b7588c87727f0bc09e1f9e106e7fef78ca9e1a1d555a8957537732c8430"
+          }
+        ]
+      },
+      {
+        "name": "Fan_Fou_basic",
+        "source": "upstream/完整实验2.1/ai-demo/src/dazhong_mahjong_1.py",
+        "derived": "derived/ba-class.py",
+        "line": 1751,
+        "endLine": 2178,
+        "methods": [
+          {
+            "name": "__init__",
+            "line": 1752,
+            "astSha256": "8481b679bdc5e518372f38838ce1d1dab5ee21a9feb7fd148a196c60624d2486"
+          },
+          {
+            "name": "get_new_majiang",
+            "line": 1777,
+            "astSha256": "7a31eb8ee171987ddf04a03b5bd60d16aea168787171a24ca31e9a0b82e8bc58"
+          },
+          {
+            "name": "del_ourself_drw",
+            "line": 1787,
+            "astSha256": "2405bd88af7751ffd7ebf67799a0435603333e8d487051ca30e4bf659cc057b3"
+          },
+          {
+            "name": "_discard_hou",
+            "line": 2165,
+            "astSha256": "aa30cb1605d4d1ad4f3ae6ae8ecfcacad0a0db40f64676efef2dbcd8619cbc31"
+          }
+        ]
+      }
+    ],
+    "corePatch": "BA_CORE.patch",
+    "algorithmChanges": "None: byte-exact original class slices; rule shell and hydration are separate.",
+    "rng": "Request-local Random seeded from validated public snapshot SHA-256, no game seed.",
+    "publicHistory": "Complete real publicActions required and revalidated; public stock counted once."
+  },
+  "requirements": {
+    "optional": true,
+    "numpy": "2.1.3"
+  },
+  "closureSha256": "ffcf71fdb5c7817a89ec78ffc30210fe52f5dd1f7d281929b0674a6922c7bcd0"
+}

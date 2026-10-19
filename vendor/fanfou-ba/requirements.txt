@@ -1,0 +1,2 @@
+# Only fanfou-ba-composite-v1 requires this optional dependency.
+numpy==2.1.3

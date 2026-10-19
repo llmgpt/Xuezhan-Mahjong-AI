@@ -12,6 +12,7 @@ import type { IndependentGameResult } from "./independentRunner";
 import {
   independentSourceFingerprint,
   parseIndependentConfig,
+  independentRuntime,
   runIndependentBenchmark,
 } from "./independentBenchmark";
 
@@ -63,6 +64,48 @@ const options = () => ({
 });
 
 describe("独立评测v2的可复现持久化", () => {
+  it("只在使用BA策略或BA对手时要求并冻结NumPy运行时", () => {
+    const withoutNumpy = independentRuntime(config(), (source) => {
+      if (source.includes("numpy")) throw new Error("NumPy unavailable");
+      return JSON.stringify({ python: "3.13.5" });
+    });
+    expect(withoutNumpy).toEqual({ node: process.version, python: "3.13.5" });
+    for (const configured of [
+      { ...config(), policies: ["teacher-v1", "fanfou-ba-composite-v1"] },
+      { ...config(), lineups: ["fanfou-ba"] },
+    ]) {
+      expect(
+        independentRuntime(configured, (source) => {
+          expect(source).toContain("import numpy");
+          return JSON.stringify({ python: "3.13.5", numpy: "2.1.3" });
+        }),
+      ).toEqual({ node: process.version, python: "3.13.5", numpy: "2.1.3" });
+      expect(() =>
+        independentRuntime(configured, () => {
+          throw new Error("NumPy unavailable");
+        }),
+      ).toThrow("NumPy unavailable");
+      expect(() =>
+        independentRuntime(configured, () =>
+          JSON.stringify({ python: "3.13.5" }),
+        ),
+      ).toThrow(/NumPy|numpy|运行时/);
+    }
+  });
+
+  it("BA原始查表CSV、许可、核心切片和可选依赖均纳入源码冻结", () => {
+    const files = independentSourceFingerprint();
+    for (const path of [
+      "vendor/fanfou-ba/upstream/完整实验2.1/ai-demo/config/HuIndex.csv",
+      "vendor/fanfou-ba/upstream/LICENSE",
+      "vendor/fanfou-ba/derived/base-class.py",
+      "vendor/fanfou-ba/derived/ba-class.py",
+      "vendor/fanfou-ba/requirements.txt",
+      "vendor/fanfou-ba/.gitattributes",
+    ])
+      expect(files[path]).toMatch(/^[a-f0-9]{64}$/);
+  });
+
   it("采样或回退诊断与当步公开轨迹关联保存，不把回退隐去", async () => {
     const output = directory();
     await runIndependentBenchmark({ ...config(), seeds: [80000] }, output, {

@@ -388,6 +388,13 @@ def handle_request(request: Any) -> dict:
         policy_id = request.get("policy", "ebony72-initial")
         if policy_id == "ebony72-initial":
             action = choose_action(request["phase"], request["view"], context)
+        elif policy_id == "fanfou-ba-composite-v1":
+            import fanfou_policy
+            # Origin/details stay available for direct public-node audits. The
+            # existing JSONL contract deliberately exports the action alone.
+            action = fanfou_policy.decide(
+                request["phase"], request["view"], context, sys.modules[__name__]
+            )["action"]
         elif policy_id in {"ebony72-advanced-public-v1", "ebony72-advanced-cap8-discard-v1"}:
             import advanced_policy
             try:
