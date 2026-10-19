@@ -1,0 +1,2808 @@
+{
+  "version": 5,
+  "recordedAtUtc": "2026-10-19T23:45:01.542870+00:00",
+  "scope": "Complete40-spent-development-seed V5 diagnosis; separate from earlier80000..80007. No formal pass, certified-expert claim or per-action oracle labels.",
+  "complete": true,
+  "valid": true,
+  "developmentOnly": true,
+  "config": {
+    "mode": "development",
+    "seeds": [
+      60000, 60001, 60002, 60003, 60004, 60005, 60006, 60007, 60008, 60009,
+      60010, 60011, 60012, 60013, 60014, 60015, 60016, 60017, 60018, 60019,
+      60020, 60021, 60022, 60023, 60024, 60025, 60026, 60027, 60028, 60029,
+      60030, 60031, 60032, 60033, 60034, 60035, 60036, 60037, 60038, 60039
+    ],
+    "seats": [0, 1, 2, 3],
+    "lineups": ["ebony-initial", "ebony-advanced", "teacher-v1"],
+    "openings": ["common", "composite"],
+    "policies": [
+      "teacher-v1",
+      "ebony72-advanced-public-v1",
+      "candidate-advanced-opening-v5",
+      "candidate-advanced-discard-v5",
+      "candidate-advanced-actions-v5"
+    ],
+    "comparisons": [
+      {
+        "candidate": "candidate-advanced-opening-v5",
+        "baseline": "teacher-v1"
+      },
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1"
+      },
+      {
+        "candidate": "candidate-advanced-actions-v5",
+        "baseline": "teacher-v1"
+      },
+      {
+        "candidate": "candidate-advanced-opening-v5",
+        "baseline": "ebony72-advanced-public-v1"
+      },
+      {
+        "candidate": "candidate-advanced-opening-v5",
+        "baseline": "candidate-advanced-discard-v5"
+      },
+      {
+        "candidate": "candidate-advanced-opening-v5",
+        "baseline": "candidate-advanced-actions-v5"
+      }
+    ],
+    "timeoutMs": 20000
+  },
+  "manifest": {
+    "kind": "manifest",
+    "version": 2,
+    "config": {
+      "mode": "development",
+      "seeds": [
+        60000, 60001, 60002, 60003, 60004, 60005, 60006, 60007, 60008, 60009,
+        60010, 60011, 60012, 60013, 60014, 60015, 60016, 60017, 60018, 60019,
+        60020, 60021, 60022, 60023, 60024, 60025, 60026, 60027, 60028, 60029,
+        60030, 60031, 60032, 60033, 60034, 60035, 60036, 60037, 60038, 60039
+      ],
+      "seats": [0, 1, 2, 3],
+      "lineups": ["ebony-initial", "ebony-advanced", "teacher-v1"],
+      "openings": ["common", "composite"],
+      "policies": [
+        "teacher-v1",
+        "ebony72-advanced-public-v1",
+        "candidate-advanced-opening-v5",
+        "candidate-advanced-discard-v5",
+        "candidate-advanced-actions-v5"
+      ],
+      "comparisons": [
+        {
+          "candidate": "candidate-advanced-opening-v5",
+          "baseline": "teacher-v1"
+        },
+        {
+          "candidate": "candidate-advanced-discard-v5",
+          "baseline": "teacher-v1"
+        },
+        {
+          "candidate": "candidate-advanced-actions-v5",
+          "baseline": "teacher-v1"
+        },
+        {
+          "candidate": "candidate-advanced-opening-v5",
+          "baseline": "ebony72-advanced-public-v1"
+        },
+        {
+          "candidate": "candidate-advanced-opening-v5",
+          "baseline": "candidate-advanced-discard-v5"
+        },
+        {
+          "candidate": "candidate-advanced-opening-v5",
+          "baseline": "candidate-advanced-actions-v5"
+        }
+      ],
+      "timeoutMs": 20000
+    },
+    "rules": {
+      "exchangeDirection": "clockwise",
+      "fanCap": 3,
+      "selfDrawBonus": 1,
+      "flowerPenalty": 8,
+      "checkTenpai": true
+    },
+    "fingerprint": {
+      "docs/RULES_V1.md": "506e7e8753c1c9987c746bfb763381c682c6fed66feb0f1383aaafcffe2b7fdb",
+      "package-lock.json": "a9b653297e32a165807acbcc287fcb80c2a1ac17770d2797fc0bf63dec44b425",
+      "package.json": "d63a148f7389f3718edfb747dc24052b28c629ae909a06e1e95beb9d98a79cd4",
+      "scripts/analyze-benchmark.ts": "da9ef8259f42fc0ad993792bab84f6fcbc07797b73a3253b62d9803108cacec1",
+      "scripts/benchmarkPolicies.ts": "33aac4b946089b41d1449b7c92a9a9a9d85777a2433b3c20490bab79e1f97962",
+      "scripts/benchmarkRunner.ts": "c0e777d7076c21c409c29d15ef94f96dc72a56b0a1151b0d008468caf71567c9",
+      "scripts/evaluate-advice.ts": "ca2654d686a55a5acf1611845da1e6329fb02046557f00c987773d3e0db310eb",
+      "scripts/evaluate-independent.ts": "90d47defebc29c9798e9c100fdb86e572cb798248a022052211dd88c2f635878",
+      "scripts/evaluationStats.ts": "656de18454ec58483875bd09833dd898f75dfc8343386fdbb62a7eabf5f95560",
+      "scripts/externalMahjong.ts": "1f75653f51b0483055e6374d89c4774849064c0137f070d1cc5a11c12dc62baf",
+      "scripts/external/README.md": "f0b0e46d6fdf69e76fd2b9dee34091ef9e67f6cceb6b8a8958f47191b03e779d",
+      "scripts/external/advanced_policy.py": "2136a336b73bf3593b9874d3602234067f444e650af00943e11056bd0d8b5431",
+      "scripts/external/fixtures/advanced-dev-80007-wall-empty.request.json": "af5269d3c90ddce95db6a9a125db7545d834cb41c2747b250c10fba56108638c",
+      "scripts/external/fixtures/upstream-empty-wall.request.json": "bc8ea10fa0f18ff1f1c8b23a6e6811b6a9ef78226693ea6fccf15d53709cae1e",
+      "scripts/external/public_history_validation.py": "6dfb9bce71fd9cc7ecf878e2d3cb25f466c450db5417214e71ae4794fbabf328",
+      "scripts/external/worker.py": "0b7bc9db7f701817dc8285c0137e030bf5db19432d694298adf138ef118d1913",
+      "scripts/independentBenchmark.ts": "e531787e4d7a2cd96e1e92438b01fc2201f31cb2f3b366b1847e5f37b5895005",
+      "scripts/independentEvaluation.ts": "b68f5895881325bd12ac3dc34c604522f8a1c101be8e589f9824d4d1109541ed",
+      "scripts/independentPolicies.ts": "d91e74d9d40bd4f852c0a1c9517467cd2be05c71af0dc230208075d8c122822a",
+      "scripts/independentRunner.ts": "131c493528f053594cd655724b0f0ff19fc043409adfc0f70731c831221643ee",
+      "src/game/actionAdvice.ts": "08036cafad433508906f0312801d4a418fc767180f9f0e7320162d9c29451ce4",
+      "src/game/advancedComponents.ts": "99cc9c60287d498d448e708ed932a4b06ccec71c59ebb463dcfe5761995ff681",
+      "src/game/advice.ts": "dba080f3c61d99bccefed33477f77ffdc394fd072a4a8ce9e265a2ba33b76e15",
+      "src/game/bot.ts": "7cf9998abb3a6b5ecc73ab7cbcf961cee5f299901c859418d0f220aced07b189",
+      "src/game/candidateEvaluation.ts": "62cac95d93809204168ffec5c537667bcfead9e80deec8b5cfeecce545de93f5",
+      "src/game/decision.ts": "13487f4ad5f6c049cca7e9691ec1845fd51878d1fa907bc5670af695108c4e97",
+      "src/game/demo.ts": "e0041c4141fe52310b92d92de8febbe1679e4160cee267ef6eeb6081d39ad3cb",
+      "src/game/game.ts": "c2c47f5e4bdb13aa5c3a88b108bdf7e8338d699c6945551de421b2c730cf7b55",
+      "src/game/immediateWin.ts": "b0f0c6f8ce39cdf8fed58a16426f0201c17188a18cb586062bbf2766dd455749",
+      "src/game/lookahead.ts": "abc9cd298f054b5544568f49f48ef2d215c5426ca79588e381e21e3bb0bd6171",
+      "src/game/openingAdvice.ts": "c34f9c41c16dfbab2ebad8aee62fe67c5d2dabdfe34337471e2a48ec6efd1ceb",
+      "src/game/publicSampler.ts": "2b4f0499f98511ccab8202ef2834d56c2201fdb61502f2cf7234302efcf59ad5",
+      "src/game/rolloutTeacher.ts": "6d5f4c67efb05dd338aab960156ba6acd669d10056e89c3e01fb4715ecab72c5",
+      "src/game/rules.ts": "89600183168a491703fbdb0daff02905c0e29ad49d09be73e81dc5a39194a552",
+      "src/game/sampledContinuation.ts": "61957e91b6389bb19e19d38dd209f6cf668a7769109b5f580d7535d3827936b6",
+      "src/game/scoring.ts": "c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e",
+      "src/game/session.ts": "497d3cdf840070006ba5bbb870d30cb2f2fd434099a710fa422d5326ef0f0d09",
+      "src/game/strongTeacher.ts": "18d611bb9885445654c6159ab97fe01694583aae115f7a11f5eecc8822086a6f",
+      "src/game/teacher.ts": "ef3ccd51b9b68a3729ff85dcfe81d45419f5657ff196ab0afca6632dced0806d",
+      "src/game/teacherEvaluation.ts": "8f76b448018c48b428f6855946b681148e3e712d52489b8ea1bd57c2c33f7d12",
+      "src/game/testHelpers.ts": "9c69f85f668f9ede112fe613ba2ae1a1e7b0910472eb3b5d65e5d067a98a9ba3",
+      "src/game/tiles.ts": "1de601067eeb8f78d1774136b0ac19a6f174db6ec36aa19344a1477fc153b979",
+      "src/game/view.ts": "3dfafba0db3775ae5b1bb2972edff360681411739dc16da594dc731a6db67981",
+      "tsconfig.app.json": "e45e6fb433318256734657fc4cef6815f9ae691210578d65cb2e5c7b5a848396",
+      "tsconfig.json": "ad28d132ee48d6e23917cf5827cace785d0fc01a44ca68b0dda51cc8c3fd3f52",
+      "tsconfig.node.json": "5ddf31a6eeab0925e8d10eb31708c8ae0a2bb973c3a18e662c1dad78f79962e5",
+      "vendor/ebony72-advanced/.gitattributes": "dbf3b6370c340788f04d61a0191f28774b6765a319f46d9565fbe19538a0308a",
+      "vendor/ebony72-advanced/PUBLIC_ONLY.patch": "a557c222d42db4837ae0ba5ab708705c533b9e0d0c73555984ed1ea098f32407",
+      "vendor/ebony72-advanced/UPSTREAM.json": "c0da2c0109aa701b42a0181c16e3acf5149c1f8e3ec47e3d0794ad5790cc6e12",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/__init__.py": "e5cc55ea4819c3e7879ce4f5602c9bc871f6de4c5a9ba02cb0eb0ea881f1db4b",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/hytreekong.py": "ff118a2cb16db3e1506f7cb6f59625a35ff091d3e879d02e66f5f581e66a2a57",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/own_hand_helpers.py": "572ac6fd4a0f4c874624afb039e5897de601bf50edd52e68217082f526a31f6a",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/public_history.py": "30a019cb33a06ff3b4cc6e5a2f4a358ce0050fb869734289f302450bc3b1976a",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/strategyz0614.py": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/__init__.py": "e5cc55ea4819c3e7879ce4f5602c9bc871f6de4c5a9ba02cb0eb0ea881f1db4b",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/hutype.py": "0990af6af0377b33806c5a51794616db42efb36dd4300535eda63d0d171e66db",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/hysolx.py": "6d4fea41dfbe45e067205ba3dfc73f2c8d0cdf10bc1543863723c17beac74b6f",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/pusolx.py": "b4888f599ec691806e99c0742be08c0e2cafa06b33e7f91553b58b21a92eda1a",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzcard.py": "77285fe60d3e50618b469545211e12bfc10d758a82964e919fdb5e5ca85ae2da",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzscore.py": "0eb1ce9a03eef24e2893966a9a5e57b191cf5b3dac2664b59c79f73a6a9be9c5",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzutils.py": "097f7397e542fe0bcc9b54be05d15f43e5dc866ee238d189736d2afb2be701cd",
+      "vendor/ebony72-advanced/upstream/hytreekong.py": "0f74179f96f85359809abe1be74c305eed33efbb8902c3d54717f742b62917e1",
+      "vendor/ebony72-advanced/upstream/license.md": "20b7d2ddbd084a84030ba985d5cb7011c406e75edcd40ddc5f974a3bc46b07f3",
+      "vendor/ebony72-advanced/upstream/strategyz0614.py": "ddb00bba5dad82cfc538856d067f9027b0a4db796dde5d498c8d5c4a67be25f4",
+      "vendor/ebony72-advanced/upstream/utils/hutype.py": "d2eac6144ba3092b3a97b9aa8ca8385af954525c4573f4be4c1a2d918a262f86",
+      "vendor/ebony72-advanced/upstream/utils/hysolx.py": "0c53070f56d19b9292063b4646bcaa42e47ce05c124ea4a4da06e86638d746ac",
+      "vendor/ebony72-advanced/upstream/utils/pusolx.py": "2fd5fb69393b83ed0f100a9f6c509959c151b88517c396ffd808e585455e02d1",
+      "vendor/ebony72-advanced/upstream/utils/xzcard.py": "77285fe60d3e50618b469545211e12bfc10d758a82964e919fdb5e5ca85ae2da",
+      "vendor/ebony72-advanced/upstream/utils/xzscore.py": "4a4ceabdbcbea23835e01de475e770474419813f563716038da69e1265ad81c8",
+      "vendor/ebony72-advanced/upstream/utils/xzutils.py": "81ef9c8faed63df845cee4be71a16bbf124f6deadeffa9a18979c173a4f28968",
+      "vendor/ebony72-advanced/upstream/xzdealer.py": "4e5aadeeddd3f3c763afb49cd1a5e535017019640990499d319c0584cc522fec",
+      "vendor/ebony72-advanced/upstream/xzplayer.py": "b4fa2d725a4a259dd390889a3cf2ae7356a846705c9edfd876ed2a18dfbe231d",
+      "vendor/ebony72-mahjong/.gitattributes": "fe885badf4b922fbb0a0ef013878ce2cc409cd18ac9dc527749d77669d92f770",
+      "vendor/ebony72-mahjong/UPSTREAM.json": "95903ffc4ff97acf3f3991fc442914fc6aaaa0d0cc0a9430ef55c0b657f383a1",
+      "vendor/ebony72-mahjong/dfncy/block_dfncy.py": "d91c3748b7d993a821f3ac675e17da114958b64750dc917e4febbf3871dd9bc5",
+      "vendor/ebony72-mahjong/license.md": "20b7d2ddbd084a84030ba985d5cb7011c406e75edcd40ddc5f974a3bc46b07f3",
+      "vendor/ebony72-mahjong/strategy_initial21_7attr.py": "7a8a5c752e8866ce6f883a099b560ba5d94d9a4272891df5fbc602c725e4d387",
+      "vendor/ebony72-mahjong/utils/daque.py": "94fd752ce4fc47df17f6ef6310ac3031b9a4f6a62d6ee53e6edc805aec449010",
+      "vendor/ebony72-mahjong/utils/pusolx.py": "2fd5fb69393b83ed0f100a9f6c509959c151b88517c396ffd808e585455e02d1",
+      "vendor/ebony72-mahjong/utils/xzcard.py": "77285fe60d3e50618b469545211e12bfc10d758a82964e919fdb5e5ca85ae2da",
+      "vendor/ebony72-mahjong/utils/xzutils.py": "81ef9c8faed63df845cee4be71a16bbf124f6deadeffa9a18979c173a4f28968",
+      "vite.config.ts": "252f601700bf38129f73542b01b385383814bfeeb1bc00c5cfa93ebe2314425b"
+    },
+    "runtime": {
+      "node": "v22.22.1",
+      "python": "3.13.5"
+    },
+    "protocol": "public-view-v2/independent-jsonl-v2",
+    "opening": {
+      "common": "teacher-v1 exchange and missing for all seats",
+      "composite": "each policy; both ebony references share teacher-v1 exchange only"
+    },
+    "pairing": "same initial seed, then trajectories and draw recipients may diverge; seed-cluster statistics"
+  },
+  "publishedSummary": {
+    "path": "docs/benchmarks/independent-v5-expanded-summary.json",
+    "sha256": "f0395f31644beb860c93f5d711a54259df6bcd9f37d1173f284984f41e9654ae"
+  },
+  "summaryCopy": {
+    "original": {
+      "path": "local/strength-goal-20261018/development-v5-expanded-analysis/final-combined/summary.json",
+      "sha256": "a29ef208b1314b77e95ed1385824a2dcccc1ad7775f74e82e802b2e9ccb0581b"
+    },
+    "allOriginalFieldsAnd72PanelsPreserved": true,
+    "semanticEqualityRequiredAfterFormatting": true
+  },
+  "originalData": {
+    "games.jsonl": {
+      "path": "local/strength-goal-20261018/development-v5-expanded-combined/games.jsonl",
+      "sha256": "b65b684b17d92a9dd912a966139c4e11fe91c98ffc9e5e6eb63cf44cd33e9036"
+    },
+    "traces.jsonl": {
+      "path": "local/strength-goal-20261018/development-v5-expanded-combined/traces.jsonl",
+      "sha256": "a4b03b44fdcba82148bb8e7cbb7192afb2523d3c8a5de28fa6fd06a8b5458ffe"
+    },
+    "summary.json": {
+      "path": "local/strength-goal-20261018/development-v5-expanded-combined/summary.json",
+      "sha256": "8ec7326ff79c9946ed9a3ef8e2b5ab760cd2977261a34a69d03fd0b8c90e82ae"
+    },
+    "aggregation.json": {
+      "path": "local/strength-goal-20261018/development-v5-expanded-combined/aggregation.json",
+      "sha256": "1eacd13dd8e2a6e8ca04b7305edda43ef58ef2f16df1be6c7d9d8657c984f538"
+    }
+  },
+  "source": {
+    "snapshot": "local/strength-goal-20261018/development-v5-source",
+    "files": 82,
+    "all82BytesIndependentlyRehashedAndMatchProtocolAndManifest": true,
+    "protocol": {
+      "path": "docs/benchmarks/independent-v5-expanded-protocol.json",
+      "sha256": "949a9722a20b2066297dc9f3f865468584059e49d1aa9940eefd89d94d825d96"
+    },
+    "fingerprint": {
+      "docs/RULES_V1.md": "506e7e8753c1c9987c746bfb763381c682c6fed66feb0f1383aaafcffe2b7fdb",
+      "package-lock.json": "a9b653297e32a165807acbcc287fcb80c2a1ac17770d2797fc0bf63dec44b425",
+      "package.json": "d63a148f7389f3718edfb747dc24052b28c629ae909a06e1e95beb9d98a79cd4",
+      "scripts/analyze-benchmark.ts": "da9ef8259f42fc0ad993792bab84f6fcbc07797b73a3253b62d9803108cacec1",
+      "scripts/benchmarkPolicies.ts": "33aac4b946089b41d1449b7c92a9a9a9d85777a2433b3c20490bab79e1f97962",
+      "scripts/benchmarkRunner.ts": "c0e777d7076c21c409c29d15ef94f96dc72a56b0a1151b0d008468caf71567c9",
+      "scripts/evaluate-advice.ts": "ca2654d686a55a5acf1611845da1e6329fb02046557f00c987773d3e0db310eb",
+      "scripts/evaluate-independent.ts": "90d47defebc29c9798e9c100fdb86e572cb798248a022052211dd88c2f635878",
+      "scripts/evaluationStats.ts": "656de18454ec58483875bd09833dd898f75dfc8343386fdbb62a7eabf5f95560",
+      "scripts/externalMahjong.ts": "1f75653f51b0483055e6374d89c4774849064c0137f070d1cc5a11c12dc62baf",
+      "scripts/external/README.md": "f0b0e46d6fdf69e76fd2b9dee34091ef9e67f6cceb6b8a8958f47191b03e779d",
+      "scripts/external/advanced_policy.py": "2136a336b73bf3593b9874d3602234067f444e650af00943e11056bd0d8b5431",
+      "scripts/external/fixtures/advanced-dev-80007-wall-empty.request.json": "af5269d3c90ddce95db6a9a125db7545d834cb41c2747b250c10fba56108638c",
+      "scripts/external/fixtures/upstream-empty-wall.request.json": "bc8ea10fa0f18ff1f1c8b23a6e6811b6a9ef78226693ea6fccf15d53709cae1e",
+      "scripts/external/public_history_validation.py": "6dfb9bce71fd9cc7ecf878e2d3cb25f466c450db5417214e71ae4794fbabf328",
+      "scripts/external/worker.py": "0b7bc9db7f701817dc8285c0137e030bf5db19432d694298adf138ef118d1913",
+      "scripts/independentBenchmark.ts": "e531787e4d7a2cd96e1e92438b01fc2201f31cb2f3b366b1847e5f37b5895005",
+      "scripts/independentEvaluation.ts": "b68f5895881325bd12ac3dc34c604522f8a1c101be8e589f9824d4d1109541ed",
+      "scripts/independentPolicies.ts": "d91e74d9d40bd4f852c0a1c9517467cd2be05c71af0dc230208075d8c122822a",
+      "scripts/independentRunner.ts": "131c493528f053594cd655724b0f0ff19fc043409adfc0f70731c831221643ee",
+      "src/game/actionAdvice.ts": "08036cafad433508906f0312801d4a418fc767180f9f0e7320162d9c29451ce4",
+      "src/game/advancedComponents.ts": "99cc9c60287d498d448e708ed932a4b06ccec71c59ebb463dcfe5761995ff681",
+      "src/game/advice.ts": "dba080f3c61d99bccefed33477f77ffdc394fd072a4a8ce9e265a2ba33b76e15",
+      "src/game/bot.ts": "7cf9998abb3a6b5ecc73ab7cbcf961cee5f299901c859418d0f220aced07b189",
+      "src/game/candidateEvaluation.ts": "62cac95d93809204168ffec5c537667bcfead9e80deec8b5cfeecce545de93f5",
+      "src/game/decision.ts": "13487f4ad5f6c049cca7e9691ec1845fd51878d1fa907bc5670af695108c4e97",
+      "src/game/demo.ts": "e0041c4141fe52310b92d92de8febbe1679e4160cee267ef6eeb6081d39ad3cb",
+      "src/game/game.ts": "c2c47f5e4bdb13aa5c3a88b108bdf7e8338d699c6945551de421b2c730cf7b55",
+      "src/game/immediateWin.ts": "b0f0c6f8ce39cdf8fed58a16426f0201c17188a18cb586062bbf2766dd455749",
+      "src/game/lookahead.ts": "abc9cd298f054b5544568f49f48ef2d215c5426ca79588e381e21e3bb0bd6171",
+      "src/game/openingAdvice.ts": "c34f9c41c16dfbab2ebad8aee62fe67c5d2dabdfe34337471e2a48ec6efd1ceb",
+      "src/game/publicSampler.ts": "2b4f0499f98511ccab8202ef2834d56c2201fdb61502f2cf7234302efcf59ad5",
+      "src/game/rolloutTeacher.ts": "6d5f4c67efb05dd338aab960156ba6acd669d10056e89c3e01fb4715ecab72c5",
+      "src/game/rules.ts": "89600183168a491703fbdb0daff02905c0e29ad49d09be73e81dc5a39194a552",
+      "src/game/sampledContinuation.ts": "61957e91b6389bb19e19d38dd209f6cf668a7769109b5f580d7535d3827936b6",
+      "src/game/scoring.ts": "c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e",
+      "src/game/session.ts": "497d3cdf840070006ba5bbb870d30cb2f2fd434099a710fa422d5326ef0f0d09",
+      "src/game/strongTeacher.ts": "18d611bb9885445654c6159ab97fe01694583aae115f7a11f5eecc8822086a6f",
+      "src/game/teacher.ts": "ef3ccd51b9b68a3729ff85dcfe81d45419f5657ff196ab0afca6632dced0806d",
+      "src/game/teacherEvaluation.ts": "8f76b448018c48b428f6855946b681148e3e712d52489b8ea1bd57c2c33f7d12",
+      "src/game/testHelpers.ts": "9c69f85f668f9ede112fe613ba2ae1a1e7b0910472eb3b5d65e5d067a98a9ba3",
+      "src/game/tiles.ts": "1de601067eeb8f78d1774136b0ac19a6f174db6ec36aa19344a1477fc153b979",
+      "src/game/view.ts": "3dfafba0db3775ae5b1bb2972edff360681411739dc16da594dc731a6db67981",
+      "tsconfig.app.json": "e45e6fb433318256734657fc4cef6815f9ae691210578d65cb2e5c7b5a848396",
+      "tsconfig.json": "ad28d132ee48d6e23917cf5827cace785d0fc01a44ca68b0dda51cc8c3fd3f52",
+      "tsconfig.node.json": "5ddf31a6eeab0925e8d10eb31708c8ae0a2bb973c3a18e662c1dad78f79962e5",
+      "vendor/ebony72-advanced/.gitattributes": "dbf3b6370c340788f04d61a0191f28774b6765a319f46d9565fbe19538a0308a",
+      "vendor/ebony72-advanced/PUBLIC_ONLY.patch": "a557c222d42db4837ae0ba5ab708705c533b9e0d0c73555984ed1ea098f32407",
+      "vendor/ebony72-advanced/UPSTREAM.json": "c0da2c0109aa701b42a0181c16e3acf5149c1f8e3ec47e3d0794ad5790cc6e12",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/__init__.py": "e5cc55ea4819c3e7879ce4f5602c9bc871f6de4c5a9ba02cb0eb0ea881f1db4b",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/hytreekong.py": "ff118a2cb16db3e1506f7cb6f59625a35ff091d3e879d02e66f5f581e66a2a57",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/own_hand_helpers.py": "572ac6fd4a0f4c874624afb039e5897de601bf50edd52e68217082f526a31f6a",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/public_history.py": "30a019cb33a06ff3b4cc6e5a2f4a358ce0050fb869734289f302450bc3b1976a",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/strategyz0614.py": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/__init__.py": "e5cc55ea4819c3e7879ce4f5602c9bc871f6de4c5a9ba02cb0eb0ea881f1db4b",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/hutype.py": "0990af6af0377b33806c5a51794616db42efb36dd4300535eda63d0d171e66db",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/hysolx.py": "6d4fea41dfbe45e067205ba3dfc73f2c8d0cdf10bc1543863723c17beac74b6f",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/pusolx.py": "b4888f599ec691806e99c0742be08c0e2cafa06b33e7f91553b58b21a92eda1a",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzcard.py": "77285fe60d3e50618b469545211e12bfc10d758a82964e919fdb5e5ca85ae2da",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzscore.py": "0eb1ce9a03eef24e2893966a9a5e57b191cf5b3dac2664b59c79f73a6a9be9c5",
+      "vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzutils.py": "097f7397e542fe0bcc9b54be05d15f43e5dc866ee238d189736d2afb2be701cd",
+      "vendor/ebony72-advanced/upstream/hytreekong.py": "0f74179f96f85359809abe1be74c305eed33efbb8902c3d54717f742b62917e1",
+      "vendor/ebony72-advanced/upstream/license.md": "20b7d2ddbd084a84030ba985d5cb7011c406e75edcd40ddc5f974a3bc46b07f3",
+      "vendor/ebony72-advanced/upstream/strategyz0614.py": "ddb00bba5dad82cfc538856d067f9027b0a4db796dde5d498c8d5c4a67be25f4",
+      "vendor/ebony72-advanced/upstream/utils/hutype.py": "d2eac6144ba3092b3a97b9aa8ca8385af954525c4573f4be4c1a2d918a262f86",
+      "vendor/ebony72-advanced/upstream/utils/hysolx.py": "0c53070f56d19b9292063b4646bcaa42e47ce05c124ea4a4da06e86638d746ac",
+      "vendor/ebony72-advanced/upstream/utils/pusolx.py": "2fd5fb69393b83ed0f100a9f6c509959c151b88517c396ffd808e585455e02d1",
+      "vendor/ebony72-advanced/upstream/utils/xzcard.py": "77285fe60d3e50618b469545211e12bfc10d758a82964e919fdb5e5ca85ae2da",
+      "vendor/ebony72-advanced/upstream/utils/xzscore.py": "4a4ceabdbcbea23835e01de475e770474419813f563716038da69e1265ad81c8",
+      "vendor/ebony72-advanced/upstream/utils/xzutils.py": "81ef9c8faed63df845cee4be71a16bbf124f6deadeffa9a18979c173a4f28968",
+      "vendor/ebony72-advanced/upstream/xzdealer.py": "4e5aadeeddd3f3c763afb49cd1a5e535017019640990499d319c0584cc522fec",
+      "vendor/ebony72-advanced/upstream/xzplayer.py": "b4fa2d725a4a259dd390889a3cf2ae7356a846705c9edfd876ed2a18dfbe231d",
+      "vendor/ebony72-mahjong/.gitattributes": "fe885badf4b922fbb0a0ef013878ce2cc409cd18ac9dc527749d77669d92f770",
+      "vendor/ebony72-mahjong/UPSTREAM.json": "95903ffc4ff97acf3f3991fc442914fc6aaaa0d0cc0a9430ef55c0b657f383a1",
+      "vendor/ebony72-mahjong/dfncy/block_dfncy.py": "d91c3748b7d993a821f3ac675e17da114958b64750dc917e4febbf3871dd9bc5",
+      "vendor/ebony72-mahjong/license.md": "20b7d2ddbd084a84030ba985d5cb7011c406e75edcd40ddc5f974a3bc46b07f3",
+      "vendor/ebony72-mahjong/strategy_initial21_7attr.py": "7a8a5c752e8866ce6f883a099b560ba5d94d9a4272891df5fbc602c725e4d387",
+      "vendor/ebony72-mahjong/utils/daque.py": "94fd752ce4fc47df17f6ef6310ac3031b9a4f6a62d6ee53e6edc805aec449010",
+      "vendor/ebony72-mahjong/utils/pusolx.py": "2fd5fb69393b83ed0f100a9f6c509959c151b88517c396ffd808e585455e02d1",
+      "vendor/ebony72-mahjong/utils/xzcard.py": "77285fe60d3e50618b469545211e12bfc10d758a82964e919fdb5e5ca85ae2da",
+      "vendor/ebony72-mahjong/utils/xzutils.py": "81ef9c8faed63df845cee4be71a16bbf124f6deadeffa9a18979c173a4f28968",
+      "vite.config.ts": "252f601700bf38129f73542b01b385383814bfeeb1bc00c5cfa93ebe2314425b"
+    },
+    "activeWorkspaceNotSubstituted": true
+  },
+  "processCompletion": {
+    "executionRecord": {
+      "path": "local/strength-goal-20261018/development-v5-expanded-execution.json",
+      "sha256": "888491dd3ac94667fce72b6d421b692a07ebb79a03843227f905d1fd73720a5b"
+    },
+    "status": "all-four-original-handles-terminal0",
+    "originalHandles": [
+      {
+        "shard": 1,
+        "session_id": 5917,
+        "exit_code": 0,
+        "completedSeeds": 10,
+        "terminalVerifiedAtUtc": "2026-10-19T16:02:37.837304+00:00"
+      },
+      {
+        "shard": 2,
+        "session_id": 90676,
+        "exit_code": 0,
+        "completedSeeds": 10,
+        "terminalVerifiedAtUtc": "2026-10-19T16:27:53Z"
+      },
+      {
+        "shard": 3,
+        "session_id": 47332,
+        "exit_code": 0,
+        "completedSeeds": 10,
+        "terminalVerifiedAtUtc": "2026-10-19T16:13:47Z"
+      },
+      {
+        "shard": 4,
+        "session_id": 2689,
+        "exit_code": 0,
+        "completedSeeds": 10,
+        "terminalVerifiedAtUtc": "2026-10-19T16:27:53Z"
+      }
+    ],
+    "terminalObservationRecords": [
+      {
+        "path": "local/strength-goal-20261018/terminal-observations-20261019T161347Z.json",
+        "sha256": "2670ee44e4d50e1c7398e058e2e66af46a1c7387b768ba503e506c05a760cc1d"
+      },
+      {
+        "path": "local/strength-goal-20261018/terminal-observations-20261019T162753Z.json",
+        "sha256": "96d2cab7e062e56c30dd9e55fb567526fd98ce531224f998f2854cecf09b73e3"
+      }
+    ],
+    "authority": "Root observed original tool handles. This reviewer read those retained records and all four summaries; did not poll closed handles or rerun games. Shard1 terminal0 is in executionRecord; separate retained observations explicitly show shard2/3/4 terminal0."
+  },
+  "preparedFullAudit": {
+    "artifact": {
+      "path": "local/strength-goal-20261018/development-v5-expanded-analysis/final-combined/summary.json",
+      "sha256": "a29ef208b1314b77e95ed1385824a2dcccc1ad7775f74e82e802b2e9ccb0581b"
+    },
+    "games": 4800,
+    "complete": true,
+    "valid": true,
+    "controls": {
+      "expected": 1920,
+      "verified": 1920,
+      "allCompleteResultsAndFullTracesMatch": true
+    },
+    "openingControl": {
+      "commonPairs": 480,
+      "compositePairs": 480,
+      "commonIdenticalDecisions": 480,
+      "compositeSameMissing": 450,
+      "compositeSameMissingIdenticalDecisions": 450,
+      "compositeChangedMissing": 30
+    },
+    "officialComparisonsVerified": 72,
+    "maskedDiscardDeviations": 0,
+    "hardIssues": 0,
+    "controlEvidence": {
+      "path": "local/strength-goal-20261018/development-v5-expanded-analysis/final-combined/control-reproduction.jsonl",
+      "sha256": "7b16b04e80c832f943fa584b79e9a5e6abee3f1d289331d5c0699000b919e192"
+    },
+    "firstDifferences": {
+      "path": "local/strength-goal-20261018/development-v5-expanded-analysis/final-combined/first-divergences.jsonl",
+      "sha256": "1acd49943a963bf446e1275e5c5ab3142f79ebecd42957c945da008fee9438ba"
+    },
+    "v4ControlSourceHashes": {
+      "v4Games": "a5f2d9ae93ca041cd88c199b6daeda0c7e9906b1e914196dc9ed5e0164e810d4",
+      "v4Traces": "14993c8fe826dd9da5a2a9a145d0b7e166179dca01d74a41aba7dfb0a700aaf6"
+    },
+    "boundary": "Existing analyzer checked1920 completeT/A results and full traces against V4. Independent Python recheck below did not reexecute V4 games or claim to have independently repeated that V4 reproduction."
+  },
+  "independentPythonRecheck": {
+    "artifact": {
+      "path": "local/strength-goal-20261018/e-followup-v1-audit/statistics-and-divergences.json",
+      "sha256": "a56e71f59f3dff05112e648221da62c40f27906f338e7a25e0a4f003c532c7fc"
+    },
+    "script": {
+      "path": "local/strength-goal-20261018/e-followup-v1-audit/audit.py",
+      "sha256": "834c51fd048603a9523950d4fe613690b6dd7ed8b8a781af5d60bc284139c875"
+    },
+    "tests": {
+      "path": "local/strength-goal-20261018/e-followup-v1-audit/test_audit.py",
+      "sha256": "c8488a7f6c4a26d5d3b9d12bc1bbbf498266f477c1c74e52d7e182c94340bf81"
+    },
+    "execution": {
+      "originalSession": 38620,
+      "realExitCode": 0,
+      "elapsedSeconds": 35.142426699982025,
+      "noGameOrPolicyFunctionExecuted": true
+    },
+    "tdd": "Two representative tests firstRED(ModuleNotFoundError), thenGREEN; seed clustering and full-prefix/public-view difference matching.",
+    "games": 4800,
+    "traceGames": 4800,
+    "decisionsRead": 306632,
+    "pairedComparisonsVerified": 5760,
+    "firstDivergencesVerified": 3622,
+    "sameCompletePrefixAndView": true,
+    "allFourScoresZeroSumAndIncomeReconciled": true,
+    "firstActionsInHostProjectedLegalSet": true,
+    "all72StatisticsMatchPreparedAndRootWithin": 1e-12,
+    "firstDifferenceIndex": {
+      "path": "local/strength-goal-20261018/e-followup-v1-audit/verified-first-index.jsonl",
+      "sha256": "2f6fe58f23a08bec5e23f3f4f5e6bfc9a7ed774a6338c429b781e96eb4c5e9a7"
+    }
+  },
+  "rootIndependentStatistics": {
+    "artifact": {
+      "path": "local/strength-goal-20261018/development-v5-expanded-root-statistics/statistics-audit.json",
+      "sha256": "8ec36f709f583406ac5cd6f2dfdd401cb2118d4cf4ceb4e66c7689ebbce3df06"
+    },
+    "valid": true,
+    "officialPanels": 12,
+    "officialComparisonsChecked": 72,
+    "incomeDetailsChecked": 504,
+    "supplementalSeatPanels": 4,
+    "independentSeedUnits": 40
+  },
+  "moduleInteraction": [
+    {
+      "mean": 0.31770833333333337,
+      "standardError": 0.2135130009944616,
+      "ci95": [-0.10077714861581138, 0.7361938152824781],
+      "seedCount": 40,
+      "pairs": 960,
+      "perSeed": {
+        "60000": -0.6666666666666666,
+        "60001": -0.75,
+        "60002": 4.166666666666667,
+        "60003": 2.3333333333333335,
+        "60004": 0.375,
+        "60005": -0.6666666666666666,
+        "60006": 0.5,
+        "60007": 1.5,
+        "60008": 1.5833333333333333,
+        "60009": 1,
+        "60010": 0.16666666666666666,
+        "60011": 0.75,
+        "60012": -0.4166666666666667,
+        "60013": -0.8333333333333334,
+        "60014": 0.5833333333333334,
+        "60015": 0.5833333333333334,
+        "60016": -0.4166666666666667,
+        "60017": -0.08333333333333333,
+        "60018": -2.5,
+        "60019": 0.3333333333333333,
+        "60020": -0.6666666666666666,
+        "60021": -3.5416666666666665,
+        "60022": -0.7916666666666666,
+        "60023": 0.4166666666666667,
+        "60024": 1.4583333333333333,
+        "60025": 1.8333333333333333,
+        "60026": 1.625,
+        "60027": -0.25,
+        "60028": 1.75,
+        "60029": 0.4166666666666667,
+        "60030": 0.8333333333333334,
+        "60031": 0.16666666666666666,
+        "60032": 0.75,
+        "60033": -0.6666666666666666,
+        "60034": -0.75,
+        "60035": 1.8333333333333333,
+        "60036": 0.6666666666666666,
+        "60037": 1,
+        "60038": 0.8333333333333334,
+        "60039": -1.75
+      },
+      "panel": "overall",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.334375,
+        "discardWin": -0.09270833333333334,
+        "dealIn": 0.08020833333333334,
+        "paidSelfWin": -0.05416666666666667,
+        "kong": 0.021875,
+        "flower": 0.0,
+        "ready": 0.028125
+      }
+    },
+    {
+      "mean": 0.871875,
+      "standardError": 0.2888654690591168,
+      "ci95": [0.30569868064413097, 1.438051319355869],
+      "seedCount": 40,
+      "pairs": 320,
+      "perSeed": {
+        "60000": -1,
+        "60001": -2,
+        "60002": -0.5,
+        "60003": 2.25,
+        "60004": -0.25,
+        "60005": -0.5,
+        "60006": 3.5,
+        "60007": 0.75,
+        "60008": 1.5,
+        "60009": 3,
+        "60010": 1,
+        "60011": 1.25,
+        "60012": 0.25,
+        "60013": -1.75,
+        "60014": 1.75,
+        "60015": -0.75,
+        "60016": 0,
+        "60017": 2.5,
+        "60018": -1,
+        "60019": 3.375,
+        "60020": 1.25,
+        "60021": -1.375,
+        "60022": 0.25,
+        "60023": 0,
+        "60024": 0.625,
+        "60025": 0.5,
+        "60026": 3.125,
+        "60027": -0.5,
+        "60028": 0.25,
+        "60029": 0,
+        "60030": 3.25,
+        "60031": 7.25,
+        "60032": 2.75,
+        "60033": -2.25,
+        "60034": 0.25,
+        "60035": 1.25,
+        "60036": 1.25,
+        "60037": 1.625,
+        "60038": 0.75,
+        "60039": 1.25
+      },
+      "panel": "lineup/ebony-initial",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.48125,
+        "discardWin": -0.08125,
+        "dealIn": 0.08125,
+        "paidSelfWin": 0.1375,
+        "kong": 0.184375,
+        "flower": 0.0,
+        "ready": 0.06875
+      }
+    },
+    {
+      "mean": -0.23125,
+      "standardError": 0.39216970219601716,
+      "ci95": [-0.9999026163041935, 0.5374026163041936],
+      "seedCount": 40,
+      "pairs": 320,
+      "perSeed": {
+        "60000": -3.25,
+        "60001": 0,
+        "60002": 6.75,
+        "60003": -3.5,
+        "60004": 0.625,
+        "60005": -1.5,
+        "60006": -4,
+        "60007": -0.5,
+        "60008": 2.5,
+        "60009": -0.25,
+        "60010": 1,
+        "60011": 1,
+        "60012": -1.5,
+        "60013": 2,
+        "60014": 0,
+        "60015": -0.5,
+        "60016": -0.5,
+        "60017": -3,
+        "60018": -4.5,
+        "60019": -0.375,
+        "60020": -3.25,
+        "60021": -5.5,
+        "60022": -1.625,
+        "60023": 0.75,
+        "60024": 2.25,
+        "60025": 3.75,
+        "60026": 0.25,
+        "60027": -0.75,
+        "60028": 2.25,
+        "60029": 2.25,
+        "60030": -0.5,
+        "60031": -1,
+        "60032": 0.75,
+        "60033": -1,
+        "60034": -2.5,
+        "60035": 4.25,
+        "60036": 2.25,
+        "60037": 0.125,
+        "60038": -0.5,
+        "60039": -2
+      },
+      "panel": "lineup/ebony-advanced",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.128125,
+        "discardWin": -0.084375,
+        "dealIn": 0.121875,
+        "paidSelfWin": -0.31875,
+        "kong": -0.075,
+        "flower": 0.0,
+        "ready": -0.003125
+      }
+    },
+    {
+      "mean": 0.3125,
+      "standardError": 0.40398158596014216,
+      "ci95": [-0.47930390848187865, 1.1043039084818786],
+      "seedCount": 40,
+      "pairs": 320,
+      "perSeed": {
+        "60000": 2.25,
+        "60001": -0.25,
+        "60002": 6.25,
+        "60003": 8.25,
+        "60004": 0.75,
+        "60005": 0,
+        "60006": 2,
+        "60007": 4.25,
+        "60008": 0.75,
+        "60009": 0.25,
+        "60010": -1.5,
+        "60011": 0,
+        "60012": 0,
+        "60013": -2.75,
+        "60014": 0,
+        "60015": 3,
+        "60016": -0.75,
+        "60017": 0.25,
+        "60018": -2,
+        "60019": -2,
+        "60020": 0,
+        "60021": -3.75,
+        "60022": -1,
+        "60023": 0.5,
+        "60024": 1.5,
+        "60025": 1.25,
+        "60026": 1.5,
+        "60027": 0.5,
+        "60028": 2.75,
+        "60029": -1,
+        "60030": -0.25,
+        "60031": -5.75,
+        "60032": -1.25,
+        "60033": 1.25,
+        "60034": 0,
+        "60035": 0,
+        "60036": -1.5,
+        "60037": 1.25,
+        "60038": 2.25,
+        "60039": -4.5
+      },
+      "panel": "lineup/teacher-v1",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.39375,
+        "discardWin": -0.1125,
+        "dealIn": 0.0375,
+        "paidSelfWin": 0.01875,
+        "kong": -0.04375,
+        "flower": 0.0,
+        "ready": 0.01875
+      }
+    },
+    {
+      "mean": 0.3625,
+      "standardError": 0.22593486537122462,
+      "ci95": [-0.08033233612760027, 0.8053323361276002],
+      "seedCount": 40,
+      "pairs": 480,
+      "perSeed": {
+        "60000": -0.6666666666666666,
+        "60001": -0.75,
+        "60002": 4.166666666666667,
+        "60003": 2.3333333333333335,
+        "60004": 0.4166666666666667,
+        "60005": -0.6666666666666666,
+        "60006": 0.5,
+        "60007": 1.5,
+        "60008": 1.5833333333333333,
+        "60009": 1,
+        "60010": 0.16666666666666666,
+        "60011": 0.75,
+        "60012": -0.4166666666666667,
+        "60013": -0.3333333333333333,
+        "60014": 0.5833333333333334,
+        "60015": 0.5833333333333334,
+        "60016": -0.4166666666666667,
+        "60017": -0.08333333333333333,
+        "60018": -2.5,
+        "60019": -1.25,
+        "60020": -0.6666666666666666,
+        "60021": -3.5,
+        "60022": -0.5,
+        "60023": 0.4166666666666667,
+        "60024": 2.75,
+        "60025": 1.8333333333333333,
+        "60026": 2.5,
+        "60027": -0.25,
+        "60028": 1.75,
+        "60029": 0.4166666666666667,
+        "60030": 0.8333333333333334,
+        "60031": 0.16666666666666666,
+        "60032": 0.75,
+        "60033": -0.5833333333333334,
+        "60034": -0.75,
+        "60035": 1.8333333333333333,
+        "60036": 0.6666666666666666,
+        "60037": 1.25,
+        "60038": 0.8333333333333334,
+        "60039": -1.75
+      },
+      "panel": "opening/common",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.4166666666666667,
+        "discardWin": -0.1125,
+        "dealIn": 0.08541666666666667,
+        "paidSelfWin": -0.0625,
+        "kong": 0.004166666666666667,
+        "flower": 0.0,
+        "ready": 0.03125
+      }
+    },
+    {
+      "mean": 0.86875,
+      "standardError": 0.3381448611399922,
+      "ci95": [0.20598607216561526, 1.5315139278343848],
+      "seedCount": 40,
+      "pairs": 160,
+      "perSeed": {
+        "60000": -1,
+        "60001": -2,
+        "60002": -0.5,
+        "60003": 2.25,
+        "60004": -0.25,
+        "60005": -0.5,
+        "60006": 3.5,
+        "60007": 0.75,
+        "60008": 1.5,
+        "60009": 3,
+        "60010": 1,
+        "60011": 1.25,
+        "60012": 0.25,
+        "60013": -3.25,
+        "60014": 1.75,
+        "60015": -0.75,
+        "60016": 0,
+        "60017": 2.5,
+        "60018": -1,
+        "60019": 0.5,
+        "60020": 1.25,
+        "60021": -2.25,
+        "60022": 0.75,
+        "60023": 0,
+        "60024": 3.25,
+        "60025": 0.5,
+        "60026": 5.5,
+        "60027": -0.5,
+        "60028": 0.25,
+        "60029": 0,
+        "60030": 3.25,
+        "60031": 7.25,
+        "60032": 2.75,
+        "60033": -4,
+        "60034": 0.25,
+        "60035": 1.25,
+        "60036": 1.25,
+        "60037": 3,
+        "60038": 0.75,
+        "60039": 1.25
+      },
+      "panel": "opening/common/lineup/ebony-initial",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.59375,
+        "discardWin": -0.15625,
+        "dealIn": 0.05,
+        "paidSelfWin": 0.1625,
+        "kong": 0.13125,
+        "flower": 0.0,
+        "ready": 0.0875
+      }
+    },
+    {
+      "mean": -0.09375,
+      "standardError": 0.4116383288544098,
+      "ci95": [-0.9005611245546432, 0.7130611245546432],
+      "seedCount": 40,
+      "pairs": 160,
+      "perSeed": {
+        "60000": -3.25,
+        "60001": 0,
+        "60002": 6.75,
+        "60003": -3.5,
+        "60004": 0.75,
+        "60005": -1.5,
+        "60006": -4,
+        "60007": -0.5,
+        "60008": 2.5,
+        "60009": -0.25,
+        "60010": 1,
+        "60011": 1,
+        "60012": -1.5,
+        "60013": 5,
+        "60014": 0,
+        "60015": -0.5,
+        "60016": -0.5,
+        "60017": -3,
+        "60018": -4.5,
+        "60019": -2.25,
+        "60020": -3.25,
+        "60021": -4.5,
+        "60022": -1.25,
+        "60023": 0.75,
+        "60024": 3.5,
+        "60025": 3.75,
+        "60026": 0.5,
+        "60027": -0.75,
+        "60028": 2.25,
+        "60029": 2.25,
+        "60030": -0.5,
+        "60031": -1,
+        "60032": 0.75,
+        "60033": 1,
+        "60034": -2.5,
+        "60035": 4.25,
+        "60036": 2.25,
+        "60037": -0.5,
+        "60038": -0.5,
+        "60039": -2
+      },
+      "panel": "opening/common/lineup/ebony-advanced",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.2625,
+        "discardWin": -0.06875,
+        "dealIn": 0.16875,
+        "paidSelfWin": -0.36875,
+        "kong": -0.075,
+        "flower": 0.0,
+        "ready": -0.0125
+      }
+    },
+    {
+      "mean": 0.3125,
+      "standardError": 0.40398158596014216,
+      "ci95": [-0.47930390848187865, 1.1043039084818786],
+      "seedCount": 40,
+      "pairs": 160,
+      "perSeed": {
+        "60000": 2.25,
+        "60001": -0.25,
+        "60002": 6.25,
+        "60003": 8.25,
+        "60004": 0.75,
+        "60005": 0,
+        "60006": 2,
+        "60007": 4.25,
+        "60008": 0.75,
+        "60009": 0.25,
+        "60010": -1.5,
+        "60011": 0,
+        "60012": 0,
+        "60013": -2.75,
+        "60014": 0,
+        "60015": 3,
+        "60016": -0.75,
+        "60017": 0.25,
+        "60018": -2,
+        "60019": -2,
+        "60020": 0,
+        "60021": -3.75,
+        "60022": -1,
+        "60023": 0.5,
+        "60024": 1.5,
+        "60025": 1.25,
+        "60026": 1.5,
+        "60027": 0.5,
+        "60028": 2.75,
+        "60029": -1,
+        "60030": -0.25,
+        "60031": -5.75,
+        "60032": -1.25,
+        "60033": 1.25,
+        "60034": 0,
+        "60035": 0,
+        "60036": -1.5,
+        "60037": 1.25,
+        "60038": 2.25,
+        "60039": -4.5
+      },
+      "panel": "opening/common/lineup/teacher-v1",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.39375,
+        "discardWin": -0.1125,
+        "dealIn": 0.0375,
+        "paidSelfWin": 0.01875,
+        "kong": -0.04375,
+        "flower": 0.0,
+        "ready": 0.01875
+      }
+    },
+    {
+      "mean": 0.2729166666666667,
+      "standardError": 0.21652665388983716,
+      "ci95": [-0.15147557495741415, 0.6973089082907475],
+      "seedCount": 40,
+      "pairs": 480,
+      "perSeed": {
+        "60000": -0.6666666666666666,
+        "60001": -0.75,
+        "60002": 4.166666666666667,
+        "60003": 2.3333333333333335,
+        "60004": 0.3333333333333333,
+        "60005": -0.6666666666666666,
+        "60006": 0.5,
+        "60007": 1.5,
+        "60008": 1.5833333333333333,
+        "60009": 1,
+        "60010": 0.16666666666666666,
+        "60011": 0.75,
+        "60012": -0.4166666666666667,
+        "60013": -1.3333333333333333,
+        "60014": 0.5833333333333334,
+        "60015": 0.5833333333333334,
+        "60016": -0.4166666666666667,
+        "60017": -0.08333333333333333,
+        "60018": -2.5,
+        "60019": 1.9166666666666667,
+        "60020": -0.6666666666666666,
+        "60021": -3.5833333333333335,
+        "60022": -1.0833333333333333,
+        "60023": 0.4166666666666667,
+        "60024": 0.16666666666666666,
+        "60025": 1.8333333333333333,
+        "60026": 0.75,
+        "60027": -0.25,
+        "60028": 1.75,
+        "60029": 0.4166666666666667,
+        "60030": 0.8333333333333334,
+        "60031": 0.16666666666666666,
+        "60032": 0.75,
+        "60033": -0.75,
+        "60034": -0.75,
+        "60035": 1.8333333333333333,
+        "60036": 0.6666666666666666,
+        "60037": 0.75,
+        "60038": 0.8333333333333334,
+        "60039": -1.75
+      },
+      "panel": "opening/composite",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.2520833333333333,
+        "discardWin": -0.07291666666666667,
+        "dealIn": 0.075,
+        "paidSelfWin": -0.04583333333333333,
+        "kong": 0.03958333333333333,
+        "flower": 0.0,
+        "ready": 0.025
+      }
+    },
+    {
+      "mean": 0.875,
+      "standardError": 0.29957234475763905,
+      "ci95": [0.2878382042750275, 1.4621617957249726],
+      "seedCount": 40,
+      "pairs": 160,
+      "perSeed": {
+        "60000": -1,
+        "60001": -2,
+        "60002": -0.5,
+        "60003": 2.25,
+        "60004": -0.25,
+        "60005": -0.5,
+        "60006": 3.5,
+        "60007": 0.75,
+        "60008": 1.5,
+        "60009": 3,
+        "60010": 1,
+        "60011": 1.25,
+        "60012": 0.25,
+        "60013": -0.25,
+        "60014": 1.75,
+        "60015": -0.75,
+        "60016": 0,
+        "60017": 2.5,
+        "60018": -1,
+        "60019": 6.25,
+        "60020": 1.25,
+        "60021": -0.5,
+        "60022": -0.25,
+        "60023": 0,
+        "60024": -2,
+        "60025": 0.5,
+        "60026": 0.75,
+        "60027": -0.5,
+        "60028": 0.25,
+        "60029": 0,
+        "60030": 3.25,
+        "60031": 7.25,
+        "60032": 2.75,
+        "60033": -0.5,
+        "60034": 0.25,
+        "60035": 1.25,
+        "60036": 1.25,
+        "60037": 0.25,
+        "60038": 0.75,
+        "60039": 1.25
+      },
+      "panel": "opening/composite/lineup/ebony-initial",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.36875,
+        "discardWin": -0.00625,
+        "dealIn": 0.1125,
+        "paidSelfWin": 0.1125,
+        "kong": 0.2375,
+        "flower": 0.0,
+        "ready": 0.05
+      }
+    },
+    {
+      "mean": -0.36875,
+      "standardError": 0.40301224571011196,
+      "ci95": [-1.1586540015918194, 0.42115400159181937],
+      "seedCount": 40,
+      "pairs": 160,
+      "perSeed": {
+        "60000": -3.25,
+        "60001": 0,
+        "60002": 6.75,
+        "60003": -3.5,
+        "60004": 0.5,
+        "60005": -1.5,
+        "60006": -4,
+        "60007": -0.5,
+        "60008": 2.5,
+        "60009": -0.25,
+        "60010": 1,
+        "60011": 1,
+        "60012": -1.5,
+        "60013": -1,
+        "60014": 0,
+        "60015": -0.5,
+        "60016": -0.5,
+        "60017": -3,
+        "60018": -4.5,
+        "60019": 1.5,
+        "60020": -3.25,
+        "60021": -6.5,
+        "60022": -2,
+        "60023": 0.75,
+        "60024": 1,
+        "60025": 3.75,
+        "60026": 0,
+        "60027": -0.75,
+        "60028": 2.25,
+        "60029": 2.25,
+        "60030": -0.5,
+        "60031": -1,
+        "60032": 0.75,
+        "60033": -3,
+        "60034": -2.5,
+        "60035": 4.25,
+        "60036": 2.25,
+        "60037": 0.75,
+        "60038": -0.5,
+        "60039": -2
+      },
+      "panel": "opening/composite/lineup/ebony-advanced",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": -0.00625,
+        "discardWin": -0.1,
+        "dealIn": 0.075,
+        "paidSelfWin": -0.26875,
+        "kong": -0.075,
+        "flower": 0.0,
+        "ready": 0.00625
+      }
+    },
+    {
+      "mean": 0.3125,
+      "standardError": 0.40398158596014216,
+      "ci95": [-0.47930390848187865, 1.1043039084818786],
+      "seedCount": 40,
+      "pairs": 160,
+      "perSeed": {
+        "60000": 2.25,
+        "60001": -0.25,
+        "60002": 6.25,
+        "60003": 8.25,
+        "60004": 0.75,
+        "60005": 0,
+        "60006": 2,
+        "60007": 4.25,
+        "60008": 0.75,
+        "60009": 0.25,
+        "60010": -1.5,
+        "60011": 0,
+        "60012": 0,
+        "60013": -2.75,
+        "60014": 0,
+        "60015": 3,
+        "60016": -0.75,
+        "60017": 0.25,
+        "60018": -2,
+        "60019": -2,
+        "60020": 0,
+        "60021": -3.75,
+        "60022": -1,
+        "60023": 0.5,
+        "60024": 1.5,
+        "60025": 1.25,
+        "60026": 1.5,
+        "60027": 0.5,
+        "60028": 2.75,
+        "60029": -1,
+        "60030": -0.25,
+        "60031": -5.75,
+        "60032": -1.25,
+        "60033": 1.25,
+        "60034": 0,
+        "60035": 0,
+        "60036": -1.5,
+        "60037": 1.25,
+        "60038": 2.25,
+        "60039": -4.5
+      },
+      "panel": "opening/composite/lineup/teacher-v1",
+      "contrast": "E-D-K+T",
+      "incomeMean": {
+        "selfWin": 0.39375,
+        "discardWin": -0.1125,
+        "dealIn": 0.0375,
+        "paidSelfWin": 0.01875,
+        "kong": -0.04375,
+        "flower": 0.0,
+        "ready": 0.01875
+      }
+    }
+  ],
+  "firstClassifications": {
+    "E-T": {
+      "action": 907,
+      "identical": 53
+    },
+    "D-T": {
+      "discard-only": 809,
+      "identical": 151
+    },
+    "K-T": {
+      "action": 521,
+      "identical": 439
+    },
+    "E-A": {
+      "identical": 930,
+      "action": 30
+    },
+    "E-D": {
+      "self-win-or-kong": 49,
+      "identical": 456,
+      "response": 455
+    },
+    "E-K": {
+      "discard-only": 851,
+      "identical": 109
+    }
+  },
+  "firstActionPairs": {
+    "E-T": {
+      "discard -> kong/concealed": {
+        "count": 14,
+        "positive": 10,
+        "negative": 4,
+        "zero": 0,
+        "deltaSum": 38
+      },
+      "discard -> discard": {
+        "count": 732,
+        "positive": 301,
+        "negative": 285,
+        "zero": 146,
+        "deltaSum": 237
+      },
+      "respond/hu -> respond/pung": {
+        "count": 5,
+        "positive": 3,
+        "negative": 2,
+        "zero": 0,
+        "deltaSum": 10
+      },
+      "respond/hu -> respond/pass": {
+        "count": 54,
+        "positive": 28,
+        "negative": 18,
+        "zero": 8,
+        "deltaSum": 37
+      },
+      "respond/pass -> respond/pung": {
+        "count": 70,
+        "positive": 41,
+        "negative": 26,
+        "zero": 3,
+        "deltaSum": 125
+      },
+      "respond/pung -> respond/pass": {
+        "count": 18,
+        "positive": 10,
+        "negative": 6,
+        "zero": 2,
+        "deltaSum": -22
+      },
+      "respond/pung -> respond/kong": {
+        "count": 10,
+        "positive": 8,
+        "negative": 2,
+        "zero": 0,
+        "deltaSum": 66
+      },
+      "discard -> kong/added": {
+        "count": 4,
+        "positive": 2,
+        "negative": 2,
+        "zero": 0,
+        "deltaSum": -2
+      }
+    },
+    "D-T": {
+      "discard -> discard": {
+        "count": 809,
+        "positive": 310,
+        "negative": 261,
+        "zero": 238,
+        "deltaSum": 222
+      }
+    },
+    "K-T": {
+      "discard -> kong/concealed": {
+        "count": 33,
+        "positive": 20,
+        "negative": 13,
+        "zero": 0,
+        "deltaSum": 130
+      },
+      "respond/hu -> respond/pung": {
+        "count": 31,
+        "positive": 7,
+        "negative": 18,
+        "zero": 6,
+        "deltaSum": -59
+      },
+      "respond/pass -> respond/pung": {
+        "count": 207,
+        "positive": 102,
+        "negative": 87,
+        "zero": 18,
+        "deltaSum": 19
+      },
+      "discard -> kong/added": {
+        "count": 19,
+        "positive": 13,
+        "negative": 2,
+        "zero": 4,
+        "deltaSum": 32
+      },
+      "respond/pung -> respond/kong": {
+        "count": 24,
+        "positive": 14,
+        "negative": 8,
+        "zero": 2,
+        "deltaSum": 28
+      },
+      "respond/hu -> respond/pass": {
+        "count": 179,
+        "positive": 64,
+        "negative": 91,
+        "zero": 24,
+        "deltaSum": -98
+      },
+      "respond/pung -> respond/pass": {
+        "count": 28,
+        "positive": 11,
+        "negative": 14,
+        "zero": 3,
+        "deltaSum": -90
+      }
+    },
+    "E-D": {
+      "discard -> kong/concealed": {
+        "count": 29,
+        "positive": 19,
+        "negative": 4,
+        "zero": 6,
+        "deltaSum": 80
+      },
+      "respond/hu -> respond/pung": {
+        "count": 43,
+        "positive": 17,
+        "negative": 20,
+        "zero": 6,
+        "deltaSum": 9
+      },
+      "respond/hu -> respond/pass": {
+        "count": 137,
+        "positive": 63,
+        "negative": 57,
+        "zero": 17,
+        "deltaSum": 76
+      },
+      "respond/pass -> respond/pung": {
+        "count": 217,
+        "positive": 109,
+        "negative": 94,
+        "zero": 14,
+        "deltaSum": 57
+      },
+      "discard -> kong/added": {
+        "count": 20,
+        "positive": 9,
+        "negative": 9,
+        "zero": 2,
+        "deltaSum": -7
+      },
+      "respond/pung -> respond/pass": {
+        "count": 22,
+        "positive": 14,
+        "negative": 7,
+        "zero": 1,
+        "deltaSum": -20
+      },
+      "respond/pung -> respond/kong": {
+        "count": 36,
+        "positive": 20,
+        "negative": 14,
+        "zero": 2,
+        "deltaSum": 72
+      }
+    },
+    "E-K": {
+      "discard -> discard": {
+        "count": 851,
+        "positive": 338,
+        "negative": 293,
+        "zero": 220,
+        "deltaSum": 527
+      }
+    },
+    "E-A": {
+      "missing -> missing": {
+        "count": 30,
+        "positive": 20,
+        "negative": 10,
+        "zero": 0,
+        "deltaSum": 54
+      }
+    }
+  },
+  "huCoverage": {
+    "teacher-v1": {
+      "offered": 721,
+      "accepted": 721,
+      "refused": 0,
+      "byKind": {
+        "self": {
+          "accepted": 253
+        },
+        "discard": {
+          "accepted": 467
+        },
+        "rob-kong": {
+          "accepted": 1
+        }
+      }
+    },
+    "ebony72-advanced-public-v1": {
+      "offered": 973,
+      "accepted": 623,
+      "refused": 350,
+      "byKind": {
+        "discard": {
+          "accepted": 287,
+          "refused": 345
+        },
+        "self": {
+          "accepted": 332
+        },
+        "rob-kong": {
+          "refused": 5,
+          "accepted": 4
+        }
+      }
+    },
+    "candidate-advanced-opening-v5": {
+      "offered": 977,
+      "accepted": 626,
+      "refused": 351,
+      "byKind": {
+        "discard": {
+          "accepted": 285,
+          "refused": 346
+        },
+        "self": {
+          "accepted": 337
+        },
+        "rob-kong": {
+          "refused": 5,
+          "accepted": 4
+        }
+      }
+    },
+    "candidate-advanced-discard-v5": {
+      "offered": 701,
+      "accepted": 701,
+      "refused": 0,
+      "byKind": {
+        "discard": {
+          "accepted": 473
+        },
+        "self": {
+          "accepted": 224
+        },
+        "rob-kong": {
+          "accepted": 4
+        }
+      }
+    },
+    "candidate-advanced-actions-v5": {
+      "offered": 1041,
+      "accepted": 639,
+      "refused": 402,
+      "byKind": {
+        "discard": {
+          "refused": 400,
+          "accepted": 276
+        },
+        "self": {
+          "accepted": 361
+        },
+        "rob-kong": {
+          "refused": 2,
+          "accepted": 2
+        }
+      }
+    }
+  },
+  "publicFirstExamples": [
+    {
+      "comparison": "E-T",
+      "base": [60000, 0, "ebony-advanced", "common"],
+      "index": 8,
+      "prefixHash": "bf6b14b2ad53fb415159c7ace0a38dcf3d6f228c56465a1349afdf1ee5df7fe5",
+      "samePublicView": true,
+      "category": "discard -> kong/concealed",
+      "delta": -23,
+      "incomeDifference": {
+        "selfWin": -10,
+        "discardWin": 4,
+        "dealIn": -8,
+        "paidSelfWin": -3,
+        "kong": -6,
+        "flower": 0,
+        "ready": 0
+      },
+      "baselineTraceLine": 5,
+      "candidateTraceLine": 3,
+      "publicViewSha256": "5d651ed4883838ea2851d0a127b4a799a89d12509a1389d1e71f6881f07006cd",
+      "baselineAction": {
+        "type": "discard",
+        "tile": 1
+      },
+      "candidateAction": {
+        "type": "kong",
+        "kind": "concealed",
+        "tile": 24
+      },
+      "view": {
+        "seat": 0,
+        "hand": [18, 5, 24, 8, 7, 1, 24, 24, 24, 18, 8, 18, 20, 25],
+        "melds": [],
+        "missing": "tiao",
+        "legalDiscards": [1, 5, 7, 8, 18, 20, 24, 25],
+        "ownDiscards": [],
+        "opponents": [
+          {
+            "seat": 1,
+            "handCount": 13,
+            "melds": [],
+            "discards": [],
+            "missing": "wan",
+            "won": false,
+            "score": 0
+          },
+          {
+            "seat": 2,
+            "handCount": 13,
+            "melds": [],
+            "discards": [],
+            "missing": "wan",
+            "won": false,
+            "score": 0
+          },
+          {
+            "seat": 3,
+            "handCount": 13,
+            "melds": [],
+            "discards": [],
+            "missing": "tong",
+            "won": false,
+            "score": 0
+          }
+        ],
+        "wallRemaining": 55,
+        "publicTiles": [],
+        "publicActions": [],
+        "decision": {
+          "kind": "self",
+          "canWin": false,
+          "concealedKongs": [24],
+          "addedKongs": []
+        }
+      },
+      "selection": "First encountered for this comparison/action-pair category, not selected by score"
+    },
+    {
+      "comparison": "E-T",
+      "base": [60004, 3, "ebony-advanced", "common"],
+      "index": 49,
+      "prefixHash": "ea7482b62dc412c2002e5e71c7d7798e8023eada492550ce8f577f98b38e6fa3",
+      "samePublicView": true,
+      "category": "respond/hu -> respond/pass",
+      "delta": -16,
+      "incomeDifference": {
+        "selfWin": 0,
+        "discardWin": -1,
+        "dealIn": -4,
+        "paidSelfWin": -9,
+        "kong": -2,
+        "flower": 0,
+        "ready": 0
+      },
+      "baselineTraceLine": 575,
+      "candidateTraceLine": 573,
+      "publicViewSha256": "0137e9596968c1201f43059ee75a3ed77200c813b3dbcb124e602f3145830b1c",
+      "baselineAction": {
+        "type": "respond",
+        "choice": "hu"
+      },
+      "candidateAction": {
+        "type": "respond",
+        "choice": "pass"
+      },
+      "view": {
+        "seat": 3,
+        "hand": [2, 24, 25, 3, 5, 0, 5, 6, 8, 7, 23, 5, 1],
+        "melds": [],
+        "missing": "tiao",
+        "legalDiscards": [],
+        "ownDiscards": [17, 19, 23, 18, 1, 16],
+        "opponents": [
+          {
+            "seat": 0,
+            "handCount": 7,
+            "melds": [
+              {
+                "type": "pung",
+                "tile": 9,
+                "from": 2
+              },
+              {
+                "type": "kong",
+                "tile": 15,
+                "from": 2,
+                "kongKind": "added"
+              }
+            ],
+            "discards": [1, 0, 19, 23, 17, 8, 25],
+            "missing": "wan",
+            "won": false,
+            "score": 2
+          },
+          {
+            "seat": 1,
+            "handCount": 10,
+            "melds": [
+              {
+                "type": "pung",
+                "tile": 10,
+                "from": 2
+              }
+            ],
+            "discards": [21, 24, 25, 18, 7, 9, 13, 0],
+            "missing": "tong",
+            "won": false,
+            "score": -2
+          },
+          {
+            "seat": 2,
+            "handCount": 7,
+            "melds": [
+              {
+                "type": "kong",
+                "tile": 20,
+                "from": 0,
+                "kongKind": "added"
+              },
+              {
+                "type": "pung",
+                "tile": 22,
+                "from": 0
+              }
+            ],
+            "discards": [6, 13, 11, 13, 6, 16],
+            "missing": "wan",
+            "won": false,
+            "score": 2
+          }
+        ],
+        "wallRemaining": 27,
+        "publicTiles": [
+          {
+            "seat": 0,
+            "tile": 1,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 21,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 0,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 24,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 25,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 6,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 17,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 13,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 19,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 19,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 18,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 11,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 23,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 23,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 7,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 13,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 18,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 17,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 9,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 6,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 1,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 8,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 13,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 16,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 16,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 25,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 0,
+            "kind": "discard"
+          }
+        ],
+        "publicActions": [
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 1
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 21
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 9
+          },
+          {
+            "seat": 0,
+            "kind": "pung",
+            "tile": 9,
+            "from": 2
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 0
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 24
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 10
+          },
+          {
+            "seat": 1,
+            "kind": "pung",
+            "tile": 10,
+            "from": 2
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 25
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 6
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 17
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 20
+          },
+          {
+            "seat": 2,
+            "kind": "pung",
+            "tile": 20,
+            "from": 0
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 13
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 19
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 19
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 18
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 11
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 23
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 23
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 7
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 15
+          },
+          {
+            "seat": 0,
+            "kind": "pung",
+            "tile": 15,
+            "from": 2
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 22
+          },
+          {
+            "seat": 2,
+            "kind": "pung",
+            "tile": 22,
+            "from": 0
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 13
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 18
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "added-kong-offer",
+            "tile": 15
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 17
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 9
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 6
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 1
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 8
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 13
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "added-kong-offer",
+            "tile": 20
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 16
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 16
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 25
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 0
+          }
+        ],
+        "decision": {
+          "kind": "respond",
+          "responseKind": "discard",
+          "from": 1,
+          "tile": 0,
+          "choices": ["pass", "hu"]
+        }
+      },
+      "selection": "First encountered for this comparison/action-pair category, not selected by score"
+    },
+    {
+      "comparison": "E-D",
+      "base": [60000, 2, "ebony-advanced", "common"],
+      "index": 44,
+      "prefixHash": "fea2f6a099228832ac3d48a7d216c60bfa044c2c5617ff067ba3465ea58e2670",
+      "samePublicView": true,
+      "category": "respond/hu -> respond/pass",
+      "delta": 4,
+      "incomeDifference": {
+        "selfWin": 6,
+        "discardWin": -2,
+        "dealIn": 0,
+        "paidSelfWin": 0,
+        "kong": 0,
+        "flower": 0,
+        "ready": 0
+      },
+      "baselineTraceLine": 62,
+      "candidateTraceLine": 63,
+      "publicViewSha256": "f7ce9621fa4e0b0b657d0882cf489d9370916b7d768d5a74917000e671851d41",
+      "baselineAction": {
+        "type": "respond",
+        "choice": "hu"
+      },
+      "candidateAction": {
+        "type": "respond",
+        "choice": "pass"
+      },
+      "view": {
+        "seat": 2,
+        "hand": [23, 21, 23, 20],
+        "melds": [
+          {
+            "type": "pung",
+            "tile": 15,
+            "from": 1
+          },
+          {
+            "type": "pung",
+            "tile": 26,
+            "from": 1
+          },
+          {
+            "type": "kong",
+            "tile": 12,
+            "from": null,
+            "kongKind": "concealed"
+          }
+        ],
+        "missing": "wan",
+        "legalDiscards": [],
+        "ownDiscards": [3, 2, 9, 10],
+        "opponents": [
+          {
+            "seat": 0,
+            "handCount": 7,
+            "melds": [
+              {
+                "type": "kong",
+                "tile": 24,
+                "from": null,
+                "kongKind": "concealed"
+              },
+              {
+                "type": "pung",
+                "tile": 8,
+                "from": 1
+              }
+            ],
+            "discards": [1, 26, 10, 25, 7, 13, 16, 0],
+            "missing": "tiao",
+            "won": false,
+            "score": -4
+          },
+          {
+            "seat": 1,
+            "handCount": 13,
+            "melds": [],
+            "discards": [6, 5, 6, 25, 19],
+            "missing": "wan",
+            "won": false,
+            "score": -4
+          },
+          {
+            "seat": 3,
+            "handCount": 7,
+            "melds": [
+              {
+                "type": "pung",
+                "tile": 0,
+                "from": 2
+              },
+              {
+                "type": "pung",
+                "tile": 4,
+                "from": 2
+              }
+            ],
+            "discards": [16, 14, 10, 9, 11, 1],
+            "missing": "tong",
+            "won": true,
+            "score": 4
+          }
+        ],
+        "wallRemaining": 31,
+        "publicTiles": [
+          {
+            "seat": 0,
+            "tile": 1,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 6,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 3,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 16,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 26,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 5,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 2,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 14,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 10,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 6,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 10,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 25,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 7,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 9,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 9,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 13,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 10,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 11,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 16,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 25,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 1,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 0,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 19,
+            "kind": "discard"
+          }
+        ],
+        "publicActions": [
+          {
+            "seat": 0,
+            "kind": "kong",
+            "tile": 24,
+            "kongKind": "concealed",
+            "from": null
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 1
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 6
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 3
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 16
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 26
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 5
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 2
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 14
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 10
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 6
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 0
+          },
+          {
+            "seat": 3,
+            "kind": "pung",
+            "tile": 0,
+            "from": 2
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 10
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 25
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 8
+          },
+          {
+            "seat": 0,
+            "kind": "pung",
+            "tile": 8,
+            "from": 1
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 7
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 15
+          },
+          {
+            "seat": 2,
+            "kind": "pung",
+            "tile": 15,
+            "from": 1
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 9
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 9
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 13
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 26
+          },
+          {
+            "seat": 2,
+            "kind": "pung",
+            "tile": 26,
+            "from": 1
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 10
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 11
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 16
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 25
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "kong",
+            "tile": 12,
+            "kongKind": "concealed",
+            "from": null
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 4
+          },
+          {
+            "seat": 3,
+            "kind": "pung",
+            "tile": 4,
+            "from": 2
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 1
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 0
+          },
+          {
+            "seat": 3,
+            "kind": "win",
+            "tile": 0,
+            "winKind": "discard",
+            "from": 0
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 19
+          }
+        ],
+        "decision": {
+          "kind": "respond",
+          "responseKind": "discard",
+          "from": 1,
+          "tile": 19,
+          "choices": ["pass", "hu"]
+        }
+      },
+      "selection": "First encountered for this comparison/action-pair category, not selected by score"
+    },
+    {
+      "comparison": "D-T",
+      "base": [60000, 0, "ebony-advanced", "common"],
+      "index": 13,
+      "prefixHash": "f47fd7b13940eae2cfe48d2faa6c22302a0cfa961b57e43e0d1af336d30c8470",
+      "samePublicView": true,
+      "category": "discard -> discard",
+      "delta": -23,
+      "incomeDifference": {
+        "selfWin": -10,
+        "discardWin": 4,
+        "dealIn": -8,
+        "paidSelfWin": -3,
+        "kong": -6,
+        "flower": 0,
+        "ready": 0
+      },
+      "baselineTraceLine": 5,
+      "candidateTraceLine": 2,
+      "publicViewSha256": "28bb4869c85c2d8a5645b79caa4bf1a030cd493ed2d4b7d0d3d9f6ec19254d33",
+      "baselineAction": {
+        "type": "discard",
+        "tile": 25
+      },
+      "candidateAction": {
+        "type": "discard",
+        "tile": 26
+      },
+      "view": {
+        "seat": 0,
+        "hand": [18, 5, 8, 7, 18, 8, 18, 20, 25, 22, 26],
+        "melds": [
+          {
+            "type": "kong",
+            "tile": 24,
+            "from": null,
+            "kongKind": "concealed"
+          }
+        ],
+        "missing": "tiao",
+        "legalDiscards": [5, 7, 8, 18, 20, 22, 25, 26],
+        "ownDiscards": [1],
+        "opponents": [
+          {
+            "seat": 1,
+            "handCount": 13,
+            "melds": [],
+            "discards": [6],
+            "missing": "wan",
+            "won": false,
+            "score": -2
+          },
+          {
+            "seat": 2,
+            "handCount": 13,
+            "melds": [],
+            "discards": [3],
+            "missing": "wan",
+            "won": false,
+            "score": -2
+          },
+          {
+            "seat": 3,
+            "handCount": 13,
+            "melds": [],
+            "discards": [16],
+            "missing": "tong",
+            "won": false,
+            "score": -2
+          }
+        ],
+        "wallRemaining": 50,
+        "publicTiles": [
+          {
+            "seat": 0,
+            "tile": 1,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 6,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 3,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 16,
+            "kind": "discard"
+          }
+        ],
+        "publicActions": [
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 1
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 6
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 3
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 16
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "kong",
+            "tile": 24,
+            "kongKind": "concealed",
+            "from": null
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          }
+        ],
+        "decision": {
+          "kind": "self",
+          "canWin": false,
+          "concealedKongs": [],
+          "addedKongs": []
+        }
+      },
+      "selection": "First encountered for this comparison/action-pair category, not selected by score"
+    }
+  ],
+  "exampleSelection": "First encountered for each predeclared comparison/action-pair category, not selected by final score; four shown examples retain exact public view and original actions. Whole-game outcomes are descriptive only.",
+  "statistics": "Within each seed average all included seats/lineups/openings equally; sample SE over40 complete seed means, mean +/-1.96SE normal approximation, no bootstrap. Same seed aligns initial randomness only; after action differences future draw recipients and trajectories differ.",
+  "limits": [
+    "All seeds were previously spent development seeds",
+    "Intervals are unadjusted normal seed-cluster summaries, no formal pass threshold",
+    "Income and first-action groups are descriptive, not causal action values",
+    "V4 control reproduction is existing audited evidence, not reexecuted here",
+    "No game, policy or teacher function executed",
+    "All72 panels uncorrected for multiplicity. E-T and E-K positive overall intervals are development observations, not formal acceptance.",
+    "E-D overall interval crosses0; positive point estimates do not prove superiority or positive module interaction.",
+    "Initial and advanced opponents share the ebony72 author. Internal teacher is not an independent author. No certified Sichuan expert anchor was tested here.",
+    "No fanfou/UI follow-up results are part of this publication. Early8-seed browser prototype does not complete product integration or establish strength."
+  ]
+}
