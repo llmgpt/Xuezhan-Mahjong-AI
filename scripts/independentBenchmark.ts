@@ -254,7 +254,7 @@ function lockOutput(output: string): () => void {
   return () => rmSync(path);
 }
 
-async function playRegisteredGame(
+export async function playRegisteredGame(
   spec: GameSpec,
   config: IndependentConfig,
   observers: Observers,
