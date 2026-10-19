@@ -503,6 +503,36 @@ function lockLedger(path: string): () => void {
   return () => unlinkSync(lockPath);
 }
 
+/** Read-only resume gate; unlike reserveFormalSeeds this never creates a reservation. */
+export function verifyFormalReservation(
+  path: string,
+  rawPlan: unknown,
+  requested: readonly number[],
+): { reservation: SeedReservation; ledgerSha256: string } {
+  const plan = parseFormalScientificPlan(rawPlan);
+  if (
+    !uniqueList(requested) ||
+    requested.length !== plan.sampleSize ||
+    !requested.every(isSeed)
+  )
+    throw new Error("正式种子必须唯一且等于预定样本数");
+  const content = readFileSync(resolve(path), "utf8");
+  const ledger = parseLedger(JSON.parse(content));
+  const reservation = ledger.reservations.find(
+    (entry) => entry.planId === plan.planId,
+  );
+  if (!reservation) throw new Error("本次正式预约缺失，拒绝重建或续跑");
+  if (
+    reservation.planHash !== formalPlanHash(plan) ||
+    canonical(reservation.seeds) !== canonical(requested)
+  )
+    throw new Error("本次计划或整组预约种子已变更");
+  return {
+    reservation: structuredClone(reservation),
+    ledgerSha256: digest(content),
+  };
+}
+
 /** Consumes the entire reservation durably before any policy execution. */
 export function reserveFormalSeeds(
   path: string,

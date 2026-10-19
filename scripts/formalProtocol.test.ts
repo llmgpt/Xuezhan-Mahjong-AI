@@ -14,6 +14,7 @@ import {
   formalPlanHash,
   parseFormalScientificPlan,
   reserveFormalSeeds,
+  verifyFormalReservation,
   summarizeFormalStatistics,
 } from "./formalProtocol";
 import type { IndependentRecord } from "./independentEvaluation";
@@ -356,5 +357,55 @@ describe("正式科学配置与种子消费登记", () => {
       /账本|重叠/,
     );
     expect(readFileSync(broken, "utf8")).toBe(before);
+  });
+
+  it("续跑只读核验既存整组预约，缺失时不能偷偷重建消费记录", () => {
+    const path = ledger();
+    const parsed = parseFormalScientificPlan(plan());
+    const before = readFileSync(path, "utf8");
+    expect(() => verifyFormalReservation(path, parsed, seeds())).toThrow(
+      /缺失|预约/,
+    );
+    expect(readFileSync(path, "utf8")).toBe(before);
+    const reserved = reserveFormalSeeds(path, parsed, seeds());
+    const saved = readFileSync(path, "utf8");
+    expect(verifyFormalReservation(path, parsed, seeds()).reservation).toEqual(
+      reserved.reservation,
+    );
+    expect(readFileSync(path, "utf8")).toBe(saved);
+    const removed = JSON.parse(saved);
+    removed.reservations = [];
+    writeFileSync(path, JSON.stringify(removed) + "\n");
+    const missing = readFileSync(path, "utf8");
+    expect(() => verifyFormalReservation(path, parsed, seeds())).toThrow(
+      /缺失|预约/,
+    );
+    expect(readFileSync(path, "utf8")).toBe(missing);
+    expect(existsSync(path + ".lock")).toBe(false);
+  });
+
+  it("其他协议可追加合法消费，但本次计划或种子顺序变化必须拒绝", () => {
+    const path = ledger();
+    const parsed = parseFormalScientificPlan(plan());
+    const first = reserveFormalSeeds(path, parsed, seeds());
+    const other = { ...parsed, planId: "synthetic-other-read-check" };
+    reserveFormalSeeds(
+      path,
+      other,
+      seeds().map((seed) => seed + 1000),
+    );
+    const before = readFileSync(path, "utf8");
+    const verified = verifyFormalReservation(path, parsed, seeds());
+    expect(verified.reservation).toEqual(first.reservation);
+    expect(verified.ledgerSha256).not.toBe(first.ledgerSha256);
+    expect(() =>
+      verifyFormalReservation(path, parsed, seeds().reverse()),
+    ).toThrow(/种子|预约/);
+    const changed = structuredClone(parsed);
+    changed.criteria[0].minimumDifference = 0.1;
+    expect(() => verifyFormalReservation(path, changed, seeds())).toThrow(
+      /计划|预约/,
+    );
+    expect(readFileSync(path, "utf8")).toBe(before);
   });
 });
