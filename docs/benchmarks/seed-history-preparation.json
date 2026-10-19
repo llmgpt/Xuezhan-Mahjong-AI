@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "createdAtUtc": "2026-10-19T16:05:38.534328+00:00",
+  "purpose": "Preparation inventory only; no real seed ledger or fresh reservation created",
+  "knownOrDeclaredSeeds": 749,
+  "knownOrDeclaredRanges": [
+    [10000, 10099],
+    [20000, 20099],
+    [30000, 30099],
+    [40000, 40099],
+    [50000, 50099],
+    [60000, 60039],
+    [70000, 70199],
+    [80000, 80007],
+    [1044685492, 1044685492]
+  ],
+  "conservativeAdditionalTestLiteralExclusions": 70,
+  "inputCount": 85,
+  "localInventorySha256": "122bc9ff7c16cfe9797db81fdbebebb83e70e6c809a3070cd2d3a5b3f89dcb9e",
+  "localEvidence": "local/strength-goal-20261018/seed-history-inventory-v1",
+  "inputSourcesSnapshottedAndHashed": true,
+  "readRunningResultFiles": false,
+  "readyForLedger": false,
+  "realLedgerInitialized": false,
+  "freshSeedsGeneratedOrReserved": false,
+  "pending": [
+    "Review coverage of other legacy local runs and transient browser use before initializing the real ledger.",
+    "Conservative test literals are exclusions, not assertions that every number was used as a real game seed.",
+    "Actual fresh seeds must be selected only after science/source/runtime/pass criteria are frozen."
+  ],
+  "limitation": "Project-known history cannot establish universal novelty of every transient unrecorded browser seed."
+}
