@@ -49,6 +49,14 @@ Root 完整 `npm run check` 已通过格式、lint、类型、35 文件 302 项�
 
 独立审查另以 12 个已有开发公开帧完成 34 次实际高级调用，14 个 worker 均正常 finish；四文件哈希全程一致，两生产文件匹配快照，原 wire、适配与 vendor 共 42 文件匹配 V4。原始审查位于忽略的 `advanced-components-v5-review/`。四个真实分片都以退出码 0 完成，进程记录为 `development-v5-execution.json`。完整来源、82 项执行字节和全部分歧再次核验通过。
 
+## 浏览器完整 D 对局原型
+
+2026-10-19 已用内置浏览器实际点击启动、加载时停止、重新创建 Worker，并完成 `80000 / seat0 / teacher-v1 / common` 的完整 D 对局。全局 87 步，本家 50 次完整决定对象的哈希与已有 Node 对照全部一致，终局 `[1,3,-5,1]` 与收入明细也一致；88 个状态均为 108 张、积分零和。实际高级 Python 弃牌调用 14 次，执行的 38 项 Python 原字节与 V5 的 82 项冻结源码核对一致。
+
+完整局约 23.69 秒；14 次 Python 弃牌耗时约 2.6～6249.2 毫秒，生产体验仍需处理较慢节点。已验证的取消发生在加载阶段，不能据两个计数器响应声称所有决策阶段都流畅或中局取消已通过。Pyodide `314.0.7` / Python `3.14.2` 运行在独立 Worker 中，没有修改根依赖。
+
+这是 `http://127.0.0.1:5181/` 的独立原型，原牌桌 `5173` 仍用旧老师；它验证候选能够在真实浏览器运行，不证明实战强度、全部规则覆盖或产品接入完成。[版本化 QA 摘要](benchmarks/independent-v5-browser-prototype.json)保存结果、耗时、来源及报告/截图哈希；原始产物在忽略的 `local/strength-goal-20261018/browser-fullgame-probe/`，成功报告为 `browser-report-20261019T132916738527Z.json`，截图为 `browser-success-proof.png`。
+
 ## 首轮完整结果
 
 [版本化摘要](benchmarks/independent-v5-development-summary.json)保留全部配置、82 项指纹、72 项比较、收入与来源审计。每比较 192 配对，统计单元仅 8 个完整旧开发种子，使用原固定 SE 和正态区间，不做 bootstrap。
