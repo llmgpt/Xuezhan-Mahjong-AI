@@ -1,10 +1,85 @@
 import { describe, expect, it } from "vitest";
+import { applyDecisionAction } from "../src/game/decision";
 import { createGame } from "../src/game/game";
 import { chooseTeacherAction } from "../src/game/teacher";
 import { playerView } from "../src/game/view";
 import { createPolicySession, resolveLineup } from "./independentPolicies";
 
+function openingViews() {
+  let state = createGame(80000);
+  const exchange = playerView(state, 0);
+  for (const seat of [0, 1, 2, 3])
+    state = applyDecisionAction(
+      state,
+      seat,
+      chooseTeacherAction(playerView(state, seat), state.phase)!,
+    );
+  const missing = playerView(state, 0);
+  for (const seat of [0, 1, 2, 3])
+    state = applyDecisionAction(
+      state,
+      seat,
+      chooseTeacherAction(playerView(state, seat), state.phase)!,
+    );
+  return { exchange, missing, self: playerView(state, 0) };
+}
+
 describe("独立评测策略注册", () => {
+  it.each([
+    "candidate-advanced-opening-v5",
+    "candidate-advanced-discard-v5",
+    "candidate-advanced-actions-v5",
+  ])("%s统一老师开局且非开局使用原高级wire和同一worker", async (name) => {
+    let started = 0;
+    let calls = 0;
+    let finished = 0;
+    const session = createPolicySession(name, {
+      workerFactory: (options) => {
+        expect(options.policy).toBe("ebony72-advanced-public-v1");
+        started++;
+        return {
+          act: async (view, phase) => {
+            expect(phase).toBe("discard");
+            calls++;
+            return { type: "discard", tile: view.legalDiscards[0] };
+          },
+          close: async () => {},
+          finish: async () => {
+            finished++;
+          },
+        };
+      },
+    });
+    const views = openingViews();
+    expect(views.self.decision?.kind).toBe("self");
+    expect(
+      views.self.decision?.kind === "self" && views.self.decision.canWin,
+    ).toBe(false);
+    expect(
+      views.self.decision?.kind === "self" &&
+        views.self.decision.concealedKongs,
+    ).toEqual([]);
+    for (const [phase, view] of [
+      ["exchange", views.exchange],
+      ["choose-missing", views.missing],
+    ] as const)
+      expect(await session.choose(view, phase)).toEqual(
+        chooseTeacherAction(view, phase),
+      );
+    expect(started).toBe(0);
+    for (let index = 0; index < 2; index++) {
+      const action = await session.choose(views.self, "discard");
+      expect(action?.type).toBe("discard");
+    }
+    expect(started).toBe(1);
+    expect(calls).toBe(2);
+    await session.finish();
+    expect(finished).toBe(1);
+    await expect(session.choose(views.exchange, "exchange")).rejects.toThrow(
+      /关闭/,
+    );
+  });
+
   it("高级收胡候选在合法自摸和点胡时不启动外部worker", async () => {
     const view = playerView(createGame(80000), 0);
     const session = createPolicySession("candidate-advanced-hu-v4", {

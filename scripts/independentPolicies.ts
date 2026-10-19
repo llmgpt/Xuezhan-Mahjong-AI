@@ -1,4 +1,5 @@
 import type { DecisionAction } from "../src/game/decision";
+import { chooseAdvancedComponentAction } from "../src/game/advancedComponents";
 import type { Phase } from "../src/game/game";
 import { immediateWinChoice } from "../src/game/immediateWin";
 import {
@@ -19,10 +20,19 @@ export const INDEPENDENT_POLICY_IDS = [
   "candidate-v2",
   "candidate-rollout-v3",
   "candidate-advanced-hu-v4",
+  "candidate-advanced-opening-v5",
+  "candidate-advanced-discard-v5",
+  "candidate-advanced-actions-v5",
   "ebony-initial",
   "ebony72-advanced-public-v1",
 ] as const;
 export type IndependentPolicyId = (typeof INDEPENDENT_POLICY_IDS)[number];
+
+const ADVANCED_COMPONENTS = {
+  "candidate-advanced-opening-v5": "full",
+  "candidate-advanced-discard-v5": "discard",
+  "candidate-advanced-actions-v5": "actions",
+} as const;
 
 // Fixed seat vectors. Internal opponents are sensitivity controls, not additional
 // independent references or evidence of expert playing strength.
@@ -73,6 +83,24 @@ export function createPolicySession(
   let worker: Worker | undefined;
   let closed = false;
   let seat: number | undefined;
+  const component = Object.hasOwn(ADVANCED_COMPONENTS, name)
+    ? ADVANCED_COMPONENTS[name as keyof typeof ADVANCED_COMPONENTS]
+    : undefined;
+  const externalChoose = async (view: PlayerView, phase: Phase) => {
+    const workerOptions: ExternalMahjongOptions = {
+      timeoutMs: options.timeoutMs,
+      policy:
+        name === "ebony72-advanced-public-v1" ||
+        name === "candidate-advanced-hu-v4" ||
+        component !== undefined
+          ? "ebony72-advanced-public-v1"
+          : undefined,
+    };
+    worker ??=
+      options.workerFactory?.(workerOptions) ??
+      new ExternalMahjongWorker(workerOptions);
+    return worker.act(view, phase);
+  };
   return {
     choose: async (view, phase) => {
       if (closed) throw new Error("策略会话已关闭");
@@ -90,21 +118,17 @@ export function createPolicySession(
         const win = immediateWinChoice(view, phase);
         if (win) return win.action;
       }
+      if (component)
+        return chooseAdvancedComponentAction(
+          view,
+          phase,
+          component,
+          externalChoose,
+        );
       // Upstream has no exchange implementation. The composite strategy states
       // this shared exchange explicitly; daquex and all later decisions are external.
       if (phase === "exchange") return chooseTeacherAction(view, phase);
-      const workerOptions: ExternalMahjongOptions = {
-        timeoutMs: options.timeoutMs,
-        policy:
-          name === "ebony72-advanced-public-v1" ||
-          name === "candidate-advanced-hu-v4"
-            ? "ebony72-advanced-public-v1"
-            : undefined,
-      };
-      worker ??=
-        options.workerFactory?.(workerOptions) ??
-        new ExternalMahjongWorker(workerOptions);
-      return worker.act(view, phase);
+      return externalChoose(view, phase);
     },
     close: async () => {
       if (closed) return;
