@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "declaredAtUtc": "2026-10-19T23:46:00Z",
+  "purpose": "development-execution-schedule-only",
+  "protocol": "e-followup-v1-protocol.json",
+  "protocolSha256": "b2d3dffe8a392661ce06caee6cdf1d63039fba98411daac487a9404ff32ca27f",
+  "initialShardProcesses": 2,
+  "initialGroups": ["ui:1", "external:1"],
+  "observedCapacityAfterStart": {
+    "freePhysicalMemoryKiB": 3863700,
+    "visibleMemoryKiB": 16495480,
+    "physicalCores": 8,
+    "logicalProcessors": 12,
+    "nodeWorkingSetBytes": [136577024, 106872832],
+    "observedPythonWorkingSetBytes": [25686016, 25145344, 25415680, 25440256],
+    "wholeEngineeringTestsAlsoRunning": true
+  },
+  "maximumShardProcessesAfterCapacityReview": 6,
+  "rationale": "All prior development jobs finished. Initial two shard processes and their Python children used approximately 0.33 GiB, with more than 3.6 GiB physical memory still free. Start remaining four frozen shards in stages, rechecking capacity before the last two. This changes only scheduling; no new seed, config, policy, timeout or analysis change.",
+  "conditions": [
+    "No partial scores or partial strength statistics inspected for scheduling decisions.",
+    "Preserve every original execution handle and terminal result; do not restart or duplicate an active shard.",
+    "The complete declared 960 UI and 1280 external new executions remain required regardless of outcomes.",
+    "Retain failure evidence and block inference on invalid or incomplete grids; no favorable result selection."
+  ]
+}

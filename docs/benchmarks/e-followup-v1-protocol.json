@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "id": "e-followup-v1",
+  "declaredAt": "2026-10-19T23:40:32.173Z",
+  "mode": "development",
+  "status": "prepared-not-started",
+  "seeds": [
+    60000, 60001, 60002, 60003, 60004, 60005, 60006, 60007, 60008, 60009, 60010,
+    60011, 60012, 60013, 60014, 60015, 60016, 60017, 60018, 60019, 60020, 60021,
+    60022, 60023, 60024, 60025, 60026, 60027, 60028, 60029, 60030, 60031, 60032,
+    60033, 60034, 60035, 60036, 60037, 60038, 60039
+  ],
+  "independentSeedUnits": 40,
+  "selection": "E selected after complete V5 expanded4800 and UI T/D640 development results. No additional E follow-up results were read before this declaration. Same spent development seeds, no new parameters, no formal holdout or posthoc acceptance threshold.",
+  "policies": {
+    "T": "teacher-v1",
+    "A": "ebony72-advanced-public-v1",
+    "E": "candidate-advanced-opening-v5",
+    "K": "candidate-advanced-actions-v5",
+    "D": "candidate-advanced-discard-v5",
+    "F": "fanfou-ba-composite-v1"
+  },
+  "groups": {
+    "ui": {
+      "sourceSnapshot": "local/strength-goal-20261018/ui-development-v1-source",
+      "sourceFileCount": 101,
+      "masterConfig": "local/strength-goal-20261018/e-followup-v1-plan/ui.config.json",
+      "expectedNewGames": 960,
+      "shards": [
+        {
+          "number": 1,
+          "config": "local/strength-goal-20261018/e-followup-v1-plan/ui-shard-1.config.json",
+          "configSha256": "d68b91b57cca6d07eadc924c104ad938327da0617aac8420b54e2b0f14ec4195",
+          "output": "local/strength-goal-20261018/e-followup-v1-ui-shard-1",
+          "seeds": [
+            60000, 60002, 60004, 60006, 60008, 60010, 60012, 60014, 60016,
+            60018, 60020, 60022, 60024, 60026, 60028, 60030, 60032, 60034,
+            60036, 60038
+          ],
+          "games": 480,
+          "command": "& 'C:/nvm4w/nodejs/node.exe' 'local/strength-goal-20261018/e-followup-v1-plan/launch.mjs' --run ui 1"
+        },
+        {
+          "number": 2,
+          "config": "local/strength-goal-20261018/e-followup-v1-plan/ui-shard-2.config.json",
+          "configSha256": "08a256b96f214e72619c8f0a64bcf1ef40e2071d34615a4fcf31040a467b59b2",
+          "output": "local/strength-goal-20261018/e-followup-v1-ui-shard-2",
+          "seeds": [
+            60001, 60003, 60005, 60007, 60009, 60011, 60013, 60015, 60017,
+            60019, 60021, 60023, 60025, 60027, 60029, 60031, 60033, 60035,
+            60037, 60039
+          ],
+          "games": 480,
+          "command": "& 'C:/nvm4w/nodejs/node.exe' 'local/strength-goal-20261018/e-followup-v1-plan/launch.mjs' --run ui 2"
+        }
+      ]
+    },
+    "external": {
+      "sourceSnapshot": "local/strength-goal-20261018/fanfou-development-v1-source",
+      "sourceFileCount": 100,
+      "masterConfig": "local/strength-goal-20261018/e-followup-v1-plan/external.config.json",
+      "expectedNewGames": 1280,
+      "shards": [
+        {
+          "number": 1,
+          "config": "local/strength-goal-20261018/e-followup-v1-plan/external-shard-1.config.json",
+          "configSha256": "0f0cf4b6ebf352f855f8f5b9b6e4ad0c49466184438d2d9adca69843aebef1dc",
+          "output": "local/strength-goal-20261018/e-followup-v1-external-shard-1",
+          "seeds": [
+            60000, 60004, 60008, 60012, 60016, 60020, 60024, 60028, 60032, 60036
+          ],
+          "games": 320,
+          "command": "& 'C:/nvm4w/nodejs/node.exe' 'local/strength-goal-20261018/e-followup-v1-plan/launch.mjs' --run external 1"
+        },
+        {
+          "number": 2,
+          "config": "local/strength-goal-20261018/e-followup-v1-plan/external-shard-2.config.json",
+          "configSha256": "daf5ff016a4f1aa7d22909f6718ae8cc8e2d132bb44615e242f5af607c500c38",
+          "output": "local/strength-goal-20261018/e-followup-v1-external-shard-2",
+          "seeds": [
+            60001, 60005, 60009, 60013, 60017, 60021, 60025, 60029, 60033, 60037
+          ],
+          "games": 320,
+          "command": "& 'C:/nvm4w/nodejs/node.exe' 'local/strength-goal-20261018/e-followup-v1-plan/launch.mjs' --run external 2"
+        },
+        {
+          "number": 3,
+          "config": "local/strength-goal-20261018/e-followup-v1-plan/external-shard-3.config.json",
+          "configSha256": "4c595a30e63b9261ed446c69df21394c5b3719f4b5fb743f92375950156b409f",
+          "output": "local/strength-goal-20261018/e-followup-v1-external-shard-3",
+          "seeds": [
+            60002, 60006, 60010, 60014, 60018, 60022, 60026, 60030, 60034, 60038
+          ],
+          "games": 320,
+          "command": "& 'C:/nvm4w/nodejs/node.exe' 'local/strength-goal-20261018/e-followup-v1-plan/launch.mjs' --run external 3"
+        },
+        {
+          "number": 4,
+          "config": "local/strength-goal-20261018/e-followup-v1-plan/external-shard-4.config.json",
+          "configSha256": "555d7e68bf2b3b6eb1d6805c18f1de063ea0af3f1546a3baf567c081519c4ae5",
+          "output": "local/strength-goal-20261018/e-followup-v1-external-shard-4",
+          "seeds": [
+            60003, 60007, 60011, 60015, 60019, 60023, 60027, 60031, 60035, 60039
+          ],
+          "games": 320,
+          "command": "& 'C:/nvm4w/nodejs/node.exe' 'local/strength-goal-20261018/e-followup-v1-plan/launch.mjs' --run external 4"
+        }
+      ]
+    }
+  },
+  "openings": {
+    "common": "All four actors use common teacher exchange and missing suit. Isolates in-play behavior; not product deployment performance.",
+    "composite": "Each actor uses its actual composite opening; registry uses the existing shared teacher exchange for external references, with reference-specific missing where implemented. UI opponents use their frozen ui-greedy opening; E/K keep teacher opening, A uses advanced missing. Report separately from common."
+  },
+  "statistics": "Average candidate-minus-baseline score over four seats and included lineups within each seed; sample SE over40 seed means; mean +/-1.96 SE normal approximation. Same treatment separately by opening,lineup,opening+lineup,seat and opening+seat. Do not use seat-games as independent samples. Publish all declared comparisons and panels, income decompositions, failures and first public differences. Descriptive intervals uncorrected for multiple comparisons; no pass claim.",
+  "seedPairing": "Same seed aligns initial shuffle/opening opportunity. After different actions, draw recipients, actions and terminal length can differ; it does not guarantee identical later hidden states or causal action value. Whole-game deltas never become oracle action labels.",
+  "uiMerge": {
+    "oldOriginalGames": 640,
+    "newGames": 960,
+    "uniqueDerivedGames": 1600,
+    "policies": [
+      "teacher-v1",
+      "ebony72-advanced-public-v1",
+      "candidate-advanced-opening-v5",
+      "candidate-advanced-discard-v5",
+      "candidate-advanced-actions-v5"
+    ],
+    "rule": "Preserve old T/D original640 and new A/E/K960 source records. Require complete identical101-source/rules/runtime versions; derived union, not one original run. UI bots are internal, not another independent author."
+  },
+  "externalMerge": {
+    "oldOriginalGames": 2560,
+    "newGames": 1280,
+    "rawGames": 3840,
+    "repeatedT": 640,
+    "uniqueDerivedGames": 3200,
+    "policies": [
+      "teacher-v1",
+      "ebony72-advanced-public-v1",
+      "candidate-advanced-opening-v5",
+      "candidate-advanced-discard-v5",
+      "fanfou-ba-composite-v1"
+    ],
+    "rule": "For every repeated T key(seed,seat,lineup,opening,policy), require exact complete result and complete decision/evaluation trace reproduction, ignoring only container manifest/config/time or line ordering outside a game. Preserve both originals and reproduction audit; remove only verified duplicateT in derived union. Any mismatch blocks union and inference, preserve evidence, no best-run choice or silent rerun."
+  },
+  "execution": "Root reviews freeze first. Start at most2 shard processes initially; queue remaining shards without changing grids. Keep original benchmark failure/finish behavior. A real exit0 plus complete seeds/results/traces and source verification is necessary, not merely a written summary. Do not inspect partial scores or stop for favorable results. Exact-resume only with existing frozen benchmark complete-seed rules. No teacher fallback, seed substitution or partial success; retain failing public request.",
+  "strengthBoundary": "Development diagnostics after seeing related results. ebony initial+advanced share an author; fanfou BA is a second implementation adapted with a rule shell, not a certified Sichuan expert. Product UI bots internal. No new independent expert strength or formal pass claim.",
+  "freeze": "local/strength-goal-20261018/e-followup-v1-plan/freeze.json",
+  "protocol": "docs/benchmarks/e-followup-v1-protocol.json",
+  "artifacts": {
+    "local/strength-goal-20261018/e-followup-v1-plan/ui.config.json": "1a77a8d983a0a85318a7d94c1e9258e3c253694df4cf09d674a919b35fdea6fc",
+    "local/strength-goal-20261018/e-followup-v1-plan/ui-shard-1.config.json": "d68b91b57cca6d07eadc924c104ad938327da0617aac8420b54e2b0f14ec4195",
+    "local/strength-goal-20261018/e-followup-v1-plan/ui-shard-2.config.json": "08a256b96f214e72619c8f0a64bcf1ef40e2071d34615a4fcf31040a467b59b2",
+    "local/strength-goal-20261018/e-followup-v1-plan/external.config.json": "4b5c457b7baca5c515f317124f3399fe57fc16cbc958057f2aa34c1a5e57440c",
+    "local/strength-goal-20261018/e-followup-v1-plan/external-shard-1.config.json": "0f0cf4b6ebf352f855f8f5b9b6e4ad0c49466184438d2d9adca69843aebef1dc",
+    "local/strength-goal-20261018/e-followup-v1-plan/external-shard-2.config.json": "daf5ff016a4f1aa7d22909f6718ae8cc8e2d132bb44615e242f5af607c500c38",
+    "local/strength-goal-20261018/e-followup-v1-plan/external-shard-3.config.json": "4c595a30e63b9261ed446c69df21394c5b3719f4b5fb743f92375950156b409f",
+    "local/strength-goal-20261018/e-followup-v1-plan/external-shard-4.config.json": "555d7e68bf2b3b6eb1d6805c18f1de063ea0af3f1546a3baf567c081519c4ae5",
+    "local/strength-goal-20261018/e-followup-v1-plan/freeze.json": "663f69f1a7ebe7e9c55e18614bfbde9392a1f45c5e80f99ca063883aad986955",
+    "local/strength-goal-20261018/e-followup-v1-plan/plan.json": "b3a0d9de0919b377c804b2aa2fdc107551f672fed0d6353609fa1277b59a984a"
+  },
+  "sourceVerification": {
+    "ui": {
+      "sourceSnapshot": "local/strength-goal-20261018/ui-development-v1-source",
+      "count": 101,
+      "originalFreeze": "local/strength-goal-20261018/ui-development-v1-freeze.json",
+      "runtime": {
+        "node": "v22.22.1",
+        "python": "3.13.5"
+      },
+      "rules": {
+        "exchangeDirection": "clockwise",
+        "fanCap": 3,
+        "selfDrawBonus": 1,
+        "flowerPenalty": 8,
+        "checkTenpai": true
+      },
+      "originalArtifacts": {
+        "local/strength-goal-20261018/ui-development-v1-freeze.json": "55b8499cc0b59766035e053412cf1f2872fbdbe4f8dd7ce8e6e851e6d78ea984",
+        "local/strength-goal-20261018/ui-development-v1/games.jsonl": "bcd2b62744e75f6bcef09e056ea17bbd039e9654f5f953fafb87296367391dd1",
+        "local/strength-goal-20261018/ui-development-v1/traces.jsonl": "f8a3ceb1c9c2af88068a9dbaa7ea5f78bbfbc4fda634704507847fd4a4f15922",
+        "local/strength-goal-20261018/ui-development-v1/summary.json": "b0db74e6382afc75321085de951e26b5142d6d8edfd97d82b97a472ea45e20b1"
+      }
+    },
+    "external": {
+      "sourceSnapshot": "local/strength-goal-20261018/fanfou-development-v1-source",
+      "count": 100,
+      "originalFreeze": "local/strength-goal-20261018/fanfou-development-v1-freeze.json",
+      "runtime": {
+        "node": "v22.22.1",
+        "python": "3.13.5",
+        "numpy": "2.1.3"
+      },
+      "rules": {
+        "exchangeDirection": "clockwise",
+        "fanCap": 3,
+        "selfDrawBonus": 1,
+        "flowerPenalty": 8,
+        "checkTenpai": true
+      },
+      "originalArtifacts": {
+        "local/strength-goal-20261018/fanfou-development-v1-freeze.json": "b4d5b014c9a8abfc2d1a7f1722c9aab51a8d9c6bf04e3aa975fd5f7a5d9dfadf",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-1/games.jsonl": "ade0e91e0302fecf8ef6ee833b224f0d604d41c4fa8ae40bd1f3609f5f8c1ca1",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-1/traces.jsonl": "27d58bb98897a913b59851c076be31fd94bc5f289367757de15783051eb65c10",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-1/summary.json": "ba9509814d1184974e55442eade3131aaf22cd00b1a83e2e578c975db7b43e19",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-2/games.jsonl": "123e33c89147f7eacb1795feb8adbe11196aabbf9c0e3dd6db24bd7938f2d58a",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-2/traces.jsonl": "f8789e98744ed52842fe6d1bbc16671cefe6e9da272144eba42b3ba1533a05a8",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-2/summary.json": "239f0ab1871eb7d541225f10840ee35cbcd7d6e0bec9d0d159cf09841b2f6676",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-3/games.jsonl": "b11f3ff6ef783e3f31659e604f2f864c6694e5b2b8d78cf01dce0a378a020436",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-3/traces.jsonl": "e5422cd2a44dc754e55467154aac3299e260870ddbd646960294c3fd37aa6540",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-3/summary.json": "795e7b4521ef1ac30562786e7ace6ff334d31a971aee63fd0dd31aa78ad7db32",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-4/games.jsonl": "dfb4d0413ab0c46794767d0f1fe659ba153bb36d8ad29bf2c4d428139b68d01b",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-4/traces.jsonl": "2604e3ba08afd640ab56ac30b1cc76e68577e9074a953e6694668cd414d3d7c5",
+        "local/strength-goal-20261018/fanfou-development-v1-shard-4/summary.json": "2c084d10e57548792aa3af620cc646f8c2f5867fc7bd5442948ca8b48c6ab73d"
+      }
+    }
+  }
+}
