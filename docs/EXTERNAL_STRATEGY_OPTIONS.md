@@ -1,6 +1,6 @@
 # 其他独立策略候选核查
 
-> 核查日期：2026-10-18 至 19。早期两轮只查阅作者仓库、源码、发布清单和论文入口；新增 Fanfou 已接入独立弃牌核心和明确 V1 外壳，旧种子完整局烟测进行中，另行标明运行范围。没有新的正式强度成绩，不能用作者自述或原规则比赛成绩替代 V1 验证。
+> 核查日期：2026-10-18 至 19。早期两轮只查阅作者仓库、源码、发布清单和论文入口；新增 Fanfou 已接入独立弃牌核心和明确 V1 外壳，96局旧种子完整烟测已完成，另行标明运行范围。没有新的正式强度成绩，不能用作者自述或原规则比赛成绩替代 V1 验证。
 
 早期两轮共检查五项不同作者的候选，没有新增同时满足“V1 同规则、完整策略、许可清楚、有高手实力依据”的标尺。不能由此推断其他可用项目不存在。当前不推荐直接迁移日麻权重，也不据 README 自述授予高手水平。
 
@@ -67,6 +67,6 @@
 
 优先审查 `完整实验2.1/ai-demo/src/dazhong_mahjong_1.py` 的 `Fan_Fou_basic.del_ourself_drw()`，与另一 JSON/MC 版本分开。已核到原类弃牌路径主要读取本家手牌、副露及公开 `ShowCount`，不需要训练权重；但硬编码 13 张的构造器、共享 class globals 和随机兜底都需要明确隔离。不能伪造短手牌、给对手注入真实听牌状态或把自家 fallback 算作外部策略。
 
-此前忽略的 `local/strength-goal-20261018/fanfou-ba-prototype/` 已完成 125 个公开弃牌帧兼容；现以 `fanfou-ba-composite-v1` 将原核心和明确的 V1 外壳接入离线评测，保留原字节、逐方法比对、真实 14/11/8/5/2 暗手和公开计数，不把实验器的四手暗牌传入。308 项 TypeScript、95 项 Python 检查通过；96 局旧种子烟测已冻结启动，页面接入和强度尚待验证。详情见[组合参考记录](INDEPENDENT_REFERENCE_FANFOU.md)。完整只读研究与适配边界在 `strength-anchor-research/report.md`、`fanfou-adapter-review.md`，没有据此授予高手水平。
+此前忽略的 `local/strength-goal-20261018/fanfou-ba-prototype/` 已完成 125 个公开弃牌帧兼容；现以 `fanfou-ba-composite-v1` 将原核心和明确的 V1 外壳接入离线评测，保留原字节、逐方法比对、真实 14/11/8/5/2 暗手和公开计数，不把实验器的四手暗牌传入。当前329项 TypeScript、95项 Python检查通过；96局旧种子烟测和全部动作重放完成，页面接入和强度尚待验证。详情见[组合参考记录](INDEPENDENT_REFERENCE_FANFOU.md)。完整只读研究与适配边界在 `strength-anchor-research/report.md`、`fanfou-adapter-review.md`，没有据此授予高手水平。
 
 另查 [lauyikfung/SichuaMahjongAI](https://github.com/lauyikfung/SichuaMahjongAI/tree/f0862eff2430862027f30a3fc50a19a739be417f)：可见川麻桌面与另一套 RLCard 训练路径，不能把其中模型目录直接当川麻高手；[zengyangjie/AI-Mahjong](https://github.com/zengyangjie/AI-Mahjong/tree/ffa86fb6257bfa0040a7771708f62849fb37ae01)未核到可调用策略和有效根许可，`.pt` 是视觉检测资源。明确川麻的 [CCDC 2022 论文入口](https://ieeexplore.ieee.org/document/10033614)值得后续核查，但本轮尚未确认可取得的代码、权重及复现成绩。以上均只界定本次实际核查，不能推成不存在其他强标尺。
