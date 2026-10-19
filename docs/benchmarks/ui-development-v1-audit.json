@@ -1,0 +1,335 @@
+{
+  "version": 1,
+  "developmentOnly": true,
+  "sourceImplementation": "7b6993a",
+  "sourceFiles": 101,
+  "originalSession": 92840,
+  "exitCode": 0,
+  "games": 640,
+  "pairedGames": 320,
+  "independentSeedUnits": 40,
+  "seeds": [60000, 60039],
+  "oldSeedsOnly": true,
+  "allDecisionsReplayed": 39287,
+  "allStatesReplayed": 65589,
+  "firstDifferences": 261,
+  "allFirstDifferencesSameCompletePublicContextAndLegalDifferentDiscards": true,
+  "firstDifferencesByOpening": {
+    "composite": 128,
+    "common": 133
+  },
+  "identicalCompleteTracePairs": 59,
+  "noRawFailuresDuplicatesOrMissingGrid": true,
+  "independentStatistics": {
+    "officialPanels": 6,
+    "comparisonsChecked": 6,
+    "incomeDetailsChecked": 42,
+    "supplementalSeatPanels": 4,
+    "tolerance": 1e-12
+  },
+  "panels": {
+    "overall": [
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1",
+        "meanScoreDifference": 0.684375,
+        "standardError": 0.2501196628680063,
+        "betterSeedFraction": 0.7,
+        "confidenceInterval95NormalApprox": [
+          0.1941404607787076, 1.1746095392212923
+        ],
+        "seedCount": 40,
+        "pairedGames": 320,
+        "incomeDifference": {
+          "selfWin": 0.190625,
+          "discardWin": 0.4125,
+          "dealIn": -0.0125,
+          "paidSelfWin": 0.021875,
+          "kong": 0.08125,
+          "flower": 0,
+          "ready": -0.009375
+        },
+        "perSeedMean": [
+          1.125, 0.125, -1.375, 1.5, 0, 1.375, 0.625, 1.375, -0.375, -0.25,
+          0.75, -0.5, -1.25, 1.375, 1.375, 2.375, 1, -0.5, 2.125, -1.875, 1, 2,
+          0.625, 0.125, 3.25, -3, 5, 0.75, 1.125, 0.75, 0.375, -1, 5.375, -0.25,
+          -0.5, 0.875, 1.375, 0.25, 0.125, 0.125
+        ]
+      }
+    ],
+    "opening/common": [
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1",
+        "meanScoreDifference": 1.10625,
+        "standardError": 0.3431901034636409,
+        "betterSeedFraction": 0.65,
+        "confidenceInterval95NormalApprox": [
+          0.4335973972112638, 1.7789026027887362
+        ],
+        "seedCount": 40,
+        "pairedGames": 160,
+        "incomeDifference": {
+          "selfWin": 0.24375,
+          "discardWin": 0.5375,
+          "dealIn": 0.03125,
+          "paidSelfWin": 0.18125,
+          "kong": 0.13125,
+          "flower": 0,
+          "ready": -0.01875
+        },
+        "perSeedMean": [
+          2, 1, -1, 2.5, 3.25, 2.75, -2, 2, -1.5, -3, 0, -0.25, 2, 1.25, 2.25,
+          3.5, 1, -0.25, 2.75, -1, 3.5, 4.75, 0.75, 1.5, 3, -3.25, 3.5, 1.75,
+          0.25, 1, 0.75, -0.5, 8.5, 0, 0, 1.5, 0.75, -0.75, 0.5, -0.5
+        ]
+      }
+    ],
+    "opening/composite": [
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1",
+        "meanScoreDifference": 0.2625,
+        "standardError": 0.31418775009171235,
+        "betterSeedFraction": 0.55,
+        "confidenceInterval95NormalApprox": [
+          -0.35330799017975617, 0.8783079901797561
+        ],
+        "seedCount": 40,
+        "pairedGames": 160,
+        "incomeDifference": {
+          "selfWin": 0.1375,
+          "discardWin": 0.2875,
+          "dealIn": -0.05625,
+          "paidSelfWin": -0.1375,
+          "kong": 0.03125,
+          "flower": 0,
+          "ready": 0
+        },
+        "perSeedMean": [
+          0.25, -0.75, -1.75, 0.5, -3.25, 0, 3.25, 0.75, 0.75, 2.5, 1.5, -0.75,
+          -4.5, 1.5, 0.5, 1.25, 1, -0.75, 1.5, -2.75, -1.5, -0.75, 0.5, -1.25,
+          3.5, -2.75, 6.5, -0.25, 2, 0.5, 0, -1.5, 2.25, -0.5, -1, 0.25, 2,
+          1.25, -0.25, 0.75
+        ]
+      }
+    ],
+    "lineup/ui-bots": [
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1",
+        "meanScoreDifference": 0.684375,
+        "standardError": 0.2501196628680063,
+        "betterSeedFraction": 0.7,
+        "confidenceInterval95NormalApprox": [
+          0.1941404607787076, 1.1746095392212923
+        ],
+        "seedCount": 40,
+        "pairedGames": 320,
+        "incomeDifference": {
+          "selfWin": 0.190625,
+          "discardWin": 0.4125,
+          "dealIn": -0.0125,
+          "paidSelfWin": 0.021875,
+          "kong": 0.08125,
+          "flower": 0,
+          "ready": -0.009375
+        },
+        "perSeedMean": [
+          1.125, 0.125, -1.375, 1.5, 0, 1.375, 0.625, 1.375, -0.375, -0.25,
+          0.75, -0.5, -1.25, 1.375, 1.375, 2.375, 1, -0.5, 2.125, -1.875, 1, 2,
+          0.625, 0.125, 3.25, -3, 5, 0.75, 1.125, 0.75, 0.375, -1, 5.375, -0.25,
+          -0.5, 0.875, 1.375, 0.25, 0.125, 0.125
+        ]
+      }
+    ],
+    "opening/common/lineup/ui-bots": [
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1",
+        "meanScoreDifference": 1.10625,
+        "standardError": 0.3431901034636409,
+        "betterSeedFraction": 0.65,
+        "confidenceInterval95NormalApprox": [
+          0.4335973972112638, 1.7789026027887362
+        ],
+        "seedCount": 40,
+        "pairedGames": 160,
+        "incomeDifference": {
+          "selfWin": 0.24375,
+          "discardWin": 0.5375,
+          "dealIn": 0.03125,
+          "paidSelfWin": 0.18125,
+          "kong": 0.13125,
+          "flower": 0,
+          "ready": -0.01875
+        },
+        "perSeedMean": [
+          2, 1, -1, 2.5, 3.25, 2.75, -2, 2, -1.5, -3, 0, -0.25, 2, 1.25, 2.25,
+          3.5, 1, -0.25, 2.75, -1, 3.5, 4.75, 0.75, 1.5, 3, -3.25, 3.5, 1.75,
+          0.25, 1, 0.75, -0.5, 8.5, 0, 0, 1.5, 0.75, -0.75, 0.5, -0.5
+        ]
+      }
+    ],
+    "opening/composite/lineup/ui-bots": [
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1",
+        "meanScoreDifference": 0.2625,
+        "standardError": 0.31418775009171235,
+        "betterSeedFraction": 0.55,
+        "confidenceInterval95NormalApprox": [
+          -0.35330799017975617, 0.8783079901797561
+        ],
+        "seedCount": 40,
+        "pairedGames": 160,
+        "incomeDifference": {
+          "selfWin": 0.1375,
+          "discardWin": 0.2875,
+          "dealIn": -0.05625,
+          "paidSelfWin": -0.1375,
+          "kong": 0.03125,
+          "flower": 0,
+          "ready": 0
+        },
+        "perSeedMean": [
+          0.25, -0.75, -1.75, 0.5, -3.25, 0, 3.25, 0.75, 0.75, 2.5, 1.5, -0.75,
+          -4.5, 1.5, 0.5, 1.25, 1, -0.75, 1.5, -2.75, -1.5, -0.75, 0.5, -1.25,
+          3.5, -2.75, 6.5, -0.25, 2, 0.5, 0, -1.5, 2.25, -0.5, -1, 0.25, 2,
+          1.25, -0.25, 0.75
+        ]
+      }
+    ],
+    "seat/0": [
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1",
+        "meanScoreDifference": 1.1,
+        "standardError": 0.5994655739564819,
+        "betterSeedFraction": 0.55,
+        "confidenceInterval95NormalApprox": [
+          -0.0749525249547045, 2.2749525249547045
+        ],
+        "seedCount": 40,
+        "pairedGames": 80,
+        "incomeDifference": {
+          "selfWin": 0.55,
+          "discardWin": 0.35,
+          "dealIn": -0.025,
+          "paidSelfWin": 0.1625,
+          "kong": 0.0875,
+          "flower": 0,
+          "ready": -0.025
+        },
+        "perSeedMean": [
+          3.5, 0, -0.5, 8, 6, 1, -3.5, 3, 0, 1.5, 3, -1, -6.5, 0, 5.5, 2.5,
+          -2.5, 1.5, 2.5, -2, -4.5, 2, 5.5, 5.5, 3.5, -4.5, 14, 0, 0.5, 0, 1,
+          -4, 4.5, -2.5, 0, 0.5, 1, 0, -2, 1.5
+        ]
+      }
+    ],
+    "seat/1": [
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1",
+        "meanScoreDifference": 0.775,
+        "standardError": 0.5382634708974445,
+        "betterSeedFraction": 0.5,
+        "confidenceInterval95NormalApprox": [
+          -0.2799964029589913, 1.8299964029589915
+        ],
+        "seedCount": 40,
+        "pairedGames": 80,
+        "incomeDifference": {
+          "selfWin": -0.175,
+          "discardWin": 0.8125,
+          "dealIn": -0.0625,
+          "paidSelfWin": -0.1875,
+          "kong": 0.3875,
+          "flower": 0,
+          "ready": 0
+        },
+        "perSeedMean": [
+          -1.5, 2, 1.5, -3.5, -3.5, 3.5, 4, 1.5, -3, -3, 0.5, 0.5, 0, 5, -0.5,
+          0, -1.5, -0.5, -0.5, -5, 4, 3, 0, 1, 8, 0.5, 3.5, 0.5, -3, 2.5, -1.5,
+          -0.5, 13.5, -2, -2.5, 0, 3, 3, 3, -1
+        ]
+      }
+    ],
+    "seat/2": [
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1",
+        "meanScoreDifference": 0.525,
+        "standardError": 0.3673144045567391,
+        "betterSeedFraction": 0.475,
+        "confidenceInterval95NormalApprox": [
+          -0.19493623293120854, 1.2449362329312086
+        ],
+        "seedCount": 40,
+        "pairedGames": 80,
+        "incomeDifference": {
+          "selfWin": 0.3875,
+          "discardWin": 0.2125,
+          "dealIn": -0.2125,
+          "paidSelfWin": 0.3125,
+          "kong": -0.1625,
+          "flower": 0,
+          "ready": -0.0125
+        },
+        "perSeedMean": [
+          0, 0.5, -4.5, -2, 4.5, -0.5, 2, 2, 1.5, 0, -0.5, 0, 1.5, -1.5, -0.5,
+          -2, 3, -1, 0, 4.5, 4, 3, 0, -1, -0.5, -6, 2.5, 2.5, 4.5, 0.5, 0, -2,
+          4, 0.5, 1, -0.5, 1.5, -2, 2, 0
+        ]
+      }
+    ],
+    "seat/3": [
+      {
+        "candidate": "candidate-advanced-discard-v5",
+        "baseline": "teacher-v1",
+        "meanScoreDifference": 0.3375,
+        "standardError": 0.4707425598905496,
+        "betterSeedFraction": 0.4,
+        "confidenceInterval95NormalApprox": [
+          -0.5851554173854772, 1.2601554173854772
+        ],
+        "seedCount": 40,
+        "pairedGames": 80,
+        "incomeDifference": {
+          "selfWin": 0,
+          "discardWin": 0.275,
+          "dealIn": 0.25,
+          "paidSelfWin": -0.2,
+          "kong": 0.0125,
+          "flower": 0,
+          "ready": 0
+        },
+        "perSeedMean": [
+          2.5, -2, -2, 3.5, -7, 1.5, 0, -1, 0, 0.5, 0, -1.5, 0, 2, 1, 9, 5, -2,
+          6.5, -5, 0.5, 0, -3, -5, 2, -2, 0, 0, 2.5, 0, 2, 2.5, -0.5, 3, -0.5,
+          3.5, 0, 0, -2.5, 0
+        ]
+      }
+    ]
+  },
+  "rawHashes": {
+    "gamesSha256": "bcd2b62744e75f6bcef09e056ea17bbd039e9654f5f953fafb87296367391dd1",
+    "tracesSha256": "f8a3ceb1c9c2af88068a9dbaa7ea5f78bbfbc4fda634704507847fd4a4f15922",
+    "summarySha256": "b0db74e6382afc75321085de951e26b5142d6d8edfd97d82b97a472ea45e20b1"
+  },
+  "auditHashes": {
+    "replayAndDivergence": "3df04d4a5888244e5285eb9b0744b47afc65db248d6444b730e78f4755385ac8",
+    "firstDivergences": "117e9263e74a0c03dff3dce0e9147b3c42cf467ae49a45ed702ae3d96de75dc2",
+    "pythonStatistics": "da12a8796816b860ceba4c8122d7870a44e6bd320977336c2f9228496f0e8124"
+  },
+  "method": "Equal-weight selected games within each seed; 40 independent seed clusters; mean plus/minus1.96standard errors. Exploratory uncorrected normal approximation. No formal pass threshold.",
+  "decision": "Keep D as a candidate, wait full external-development results and diagnose product transfer; do not promote default UI from these results. Actual-product composite opening interval still crosses zero.",
+  "localArtifacts": {
+    "source": "local/strength-goal-20261018/ui-development-v1-source",
+    "raw": "local/strength-goal-20261018/ui-development-v1",
+    "replay": "local/strength-goal-20261018/ui-development-v1-analysis",
+    "statistics": "local/strength-goal-20261018/ui-development-v1-statistics"
+  },
+  "limitation": "UI opponents are internal old greedy and add no external-author independence or expert strength. All4seats offline; current page itself fixes human seat0. First-action whole-game differences are not optimal or causal action labels. No new formal holdout or production strategy integration."
+}
