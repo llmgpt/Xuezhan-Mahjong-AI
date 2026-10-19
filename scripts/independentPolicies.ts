@@ -14,9 +14,11 @@ import {
   type ExternalMahjongOptions,
 } from "./externalMahjong";
 import type { Policy } from "./independentRunner";
+import { chooseOpponentAction } from "./benchmarkPolicies";
 
 export const INDEPENDENT_POLICY_IDS = [
   "teacher-v1",
+  "ui-greedy-v1",
   "candidate-v2",
   "candidate-rollout-v3",
   "candidate-advanced-hu-v4",
@@ -39,6 +41,7 @@ const ADVANCED_COMPONENTS = {
 // Fixed seat vectors. Internal opponents are sensitivity controls, not additional
 // independent references or evidence of expert playing strength.
 export const INDEPENDENT_LINEUPS = {
+  "ui-bots": ["ui-greedy-v1", "ui-greedy-v1", "ui-greedy-v1", "ui-greedy-v1"],
   "ebony-initial": [
     "ebony-initial",
     "ebony-initial",
@@ -120,6 +123,8 @@ export function createPolicySession(
       if (seat !== view.seat)
         throw new Error("一个策略会话不能读取不同座位的暗牌");
       if (name === "teacher-v1") return chooseTeacherAction(view, phase);
+      if (name === "ui-greedy-v1")
+        return chooseOpponentAction(view, phase, "greedy");
       if (name === "candidate-v2") return chooseStrongAction(view, phase);
       if (name === "candidate-rollout-v3") {
         const report = evaluateRolloutDecision(view, phase);

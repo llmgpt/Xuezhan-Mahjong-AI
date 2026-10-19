@@ -4,6 +4,7 @@ import { createGame } from "../src/game/game";
 import { chooseTeacherAction } from "../src/game/teacher";
 import { playerView } from "../src/game/view";
 import { createPolicySession, resolveLineup } from "./independentPolicies";
+import { chooseOpponentAction } from "./benchmarkPolicies";
 
 function openingViews() {
   let state = createGame(80000);
@@ -25,6 +26,31 @@ function openingViews() {
 }
 
 describe("独立评测策略注册", () => {
+  it("实际牌桌电脑沿用旧greedy开局与行牌，并标为内部阵容且不启动外部worker", async () => {
+    const session = createPolicySession("ui-greedy-v1", {
+      workerFactory: () => {
+        throw new Error("UI greedy must not use Python");
+      },
+    });
+    expect(resolveLineup("ui-bots")).toEqual(Array(4).fill("ui-greedy-v1"));
+    const views = openingViews();
+    for (const [view, phase] of [
+      [views.exchange, "exchange"],
+      [views.missing, "choose-missing"],
+      [views.self, "discard"],
+    ] as const) {
+      const before = structuredClone(view);
+      expect(await session.choose(view, phase)).toEqual(
+        chooseOpponentAction(view, phase, "greedy"),
+      );
+      expect(view).toEqual(before);
+    }
+    await session.finish();
+    await expect(session.choose(views.exchange, "exchange")).rejects.toThrow(
+      /关闭/,
+    );
+  });
+
   it("BA组合参考明确共用换牌，其他阶段均交给独立wire且复用同一进程", async () => {
     let started = 0;
     let finished = 0;

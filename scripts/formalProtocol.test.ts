@@ -119,6 +119,21 @@ afterEach(() => {
 });
 
 describe("正式科学配置与种子消费登记", () => {
+  it("实际牌桌电脑可作产品环境条件，不算新的独立外部来源", () => {
+    const configured = plan();
+    configured.config.lineups = [...configured.config.lineups, "ui-bots"];
+    configured.lineupVectors["ui-bots"] = resolveLineup("ui-bots");
+    expect(parseFormalScientificPlan(configured).config.lineups).toContain(
+      "ui-bots",
+    );
+    const oneAuthor = plan();
+    oneAuthor.config.lineups = ["ebony-advanced", "ui-bots"];
+    oneAuthor.lineupVectors = Object.fromEntries(
+      oneAuthor.config.lineups.map((name) => [name, resolveLineup(name)]),
+    );
+    expect(() => parseFormalScientificPlan(oneAuthor)).toThrow(/独立|来源/);
+  });
+
   it("统计先在seed内合成，使用全部预定门槛且不把统计通过称作整体验收", () => {
     const parsed = parseFormalScientificPlan(plan());
     const records: IndependentRecord[] = [];
