@@ -1,0 +1,18 @@
+{
+  "declaredAtUtc": "2026-10-19T15:07:25.779588+00:00",
+  "kind": "resource-scheduling-only-amendment",
+  "originalPlan": "fanfou-development-v1-shard-plan.json",
+  "observedFreeMemoryGiB": 4.48,
+  "logicalProcessors": 12,
+  "change": "Start previously queued shards3/4 while existing six processes remain live; maximum four new Fanfou shards, initially two.",
+  "reason": "Observed available memory recovered after completed probe tabs closed and temporary test processes ended; measured capacity permits the original four planned shards.",
+  "unchanged": [
+    "Master grid40 spent seeds/four seats/two openings/two lineups/four policies/2560games",
+    "All five comparisons and nine panels",
+    "Source snapshot100 files, actual rules/runtime and timeout",
+    "Failure/aggregation policy, no early statistical stopping"
+  ],
+  "partialScoreInspection": false,
+  "plannedNewShards": [3, 4],
+  "note": "The original plan/freeze files remain byte-preserved. This amendment concerns scheduling and is recorded before the queued shards start."
+}
