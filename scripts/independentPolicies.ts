@@ -1,5 +1,6 @@
 import type { DecisionAction } from "../src/game/decision";
 import type { Phase } from "../src/game/game";
+import { immediateWinChoice } from "../src/game/immediateWin";
 import {
   evaluateRolloutDecision,
   type RolloutDecision,
@@ -17,6 +18,7 @@ export const INDEPENDENT_POLICY_IDS = [
   "teacher-v1",
   "candidate-v2",
   "candidate-rollout-v3",
+  "candidate-advanced-hu-v4",
   "ebony-initial",
   "ebony72-advanced-public-v1",
 ] as const;
@@ -84,12 +86,20 @@ export function createPolicySession(
         options.onEvaluation?.(structuredClone(report));
         return report.choices[0]?.action;
       }
+      if (name === "candidate-advanced-hu-v4") {
+        const win = immediateWinChoice(view, phase);
+        if (win) return win.action;
+      }
       // Upstream has no exchange implementation. The composite strategy states
       // this shared exchange explicitly; daquex and all later decisions are external.
       if (phase === "exchange") return chooseTeacherAction(view, phase);
       const workerOptions: ExternalMahjongOptions = {
         timeoutMs: options.timeoutMs,
-        policy: name === "ebony72-advanced-public-v1" ? name : undefined,
+        policy:
+          name === "ebony72-advanced-public-v1" ||
+          name === "candidate-advanced-hu-v4"
+            ? "ebony72-advanced-public-v1"
+            : undefined,
       };
       worker ??=
         options.workerFactory?.(workerOptions) ??

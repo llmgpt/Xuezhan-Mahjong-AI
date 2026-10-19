@@ -5,6 +5,117 @@ import { playerView } from "../src/game/view";
 import { createPolicySession, resolveLineup } from "./independentPolicies";
 
 describe("独立评测策略注册", () => {
+  it("高级收胡候选在合法自摸和点胡时不启动外部worker", async () => {
+    const view = playerView(createGame(80000), 0);
+    const session = createPolicySession("candidate-advanced-hu-v4", {
+      workerFactory: () => {
+        throw new Error("合法胡牌不应委派外部worker");
+      },
+    });
+    try {
+      view.decision = {
+        kind: "self",
+        canWin: true,
+        concealedKongs: [],
+        addedKongs: [],
+      };
+      expect(await session.choose(view, "discard")).toEqual({ type: "win" });
+      view.decision = {
+        kind: "respond",
+        responseKind: "discard",
+        from: 1,
+        tile: 0,
+        choices: ["pass", "hu"],
+      };
+      expect(await session.choose(view, "respond")).toEqual({
+        type: "respond",
+        choice: "hu",
+      });
+    } finally {
+      await session.finish();
+    }
+  });
+
+  it("高级收胡候选共用换牌，其余动作保持原高级wire且复用worker", async () => {
+    const view = playerView(createGame(80000), 0);
+    const calls: string[] = [];
+    let started = 0;
+    let finished = 0;
+    const session = createPolicySession("candidate-advanced-hu-v4", {
+      workerFactory: (options) => {
+        expect(options.policy).toBe("ebony72-advanced-public-v1");
+        expect(options.timeoutMs).toBe(1234);
+        started++;
+        return {
+          act: async (_view, phase) => {
+            calls.push(phase);
+            return phase === "choose-missing"
+              ? { type: "missing", suit: "tong" }
+              : { type: "respond", choice: "pung" };
+          },
+          finish: async () => {
+            finished++;
+          },
+          close: async () => {},
+        };
+      },
+      timeoutMs: 1234,
+    });
+    expect(await session.choose(view, "exchange")).toEqual(
+      chooseTeacherAction(view, "exchange"),
+    );
+    expect(started).toBe(0);
+    expect(await session.choose(view, "choose-missing")).toEqual({
+      type: "missing",
+      suit: "tong",
+    });
+    view.decision = {
+      kind: "respond",
+      responseKind: "discard",
+      from: 1,
+      tile: 0,
+      choices: ["pass", "pung"],
+    };
+    expect(await session.choose(view, "respond")).toEqual({
+      type: "respond",
+      choice: "pung",
+    });
+    expect(calls).toEqual(["choose-missing", "respond"]);
+    expect(started).toBe(1);
+    await session.finish();
+    expect(finished).toBe(1);
+    await expect(session.choose(view, "respond")).rejects.toThrow(/关闭/);
+  });
+
+  it("高级收胡候选保留非胡节点的外部异常和座位隔离", async () => {
+    const state = createGame(80000);
+    const session = createPolicySession("candidate-advanced-hu-v4", {
+      workerFactory: () => ({
+        act: async () => {
+          throw new Error("advanced failure");
+        },
+        close: async () => {},
+      }),
+    });
+    try {
+      await expect(
+        session.choose(playerView(state, 0), "choose-missing"),
+      ).rejects.toThrow("advanced failure");
+      const other = playerView(state, 1);
+      other.decision = {
+        kind: "self",
+        canWin: true,
+        concealedKongs: [],
+        addedKongs: [],
+      };
+      await expect(session.choose(other, "discard")).rejects.toThrow(
+        /不同座位/,
+      );
+    } finally {
+      await session.close();
+    }
+  });
+
   it("续局候选沿用开局并明确报告未触发，不会转入外部worker", async () => {
     const reports: string[] = [];
     const session = createPolicySession("candidate-rollout-v3", {

@@ -45,10 +45,11 @@
 运行前固定 `development-v3.config.json`：已使用的 8 个开发种子 `80000..80007`、四座位、`ebony-initial / ebony-advanced / teacher-v1` 三阵容、`common / composite` 两开局，受评策略为原老师、续局候选和高级公有参考，共 **576 局、192 组配对**。比较分别为候选减原老师、高级参考减原老师。每种子完整 72 局才提交成绩，统计继续按种子聚类，不能把节点数或采样粒子数当独立样本。
 
 ```powershell
-npm run evaluate:independent -- local/strength-goal-20261018/development-v3.config.json local/strength-goal-20261018/development-v3-combined
+Set-Location C:/1workspace/xuezhan/local/strength-goal-20261018/development-v3-combined/source
+node C:/1workspace/xuezhan/node_modules/vite-node/vite-node.mjs scripts/evaluate-independent.ts C:/1workspace/xuezhan/local/strength-goal-20261018/development-v3.config.json C:/1workspace/xuezhan/local/strength-goal-20261018/development-v3-combined
 ```
 
-该目录 `games.jsonl` 冻结 80 项执行源码、规则与运行时；`source/` 保存相应原始字节快照，`traces.jsonl` 保存实际决策与采样诊断。全部 8 个种子和 576 局现已完成，已用原母配置和冻结 CLI 实际验证续跑跳过，无对局重演。V3 仍是开发集，不是新的正式留出。
+该目录 `games.jsonl` 冻结 80 项执行源码、规则与运行时；`source/` 保存相应原始字节快照，`traces.jsonl` 保存实际决策与采样诊断。全部 8 个种子和 576 局现已完成，已从此快照实际验证续跑跳过，无对局重演。后续候选修改了根目录指纹，故上面明确使用快照；从新源码直接续跑旧目录应被拒绝。V3 仍是开发集，不是新的正式留出。
 
 串行目录仅 `80000` 完整写入后，为节省等待时间，核对 PID 和命令行后停止该评测进程树，原文件全部保留；其未完整 `80001` 的 50 条 trace 已排除。剩余固定种子分为三个并行目录 `development-v3-shard-1/2/3`，分别为 `[80001,80004,80007]`、`[80002,80005]`、`[80003,80006]`；计划保存在同级 `development-v3-shard-plan.json`。`combine-v3.py` 已核对除 `seeds` 外全部配置、规则、80 项源码指纹与运行时相同，全部完整种子和 576 条成功配置轨迹齐全、无重复，才写入新的 `development-v3-combined/`，输入哈希和排除计数保留在 `aggregation.json`。独立审计又核对了四源逐项结果与当前 80 文件哈希；Python 独立重算种子均值、标准误和区间，与 TypeScript 汇总吻合。
 
@@ -77,9 +78,15 @@ npm run evaluate:independent -- local/strength-goal-20261018/development-v3.conf
 | `traces.jsonl`     | `c3a8fb8bc178d4b5ee83479a483e006754b16cbddeef342be8e0ec6d6b6ffdc0` |
 | `aggregation.json` | `abb629db907af3c2503642ac800e0852e1f89dee8666f06eb19291ba512a49f0` |
 
+## 采样预算诊断：增加样本尚未解决模型问题
+
+对全部 14 行首动作分歧按完整公开 view 去重，得到固定的 6 个局面，各运行一次 N64，比较其 N8/16/32/64 嵌套前缀，共 768 次完整续局。12 个候选的前 8 条净分与原 trace 逐项一致，80 项源码也全部匹配。5/6 局面四档选择一致；唯一变化为 `80007/seat3/teacher-v1` 的补杠节点，从 N8 补杠变为 N16 起保留弃牌，N64 配对模型增量为 -1.000、SE 0.686。
+
+N64 单节点耗时 9.06–60.96 秒，调用墙钟合计 210.52 秒；并行时间重叠，不能作为用户总等待时间。4 个实际工作进程均正常退出。完整报告、逐候选数列、公开输入、来源哈希和进程审计在 `public-budget-diagnosis-v3/`。这只诊断采样噪声敏感性，不能证明 N64 更强；多数选择稳定也不能排除采样分布与四家老师续局的偏差。因此本轮没有按真实结局挑选阈值或将 N64 接入页面。
+
 ## 尚未完成
 
-已核对本轮开发净分、动作分歧、收益、覆盖率、回退率和代表性成本，结果不支持候选已改善。下一步先对全部 6 个独特首分歧公开 view 检查 N8/16/32/64 的前缀稳定性，区分采样波动与估值假设问题，不按正负结果筛选局面；更多样本仍不等于模型正确。再依据证据改进常见决策与对手近似，并扩大开发覆盖。稳定候选仍需模块消融、更丰富的独立对手，另行冻结最终源码、规则、对手、统计方法、通过条件及新的未用种子进行正式验证。自杠实验尚未改进碰、直杠、一般弃牌和攻守决策，不能作为完整策略交付。页面最终接入与浏览器验证也仍待实际候选通过。
+已核对本轮开发净分、动作分歧、收益、覆盖率、回退率、预算稳定性和代表性成本，结果不支持候选已改善。下一轮单独检验高级参考的接受胡牌取舍，候选与原高级参考直接对照，计划见 [V4 开发协议](INDEPENDENT_BENCHMARK_V4.md)。稳定候选仍需扩大开发覆盖、模块消融、更丰富的独立对手，另行冻结最终源码、规则、对手、统计方法、通过条件及新的未用种子进行正式验证。自杠实验尚未改进碰、直杠、一般弃牌和攻守决策，不能作为完整策略交付。页面最终接入与浏览器验证也仍待实际候选通过。
 
 Goal 保持进行中；无推送、合并或公开发布授权。较高水平仍需要可信外部标尺。
 
