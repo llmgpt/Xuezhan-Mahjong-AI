@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "purpose": "Old-seed frozen-bundle execution compatibility; not strength or formal acceptance",
+  "implementationCommit": "356dd7f",
+  "declaredBeforeExecution": "2026-10-19T15:51:58.129Z",
+  "sourceFiles": 103,
+  "sourceSnapshot": "local/strength-goal-20261018/journaled-bundle-probe-source",
+  "allBuildInputsFromExactCopiedSources": true,
+  "separatelyHashedProbeEntry": true,
+  "buildInputFiles": 32,
+  "esbuildVersion": "0.25.12",
+  "bundleSha256": "698bb610a4dd010898c2d9574e11a40dd433ba3e55a6826f37ef58692a4522b6",
+  "games": 2,
+  "existingSpentSeed": 80000,
+  "seat": 0,
+  "lineup": "fanfou-ba",
+  "opening": "common",
+  "policies": ["teacher-v1", "candidate-advanced-discard-v5"],
+  "wholeFinalResultsAndTracesExactlyMatchedPriorControls": 2,
+  "decisions": 84,
+  "replayedStates": 141,
+  "normalWorkerFinishAndAtomicReceipt": true,
+  "runtimeBeforeAndAfterExactlyEqual": true,
+  "versions": {
+    "node": "v22.22.1",
+    "python": "3.13.5",
+    "numpy": "2.1.3"
+  },
+  "loadedModulesAndLibraries": 214,
+  "numpyNonCacheOwnedFiles": 830,
+  "rawHashes": {
+    "games": "f9510d449fe48be306846e3085a726e9870a5af6f652db9de9cb99636de48117",
+    "traces": "31a4ffd80cf09832dbd62c17064cd6befd5c322668e7d5c14ab640bd6d825471",
+    "journal": "a0351811b4cbfd77a36abcb54ea0bcf77d8d4868b7c6a2d84e64dc084e5a3b3b",
+    "runtimeBefore": "311d55b9486b4cb56160b198c0b38cf03b58810413bb990259411e43b9941ab0",
+    "runtimeAfter": "311d55b9486b4cb56160b198c0b38cf03b58810413bb990259411e43b9941ab0"
+  },
+  "localProofSha256": "9f97474dff5e2c7fb5375a951c1621370ba02a8f5e820b3b58ea327b451f1cbc",
+  "priorControls": {
+    "directory": "local/strength-goal-20261018/fanfou-compatibility-v1",
+    "gamesSha256": "154445f2f2743f11d6a06de499b436e2ce371b67ee9e04426214f649b7ef896a",
+    "tracesSha256": "6fdd24c6534137bb8ff6e9fd399af347b9d7381951e553f372d738084e71224a"
+  },
+  "noFreshSeedChosenOrReserved": true,
+  "scope": "Real registered Python opponents/advanced discard, stored-action replay, journal/trace matching and receipt, all from copied source bundle. Two compatibility cases; no full formal controller, history ledger, statistical acceptance or production integration."
+}
