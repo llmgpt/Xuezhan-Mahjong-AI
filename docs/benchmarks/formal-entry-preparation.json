@@ -1,0 +1,51 @@
+{
+  "recordedAtUtc": "2026-10-19T23:51:03.308981+00:00",
+  "preparationOnly": true,
+  "noSeedChosen": true,
+  "noLedgerCreated": true,
+  "noGameExecuted": true,
+  "notAnActualFormalScientificSelection": true,
+  "sourceFiles": 107,
+  "buildInputs": 36,
+  "compiler": {
+    "name": "esbuild",
+    "version": "0.25.12"
+  },
+  "bundleSha256": "c8ea33af5be03bc0924840d6da4ecb83242ed972406b67bf4994123c349e7b19",
+  "planHash": "9c6d4a47a81f77554983669ef3c1f6cedf54c6f3af4f7fe24d310a7a0eb348fb",
+  "sealSha256": "f0108382474548320c5c4dc1c12eb937cbba0b6bf5e057b981bf0390b1066876",
+  "runtimeVersions": {
+    "node": "v22.22.1",
+    "python": "3.13.5",
+    "numpy": "2.1.3"
+  },
+  "loadedModulesAndLibraries": 214,
+  "numpyOwnedNonCacheFiles": 830,
+  "actualTerminalEvidence": {
+    "build": {
+      "chunkId": "715578",
+      "exitCode": 0
+    },
+    "seal": {
+      "chunkId": "6422e6",
+      "exitCode": 0
+    },
+    "verify": {
+      "chunkId": "a4b563",
+      "exitCode": 0
+    }
+  },
+  "commands": [
+    "node node_modules/vite-node/vite-node.mjs local/strength-goal-20261018/prepare-formal-entry-compatibility-v2.ts",
+    "node local/strength-goal-20261018/formal-entry-compatibility-v2/capsule/scripts/evaluate-formal.mjs seal",
+    "node local/strength-goal-20261018/formal-entry-compatibility-v2/capsule/scripts/evaluate-formal.mjs verify"
+  ],
+  "artifacts": {
+    "local/strength-goal-20261018/formal-entry-compatibility-v2/capsule/science.json": "7203c47cf1d76e691514b00dfe15bb1155308bda82db75fe644ef4758c62cf30",
+    "local/strength-goal-20261018/formal-entry-compatibility-v2/capsule/build.json": "c2460a8ac86f4f343d461f5b353464973f88df53df777b7cd709ac80a673ceea",
+    "local/strength-goal-20261018/formal-entry-compatibility-v2/capsule/seal.json": "f0108382474548320c5c4dc1c12eb937cbba0b6bf5e057b981bf0390b1066876",
+    "local/strength-goal-20261018/prepare-formal-entry-compatibility-v2.ts": "edab4f65070f0849d879ee7f2d382a647fa2ec4ef7418a397be06041d57c4f35",
+    "local/strength-goal-20261018/formal-entry-compatibility-v2/preparation.json": "19c924ec8fce07f19cfad405bb45dc93a6bc36dc823b90d6e8653921b528a18f"
+  },
+  "scope": "Real frozen CLI bundle and runtime were sealed and verified. This probe does not execute reserve/run/finalize against real policies; controller transactions use isolated synthetic tests and journaledSeed actual-game coverage is separate. UI code is outside the offline source closure and requires browser validation."
+}
