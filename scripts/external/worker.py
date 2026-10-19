@@ -388,11 +388,15 @@ def handle_request(request: Any) -> dict:
         policy_id = request.get("policy", "ebony72-initial")
         if policy_id == "ebony72-initial":
             action = choose_action(request["phase"], request["view"], context)
-        elif policy_id == "ebony72-advanced-public-v1":
+        elif policy_id in {"ebony72-advanced-public-v1", "ebony72-advanced-cap8-discard-v1"}:
             import advanced_policy
             try:
                 context = advanced_policy.build_context(request["view"], context, sys.modules[__name__])
-                policy = advanced_policy.load_policy()
+                if policy_id == "ebony72-advanced-cap8-discard-v1":
+                    import cap8_policy
+                    policy = cap8_policy.load_policy()
+                else:
+                    policy = advanced_policy.load_policy()
             except ValueError as error:
                 raise AdapterError("provenance-error", str(error)) from error
             action = choose_action(request["phase"], request["view"], context, policy, advanced=True)

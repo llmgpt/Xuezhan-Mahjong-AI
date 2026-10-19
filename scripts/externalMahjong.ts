@@ -9,7 +9,10 @@ export interface ExternalMahjongOptions {
   executable?: string;
   args?: string[];
   timeoutMs?: number;
-  policy?: "ebony72-initial" | "ebony72-advanced-public-v1";
+  policy?:
+    | "ebony72-initial"
+    | "ebony72-advanced-public-v1"
+    | "ebony72-advanced-cap8-discard-v1";
 }
 
 interface Pending {
@@ -166,7 +169,8 @@ export class ExternalMahjongWorker {
     if (
       options.policy !== undefined &&
       options.policy !== "ebony72-initial" &&
-      options.policy !== "ebony72-advanced-public-v1"
+      options.policy !== "ebony72-advanced-public-v1" &&
+      options.policy !== "ebony72-advanced-cap8-discard-v1"
     )
       throw new Error("未知外部策略");
     this.policy = options.policy;
@@ -219,7 +223,8 @@ export class ExternalMahjongWorker {
       return Promise.reject(new Error("外部策略会话已终止或关闭"));
     assertPublicView(view);
     if (
-      this.policy === "ebony72-advanced-public-v1" &&
+      (this.policy === "ebony72-advanced-public-v1" ||
+        this.policy === "ebony72-advanced-cap8-discard-v1") &&
       !Array.isArray(view.publicActions)
     )
       throw new Error("高级参考缺少真实公开历史 publicActions");

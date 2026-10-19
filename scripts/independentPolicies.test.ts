@@ -25,6 +25,51 @@ function openingViews() {
 }
 
 describe("独立评测策略注册", () => {
+  it("封顶弃牌候选只共用换牌，其余委派独立cap8 wire且不吞错误", async () => {
+    let started = 0;
+    let finished = 0;
+    let calls = 0;
+    const session = createPolicySession("candidate-advanced-cap8-v6", {
+      timeoutMs: 1234,
+      workerFactory: (options) => {
+        expect(options.policy).toBe("ebony72-advanced-cap8-discard-v1");
+        expect(options.timeoutMs).toBe(1234);
+        started++;
+        return {
+          act: async (_view, phase) => {
+            calls++;
+            if (phase === "choose-missing")
+              return { type: "missing", suit: "tong" };
+            throw new Error("cap8 failure");
+          },
+          close: async () => {},
+          finish: async () => {
+            finished++;
+          },
+        };
+      },
+    });
+    const views = openingViews();
+    expect(await session.choose(views.exchange, "exchange")).toEqual(
+      chooseTeacherAction(views.exchange, "exchange"),
+    );
+    expect(started).toBe(0);
+    expect(await session.choose(views.missing, "choose-missing")).toEqual({
+      type: "missing",
+      suit: "tong",
+    });
+    await expect(session.choose(views.self, "discard")).rejects.toThrow(
+      "cap8 failure",
+    );
+    expect(started).toBe(1);
+    expect(calls).toBe(2);
+    await session.finish();
+    expect(finished).toBe(1);
+    await expect(session.choose(views.exchange, "exchange")).rejects.toThrow(
+      /关闭/,
+    );
+  });
+
   it.each([
     "candidate-advanced-opening-v5",
     "candidate-advanced-discard-v5",

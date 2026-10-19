@@ -23,6 +23,7 @@ export const INDEPENDENT_POLICY_IDS = [
   "candidate-advanced-opening-v5",
   "candidate-advanced-discard-v5",
   "candidate-advanced-actions-v5",
+  "candidate-advanced-cap8-v6",
   "ebony-initial",
   "ebony72-advanced-public-v1",
 ] as const;
@@ -90,11 +91,13 @@ export function createPolicySession(
     const workerOptions: ExternalMahjongOptions = {
       timeoutMs: options.timeoutMs,
       policy:
-        name === "ebony72-advanced-public-v1" ||
-        name === "candidate-advanced-hu-v4" ||
-        component !== undefined
-          ? "ebony72-advanced-public-v1"
-          : undefined,
+        name === "candidate-advanced-cap8-v6"
+          ? "ebony72-advanced-cap8-discard-v1"
+          : name === "ebony72-advanced-public-v1" ||
+              name === "candidate-advanced-hu-v4" ||
+              component !== undefined
+            ? "ebony72-advanced-public-v1"
+            : undefined,
     };
     worker ??=
       options.workerFactory?.(workerOptions) ??
