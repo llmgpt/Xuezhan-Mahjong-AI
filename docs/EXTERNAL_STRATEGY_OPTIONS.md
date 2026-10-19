@@ -1,8 +1,8 @@
 # 其他独立策略候选核查
 
-> 核查日期：2026-10-18 至 19。仅查阅作者仓库、源码、发布清单和论文入口；未下载模型或数据、安装运行候选，也未使用评测种子。本页记录初筛，不构成接入或实力验证。
+> 核查日期：2026-10-18 至 19。早期两轮只查阅作者仓库、源码、发布清单和论文入口；新增 Fanfou 正做隔离的公开弃牌原型，另行标明运行范围。没有新的正式强度成绩，不能用作者自述或原规则比赛成绩替代 V1 验证。
 
-两轮共检查五项不同作者的候选，没有新增同时满足“V1 同规则、完整策略、许可清楚、有高手实力依据”的标尺。不能由此推断其他可用项目不存在。当前不推荐直接迁移日麻权重，也不据 README 自述授予高手水平。
+早期两轮共检查五项不同作者的候选，没有新增同时满足“V1 同规则、完整策略、许可清楚、有高手实力依据”的标尺。不能由此推断其他可用项目不存在。当前不推荐直接迁移日麻权重，也不据 README 自述授予高手水平。
 
 | 优先级          | 候选                                                              | 当前建议                                                                         |
 | --------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------- |
@@ -60,3 +60,13 @@
 **Djttt** 的 [RuleAgent](https://github.com/Djttt/mahjong/blob/cb3491126e5b424e66329e74a3e06f56b8995a18/agents/rule_agent.py) 接收本家计数、副露、合法 mask 等公共输入，另有 MaskablePPO 训练入口；固定文件树、tags 和 releases 没有发布预训练模型。[环境源码](https://github.com/Djttt/mahjong/blob/cb3491126e5b424e66329e74a3e06f56b8995a18/env/sichuan_env.py)存在自摸给赢家三份收入、仅向未胡者扣款的静态非零和路径，且原动作 mask 不强制清缺；这些是源码判断，未运行该环境。README 标注 MIT，但固定树没有完整 LICENSE。可以参考训练接口，暂不替换已验证的 V1 引擎，也不将轻量基线当高手。
 
 **Matrixchung** 的 [README](https://github.com/Matrixchung/MahjongAI/blob/8323e07fe5a863f14dc06e27b73061de279ab443/README.md)明确标为 Incomplete，许可为 GPL-3.0；牌价值函数仍有被多行字符串包住的实验主体，未见完整四家流程、碰杠响应、权重或净分评估。
+
+## 第三种实现线索：Fanfou BA
+
+新调查的首选来源是 [xingdream/mahjong 固定提交](https://github.com/xingdream/mahjong/tree/02e3373649699bc73af87db46ee144bba65ae830) `02e3373649699bc73af87db46ee144bba65ae830`，根目录有完整 [MIT 许可](https://raw.githubusercontent.com/xingdream/mahjong/02e3373649699bc73af87db46ee144bba65ae830/LICENSE)。作者[论文](https://html.rhhz.net/tis/html/20210730.htm)将 BA 描述为基于结构优先级的算法，并报告原规则比赛成绩；其允许吃、报听，评价重点是胜局和点炮，不能把冠军称号移用于 V1 血战长期净分。
+
+优先审查 `完整实验2.1/ai-demo/src/dazhong_mahjong_1.py` 的 `Fan_Fou_basic.del_ourself_drw()`，与另一 JSON/MC 版本分开。已核到原类弃牌路径主要读取本家手牌、副露及公开 `ShowCount`，不需要训练权重；但硬编码 13 张的构造器、共享 class globals 和随机兜底都需要明确隔离。不能伪造短手牌、给对手注入真实听牌状态或把自家 fallback 算作外部策略。
+
+当前只在忽略的 `local/strength-goal-20261018/fanfou-ba-prototype/` 准备公开弃牌原型；保留原字节、逐方法比对、真实 14/11/8/5/2 暗手和公开计数，不把实验器的四手暗牌传入。全血战策略、生产接入、真实对局和强度尚待验证。完整只读研究与适配边界在 `strength-anchor-research/report.md`、`fanfou-adapter-review.md`，没有据此授予高手水平。
+
+另查 [lauyikfung/SichuaMahjongAI](https://github.com/lauyikfung/SichuaMahjongAI/tree/f0862eff2430862027f30a3fc50a19a739be417f)：可见川麻桌面与另一套 RLCard 训练路径，不能把其中模型目录直接当川麻高手；[zengyangjie/AI-Mahjong](https://github.com/zengyangjie/AI-Mahjong/tree/ffa86fb6257bfa0040a7771708f62849fb37ae01)未核到可调用策略和有效根许可，`.pt` 是视觉检测资源。明确川麻的 [CCDC 2022 论文入口](https://ieeexplore.ieee.org/document/10033614)值得后续核查，但本轮尚未确认可取得的代码、权重及复现成绩。以上均只界定本次实际核查，不能推成不存在其他强标尺。

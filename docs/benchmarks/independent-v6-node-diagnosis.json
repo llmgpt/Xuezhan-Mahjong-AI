@@ -1,0 +1,293 @@
+{
+  "version": 6,
+  "scope": "Complete recorded-node diagnosis and two full diagnostic games only; not a new candidate game grid or strength test",
+  "nodeDiagnosis": {
+    "date": "2026-10-19",
+    "input": "local\\strength-goal-20261018\\development-v4-expanded-combined",
+    "inputTracesSha256": "14993c8fe826dd9da5a2a9a145d0b7e166179dca01d74a41aba7dfb0a700aaf6",
+    "capPolicySha256": "7a1ad260bee65d62fc36ceb2a0d5ba2dcc46687b9ea59db186bd4aef9d9a7898",
+    "frozenSourceFingerprintFiles": 81,
+    "frozenSourceMatchedBeforeAndAfter": true,
+    "completeOriginalAdvancedGrid": 960,
+    "expectedOriginalAdvancedGrid": 960,
+    "counts": {
+      "allTraces": 2880,
+      "advancedTraces": 960,
+      "evaluatedActorDecisions": 16397,
+      "actualSelfDiscardOccurrences": 11912,
+      "uniquePublicViews": 6678,
+      "screenNegativeUniqueViews": 6600,
+      "screenNegativeOccurrences": 11786,
+      "missingSuitUniqueViews": 2952,
+      "missingSuitOccurrences": 5363,
+      "screenPositiveUniqueViews": 78,
+      "screenPositiveOccurrences": 126
+    },
+    "screenWork": {
+      "cacheMisses": 3036,
+      "replacementChecks": 411176,
+      "theoreticalCompletionChecks": 5833,
+      "cacheHits": 690
+    },
+    "replay": {
+      "successfulUniqueViews": 78,
+      "successfulOccurrences": 126,
+      "scoreProxyCallsUniqueReplay": 120,
+      "scoreProxyCallsOccurrenceWeighted": 172,
+      "clippedCallsUniqueReplay": 74,
+      "clippedCallsOccurrenceWeighted": 113,
+      "clippedInvalidInventoryCallsUniqueReplay": 0,
+      "clippedInvalidInventoryCallsOccurrenceWeighted": 0,
+      "scoreProxyUsedUniqueViews": 37,
+      "scoreProxyUsedOccurrences": 58,
+      "clipTriggeredUniqueViews": 37,
+      "clipTriggeredOccurrences": 58,
+      "discardChangedUniqueViews": 1,
+      "discardChangedOccurrences": 1
+    },
+    "groups": {
+      "all": {
+        "screenPositiveOccurrences": 126,
+        "scoreProxyUsedOccurrences": 58,
+        "clipTriggeredOccurrences": 58,
+        "discardChangedOccurrences": 1
+      },
+      "lineup/ebony-advanced": {
+        "screenPositiveOccurrences": 50,
+        "scoreProxyUsedOccurrences": 23,
+        "clipTriggeredOccurrences": 23,
+        "discardChangedOccurrences": 0
+      },
+      "lineup/ebony-initial": {
+        "screenPositiveOccurrences": 46,
+        "scoreProxyUsedOccurrences": 23,
+        "clipTriggeredOccurrences": 23,
+        "discardChangedOccurrences": 1
+      },
+      "lineup/teacher-v1": {
+        "screenPositiveOccurrences": 30,
+        "scoreProxyUsedOccurrences": 12,
+        "clipTriggeredOccurrences": 12,
+        "discardChangedOccurrences": 0
+      },
+      "opening/common": {
+        "screenPositiveOccurrences": 72,
+        "scoreProxyUsedOccurrences": 34,
+        "clipTriggeredOccurrences": 34,
+        "discardChangedOccurrences": 1
+      },
+      "opening/composite": {
+        "screenPositiveOccurrences": 54,
+        "scoreProxyUsedOccurrences": 24,
+        "clipTriggeredOccurrences": 24,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60000": {
+        "screenPositiveOccurrences": 2,
+        "scoreProxyUsedOccurrences": 2,
+        "clipTriggeredOccurrences": 2,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60002": {
+        "screenPositiveOccurrences": 16,
+        "scoreProxyUsedOccurrences": 6,
+        "clipTriggeredOccurrences": 6,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60003": {
+        "screenPositiveOccurrences": 2,
+        "scoreProxyUsedOccurrences": 0,
+        "clipTriggeredOccurrences": 0,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60004": {
+        "screenPositiveOccurrences": 16,
+        "scoreProxyUsedOccurrences": 8,
+        "clipTriggeredOccurrences": 8,
+        "discardChangedOccurrences": 1
+      },
+      "seed/60006": {
+        "screenPositiveOccurrences": 10,
+        "scoreProxyUsedOccurrences": 6,
+        "clipTriggeredOccurrences": 6,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60007": {
+        "screenPositiveOccurrences": 12,
+        "scoreProxyUsedOccurrences": 6,
+        "clipTriggeredOccurrences": 6,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60016": {
+        "screenPositiveOccurrences": 28,
+        "scoreProxyUsedOccurrences": 12,
+        "clipTriggeredOccurrences": 12,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60017": {
+        "screenPositiveOccurrences": 8,
+        "scoreProxyUsedOccurrences": 4,
+        "clipTriggeredOccurrences": 4,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60019": {
+        "screenPositiveOccurrences": 1,
+        "scoreProxyUsedOccurrences": 0,
+        "clipTriggeredOccurrences": 0,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60020": {
+        "screenPositiveOccurrences": 8,
+        "scoreProxyUsedOccurrences": 4,
+        "clipTriggeredOccurrences": 4,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60021": {
+        "screenPositiveOccurrences": 9,
+        "scoreProxyUsedOccurrences": 5,
+        "clipTriggeredOccurrences": 5,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60024": {
+        "screenPositiveOccurrences": 5,
+        "scoreProxyUsedOccurrences": 4,
+        "clipTriggeredOccurrences": 4,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60026": {
+        "screenPositiveOccurrences": 2,
+        "scoreProxyUsedOccurrences": 0,
+        "clipTriggeredOccurrences": 0,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60027": {
+        "screenPositiveOccurrences": 4,
+        "scoreProxyUsedOccurrences": 0,
+        "clipTriggeredOccurrences": 0,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60033": {
+        "screenPositiveOccurrences": 1,
+        "scoreProxyUsedOccurrences": 1,
+        "clipTriggeredOccurrences": 1,
+        "discardChangedOccurrences": 0
+      },
+      "seed/60036": {
+        "screenPositiveOccurrences": 2,
+        "scoreProxyUsedOccurrences": 0,
+        "clipTriggeredOccurrences": 0,
+        "discardChangedOccurrences": 0
+      }
+    },
+    "completedWithoutFailures": true,
+    "elapsedSeconds": 25.61,
+    "scope": "All actual evaluated-actor original-advanced discard nodes in completed 40-seed V4-expanded grid; all necessary-screen-positive unique public views replayed A-C-A; no new game, seed, outcome-based selection or source modification",
+    "screenDefinition": "Any host-legal discard t and any nonmissing x (including x==t) for which original hs.is_h_solx(xreplace(T,t,x),dc) and original compute_handScore(T1,Pile)>8. No KB, legal stock, extra host win, or initial disc_list restriction. Missing-suit direct returns excluded by source path.",
+    "limits": "Necessary, not sufficient: earlier routes and exclusions may bypass both score calls. Public views are exact snapshots, not independent samples. Replays evaluate current recorded nodes only, not candidate-generated future states. No net-score or strength conclusion."
+  },
+  "independentEnumerationAudit": {
+    "completeGridGames": 960,
+    "allOriginalDiscardOccurrences": 11912,
+    "allUniquePublicViews": 6678,
+    "clearMissingUniqueViewsIndependentlyScreenedWithoutCache": 3726,
+    "forcedMissingUniqueViews": 2952,
+    "independentReplacementChecks": 511852,
+    "independentScreenPositiveUniqueViews": 78,
+    "lineageAllOccurrencesMatched": true,
+    "allReplaysAndChangesBijectionMatched": true,
+    "source81AndPinnedCapHashesMatched": true,
+    "completeScreenRecomputedByDifferentEnumeration": true,
+    "replayCountersIndependentlyRecomputed": {
+      "successfulUniqueViews": 78,
+      "successfulOccurrences": 126,
+      "scoreProxyCallsUniqueReplay": 120,
+      "scoreProxyCallsOccurrenceWeighted": 172,
+      "clippedCallsUniqueReplay": 74,
+      "clippedCallsOccurrenceWeighted": 113,
+      "clippedInvalidInventoryCallsUniqueReplay": 0,
+      "clippedInvalidInventoryCallsOccurrenceWeighted": 0,
+      "scoreProxyUsedUniqueViews": 37,
+      "scoreProxyUsedOccurrences": 58,
+      "clipTriggeredUniqueViews": 37,
+      "clipTriggeredOccurrences": 58,
+      "discardChangedUniqueViews": 1,
+      "discardChangedOccurrences": 1
+    },
+    "artifactSha256": {
+      "diagnose.py": "05cbaa9197d00d84d7cdac1c0739969da1e6a295bc757a92f1a02a5c679c630b",
+      "pinned-cap8-policy.py": "7a1ad260bee65d62fc36ceb2a0d5ba2dcc46687b9ea59db186bd4aef9d9a7898",
+      "all-node-index.jsonl": "c4dc49fb66cb47aa64e9b849b33dd2589c1f14c25733ec6be7d797df17fbb398",
+      "screened-public-nodes.jsonl": "67221c0002e1d210b850cf2745747f0b15bfd240f698c6b294ae6c11292ca44e",
+      "replay-results.jsonl": "4ca8b988745c5f59beaac51bb0d795aa24379838d63e0e15238a7450a0ff74ac",
+      "changed-public-nodes.jsonl": "510cb450ad40b758fa1fbee0da7af123f12f76a0aa07b4724399f5f2cbb720c7",
+      "failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary.json": "1138bb50dbcaddcea111271afd36af570b52b6e1940fa7d6a0d8a02c191b1f69"
+    }
+  },
+  "changedGame": {
+    "scope": "Two complete development diagnostic games only; not independent strength evidence",
+    "complete": true,
+    "executionExitCode": 0,
+    "sourceFiles": 83,
+    "originalResultAndWholeTraceExactlyRepeatV4": true,
+    "scores": {
+      "ebony72-advanced-public-v1": [4, -2, -3, 1],
+      "candidate-advanced-cap8-v6": [4, 8, -13, 1]
+    },
+    "ownNetDifference": 10,
+    "income": {
+      "ebony72-advanced-public-v1": {
+        "selfWin": 0,
+        "discardWin": 0,
+        "dealIn": -1,
+        "paidSelfWin": 0,
+        "kong": -1,
+        "flower": 0,
+        "ready": 0
+      },
+      "candidate-advanced-cap8-v6": {
+        "selfWin": 0,
+        "discardWin": 8,
+        "dealIn": -1,
+        "paidSelfWin": 0,
+        "kong": 1,
+        "flower": 0,
+        "ready": 0
+      }
+    },
+    "incomeDifference": {
+      "selfWin": 0,
+      "discardWin": 8,
+      "dealIn": 0,
+      "paidSelfWin": 0,
+      "kong": 2,
+      "flower": 0,
+      "ready": 0
+    },
+    "rawHashes": {
+      "games.jsonl": "68dd92389a96f62921728a6d21903cb7fda2a466008103b2e34b81ac68941a88",
+      "traces.jsonl": "3bf950c3f874377cf8978370645e57a8eeb996ab5e069f90fa744f10b322e7cd",
+      "summary.json": "a1c1ae01df8a322d93fa904c69f36839b79eaeeb148d795b795d5e9612e745a4"
+    },
+    "firstDifference": {
+      "step": 98,
+      "actor": 1,
+      "phase": "discard",
+      "originalAction": {
+        "type": "discard",
+        "tile": 2
+      },
+      "candidateAction": {
+        "type": "discard",
+        "tile": 1
+      },
+      "identicalPublicView": true,
+      "publicViewSha256": "cdf057390de1d532cbd0e4d5241b1bd86015d9803308c00bff1f2456dddb5e93"
+    }
+  },
+  "limits": [
+    "Only one recorded view changed; two complete games are not independent strength evidence.",
+    "Other 959 candidate games were not replayed; recorded-node agreement is not a claim they were played.",
+    "No candidate-generated future views were included in the original recorded-node screen."
+  ]
+}
