@@ -1,0 +1,16 @@
+{
+  "recordedAtUtc": "2026-10-20T06:02:09.649611+00:00",
+  "initializedKnownExclusionLedger": true,
+  "ledgerPath": "local/strength-goal-20261018/formal-seed-usage-ledger.json",
+  "initialLedgerSha256": "c6ed021638493061ccbcb1bb088b960ef7038633359325a7f44f170c00df936b",
+  "excludedValues": 912,
+  "ranges": 35,
+  "verifiedImports": 235,
+  "knownOrDeclaredValues": 841,
+  "conservativeTestOnlyValues": 71,
+  "reservations": 0,
+  "newSeedChosen": false,
+  "actualFormalGames": 0,
+  "proposal": "local/strength-goal-20261018/seed-history-finalization-v1/ledger.proposed.json",
+  "scope": "Project-known exclusions and conservatively excluded test literals with immutable source copies. Not all912 are actual policy-game seeds. Unrecorded random browser starts or activity outside this workspace are not exhaustively known. Future source/testing activity must be reviewed before any new formal seed selection."
+}
