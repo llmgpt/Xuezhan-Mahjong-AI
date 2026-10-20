@@ -70,3 +70,46 @@
 此前忽略的 `local/strength-goal-20261018/fanfou-ba-prototype/` 已完成 125 个公开弃牌帧兼容；现以 `fanfou-ba-composite-v1` 将原核心和明确的 V1 外壳接入离线评测，保留原字节、逐方法比对、真实 14/11/8/5/2 暗手和公开计数，不把实验器的四手暗牌传入。接入与重放阶段329项 TypeScript、95项 Python检查通过；96局旧种子烟测和全部动作重放完成，页面接入和强度尚待验证。详情见[组合参考记录](INDEPENDENT_REFERENCE_FANFOU.md)。完整只读研究与适配边界在 `strength-anchor-research/report.md`、`fanfou-adapter-review.md`，没有据此授予高手水平。
 
 另查 [lauyikfung/SichuaMahjongAI](https://github.com/lauyikfung/SichuaMahjongAI/tree/f0862eff2430862027f30a3fc50a19a739be417f)：可见川麻桌面与另一套 RLCard 训练路径，不能把其中模型目录直接当川麻高手；[zengyangjie/AI-Mahjong](https://github.com/zengyangjie/AI-Mahjong/tree/ffa86fb6257bfa0040a7771708f62849fb37ae01)未核到可调用策略和有效根许可，`.pt` 是视觉检测资源。明确川麻的 [CCDC 2022 论文入口](https://ieeexplore.ieee.org/document/10033614)值得后续核查，但本轮尚未确认可取得的代码、权重及复现成绩。以上均只界定本次实际核查，不能推成不存在其他强标尺。
+
+## 2026-10-21 同规则高水平标尺补查
+
+本轮没有新增可确认的同规则高水平外部锚点。以下区分出版元数据、静态源码事实与作者声明；新仓库、神经网络或训练接口均不等同于高手实力。
+
+仅只读查阅公开一手资料，未运行候选代码、训练或对局，未调用远程决策端点；没有据部分 V7 结果选择来源或解释强弱。两个仓库的官方完整文件树均返回 `truncated=false`，文件存在不表示已验证可运行，未见文件也不表示其永不存在。
+
+### CCDC 2022 血战论文：身份已确认，复现与实力仍未确认
+
+[IEEE 注册的 Crossref 元数据](https://api.crossref.org/works/10.1109%2FCCDC55256.2022.10033614)确认题名为 _Design and implementation of a deep learning-based decision system for Xuezhan Mahjong_，作者 Yajun Zheng、Shuqin Li、Lanzhou Zheng，发表于 CCDC 2022，DOI 为 `10.1109/CCDC55256.2022.10033614`。
+
+[IEEE 正文入口](https://ieeexplore.ieee.org/document/10033614)本次显示访问验证，备用摘要入口返回 418；未取得正文。不能由题名确认与 V1 的换牌、定缺、胡后退出、计分和流局结算完全一致，也未核实公共信息边界、对手、局数及统计方法。
+
+本轮未确认作者关联的代码、权重、公开对局接口及对应许可，亦未确认可复核的高水平成绩；这是本次未取得的材料，不是断言它们不存在。出版元数据中的 IEEE 政策链接不能替代代码或模型授权。
+
+若继续查资料，需先补公开正文、作者明确关联的实物与评估条件，再审查同规则复现价值；本轮不将其选为正式标尺。
+
+### Dsixy/mahjong-sandbox：有血战源码，规则与许可仍有缺口
+
+观察提交为 `1063fb6884bc57b7af308036d686f63529c52c9b`：[固定仓库树](https://github.com/Dsixy/mahjong-sandbox/tree/1063fb6884bc57b7af308036d686f63529c52c9b)、[官方完整树 API](https://api.github.com/repos/Dsixy/mahjong-sandbox/git/trees/1063fb6884bc57b7af308036d686f63529c52c9b?recursive=1)。固定版本仅标识观察对象。
+
+- **实物与许可：**树中有引擎、bot、训练和评测接口，但未见 `LICENSE`/`COPYING`；[项目元数据](https://github.com/Dsixy/mahjong-sandbox/blob/1063fb6884bc57b7af308036d686f63529c52c9b/pyproject.toml)也无许可字段。本轮未确认明确重用许可，没有下载模型或运行这些接口。
+- **规则事实：**[规则文档](https://github.com/Dsixy/mahjong-sandbox/blob/1063fb6884bc57b7af308036d686f63529c52c9b/docs/RULES.md)明确为 108 张、换三张、定缺、多人胡与胡后继续，但默认随机换牌方向、5 番封顶、过胡锁和退杠分；未清缺时禁止全部碰杠，另有 V1 不计的金钩钓、带幺九、将对，花猪结算也涉及已胡者。不能直接视为 V1 同规则。
+- **作者声明：**[README](https://github.com/Dsixy/mahjong-sandbox/blob/1063fb6884bc57b7af308036d686f63529c52c9b/README.md#L17)明说牌效基线尚未 RL 训练；短程 REINFORCE 用于验证训练接口，优秀 agent 与大规模自博弈仍是后续阶段。这些是作者描述，本轮未运行核实。
+- **实力边界：**README 的策略比较使用同仓库牌效 bot；未确认同规则人类高手或独立强标尺成绩，也未完成其代码来源与公开信息隔离审计。
+
+即使将来补齐许可、规则与隔离，它仍只是待测基线，不能因工程接口齐全授予高手标签；本轮不接入或指定其为正式候选。
+
+### daydream-wjh/rlcode：实际主环境是上饶规则，排除直接使用
+
+原 `daydream2002/rlcode` 重定向至作者仓库；观察提交为 `487806eedac57e509c91e1a9105ac477821c271d`：[固定仓库树](https://github.com/daydream-wjh/rlcode/tree/487806eedac57e509c91e1a9105ac477821c271d)、[官方完整树 API](https://api.github.com/repos/daydream-wjh/rlcode/git/trees/487806eedac57e509c91e1a9105ac477821c271d?recursive=1)。
+
+- **实物与许可：**固定树含源码及旧 TensorFlow checkpoint，但未见 README、`LICENSE`/`COPYING`，本轮未确认权重许可、加载兼容或对应强度。
+- **静态规则事实：**[主环境](https://github.com/daydream-wjh/rlcode/blob/487806eedac57e509c91e1a9105ac477821c271d/mahjong.py#L39)明确标为上饶带宝；[首个自摸后直接返回](https://github.com/daydream-wjh/rlcode/blob/487806eedac57e509c91e1a9105ac477821c271d/mahjong.py#L387)，[行牌代码启用吃且取消点炮胡](https://github.com/daydream-wjh/rlcode/blob/487806eedac57e509c91e1a9105ac477821c271d/mahjong.py#L485)。这足以排除其作为 V1 完整血战策略的直接候选，不能以路径里的 `scmj` 字样代替流程核对。
+- **接口与实力边界：**部分[动作推荐](https://github.com/daydream-wjh/rlcode/blob/487806eedac57e509c91e1a9105ac477821c271d/mah_player.py#L161)依赖源码写定的远程端点；本轮没有请求，也未确认对外服务许可。模型名、checkpoint 文件名与历史训练日志不构成 V1 高水平证据，模型还有需审计的全局状态特征分支。
+
+除非取得独立血战版本、明确许可与同规则可核查成绩，否则不继续将其当作同规则强标尺；大幅改写后的宿主策略不能继承原模型的水平标签。
+
+### 当前结论与边界
+
+仍缺同时具备完整 V1 可调用实现、明确许可、公开信息隔离、独立来源与较高水平依据的外部标尺。本轮也未确认上述新线索完全不共享 ebony72/Fanfou 的实现来源。
+
+没有据此改变策略、正式候选、阵容、通过门槛或正式种子。后续若依赖真人复核或对局，也需先核实其同规则经验与实力依据；单次真人选择或另一模型回答不能直接作为正确标签。
