@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "purpose": "development-derived-analysis-not-formal",
+  "declaration": "Root declared these exact comparison lists in the subagent dispatch before any E follow-up scores were inspected. The six original jobs had already actually exited0. This is an analysis declaration for derived unions of completed development material; it is not a preregistered fresh holdout experiment.",
+  "parentProtocol": "e-followup-v1-protocol.json",
+  "seedDomain": [60000, 60039],
+  "seats": [0, 1, 2, 3],
+  "openings": ["common", "composite"],
+  "symbols": {
+    "T": "teacher-v1",
+    "A": "ebony72-advanced-public-v1",
+    "E": "candidate-advanced-opening-v5",
+    "D": "candidate-advanced-discard-v5",
+    "K": "candidate-advanced-actions-v5",
+    "F": "fanfou-ba-composite-v1"
+  },
+  "ui": {
+    "sourceFiles": 101,
+    "lineups": ["ui-bots"],
+    "policies": ["T", "A", "E", "D", "K"],
+    "oldOriginalGames": 640,
+    "newOriginalGames": 960,
+    "uniqueDerivedGames": 1600,
+    "comparisons": ["E-T", "D-T", "K-T", "E-A", "E-D", "E-K"],
+    "required": "Exact same101 frozen source files, rules and runtime. Preserve original T/D640 and new A/E/K960 plus byte ownership of all derived rows. No silent change to an original run manifest. Preserve original new-only E-A/E-K summaries as separate evidence."
+  },
+  "external": {
+    "sourceFiles": 100,
+    "lineups": ["ebony-advanced", "fanfou-ba"],
+    "policies": ["T", "A", "E", "D", "F"],
+    "oldOriginalGames": 2560,
+    "newOriginalGames": 1280,
+    "rawGames": 3840,
+    "duplicateT": 640,
+    "uniqueDerivedGames": 3200,
+    "comparisons": [
+      "D-T",
+      "D-A",
+      "D-F",
+      "F-T",
+      "A-T",
+      "E-T",
+      "E-A",
+      "E-D",
+      "E-F"
+    ],
+    "required": "Exact100 source/rules/runtime compatibility and all640 duplicateT whole results plus full decision/evaluation traces exactly equal before deduplication. Any mismatch blocks union and inference. Preserve both original T executions, reproduction audit and all raw ownership, counting one T only in derived statistics."
+  },
+  "audit": "Require complete Cartesian grids with no failed, missing, duplicate or extra records; full stored-action replay under the real V1 engine; all first differences share full public context and past prefix. Whole-game score differences are not oracle labels for single actions.",
+  "statistics": "Equal selected-grid average within each seed, then mean/sample-SE across40 seed means and unadjusted +/-1.96SE normal intervals. Keep every declared comparison and income detail in overall/opening/lineup/cross panels plus supplemental seat panels. These descriptive intervals do not establish formal acceptance, multiplicity-corrected significance or expert strength.",
+  "noNewPolicyGamesOrSeedsDuringAnalysis": true,
+  "noDefaultPromotionFromUnfinishedAudit": true
+}
