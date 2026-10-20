@@ -1,0 +1,275 @@
+{
+  "version": 1,
+  "recordedAtUtc": "2026-10-20T14:17:22.385427+00:00",
+  "compatibilityOnly": true,
+  "seed": 80000,
+  "freshStrengthSamplesAdded": 0,
+  "newFormalSeeds": 0,
+  "browser": "Codex in-app browser; own tab4 only; user tab1/5173 untouched",
+  "qaOrigin": "http://127.0.0.1:5176",
+  "snapshot": {
+    "appCommit": "335b90b",
+    "assetAndRouteCommit": "307b25c",
+    "manifest": {
+      "path": "local/strength-goal-20261018/production-app-qa/dist/strategy/manifest.json",
+      "sha256": "e31a2a73defe0ebaa6020e65c78beba968ba10bbcf481c1110463a26333a0ed4",
+      "bytes": 6857
+    },
+    "resources": 17,
+    "allManifestAssetsChecked": true,
+    "nodeBundle": "assets/index-D8JrU0xC.js",
+    "workerBundle": "assets/advanced.worker-CYSHNCG8.js",
+    "css": "assets/index-CBlWJC5D.css",
+    "laterWorkingTreeSpeechFixIncluded": false
+  },
+  "method": "Actual App and actual production Worker. Fixed-route local server delays policy payload by 7000ms; game/strategy code and CSS unchanged. Actions through CUA accessibility controls; AX and screenshots saved.",
+  "observedRaces": [
+    "E calculating: manual 6筒 changes wall55 to51; later recommendation is current 1筒, no 6筒 button remains.",
+    "D calculating: switch to teacher; captured teacher estimate/tie explanation remains after delayed request window.",
+    "E calculating: actual App settings -> restart seed80000; exchange/undeclared-missing state remains after old request window."
+  ],
+  "resourceCancellations": [
+    {
+      "case": "manual-discard",
+      "requestId": 13,
+      "delayEvent": {
+        "atUtc": "2026-10-20T14:00:37.394Z",
+        "event": "delayed7000ms",
+        "id": 13,
+        "path": "/strategy/advanced-public-v1/payload.json"
+      },
+      "abortEvent": {
+        "atUtc": "2026-10-20T14:00:37.626Z",
+        "event": "aborted",
+        "id": 13,
+        "path": "/strategy/advanced-public-v1/payload.json"
+      },
+      "secondsFromResourceDelayToAbort": 0.232,
+      "latencyBenchmark": false
+    },
+    {
+      "case": "D-to-teacher",
+      "requestId": 22,
+      "delayEvent": {
+        "atUtc": "2026-10-20T14:02:02.480Z",
+        "event": "delayed7000ms",
+        "id": 22,
+        "path": "/strategy/advanced-public-v1/payload.json"
+      },
+      "abortEvent": {
+        "atUtc": "2026-10-20T14:02:02.702Z",
+        "event": "aborted",
+        "id": 22,
+        "path": "/strategy/advanced-public-v1/payload.json"
+      },
+      "secondsFromResourceDelayToAbort": 0.222,
+      "latencyBenchmark": false
+    },
+    {
+      "case": "same-App-seeded-restart",
+      "requestId": 31,
+      "delayEvent": {
+        "atUtc": "2026-10-20T14:04:56.443Z",
+        "event": "delayed7000ms",
+        "id": 31,
+        "path": "/strategy/advanced-public-v1/payload.json"
+      },
+      "abortEvent": {
+        "atUtc": "2026-10-20T14:04:56.924Z",
+        "event": "aborted",
+        "id": 31,
+        "path": "/strategy/advanced-public-v1/payload.json"
+      },
+      "secondsFromResourceDelayToAbort": 0.481,
+      "latencyBenchmark": false
+    }
+  ],
+  "narrow": {
+    "contentViewportCssPixels": [320, 568],
+    "method": "Same-origin iframe, actual App; local test toolbar and empty error placeholder hidden.",
+    "operations": [
+      "manual exchange",
+      "missing selection",
+      "loading",
+      "actual recommendation",
+      "advice dialog and close",
+      "autoplay start",
+      "settings pauses autoplay",
+      "settings close",
+      "manual discard and new recommendation"
+    ],
+    "visualObservation": "Header, hand, recommendation and footer fit after fixture correction; advice dialog and close fit. Long settings content scrolls inside its dialog.",
+    "fixtureCorrection": "Initial empty #qa-error pre added margin after the 100dvh App and caused scrollbars. Hiding that empty local-only element removed them. Product CSS was not changed; initial diagnostic screenshot retained separately and is not a passed view.",
+    "wholeGamePlayedAtThisViewport": false,
+    "physicalMobileDeviceTest": false
+  },
+  "evidence": [
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-manual-before.ax.txt",
+      "sha256": "cd71d1669b9fb941c4e2a86e4880181e1aa399fb1c83043dc58995ad73d375ce",
+      "bytes": 2611
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-manual-after.ax.txt",
+      "sha256": "d9043e24675123bcdb10cfe5c38d1d4cc2e1800ffa753363478e73506637364b",
+      "bytes": 2573
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-manual-ready.ax.txt",
+      "sha256": "b9d11ce10d4024c4f0dbf437c0010e9e3f63f37ac702a28fcd0b795252d0fe8c",
+      "bytes": 2630
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-manual-ready.png",
+      "sha256": "bde8fc0c70526c9acef1698604330f0b6bb26bbb4f20d25233de3dac13104078",
+      "bytes": 95389
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-manual-timing.json",
+      "sha256": "325b1756a77dbc50c1027ea079e0ba3f65e880f176c00f4b4ce3fdf82495bdf7",
+      "bytes": 184
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-mode-before.ax.txt",
+      "sha256": "df2b572626cb15e576b965e3dd6a32dd7c2e6ec50f1a3ef5bb9bf1c361514d2b",
+      "bytes": 2593
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-mode-after.ax.txt",
+      "sha256": "678fbadb58fc201dd422769ae1239952034cb0e2d17f35d837ff89828192c3db",
+      "bytes": 2697
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-mode-settled.ax.txt",
+      "sha256": "678fbadb58fc201dd422769ae1239952034cb0e2d17f35d837ff89828192c3db",
+      "bytes": 2697
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-mode-timing.json",
+      "sha256": "c323480545668394209d26c178e7c70d9a20a4456fa4e9a9a7573cad064415b9",
+      "bytes": 142
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-session-before.ax.txt",
+      "sha256": "25f1b5c4cac32d0351a0e01baa25e557d9b4b9f5c3ea85dbf43bd1ca847801f6",
+      "bytes": 2937
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-session-settings.ax.txt",
+      "sha256": "5826c4db7b391b64b721f42bbdcae43c588ed392cb416315bc4449352253a69e",
+      "bytes": 1844
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-session-after.ax.txt",
+      "sha256": "cf960b6164a89046f2f7cb202b744de21c716fe58bc02bfdd1b1e775ccd8f950",
+      "bytes": 3080
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-session-settled.ax.txt",
+      "sha256": "cf960b6164a89046f2f7cb202b744de21c716fe58bc02bfdd1b1e775ccd8f950",
+      "bytes": 3080
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-session-settled.png",
+      "sha256": "4447f616ea342d329416359edf0853619c1c23497c687e5a3ccaeb0e1aae3d90",
+      "bytes": 95914
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-session-timing.json",
+      "sha256": "265cc154b4e6a020db84f6e92608827d872012aa857fadbd9a64e7625107814a",
+      "bytes": 154
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-opening-corrected.ax.txt",
+      "sha256": "1a51d9a75ac9df5d85dae195aadbd20eaa6d47ed6647127745f44806ddcd76c3",
+      "bytes": 2656
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-opening-corrected.png",
+      "sha256": "9f1ce82a26fccd3b8a6fa3da1558a4a6d1dd03caedd9da286384e170772dd445",
+      "bytes": 47541
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-loading.ax.txt",
+      "sha256": "d1ac73456223ed9f38efb2163f3ef6ef90ade733e0d5b1788cddee5457fe7fa3",
+      "bytes": 2104
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-loading.png",
+      "sha256": "5dcbaf4313f63d5d17697d63c43d8c0c040459d91ff1d85ec30a34fd822f69ca",
+      "bytes": 45706
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-ready.ax.txt",
+      "sha256": "0daaf272c9c14ab33445473bc2be6ddd43399004820d07a9091357dc25f9c308",
+      "bytes": 2164
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-ready.png",
+      "sha256": "75736f6bf925039e2a519072feccbf3e782925cabfbc55da0efdcf93a3ab357a",
+      "bytes": 46100
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-detail.ax.txt",
+      "sha256": "b543cdb29dae9fd16ec0f7a4a1af8d889b8b8707b8a533e6457dedd584fba4de",
+      "bytes": 1112
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-detail.png",
+      "sha256": "85f2fedad72bd9892cb3de16ea0fa414110d19543bcba307fc24e6060df42a60",
+      "bytes": 32972
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-auto-started.ax.txt",
+      "sha256": "e77ed71a7d1aaf42642d61b91cf027c41353f1cd343c7409011df13bded99879",
+      "bytes": 2102
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-settings.ax.txt",
+      "sha256": "3cc0fd91977d55adbd44e340156858665b5c318da1402b4cb8686b51cc1c7402",
+      "bytes": 1971
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-settings.png",
+      "sha256": "955464585c48af0d5e7540c688a1fc45d699ab43fae94a8e2a29b93ee62ca900",
+      "bytes": 36796
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-after-settings.ax.txt",
+      "sha256": "d66b1d2cbadc50873f58682126e34bd9bcf23b2fa771d535ab38313bcdbfc7cd",
+      "bytes": 2108
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-manual.ax.txt",
+      "sha256": "2c7cb091f04d3fbeafbbe2885e228ffd36db273136fc6ee1046349b6abfa6102",
+      "bytes": 2092
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-manual-ready.ax.txt",
+      "sha256": "79bf4914d4ed4948efb59a4731cdd3fc2615914ad361e0eed62c40c6c1f20bf2",
+      "bytes": 2149
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/narrow-manual-ready.png",
+      "sha256": "cab007fd842fe4bfb3ba84aee597a4dc537bea4fad7e612ad62505e4ff9935ba",
+      "bytes": 47659
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/race-narrow-server-events-final.jsonl",
+      "sha256": "2679d3829379a6121c0301306577d20c6e30453f398ede1a82c6ba2d7530e911",
+      "bytes": 11597
+    },
+    {
+      "path": "local/strength-goal-20261018/production-app-qa/slow-qa-server.mjs",
+      "sha256": "48532bd6fc757ebe28d31e1aea91a91ce7d56bb5481e07274bcdd98450c65890",
+      "bytes": 3159
+    }
+  ],
+  "cleanup": "Own tab4 and own QA5174/5175/5176 processes closed after captures; user original app was not stopped.",
+  "limits": [
+    "Only three actual loading-race cases; not all timeout/error/order combinations.",
+    "No full browser decision trace; no new whole-game strength sample.",
+    "Sound off; no current voice-listening claim.",
+    "Detailed advanced branch explanations not in tested browser snapshot."
+  ]
+}
