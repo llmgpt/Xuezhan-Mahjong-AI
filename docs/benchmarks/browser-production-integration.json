@@ -1,0 +1,256 @@
+{
+  "version": 1,
+  "recordedAtUtc": "2026-10-20T07:09:20.669267+00:00",
+  "compatibilityOnly": true,
+  "defaultTeacherNotPromoted": true,
+  "freshStrengthSamplesAdded": 0,
+  "browser": "Codex in-app browser; agent-owned tab4; user tab1 untouched",
+  "qaUrl": "http://127.0.0.1:5175/local/strength-goal-20261018/production-app-qa/index.html",
+  "actualApp": "src/App.tsx",
+  "appCommit": "335b90b",
+  "assetAndRouteCommit": "307b25c",
+  "productionBuild": {
+    "manifest": {
+      "path": "local/strength-goal-20261018/production-app-qa/dist/strategy/manifest.json",
+      "sha256": "e31a2a73defe0ebaa6020e65c78beba968ba10bbcf481c1110463a26333a0ed4"
+    },
+    "resourceCount": 17,
+    "allManifestAssetBytesVerified": true,
+    "pythonSourceFiles": 38,
+    "nodeBundle": "assets/index-D8JrU0xC.js",
+    "workerBundle": "assets/advanced.worker-CYSHNCG8.js"
+  },
+  "wholeGames": [
+    {
+      "mode": "E",
+      "seed": 80000,
+      "seat": 0,
+      "lineup": "ui-bots",
+      "opening": "composite",
+      "browserScores": [22, 6, -9, -19],
+      "nodeScores": [22, 6, -9, -19],
+      "nodeResult": {
+        "scores": [22, 6, -9, -19],
+        "wins": [
+          {
+            "winner": 1,
+            "payer": 3,
+            "tile": 26,
+            "selfDraw": false,
+            "evaluation": {
+              "fan": 2,
+              "points": 4,
+              "patterns": ["对对胡", "根"]
+            }
+          },
+          {
+            "winner": 0,
+            "payer": null,
+            "tile": 7,
+            "selfDraw": true,
+            "evaluation": {
+              "fan": 3,
+              "points": 8,
+              "patterns": ["对对胡", "根", "杠上花"]
+            }
+          }
+        ],
+        "steps": 132,
+        "income": [
+          {
+            "selfWin": 18,
+            "discardWin": 0,
+            "dealIn": 0,
+            "paidSelfWin": 0,
+            "kong": 4,
+            "flower": 0,
+            "ready": 0
+          },
+          {
+            "selfWin": 0,
+            "discardWin": 4,
+            "dealIn": 0,
+            "paidSelfWin": 0,
+            "kong": 2,
+            "flower": 0,
+            "ready": 0
+          },
+          {
+            "selfWin": 0,
+            "discardWin": 0,
+            "dealIn": 0,
+            "paidSelfWin": -9,
+            "kong": 0,
+            "flower": 0,
+            "ready": 0
+          },
+          {
+            "selfWin": 0,
+            "discardWin": 0,
+            "dealIn": -4,
+            "paidSelfWin": -9,
+            "kong": -6,
+            "flower": 0,
+            "ready": 0
+          }
+        ],
+        "endReason": "wall"
+      },
+      "displayedWinNamesKindsAndPatternsMatch": true,
+      "completeBrowserDecisionTraceCaptured": false,
+      "finalAx": {
+        "path": "local/strength-goal-20261018/production-app-qa/final-e-finished.ax.txt",
+        "sha256": "4b1aa103bcd0e57b430abe6dfbe27230625c09768d3caf8889deb70839297bbd"
+      },
+      "screenshot": {
+        "path": "local/strength-goal-20261018/production-app-qa/final-e-finished.png",
+        "sha256": "97decd1e05473e5206865b7a0e0f331f84f078656968ca0ab78a8f7f62605335"
+      },
+      "nodeRaw": {
+        "path": "local/strength-goal-20261018/production-app-qa/node-expected/games.jsonl",
+        "sha256": "d2707e50dc0ea629fe61ae2e9f6db533e5493d5734be49f9ac0edbdacd957684"
+      }
+    },
+    {
+      "mode": "D",
+      "seed": 80000,
+      "seat": 0,
+      "lineup": "ui-bots",
+      "opening": "composite",
+      "browserScores": [1, 5, 3, -9],
+      "nodeScores": [1, 5, 3, -9],
+      "nodeResult": {
+        "scores": [1, 5, 3, -9],
+        "wins": [
+          {
+            "winner": 0,
+            "payer": 1,
+            "tile": 2,
+            "selfDraw": false,
+            "evaluation": {
+              "fan": 0,
+              "points": 1,
+              "patterns": ["平胡"]
+            }
+          },
+          {
+            "winner": 1,
+            "payer": 3,
+            "tile": 26,
+            "selfDraw": false,
+            "evaluation": {
+              "fan": 2,
+              "points": 4,
+              "patterns": ["对对胡", "根"]
+            }
+          }
+        ],
+        "steps": 132,
+        "income": [
+          {
+            "selfWin": 0,
+            "discardWin": 1,
+            "dealIn": 0,
+            "paidSelfWin": 0,
+            "kong": 0,
+            "flower": 0,
+            "ready": 0
+          },
+          {
+            "selfWin": 0,
+            "discardWin": 4,
+            "dealIn": -1,
+            "paidSelfWin": 0,
+            "kong": 2,
+            "flower": 0,
+            "ready": 0
+          },
+          {
+            "selfWin": 0,
+            "discardWin": 0,
+            "dealIn": 0,
+            "paidSelfWin": 0,
+            "kong": 3,
+            "flower": 0,
+            "ready": 0
+          },
+          {
+            "selfWin": 0,
+            "discardWin": 0,
+            "dealIn": -4,
+            "paidSelfWin": 0,
+            "kong": -5,
+            "flower": 0,
+            "ready": 0
+          }
+        ],
+        "endReason": "wall"
+      },
+      "displayedWinNamesKindsAndPatternsMatch": true,
+      "completeBrowserDecisionTraceCaptured": false,
+      "finalAx": {
+        "path": "local/strength-goal-20261018/production-app-qa/final-d-finished.ax.txt",
+        "sha256": "1915f377fdf72cb7dc2e934090f8ea89d8b36518927dbde6f1cae5778d05771e"
+      },
+      "screenshot": {
+        "path": "local/strength-goal-20261018/production-app-qa/final-d-finished.png",
+        "sha256": "1fb9e3353b69b2155a4a0740b200daffa830ef344b666386c90cd3ee4f507494"
+      },
+      "nodeRaw": {
+        "path": "local/strength-goal-20261018/production-app-qa/node-expected-d/games.jsonl",
+        "sha256": "f793febd1ff10972f7e63afcd8f05a06cd5b54b29ced7edd48b394a84a41eea4"
+      }
+    }
+  ],
+  "additionalRepetitions": "Earlier one dev E and one production E/D pair also completed at80000; no extra independent sample claim.",
+  "observedActions": [
+    "Manual exchange and missing selection",
+    "Actual advanced recommendation and manual discard",
+    "Loading clears previous recommendation",
+    "Autoplay uses same displayed decision",
+    "Settings and advice pause autoplay",
+    "Fixed-seed reset and E/D switch",
+    "HTTP404 pauses/disables autoplay while manual discard stays legal",
+    "Correct resource recovery rebuilds current recommendation",
+    "Completed D shows seed80000 and108/108"
+  ],
+  "cardCountEvidence": {
+    "path": "local/strength-goal-20261018/production-app-qa/final-d-card-count.ax.txt",
+    "sha256": "df90964a663d8570b12bd29be09e840a3a4b4a8f73093aab42ced3bd2a5bbe93"
+  },
+  "resourceErrorEvidence": {
+    "path": "local/strength-goal-20261018/production-app-qa/production-resource-error.ax.txt",
+    "sha256": "5e41c28cb3c224adc5f49de63bff824092a658096767f29c9842af74cfc32974"
+  },
+  "independentCheckoutAssetReview": {
+    "path": "local/strength-goal-20261018/asset-independent-review/final-index-results.json",
+    "sha256": "ffef1210b1bd667176ce911bfa5806023b8d62b1baabcacb70d0e0ef3bda35bd",
+    "checkoutModes": ["core.autocrlf=false", "core.autocrlf=true"],
+    "sourceMatchesEach": 38,
+    "resourcesMatchLatestDistEach": 17
+  },
+  "projectChecks": {
+    "npmCheck": {
+      "command": "npm run check",
+      "actualExit": 0,
+      "terminalChunk": "7f75de",
+      "typescriptFiles": 48,
+      "typescriptTests": 431,
+      "includes": ["format", "lint", "typecheck", "test", "production build"]
+    },
+    "python": {
+      "command": "python -B -m unittest discover -s scripts/external -p test_*.py",
+      "actualExit": 0,
+      "terminalChunk": "e6f5a7",
+      "tests": 131
+    }
+  },
+  "limits": [
+    "No full browser step trace or network trace captured",
+    "Score/win-record compatibility does not prove playing strength",
+    "V7 remains offline only",
+    "Advanced explanation currently reports actual origin and rules; detailed internal branch scores remain unavailable",
+    "Sounds were off; actual voice sound quality not verified",
+    "Not every kong/response branch, loading-time manual reset race, timeout or narrow viewport verified in this QA"
+  ]
+}
