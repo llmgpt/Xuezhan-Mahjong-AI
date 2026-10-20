@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { createHash } from "node:crypto";
 import {
   BrowserAdvancedClient,
   type BrowserPolicyWorker,
@@ -9,12 +10,15 @@ import {
   discard,
   legalResponses,
   type GameState,
+  type Phase,
 } from "../game/game";
 import { applyDecisionAction } from "../game/decision";
 import { chooseTeacherAction } from "../game/teacher";
 import { hand } from "../game/testHelpers";
 import { createWall, tile, type Tile } from "../game/tiles";
 import { playerView, type PlayerView } from "../game/view";
+import * as diagnosticReader from "./advancedDiagnostics";
+import observedHuFixture from "./fixtures/observedHuDecisions.json";
 
 // Synthetic transport only. Host legality and E/D composition are real;
 // these tests do not claim that a mock ran Python or established strength.
@@ -120,7 +124,186 @@ function response() {
 }
 afterEach(() => {
   for (const client of clients.splice(0)) client.close();
+  vi.restoreAllMocks();
   vi.useRealTimers();
+});
+
+const huRows = observedHuFixture.rows.map((row) => ({
+  ...row,
+  phase: row.phase as Phase,
+  view: row.view as unknown as PlayerView,
+  action: row.action as DecisionAction,
+}));
+function uncoveredDiagnostics(view: PlayerView) {
+  const ordered = (value: unknown): unknown =>
+    Array.isArray(value)
+      ? value.map(ordered)
+      : value && typeof value === "object"
+        ? Object.fromEntries(
+            Object.entries(value)
+              .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+              .map(([key, item]) => [key, ordered(item)]),
+          )
+        : value;
+  return {
+    version: 1,
+    policyId: "ebony72-advanced-public-v1",
+    publicViewHash: createHash("sha256")
+      .update(JSON.stringify(ordered(view)))
+      .digest("hex"),
+    coverage: "not-covered",
+    branch: null,
+    comparison: null,
+    currentIncome: { status: "not-called" },
+    postHuMeldStage: "not-covered",
+  };
+}
+
+describe("同一回复中的实际高级诊断", () => {
+  it.each(huRows)(
+    "$caseId 的真实动作与诊断只收一次，并隔离回复/调用者/cache快照",
+    async (row) => {
+      const f = fixture(),
+        view = structuredClone(row.view),
+        original = structuredClone(row.view);
+      const pending = f.client.choose(view, row.phase, position);
+      await untilSent(f.workers);
+      const diagnostics = structuredClone(row.diagnostics);
+      f.workers[0].answer(row.action, { diagnostics });
+      const result = await pending;
+      expect(result).toMatchObject({
+        action: row.action,
+        origin: "advanced-public",
+        diagnostics: row.diagnostics,
+      });
+      diagnostics.comparison.actualUtl = 999;
+      expect(result!.diagnostics).toEqual(row.diagnostics);
+      result!.action = { type: "respond", choice: "hu" };
+      result!.diagnostics!.comparison!.actualUtl = 777;
+      const cached = await f.client.choose(original, row.phase, position);
+      expect(cached).toMatchObject({
+        action: row.action,
+        diagnostics: row.diagnostics,
+      });
+      expect(
+        f.workers[0].messages.filter((message) => message.command === "act"),
+      ).toHaveLength(1);
+      expect(view).toEqual(original);
+    },
+  );
+  it.each(["unknown", "non-finite", "null", "undefined"])(
+    "当前回复的%s诊断显式失败并关闭，不重选或退老师",
+    async (kind) => {
+      const row = huRows[0],
+        f = fixture();
+      const pending = f.client.choose(row.view, row.phase, position);
+      const rejected = expect(pending).rejects.toThrow();
+      await untilSent(f.workers);
+      let diagnostics: unknown = structuredClone(row.diagnostics);
+      if (kind === "unknown")
+        Object.assign(diagnostics!, { privateOpponent: { hand: [0] } });
+      else if (kind === "non-finite")
+        (
+          diagnostics as typeof row.diagnostics
+        ).comparison.finalHeuristicWaitingFactor = Infinity;
+      else diagnostics = kind === "null" ? null : undefined;
+      f.workers[0].answer(row.action, { diagnostics });
+      await rejected;
+      expect(f.workers).toHaveLength(1);
+      expect(f.workers[0].terminated).toBe(true);
+      expect(
+        f.workers[0].messages.filter((message) => message.command === "act"),
+      ).toHaveLength(1);
+    },
+  );
+  it("同一Worker的旧id坏诊断迟到，不污染下一局面的合法元数据", async () => {
+    const first = huRows[0],
+      next = huRows[3],
+      f = fixture();
+    const old = f.client.choose(first.view, first.phase, position);
+    await untilSent(f.workers);
+    const worker = f.workers[0],
+      oldRequest = worker.messages.at(-1)!;
+    worker.answer(first.action, { diagnostics: first.diagnostics });
+    await old;
+    const current = f.client.choose(next.view, next.phase, {
+      ...position,
+      revision: 1,
+    });
+    await untilSent(f.workers);
+    expect(f.workers).toHaveLength(1);
+    worker.emit({
+      ...oldRequest,
+      kind: "action",
+      action: first.action,
+      diagnostics: { privateOpponent: [0] },
+    });
+    expect(worker.terminated).toBe(false);
+    worker.answer(next.action, { diagnostics: next.diagnostics });
+    expect(await current).toMatchObject({
+      action: next.action,
+      diagnostics: next.diagnostics,
+      revision: 1,
+    });
+  });
+  it("同一客户端切到D老师响应或开局，不附加之前A的诊断", async () => {
+    const row = huRows[0],
+      f = fixture();
+    const advanced = f.client.choose(row.view, row.phase, position);
+    await untilSent(f.workers);
+    f.workers[0].answer(row.action, { diagnostics: row.diagnostics });
+    await advanced;
+    const teacher = await f.client.choose(row.view, row.phase, {
+      ...position,
+      policy: "D",
+      revision: 1,
+    });
+    expect(teacher).toMatchObject({
+      action: chooseTeacherAction(row.view, row.phase),
+      origin: "teacher-actions",
+    });
+    expect(teacher).not.toHaveProperty("diagnostics");
+    const openingView = playerView(createGame(80000), 0);
+    const opening = await f.client.choose(openingView, "exchange", {
+      ...position,
+      session: 2,
+    });
+    expect(opening?.origin).toBe("teacher-opening");
+    expect(opening).not.toHaveProperty("diagnostics");
+    expect(
+      f.workers[0].messages.filter((message) => message.command === "act"),
+    ).toHaveLength(1);
+  });
+  it("D的未覆盖诊断使用真实mask后Pending视图校验，原局面和诊断快照独立", async () => {
+    const view = playerView(scene({ 0: hand("w1111 s2233445567") }), 0),
+      original = structuredClone(view),
+      f = fixture();
+    expect(chooseTeacherAction(view, "discard")?.type).toBe("discard");
+    const reader = vi.spyOn(diagnosticReader, "readAdvancedDiagnostics");
+    const pending = f.client.choose(view, "discard", {
+      ...position,
+      policy: "D",
+    });
+    await untilSent(f.workers);
+    const input = f.workers[0].messages.at(-1)!.view as PlayerView;
+    expect(input.decision).toMatchObject({
+      concealedKongs: [],
+      addedKongs: [],
+    });
+    const action: DecisionAction = {
+        type: "discard",
+        tile: view.legalDiscards[0],
+      },
+      diagnostics = uncoveredDiagnostics(input);
+    f.workers[0].answer(action, { diagnostics });
+    expect(await pending).toMatchObject({
+      action,
+      diagnostics,
+      origin: "advanced-public",
+    });
+    expect(reader).toHaveBeenCalledWith(diagnostics, input, "discard", action);
+    expect(view).toEqual(original);
+  });
 });
 
 describe("浏览器高级客户端的真实E/D组合与公开输入", () => {

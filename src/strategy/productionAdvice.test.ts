@@ -4,6 +4,7 @@ import { chooseTeacherAction, teacherChoices } from "../game/teacher";
 import { hand } from "../game/testHelpers";
 import type { PlayerView } from "../game/view";
 import type { BrowserDecision } from "./advancedClient";
+import observations from "./fixtures/observedHuDecisions.json";
 import {
   presentBrowserDecision,
   teacherPresentation,
@@ -53,6 +54,61 @@ function advanced(input: PlayerView): BrowserDecision {
   };
 }
 describe("当前生产策略的忠实展示与语音快照", () => {
+  it("实际高级胡牌分支显示同次比较值，拒胡后碰牌不被改写成过", () => {
+    const row = observations.rows[0],
+      input = row.view as unknown as PlayerView;
+    const result = {
+      ...advanced(input),
+      phase: "respond" as const,
+      action: row.action,
+      diagnostics: row.diagnostics,
+    } as unknown as BrowserDecision;
+    const presented = presentBrowserDecision(input, result);
+    expect(presented.action).toEqual({ type: "respond", choice: "pung" });
+    expect(presented.choices[0].summary).toContain("4.249");
+    expect(presented.choices[0].summary).toContain("暂不收胡");
+    expect(presented.choices[0].summary).toContain("最终选择碰");
+    expect(presented.choices[0].reason).toContain("后续碰、杠、过的取舍未采集");
+    expect(presented.choices[0].limit).toContain("不是胜率");
+    expect(presented.choices[0].summary).not.toContain("最终选择过");
+  });
+  it("高级收胡的真实比较值同时进入当前建议和推荐语音", () => {
+    const row = observations.rows[3],
+      input = row.view as unknown as PlayerView;
+    const presented = presentBrowserDecision(input, {
+      ...advanced(input),
+      phase: "respond",
+      action: row.action,
+      diagnostics: row.diagnostics,
+    } as unknown as BrowserDecision);
+    const explanation = explainProductionAction(
+      input,
+      presented.action,
+      presented,
+    );
+    expect(announcementsForDecision(explanation, []).join("。")).toContain(
+      "0.4735",
+    );
+    expect(presented.choices[0].reason).toContain("实际胡牌判断");
+  });
+  it("老师出处不能附带其他策略的分支诊断，高级坏诊断也不能静默丢弃", () => {
+    const input = view(),
+      teacher = teacherPresentation(input, "discard")!;
+    expect(() =>
+      presentBrowserDecision(input, {
+        ...advanced(input),
+        action: teacher.action,
+        origin: "teacher-actions",
+        diagnostics: observations.rows[0].diagnostics,
+      } as unknown as BrowserDecision),
+    ).toThrow();
+    expect(() =>
+      presentBrowserDecision(input, {
+        ...advanced(input),
+        diagnostics: { ...observations.rows[0].diagnostics, privateHand: [] },
+      } as unknown as BrowserDecision),
+    ).toThrow();
+  });
   it("高级只呈现实际出处和合法事实，不借用老师分数/风险/两摸说明", () => {
     const input = view(),
       result = advanced(input),

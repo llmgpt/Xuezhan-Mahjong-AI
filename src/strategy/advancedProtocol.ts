@@ -2,6 +2,7 @@ import type { DecisionAction } from "../game/decision";
 import type { Phase } from "../game/game";
 import { suitOf } from "../game/tiles";
 import type { PlayerView } from "../game/view";
+import type { AdvancedDiagnostics } from "./advancedDiagnostics";
 
 export interface AdvancedAssets {
   runtimeModuleUrl: string;
@@ -33,6 +34,7 @@ export type WorkerReply =
       generation: number;
       id: number;
       action: DecisionAction;
+      diagnostics?: AdvancedDiagnostics;
     })
   | { kind: "error"; generation?: number; id?: number; message: string };
 

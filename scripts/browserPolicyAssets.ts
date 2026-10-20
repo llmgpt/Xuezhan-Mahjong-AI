@@ -51,7 +51,11 @@ export function collectBrowserPolicyAssets(
     source.version !== 1 ||
     source.policy !== "ebony72-advanced-public-v1" ||
     !source.files ||
-    Object.keys(source.files).length !== 38 ||
+    Object.keys(source.files).length !== 39 ||
+    !Object.hasOwn(
+      source.files,
+      "scripts/external/public_decision_diagnostics.py",
+    ) ||
     Object.entries(source.files).some(
       ([path, hash]) => !validSourcePath(path) || !/^[a-f0-9]{64}$/.test(hash),
     )

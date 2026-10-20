@@ -2,6 +2,10 @@ import type { DecisionAction } from "../game/decision";
 import type { Phase } from "../game/game";
 import type { PlayerView } from "../game/view";
 import {
+  readAdvancedDiagnostics,
+  type AdvancedDiagnostics,
+} from "./advancedDiagnostics";
+import {
   assertLegalAction,
   assertPosition,
   assertPublicView,
@@ -61,11 +65,11 @@ export async function loadAdvancedRuntime(
   const raw = await deps.fetchJson(assets.payloadUrl);
   fields(raw, ["files", "sourceFiles"]);
   if (
-    raw.sourceFiles !== 38 ||
+    ![38, 39].includes(raw.sourceFiles as number) ||
     !Array.isArray(raw.files) ||
-    raw.files.length !== 38
+    raw.files.length !== raw.sourceFiles
   )
-    throw new Error("原高级Python闭包必须为38文件");
+    throw new Error("高级Python闭包须为原38源或含观察模块的39源");
   const seen = new Set<string>(),
     files: { path: string; bytes: Uint8Array; sha256: string }[] = [];
   for (const row of raw.files) {
@@ -101,6 +105,11 @@ export async function loadAdvancedRuntime(
   ])
     if (!seen.has("scripts/external/" + name))
       throw new Error("Python闭包缺少入口 " + name);
+  const hasDiagnostics = seen.has(
+    "scripts/external/public_decision_diagnostics.py",
+  );
+  if (hasDiagnostics !== (raw.sourceFiles === 39))
+    throw new Error("观察模块与39源能力声明不符");
   const module = await deps.importModule(assets.runtimeModuleUrl);
   if (module.version !== "314.0.7" || typeof module.loadPyodide !== "function")
     throw new Error("本地Pyodide运行时版本无效");
@@ -120,47 +129,77 @@ export async function loadAdvancedRuntime(
     "import sys, json\nsys.dont_write_bytecode = True\nsys.path.insert(0, '/xuezhan/scripts/external')\nimport worker, advanced_policy\nassert worker.__file__ == '/xuezhan/scripts/external/worker.py'\nassert advanced_policy.__file__ == '/xuezhan/scripts/external/advanced_policy.py'\nadvanced_policy.load_policy()",
   );
   let sequence = 0;
+  function perform(
+    view: PlayerView,
+    phase: Phase,
+    includeDiagnostics: boolean,
+  ): { action: DecisionAction; diagnostics?: AdvancedDiagnostics } {
+    assertPublicView(view);
+    if (phase !== "discard" && phase !== "respond")
+      throw new Error("Python桥仅接受实际弃牌/响应阶段");
+    if (
+      !view.decision ||
+      (phase === "discard") !== (view.decision.kind === "self")
+    )
+      throw new Error("Python阶段与公开决策视图不符");
+    const id = ++sequence;
+    const request = {
+      id,
+      phase,
+      policy,
+      view: structuredClone(view),
+      ...(includeDiagnostics ? { includeDiagnostics: true } : {}),
+    };
+    python.globals.set("_browser_request_json", JSON.stringify(request));
+    let response: unknown;
+    try {
+      const result = python.runPython(
+        "json.dumps(worker.handle_request(json.loads(_browser_request_json)), ensure_ascii=False, allow_nan=False)",
+      );
+      if (typeof result !== "string")
+        throw new Error("Python策略返回非JSON字符串");
+      response = JSON.parse(result);
+    } finally {
+      python.globals.delete?.("_browser_request_json");
+    }
+    fields(response, ["id", "action", "error", "diagnostics"], ["id"]);
+    if (response.id !== id) throw new Error("Python策略响应id不符");
+    if (response.error !== undefined) {
+      fields(response, ["id", "error"]);
+      fields(response.error, ["code", "message"]);
+      throw new Error(
+        `Python策略失败 ${String(response.error.code)}: ${String(response.error.message)}`,
+      );
+    }
+    fields(
+      response,
+      includeDiagnostics ? ["id", "action", "diagnostics"] : ["id", "action"],
+    );
+    assertLegalAction(response.action, view, phase);
+    const diagnostics = includeDiagnostics
+      ? readAdvancedDiagnostics(
+          response.diagnostics,
+          view,
+          phase,
+          response.action,
+        )
+      : undefined;
+    return {
+      action: structuredClone(response.action),
+      ...(diagnostics ? { diagnostics } : {}),
+    };
+  }
   return {
     metadata: {
       runtimeVersion: module.version,
       sourceFiles: files.length,
       policy,
     },
+    decide(view: PlayerView, phase: Phase) {
+      return perform(view, phase, hasDiagnostics);
+    },
     act(view: PlayerView, phase: Phase): DecisionAction {
-      assertPublicView(view);
-      if (phase !== "discard" && phase !== "respond")
-        throw new Error("Python桥仅接受实际弃牌/响应阶段");
-      if (
-        !view.decision ||
-        (phase === "discard") !== (view.decision.kind === "self")
-      )
-        throw new Error("Python阶段与公开决策视图不符");
-      const id = ++sequence;
-      const request = { id, phase, policy, view: structuredClone(view) };
-      python.globals.set("_browser_request_json", JSON.stringify(request));
-      let response: unknown;
-      try {
-        const result = python.runPython(
-          "json.dumps(worker.handle_request(json.loads(_browser_request_json)), ensure_ascii=False, allow_nan=False)",
-        );
-        if (typeof result !== "string")
-          throw new Error("Python策略返回非JSON字符串");
-        response = JSON.parse(result);
-      } finally {
-        python.globals.delete?.("_browser_request_json");
-      }
-      fields(response, ["id", "action", "error"], ["id"]);
-      if (response.id !== id) throw new Error("Python策略响应id不符");
-      if (response.error !== undefined) {
-        fields(response, ["id", "error"]);
-        fields(response.error, ["code", "message"]);
-        throw new Error(
-          `Python策略失败 ${String(response.error.code)}: ${String(response.error.message)}`,
-        );
-      }
-      fields(response, ["id", "action"]);
-      assertLegalAction(response.action, view, phase);
-      return structuredClone(response.action);
+      return perform(view, phase, false).action;
     },
   };
 }
@@ -251,13 +290,13 @@ export function createAdvancedWorkerHandler(
       assertPublicView(raw.view);
       if (raw.phase !== "discard" && raw.phase !== "respond")
         throw new Error("不支持的Worker决策阶段");
-      const action = runtime.act(raw.view, raw.phase);
+      const decision = runtime.decide(raw.view, raw.phase);
       post({
         kind: "action",
         generation: raw.generation as number,
         id: raw.id as number,
         ...position,
-        action,
+        ...decision,
       });
     } catch (error) {
       post({

@@ -35,7 +35,7 @@ function temp() {
   return result;
 }
 describe("本地浏览器策略资产构建", () => {
-  it("真实本地NPM运行时匹配官方pin，38源包精确绑定当前原字节并携带许可", () => {
+  it("真实本地NPM运行时匹配官方pin，39源只增实际观察模块并保留原字节及许可", () => {
     const assets = collectBrowserPolicyAssets({
       projectRoot: root,
       runtimeRoot,
@@ -55,7 +55,18 @@ describe("本地浏览器策略资产构建", () => {
         assets.get("strategy/advanced-public-v1/payload.json")!,
       ).toString("utf8"),
     );
-    expect(payload.sourceFiles).toBe(38);
+    expect(payload.sourceFiles).toBe(39);
+    expect(
+      payload.files.some(
+        (row: { path: string }) =>
+          row.path === "scripts/external/public_decision_diagnostics.py",
+      ),
+    ).toBe(true);
+    expect(
+      payload.files.some((row: { path: string }) =>
+        /v1_income|cap8|fanfou/.test(row.path),
+      ),
+    ).toBe(false);
     for (const row of payload.files as {
       path: string;
       base64: string;

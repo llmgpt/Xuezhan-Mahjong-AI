@@ -420,7 +420,8 @@ class CurrentIncomeWorkerTests(unittest.TestCase):
 
     def test_current_income_import_is_lazy_old_38_source_browser_bundle_needs_no_new_modules(self):
         root = Path(worker.__file__).resolve().parents[2]
-        sources = json.loads((root / "scripts/browserPolicySources.json").read_text(encoding="utf-8"))["files"]
+        sources = [relative for relative in json.loads((root / "scripts/browserPolicySources.json").read_text(encoding="utf-8"))["files"]
+                   if relative != "scripts/external/public_decision_diagnostics.py"]
         self.assertEqual(len(sources), 38)
         self.assertNotIn("scripts/external/v1_income_policy.py", sources)
         self.assertNotIn("scripts/external/v1_income.py", sources)
@@ -442,6 +443,189 @@ class CurrentIncomeWorkerTests(unittest.TestCase):
         self.assertEqual([json.loads(line) for line in completed.stdout.splitlines()], [
             {"id": "old-browser", "action": case["originalAction"]},
         ])
+
+
+class DiagnosticsWorkerTests(unittest.TestCase):
+    A = "ebony72-advanced-public-v1"
+    V7 = "ebony72-advanced-current-income-v1"
+    KONG_SHOT = "e597e5944d796dc52d801937a35ad0a96d49138d6475556b26dee33158166c65"
+    ROB_KONG = "11c64c3ac12d147987b147d642a5f7a4e89f96858d1ba6a22a978a82dd11a935"
+
+    @classmethod
+    def setUpClass(cls):
+        from test_v1_income_policy import CASES
+        cls.cases = CASES
+
+    def request(self, case=None, policy=A, include=None, identifier="diagnostic"):
+        case = case or next(case for case in self.cases if case["id"] == self.KONG_SHOT)
+        request = {"id": identifier, "phase": case["phase"], "view": copy.deepcopy(case["view"]), "policy": policy}
+        if include is not None:
+            request["includeDiagnostics"] = include
+        return request
+
+    def test_real_hu_wire_diagnostics_use_one_actual_choice_and_branch(self):
+        for identifier in (self.KONG_SHOT, self.ROB_KONG):
+            case = next(case for case in self.cases if case["id"] == identifier)
+            for policy in (self.A, self.V7):
+                with self.subTest(case=identifier, policy=policy):
+                    request = self.request(case, policy, True)
+                    before = copy.deepcopy(request)
+                    with patch.object(worker, "choose_action", wraps=worker.choose_action) as choose:
+                        response = worker.handle_request(request)
+                    self.assertEqual(set(response), {"id", "action", "diagnostics"})
+                    self.assertEqual(response["action"], case["originalAction"] if policy == self.A else case["candidateAction"])
+                    self.assertEqual(choose.call_count, 1)
+                    self.assertEqual(request, before)
+                    diagnostics = response["diagnostics"]
+                    self.assertEqual(diagnostics["coverage"], "observed-hu-branch")
+                    self.assertEqual(diagnostics["policyId"], policy)
+                    self.assertEqual(diagnostics["branch"]["function"], "check_hu" if identifier == self.KONG_SHOT else "check_robkong")
+                    if policy == self.A:
+                        self.assertEqual(diagnostics["currentIncome"], {"status": "not-called"})
+                    else:
+                        self.assertEqual(diagnostics["currentIncome"]["basePoints"], 1)
+                        self.assertEqual(diagnostics["currentIncome"]["currentPoints"], 2)
+                    self.assertIsNone(sys.gettrace())
+
+    def test_all263_A_and_V7_wire_observations_preserve_actions_and_choose_once(self):
+        self.assertEqual(len(self.cases), 263)
+        for case in self.cases:
+            for policy in (self.A, self.V7):
+                with self.subTest(case=case["id"], policy=policy):
+                    with patch.object(worker, "choose_action", wraps=worker.choose_action) as choose:
+                        result = worker.handle_request(self.request(case, policy, True))
+                    self.assertEqual(result.get("action"), case["originalAction"] if policy == self.A else case["candidateAction"])
+                    self.assertEqual(choose.call_count, 1)
+                    self.assertEqual(result["diagnostics"]["coverage"], "observed-hu-branch" if case["phase"] == "respond" else "not-covered")
+                    self.assertIsNone(sys.gettrace())
+
+    def test_completed_public_A_acceptance_reports_its_actual_hu_once(self):
+        # Root supplied this positive from a completed E-followup UI run.
+        # The original263 population covers A refusals, not accepted-hu cases.
+        path = Path(worker.__file__).resolve().parents[2] / "src/strategy/fixtures/observedHuDecisions.json"
+        case = json.loads(path.read_text(encoding="utf-8"))["rows"][3]
+        self.assertEqual(case["action"], {"type": "respond", "choice": "hu"})
+        self.assertEqual(case["diagnostics"]["policyId"], self.A)
+        with patch.object(worker, "choose_action", wraps=worker.choose_action) as choose:
+            response = worker.handle_request(self.request(case, self.A, True))
+        self.assertEqual(set(response), {"id", "action", "diagnostics"})
+        self.assertEqual(response["action"], case["action"])
+        self.assertEqual(choose.call_count, 1)
+        self.assertEqual(response["diagnostics"]["branch"]["returnValue"], "hu")
+        self.assertEqual(response["diagnostics"]["postHuMeldStage"], "not-run")
+        self.assertIsNone(sys.gettrace())
+
+    def test_default_and_false_keep_old_exact_outputs_and_never_import_observer(self):
+        import builtins
+        original_import = builtins.__import__
+        def guarded(name, *args, **kwargs):
+            if name == "public_decision_diagnostics":
+                raise AssertionError("Default/action-only path imported observer")
+            return original_import(name, *args, **kwargs)
+        for policy in (self.A, self.V7, "ebony72-initial", "ebony72-advanced-cap8-discard-v1", "fanfou-ba-composite-v1"):
+            with self.subTest(policy=policy), patch.object(builtins, "__import__", side_effect=guarded):
+                bare = worker.handle_request(self.request(policy=policy))
+                disabled = worker.handle_request(self.request(policy=policy, include=False))
+            self.assertEqual(set(bare), {"id", "action"})
+            self.assertEqual(disabled, bare)
+        for policy in (self.A, self.V7):
+            for include in (None, False):
+                with patch.object(worker, "choose_action", wraps=worker.choose_action) as choose:
+                    result = worker.handle_request(self.request(policy=policy, include=include))
+                self.assertEqual(choose.call_count, 1)
+                self.assertEqual(set(result), {"id", "action"})
+
+    def test_fresh_action_only_process_does_not_load_optional_observer(self):
+        requests = [self.request(policy=policy, include=include) for policy in (self.A, self.V7) for include in (None, False)]
+        script = (
+            "import sys,json;"
+            f"sys.path.insert(0,{str(Path(worker.__file__).parent)!r});"
+            "import worker;assert 'public_decision_diagnostics' not in sys.modules;"
+            "rows=[worker.handle_request(request) for request in json.load(sys.stdin)];"
+            "print(json.dumps({'rows':rows,'observerLoaded':'public_decision_diagnostics' in sys.modules}))"
+        )
+        result = subprocess.run([sys.executable, "-B", "-c", script], input=json.dumps(requests), text=True, capture_output=True, encoding="utf-8", timeout=20)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        output = json.loads(result.stdout)
+        self.assertFalse(output["observerLoaded"])
+        self.assertTrue(all(set(row) == {"id", "action"} for row in output["rows"]))
+        self.assertEqual(output["rows"][0], output["rows"][1])
+        self.assertEqual(output["rows"][2], output["rows"][3])
+
+    def test_include_diagnostics_requires_a_strict_boolean(self):
+        for value in (None, 0, 1, "true", "false", [], {}, 1.0):
+            request = self.request()
+            request["includeDiagnostics"] = value
+            with self.subTest(value=value), patch.object(worker, "choose_action") as choose:
+                response = worker.handle_request(request)
+            self.assertEqual(response["error"]["code"], "invalid-request")
+            self.assertEqual(set(response), {"id", "error"})
+            choose.assert_not_called()
+
+    def test_diagnostics_true_is_explicitly_unsupported_for_other_policies(self):
+        for policy in ("ebony72-initial", "ebony72-advanced-cap8-discard-v1", "fanfou-ba-composite-v1", "unknown"):
+            with self.subTest(policy=policy), patch.object(worker, "choose_action") as choose:
+                response = worker.handle_request(self.request(policy=policy, include=True))
+            self.assertEqual(response["error"]["code"], "unsupported")
+            self.assertEqual(set(response), {"id", "error"})
+            choose.assert_not_called()
+        request = self.request(include=True)
+        request.pop("policy")
+        self.assertEqual(worker.handle_request(request)["error"]["code"], "unsupported")
+
+    def test_invalid_view_history_and_unknown_fields_never_reach_observer(self):
+        import public_decision_diagnostics as observer
+        cases = []
+        for kind in ("history", "opponent", "unknown", "decision"):
+            request = self.request(include=True)
+            if kind == "history": request["view"].pop("publicActions")
+            elif kind == "opponent": request["view"]["opponents"][0]["hand"] = []
+            elif kind == "unknown": request["unexpected"] = True
+            else: request["view"]["decision"]["secret"] = []
+            cases.append((kind, request))
+        for kind, request in cases:
+            with self.subTest(kind=kind), patch.object(observer, "observe_decision") as observe, patch.object(worker, "choose_action") as choose:
+                response = worker.handle_request(request)
+            self.assertEqual(set(response), {"id", "error"})
+            self.assertEqual(response["error"]["code"], "invalid-view" if kind == "history" else "hidden-field")
+            observe.assert_not_called()
+            choose.assert_not_called()
+
+    def test_observer_and_choice_errors_never_emit_partial_diagnostics_or_retry(self):
+        import public_decision_diagnostics as observer
+        with patch.object(observer, "observe_decision", side_effect=ValueError("observer guard refused")), patch.object(worker, "choose_action") as choose:
+            result = worker.handle_request(self.request(include=True))
+        self.assertEqual(set(result), {"id", "error"})
+        self.assertIn("observer guard refused", result["error"]["message"])
+        choose.assert_not_called()
+        with patch.object(worker, "choose_action", side_effect=worker.AdapterError("upstream-error", "actual choice failed")) as choose:
+            result = worker.handle_request(self.request(include=True))
+        self.assertEqual(result["error"]["code"], "upstream-error")
+        self.assertEqual(set(result), {"id", "error"})
+        self.assertEqual(choose.call_count, 1)
+        self.assertIsNone(sys.gettrace())
+        with patch.object(observer, "_income_projection", side_effect=TypeError("capture refused")), patch.object(worker, "choose_action", wraps=worker.choose_action) as choose:
+            result = worker.handle_request(self.request(policy=self.V7, include=True))
+        self.assertEqual(set(result), {"id", "error"})
+        self.assertIn("capture refused", result["error"]["message"])
+        self.assertEqual(choose.call_count, 1)
+        self.assertIsNone(sys.gettrace())
+
+    def test_jsonl_mixes_old_and_diagnostic_responses_and_keeps_clean_EOF(self):
+        requests = [self.request(identifier="bare"), self.request(include=True, identifier="observed-A"),
+                    self.request(policy=self.V7, include=True, identifier="observed-V7"),
+                    self.request(include=False, identifier="false"), self.request(identifier="invalid")]
+        requests[-1]["includeDiagnostics"] = 1
+        payload = "".join(json.dumps(request) + "\n" for request in requests) + "not-json\n" + json.dumps(self.request(identifier="after-error")) + "\n"
+        completed = subprocess.run([sys.executable, "-B", "-u", str(Path(worker.__file__))], input=payload, text=True, capture_output=True, encoding="utf-8", timeout=20)
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        rows = [json.loads(line) for line in completed.stdout.splitlines()]
+        self.assertEqual(len(rows), 7)
+        self.assertEqual([set(row) for row in rows], [{"id", "action"}, {"id", "action", "diagnostics"}, {"id", "action", "diagnostics"}, {"id", "action"}, {"id", "error"}, {"id", "error"}, {"id", "action"}])
+        self.assertEqual(rows[4]["error"]["code"], "invalid-request")
+        self.assertEqual(rows[5]["error"]["code"], "invalid-json")
+        self.assertEqual(rows[0]["action"], rows[3]["action"])
+        self.assertEqual(rows[0]["action"], rows[6]["action"])
 
 
 if __name__ == "__main__":

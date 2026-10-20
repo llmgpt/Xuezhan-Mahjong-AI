@@ -3,6 +3,10 @@ import type { DecisionAction } from "../game/decision";
 import type { Phase } from "../game/game";
 import type { PlayerView } from "../game/view";
 import {
+  readAdvancedDiagnostics,
+  type AdvancedDiagnostics,
+} from "./advancedDiagnostics";
+import {
   assertLegalAction,
   assertPosition,
   assertPublicView,
@@ -27,12 +31,17 @@ export interface BrowserDecision extends Position {
   origin: "teacher-opening" | "teacher-actions" | "advanced-public";
   recommendationCount: 1;
   legalActionCount?: number;
+  diagnostics?: AdvancedDiagnostics;
+}
+interface AdvancedReply {
+  action: DecisionAction;
+  diagnostics?: AdvancedDiagnostics;
 }
 interface Pending extends Position {
   view: PlayerView;
   phase: Phase;
   timer: ReturnType<typeof setTimeout>;
-  resolve: (action: DecisionAction) => void;
+  resolve: (result: AdvancedReply) => void;
   reject: (error: Error) => void;
 }
 interface Transport {
@@ -187,18 +196,30 @@ export class BrowserAdvancedClient {
           data.revision !== pending.revision
         )
           return;
-        fields(data, [
+        const required = [
           "kind",
           "generation",
           "id",
           "session",
           "revision",
           "action",
-        ]);
+        ];
+        fields(data, [...required, "diagnostics"], required);
         assertLegalAction(data.action, pending.view, pending.phase);
+        const diagnostics = Object.hasOwn(data, "diagnostics")
+          ? readAdvancedDiagnostics(
+              data.diagnostics,
+              pending.view,
+              pending.phase,
+              data.action,
+            )
+          : undefined;
         clearTimeout(pending.timer);
         transport.pending.delete(data.id);
-        pending.resolve(structuredClone(data.action));
+        pending.resolve({
+          action: structuredClone(data.action),
+          ...(diagnostics ? { diagnostics } : {}),
+        });
       } catch (error) {
         this.fail(
           transport,
@@ -234,12 +255,12 @@ export class BrowserAdvancedClient {
     phase: Phase,
     position: Position,
     epoch: number,
-  ): Promise<DecisionAction> {
+  ): Promise<AdvancedReply> {
     const transport = this.getTransport();
     await transport.ready;
     if (this.epoch !== epoch || this.transport !== transport)
       throw new Error("策略结果已取消或过期");
-    return new Promise<DecisionAction>((resolve, reject) => {
+    return new Promise<AdvancedReply>((resolve, reject) => {
       const id = ++this.sequence;
       const timer = setTimeout(
         () => this.fail(transport, new Error("高级策略响应超时")),
@@ -298,13 +319,21 @@ export class BrowserAdvancedClient {
         phase === "exchange" || phase === "choose-missing"
           ? "teacher-opening"
           : "teacher-actions";
+      let diagnostics: AdvancedDiagnostics | undefined;
       const action = await chooseAdvancedComponentAction(
         snapshot,
         phase,
         context.policy === "E" ? "full" : "discard",
         async (input, decisionPhase) => {
           origin = "advanced-public";
-          return this.advanced(input, decisionPhase, context, epoch);
+          const result = await this.advanced(
+            input,
+            decisionPhase,
+            context,
+            epoch,
+          );
+          diagnostics = result.diagnostics;
+          return result.action;
         },
       );
       if (this.epoch !== epoch || this.closed)
@@ -320,6 +349,7 @@ export class BrowserAdvancedClient {
         revision: context.revision,
         recommendationCount: 1 as const,
         legalActionCount: legalActionCount(snapshot, phase),
+        ...(diagnostics ? { diagnostics } : {}),
       };
     })();
     this.cache = { key, promise };

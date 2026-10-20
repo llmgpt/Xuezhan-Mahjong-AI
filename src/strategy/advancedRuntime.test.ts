@@ -9,6 +9,8 @@ import { createGame } from "../game/game";
 import { applyDecisionAction } from "../game/decision";
 import { chooseTeacherAction } from "../game/teacher";
 import { playerView } from "../game/view";
+import type { PlayerView } from "../game/view";
+import observations from "./fixtures/observedHuDecisions.json";
 
 // Fake Pyodide/FS tests the loader and wire contract, not Python execution.
 const assets = {
@@ -16,7 +18,7 @@ const assets = {
   runtimeIndexUrl: "http://127.0.0.1/runtime/",
   payloadUrl: "http://127.0.0.1/payload.json",
 };
-async function payload() {
+async function payload(withDiagnostics = false) {
   const paths = [
     "scripts/external/worker.py",
     "scripts/external/advanced_policy.py",
@@ -26,8 +28,10 @@ async function payload() {
       (_, i) => `vendor/ebony72-advanced/fixed-${i}.py`,
     ),
   ];
+  if (withDiagnostics)
+    paths.push("scripts/external/public_decision_diagnostics.py");
   return {
-    sourceFiles: 38,
+    sourceFiles: paths.length,
     files: await Promise.all(
       paths.map(async (path) => {
         const bytes = new TextEncoder().encode("synthetic content: " + path);
@@ -51,10 +55,10 @@ function view() {
       );
   return playerView(state, 0);
 }
-async function fixture() {
+async function fixture(withDiagnostics = false) {
   const files = new Map<string, Uint8Array>(),
     globals = new Map<string, unknown>(),
-    data = await payload();
+    data = await payload(withDiagnostics);
   let result: unknown;
   const python: PythonEngine = {
     FS: {
@@ -94,6 +98,132 @@ async function fixture() {
 }
 
 describe("本地高级Python的包校验和真实调用协议（运行时在此处模拟）", () => {
+  it("39源decide从唯一一次Python请求返回动作及同次诊断，act仍不启用观察", async () => {
+    const f = await fixture(true),
+      row = observations.rows[0],
+      requests: Record<string, unknown>[] = [];
+    f.python.runPython = (source) => {
+      if (!source.includes("worker.handle_request")) return undefined;
+      const request = JSON.parse(
+        String(f.globals.get("_browser_request_json")),
+      );
+      requests.push(request);
+      return JSON.stringify({
+        id: request.id,
+        action: row.action,
+        ...(request.includeDiagnostics ? { diagnostics: row.diagnostics } : {}),
+      });
+    };
+    const runtime = await loadAdvancedRuntime(assets, f.deps),
+      input = row.view as unknown as PlayerView;
+    expect(runtime.decide(input, "respond")).toEqual({
+      action: row.action,
+      diagnostics: row.diagnostics,
+    });
+    expect(requests).toHaveLength(1);
+    expect(requests[0].includeDiagnostics).toBe(true);
+    expect(runtime.act(input, "respond")).toEqual(row.action);
+    expect(requests).toHaveLength(2);
+    expect(requests[1]).not.toHaveProperty("includeDiagnostics");
+  });
+  it("请求诊断后缺失、未知或错误数值须失败，不能只接纳动作", async () => {
+    const f = await fixture(true),
+      row = observations.rows[0];
+    let bad: unknown;
+    f.python.runPython = (source) => {
+      if (!source.includes("worker.handle_request")) return undefined;
+      const request = JSON.parse(
+        String(f.globals.get("_browser_request_json")),
+      );
+      return JSON.stringify({
+        id: request.id,
+        action: row.action,
+        ...(request.includeDiagnostics ? { diagnostics: bad } : {}),
+      });
+    };
+    const runtime = await loadAdvancedRuntime(assets, f.deps);
+    for (const value of [
+      undefined,
+      { ...row.diagnostics, opaquePlayer: {} },
+      {
+        ...row.diagnostics,
+        comparison: { ...row.diagnostics.comparison, actualUtl: null },
+      },
+    ]) {
+      bad = value;
+      expect(() =>
+        runtime.decide(row.view as unknown as PlayerView, "respond"),
+      ).toThrow();
+      expect(f.globals.has("_browser_request_json")).toBe(false);
+    }
+  });
+  it("实际Worker处理器同时回传同一次动作与诊断，并保留原位置标识", async () => {
+    const f = await fixture(true),
+      row = observations.rows[0],
+      replies: WorkerReply[] = [];
+    f.python.runPython = (source) => {
+      if (!source.includes("worker.handle_request")) return undefined;
+      const request = JSON.parse(
+        String(f.globals.get("_browser_request_json")),
+      );
+      return JSON.stringify({
+        id: request.id,
+        action: row.action,
+        ...(request.includeDiagnostics ? { diagnostics: row.diagnostics } : {}),
+      });
+    };
+    const handler = createAdvancedWorkerHandler(
+      (reply) => replies.push(reply),
+      f.deps,
+    );
+    await handler({ command: "init", generation: 4, assets });
+    await handler({
+      command: "act",
+      generation: 4,
+      id: 8,
+      session: 9,
+      revision: 3,
+      phase: "respond",
+      view: row.view,
+    });
+    expect(replies).toEqual([
+      { kind: "ready", generation: 4 },
+      {
+        kind: "action",
+        generation: 4,
+        id: 8,
+        session: 9,
+        revision: 3,
+        action: row.action,
+        diagnostics: row.diagnostics,
+      },
+    ]);
+  });
+  it("39源观察闭包可以加载，默认act仍保留action-only协议", async () => {
+    const f = await fixture(true),
+      requests: Record<string, unknown>[] = [];
+    f.python.runPython = (source) => {
+      if (!source.includes("worker.handle_request")) return undefined;
+      const request = JSON.parse(
+        String(f.globals.get("_browser_request_json")),
+      );
+      requests.push(request);
+      return JSON.stringify({
+        id: request.id,
+        action: { type: "discard", tile: request.view.legalDiscards[0] },
+      });
+    };
+    const runtime = await loadAdvancedRuntime(assets, f.deps),
+      input = view();
+    expect(runtime.act(input, "discard")).toEqual({
+      type: "discard",
+      tile: input.legalDiscards[0],
+    });
+    expect(runtime.metadata.sourceFiles).toBe(39);
+    expect(f.files.size).toBe(39);
+    expect(requests).toHaveLength(1);
+    expect(requests[0]).not.toHaveProperty("includeDiagnostics");
+  });
   it("显式本地URL、38文件逐字节校验与挂载，实际调用固定advanced-public入口", async () => {
     const f = await fixture(),
       runtime = await loadAdvancedRuntime(assets, f.deps),

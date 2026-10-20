@@ -1,0 +1,255 @@
+{
+  "pass": true,
+  "observedAtUtc": "2026-10-20T19:35:20.782Z",
+  "runtimeVersion": "314.0.7",
+  "python": "3.14.2 (main, Sep 14 2026, 03:03:51) [Clang 23.0.0git (https:/github.com/llvm/llvm-project e5927fecf8a6ce89e1a4eac5b8",
+  "traceRestored": true,
+  "optionalModulesLoaded": [],
+  "sourceFiles": 39,
+  "payloadSha256": "29b335debb5713df120d2b9ecd451f07f72870baf51cc9ef0687d56db9f313ed",
+  "fixtureSha256": "b1e4784659d5b928ab98f8b19ca03a4ba80e2e9f5ac7a57c32ee0636b1990922",
+  "durationMs": 1937.5417,
+  "actualRuntime": true,
+  "clientAndWorkerHandlerAndPresenter": true,
+  "transport": "in-process message bridge; production client and handler source, actual shipped Python payload",
+  "guiVerified": false,
+  "nativeWebWorkerVerified": false,
+  "noGameOrNewSeed": true,
+  "rows": [
+    {
+      "caseId": "e597e5944d796dc52d801937a35ad0a96d49138d6475556b26dee33158166c65",
+      "action": {
+        "type": "respond",
+        "choice": "pung"
+      },
+      "diagnostics": {
+        "version": 1,
+        "policyId": "ebony72-advanced-public-v1",
+        "publicViewHash": "234aed9232054895d1f0c229837dbd6876a045c2eb63f03e848800b3bd5cb4c1",
+        "coverage": "observed-hu-branch",
+        "branch": {
+          "function": "check_hu",
+          "functionSha256": "02b4ab62ea1c829456a5f2d3ee5f64a21dc1497fe534d09ca056c8b3ee93e1a8",
+          "returnValue": "stand",
+          "returnLine": {
+            "function": 189,
+            "source": 1008
+          },
+          "sourceFileSha256": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2"
+        },
+        "comparison": {
+          "actualUtl": 1,
+          "utlUnit": "legacy-base-score",
+          "numS": 3,
+          "wallRemaining": 27,
+          "approxRemainingDraws": 6.75,
+          "finalHeuristicWaitingFactor": 4.248681500931795,
+          "declineThreshold": 1,
+          "baseScoreThreshold": null,
+          "currentEventRatio": null,
+          "eventFactorStep": {
+            "before": 1.0365223778034522,
+            "after": 4.146089511213809,
+            "delta": 3.1095671334103567
+          },
+          "futureKongStep": {
+            "before": 4.146089511213809,
+            "after": 4.248681500931795,
+            "delta": 0.10259198971798611
+          },
+          "calibration": "heuristic-not-exact-probability"
+        },
+        "currentIncome": {
+          "status": "not-called"
+        },
+        "postHuMeldStage": "not-observed"
+      },
+      "summary": "等待比较值 4.249高于阈值 1，暂不收胡。本次最终选择碰。",
+      "reason": "本步由只读取本家手牌与公开信息的高级策略选择。当前共有 3 项合法动作，展示的是本次首选。当前可胡，本策略本次选择碰。合法响应：过、胡、碰。这些数值来自本次实际胡牌判断。原模型可成胡张数估计 3 张，余摸估计 6.75 次；这些公开信息估计不等于实际牌墙张数。当前事件修正将比较值由 1.037 调整为 4.146。继续等待估算计入未来杠机会时，比较值由 4.146 变为 4.249。仅记录了胡牌判断；后续碰、杠、过的取舍未采集。",
+      "limit": "模型比较值是启发式指标，不是胜率或精确净分；原模型基础牌型值不是本桌实际可收点数。",
+      "durationMs": 1847.1972,
+      "exactFixtureMatch": true,
+      "speechSummaryMatches": true
+    },
+    {
+      "caseId": "11c64c3ac12d147987b147d642a5f7a4e89f96858d1ba6a22a978a82dd11a935",
+      "action": {
+        "type": "respond",
+        "choice": "pass"
+      },
+      "diagnostics": {
+        "version": 1,
+        "policyId": "ebony72-advanced-public-v1",
+        "publicViewHash": "cb8c8b93ebad18bda74bdfd18427896aa2b52c78d0ef6d1099b2c94bf89772af",
+        "coverage": "observed-hu-branch",
+        "branch": {
+          "function": "check_robkong",
+          "functionSha256": "81a4a29da0758fbe93ae2dc87342f10c4738f24960117381e265a0b272c25e0e",
+          "returnValue": "stand",
+          "returnLine": {
+            "function": 30,
+            "source": 1267
+          },
+          "sourceFileSha256": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2"
+        },
+        "comparison": {
+          "actualUtl": 1,
+          "utlUnit": "legacy-base-score",
+          "numS": 3,
+          "wallRemaining": 25,
+          "approxRemainingDraws": 6.25,
+          "finalHeuristicWaitingFactor": null,
+          "declineThreshold": null,
+          "baseScoreThreshold": 1,
+          "currentEventRatio": null,
+          "eventFactorStep": null,
+          "futureKongStep": null,
+          "calibration": "heuristic-not-exact-probability"
+        },
+        "currentIncome": {
+          "status": "not-called"
+        },
+        "postHuMeldStage": "not-observed"
+      },
+      "summary": "原模型牌型值 1未高于阈值 1，其余收胡条件也未满足，暂不收胡。本次最终选择过。",
+      "reason": "本步由只读取本家手牌与公开信息的高级策略选择。当前共有 2 项合法动作，展示的是本次首选。当前可胡，本策略本次选择过。合法响应：过、胡。这些数值来自本次实际胡牌判断。原模型可成胡张数估计 3 张，余摸估计 6.25 次；这些公开信息估计不等于实际牌墙张数。仅记录了胡牌判断；后续碰、杠、过的取舍未采集。",
+      "limit": "模型比较值是启发式指标，不是胜率或精确净分；原模型基础牌型值不是本桌实际可收点数。",
+      "durationMs": 30.14650000000006,
+      "exactFixtureMatch": true,
+      "speechSummaryMatches": true
+    },
+    {
+      "caseId": "62cdfe3176ccffdf22aed0d178532df9b3cad997c0f03d1f1e9c77f4a94305a7",
+      "action": {
+        "type": "respond",
+        "choice": "pass"
+      },
+      "diagnostics": {
+        "version": 1,
+        "policyId": "ebony72-advanced-public-v1",
+        "publicViewHash": "f7ce9621fa4e0b0b657d0882cf489d9370916b7d768d5a74917000e671851d41",
+        "coverage": "observed-hu-branch",
+        "branch": {
+          "function": "check_hu",
+          "functionSha256": "02b4ab62ea1c829456a5f2d3ee5f64a21dc1497fe534d09ca056c8b3ee93e1a8",
+          "returnValue": "stand",
+          "returnLine": {
+            "function": 189,
+            "source": 1008
+          },
+          "sourceFileSha256": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2"
+        },
+        "comparison": {
+          "actualUtl": 2,
+          "utlUnit": "legacy-base-score",
+          "numS": 7,
+          "wallRemaining": 31,
+          "approxRemainingDraws": 10.333333333333334,
+          "finalHeuristicWaitingFactor": 1.838321534635477,
+          "declineThreshold": 1,
+          "baseScoreThreshold": null,
+          "currentEventRatio": null,
+          "eventFactorStep": null,
+          "futureKongStep": {
+            "before": 1.7074299030353377,
+            "after": 1.838321534635477,
+            "delta": 0.1308916316001394
+          },
+          "calibration": "heuristic-not-exact-probability"
+        },
+        "currentIncome": {
+          "status": "not-called"
+        },
+        "postHuMeldStage": "not-observed"
+      },
+      "summary": "等待比较值 1.838高于阈值 1，暂不收胡。本次最终选择过。",
+      "reason": "本步由只读取本家手牌与公开信息的高级策略选择。当前共有 2 项合法动作，展示的是本次首选。当前可胡，本策略本次选择过。合法响应：过、胡。这些数值来自本次实际胡牌判断。原模型可成胡张数估计 7 张，余摸估计 10.33 次；这些公开信息估计不等于实际牌墙张数。继续等待估算计入未来杠机会时，比较值由 1.707 变为 1.838。仅记录了胡牌判断；后续碰、杠、过的取舍未采集。",
+      "limit": "模型比较值是启发式指标，不是胜率或精确净分；原模型基础牌型值不是本桌实际可收点数。",
+      "durationMs": 26.877899999999954,
+      "exactFixtureMatch": true,
+      "speechSummaryMatches": true
+    },
+    {
+      "caseId": "26e419102cc4c066c996d7582673057d0c05909d71ae23d0120a6874346b065e",
+      "action": {
+        "type": "respond",
+        "choice": "hu"
+      },
+      "diagnostics": {
+        "version": 1,
+        "policyId": "ebony72-advanced-public-v1",
+        "publicViewHash": "26e419102cc4c066c996d7582673057d0c05909d71ae23d0120a6874346b065e",
+        "coverage": "observed-hu-branch",
+        "branch": {
+          "function": "check_hu",
+          "functionSha256": "02b4ab62ea1c829456a5f2d3ee5f64a21dc1497fe534d09ca056c8b3ee93e1a8",
+          "returnValue": "hu",
+          "returnLine": {
+            "function": 191,
+            "source": 1010
+          },
+          "sourceFileSha256": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2"
+        },
+        "comparison": {
+          "actualUtl": 1,
+          "utlUnit": "legacy-base-score",
+          "numS": 1,
+          "wallRemaining": 37,
+          "approxRemainingDraws": 9.25,
+          "finalHeuristicWaitingFactor": 0.4735396389550392,
+          "declineThreshold": 1,
+          "baseScoreThreshold": null,
+          "currentEventRatio": null,
+          "eventFactorStep": null,
+          "futureKongStep": {
+            "before": 0.2994182938774641,
+            "after": 0.4735396389550392,
+            "delta": 0.1741213450775751
+          },
+          "calibration": "heuristic-not-exact-probability"
+        },
+        "currentIncome": {
+          "status": "not-called"
+        },
+        "postHuMeldStage": "not-run"
+      },
+      "summary": "等待比较值 0.4735不高于阈值 1，本次收胡。",
+      "reason": "本步由只读取本家手牌与公开信息的高级策略选择。当前共有 2 项合法动作，展示的是本次首选。当前可胡，本策略本次选择胡。合法响应：过、胡。这些数值来自本次实际胡牌判断。原模型可成胡张数估计 1 张，余摸估计 9.25 次；这些公开信息估计不等于实际牌墙张数。继续等待估算计入未来杠机会时，比较值由 0.2994 变为 0.4735。",
+      "limit": "模型比较值是启发式指标，不是胜率或精确净分；原模型基础牌型值不是本桌实际可收点数。",
+      "durationMs": 29.386399999999867,
+      "exactFixtureMatch": true,
+      "speechSummaryMatches": true
+    }
+  ],
+  "testEvidence": {
+    "npmRunCheck": {
+      "actualExitCode": 0,
+      "typescriptFiles": 49,
+      "typescriptTests": 462,
+      "formatLintTypecheckBuild": true,
+      "logSha256": "50f448560672a2fb52a4e439eda678e030c36efa6987434653f4a01544e11045"
+    },
+    "pythonUnittest": {
+      "actualExitCode": 0,
+      "tests": 157,
+      "elapsedSeconds": 44.528,
+      "toolTerminalChunk": "632578"
+    },
+    "focusedTypescript": {
+      "actualExitCode": 0,
+      "files": 5,
+      "tests": 74,
+      "toolTerminalChunk": "520017"
+    }
+  },
+  "browserControlAttempt": {
+    "attempts": 2,
+    "outcome": "trusted Node process exited unexpectedly; kernel reset, rerun your request",
+    "guiVerifiedThisRound": false
+  },
+  "probeSources": {
+    "local/strength-goal-20261018/v7-resume-20261021/production-diagnostics-runtime.ts": "0a5da4e196679ac6fa8dfe070c603fb0fef0b4fb25c1c28017c1471fb8260893",
+    "local/strength-goal-20261018/v7-resume-20261021/production-diagnostics-runtime.mjs": "bd19195a36c2c308d2a5d5be145a0491e2b61b02f0e0f43f41ed178b70d4fec4",
+    "local/strength-goal-20261018/v7-resume-20261021/production-diagnostics-runtime-metafile.json": "80269e4d1dc1799f4528384ee77239f49510cd2cd8dc0fbcdca5e77364363c03"
+  }
+}

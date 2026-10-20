@@ -4,7 +4,8 @@
   "files": {
     "scripts/external/advanced_policy.py": "2136a336b73bf3593b9874d3602234067f444e650af00943e11056bd0d8b5431",
     "scripts/external/public_history_validation.py": "6dfb9bce71fd9cc7ecf878e2d3cb25f466c450db5417214e71ae4794fbabf328",
-    "scripts/external/worker.py": "2ff9d80566a8375fe2ea5a6f42162eabc43b0b9291232fd0fb13e480042901fb",
+    "scripts/external/public_decision_diagnostics.py": "cbdb8d0f2e8a155967c42cb86bdd57104b7f6b1802091a889da914c5560bca07",
+    "scripts/external/worker.py": "30108283c36fa5ef90c4256660bc15236ff6a403ad6c8227102fd825bc64682b",
     "vendor/ebony72-advanced/.gitattributes": "dbf3b6370c340788f04d61a0191f28774b6765a319f46d9565fbe19538a0308a",
     "vendor/ebony72-advanced/PUBLIC_ONLY.patch": "a557c222d42db4837ae0ba5ab708705c533b9e0d0c73555984ed1ea098f32407",
     "vendor/ebony72-advanced/UPSTREAM.json": "c0da2c0109aa701b42a0181c16e3acf5149c1f8e3ec47e3d0794ad5790cc6e12",

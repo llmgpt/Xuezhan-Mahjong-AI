@@ -381,11 +381,16 @@ def handle_request(request: Any) -> dict:
     if type(identifier) not in (str, int):
         identifier = None
     try:
-        fields(request, {"id", "phase", "view", "policy"}, {"id", "phase", "view"}, "request")
+        fields(request, {"id", "phase", "view", "policy", "includeDiagnostics"}, {"id", "phase", "view"}, "request")
         if type(request["id"]) not in (str, int) or not isinstance(request["phase"], str):
             raise AdapterError("invalid-request", "id must be a string/integer and phase must be a string")
+        include_diagnostics = request.get("includeDiagnostics", False)
+        if type(include_diagnostics) is not bool:
+            raise AdapterError("invalid-request", "includeDiagnostics must be a boolean")
         context = build_context(request["view"])
         policy_id = request.get("policy", "ebony72-initial")
+        if include_diagnostics and policy_id not in ("ebony72-advanced-public-v1", "ebony72-advanced-current-income-v1"):
+            raise AdapterError("unsupported", "Diagnostics require the advanced-public or current-income policy")
         if policy_id == "ebony72-initial":
             action = choose_action(request["phase"], request["view"], context)
         elif policy_id == "fanfou-ba-composite-v1":
@@ -412,6 +417,10 @@ def handle_request(request: Any) -> dict:
                     policy = advanced_policy.load_policy()
             except ValueError as error:
                 raise AdapterError("provenance-error", str(error)) from error
+            if include_diagnostics:
+                from public_decision_diagnostics import observe_decision
+                observed = observe_decision(sys.modules[__name__], request["phase"], request["view"], context, policy, policy_id)
+                return {"id": identifier, "action": observed["action"], "diagnostics": observed["diagnostics"]}
             action = choose_action(request["phase"], request["view"], context, policy, advanced=True)
         else:
             raise AdapterError("unsupported", f"Unknown external policy: {policy_id}")

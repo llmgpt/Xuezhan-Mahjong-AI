@@ -1,0 +1,25 @@
+# 实际胡牌判断的分支解释
+
+浏览器实验 E 的合法胡响应现在可以随同一次实际选择传回分支与阈值，推荐文字和推荐动作的语音适配复用同一个结果。例如原策略在一个既有杠后炮局面计算等待比较值约 4.249，高于阈值 1，先拒胡，随后最终选择碰；说明分别呈现这两件事，碰牌收益没有被采集或补算。另一个已有公开局面的比较值约 0.4735，不高于阈值 1，实际收胡。
+
+这只增加可检查的决策依据，没有更改 E/D、原高级策略或默认老师的选择规则。V7 仍只用于离线评测，不因这项解释功能进入默认产品。
+
+## 覆盖范围与边界
+
+- 只有原高级策略 A 实际执行的 `check_hu` / `check_robkong` 提供具体分支；D 的响应走老师，原 A 的弃牌和后续碰杠取舍均不声称已观察。
+- Python 在严格公开 view/context 之后启用固定函数帧观察，只调用一次 `choose_action`。结果带实际返回行、来源摘要、阈值、比较值和已发生的事件/未来杠估计修正。观察失败直接报错，不另选动作或补借其他策略解释。
+- 原 A 没有调用 V1 当前收益 helper，故当前收入标为 `not-called`。基础牌型值和等待因子都是原模型的启发式量，不是本桌精确可收点数、净分或胜率。
+- TS 对来源、返回行、动作、比较方向和有限数值做严格校验；请求 ID、generation、session、revision 绑定消息位置。`publicViewHash` 是 Python 对输入的摘要，浏览器只校验其格式，不据此宣称浏览器独立验源。
+- 39 源闭包只比旧 38 源增加实际观察模块；保留旧 38 源载荷兼容路径。构建验证固定字节及许可证。源码/精选 code/globals 检查不是整个解释器的防篡改认证。
+
+## 验证
+
+最终源码的 `npm run check` 完整退出 0：49 文件、462 项 TS 测试，格式、lint、类型与生产构建通过。完整 Python unittest 157 项通过；其中 263 个既有公开帧分别验证 A/V7 观察前后动作一致、A→V7→A 隔离、输入和 tracer 恢复。它们是固定局面的正确性检查，不是独立强度样本。
+
+原始实现保留了先 RED 后 GREEN 的实据：Python 透传 stub 在两个真实目标帧的四个子断言失败，随后才实现分支捕获；后续还有异常恢复和 CPython 3.14 slice 常量的独立失败回归。原始记录在 `local/strength-goal-20261018/public-decision-diagnostics-implementation/`。本轮接续完成了格式、完整检查和生产闭包联调，没有把这些历史 RED 冒称本轮新写的策略失败测试。
+
+本轮使用实际生产 39 源 payload、Pyodide 314.0.7 / CPython 3.14.2，通过生产 `BrowserAdvancedClient` → `createAdvancedWorkerHandler` → Python → 推荐文字/语音适配，运行四个既有公开帧。四个动作和全部诊断字段逐项精确匹配固定 fixture；三个拒胡、一个收胡，包括拒胡后碰牌。没有额外策略模块导入，输入与 tracer 保持。总计约 1.94 秒；首次含运行时加载约 1.85 秒，其余三个响应约 27–30 毫秒。这只是本机四个固定节点，不是增量开销、时延分布或浏览器性能承诺。
+
+证据及精确摘要见 [运行时联调记录](benchmarks/advanced-diagnostics-runtime.json)。消息传输使用 Node 进程内桥，Python 是真实运行时和最终生产载荷。浏览器控制工具两次初始化失败，因此本轮没有验证原生 Web Worker、真实 GUI 显示或实际听感；已有旧浏览器整局记录只代表各自快照。后续仍需补当前 UI 运行与未覆盖分支。
+
+复跑完整基础检查：`npm run check` 和 `python -B -m unittest discover -s scripts/external -p 'test_*.py'`。本轮运行时探针在 `local/strength-goal-20261018/v7-resume-20261021/production-diagnostics-runtime.{ts,mjs}`。

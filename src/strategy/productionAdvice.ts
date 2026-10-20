@@ -11,6 +11,10 @@ import { labelOf, suitOf } from "../game/tiles";
 import type { PlayerView } from "../game/view";
 import type { BrowserDecision } from "./advancedClient";
 import { assertLegalAction, legalActionCount } from "./advancedProtocol";
+import {
+  explainAdvancedDiagnostics,
+  readAdvancedDiagnostics,
+} from "./advancedDiagnostics";
 
 export interface ProductionPresentation {
   action: DecisionAction;
@@ -69,6 +73,8 @@ export function presentBrowserDecision(
 ): ProductionPresentation {
   assertLegalAction(result.action, view, result.phase);
   if (result.origin !== "advanced-public") {
+    if (Object.hasOwn(result, "diagnostics"))
+      throw new Error("老师来源不能附带其他策略的分支诊断");
     const teacher = teacherPresentation(view, result.phase);
     if (!teacher || key(teacher.action) !== key(result.action))
       throw new Error("老师来源与实际老师首选不一致");
@@ -76,6 +82,10 @@ export function presentBrowserDecision(
   }
   const action = structuredClone(result.action),
     name = label(action);
+  const diagnostics = Object.hasOwn(result, "diagnostics")
+    ? readAdvancedDiagnostics(result.diagnostics, view, result.phase, action)
+    : undefined;
+  const observed = diagnostics && explainAdvancedDiagnostics(diagnostics);
   const count = legalActionCount(view, result.phase);
   const facts = [
     "本步由只读取本家手牌与公开信息的高级策略选择。",
@@ -101,12 +111,22 @@ export function presentBrowserDecision(
       `合法响应：${view.decision.choices.map((choice) => label({ type: "respond", choice })).join("、")}。`,
     );
   }
+  if (observed) {
+    summary =
+      observed.summary +
+      (diagnostics?.branch?.returnValue === "stand"
+        ? `本次最终选择${name}。`
+        : "");
+    facts.push(...observed.details);
+  }
   const choice: DecisionChoice = {
     action,
     label: name,
     summary,
     reason: facts.join(""),
-    limit: "当前展示动作出处与规则事实；具体内部评分和分支理由尚未提供。",
+    limit:
+      observed?.limit ??
+      "当前展示动作出处与规则事实；具体内部评分和分支理由尚未提供。",
   };
   return {
     action,
