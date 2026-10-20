@@ -1,0 +1,4 @@
+* -text
+# Preserve the exact upstream notice text, including its original spaces.
+THIRD_PARTY_NOTICES.txt -whitespace
+UPSTREAM.json text eol=lf

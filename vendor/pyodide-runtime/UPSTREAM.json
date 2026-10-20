@@ -1,0 +1,57 @@
+{
+  "version": "314.0.7",
+  "repository": "https://github.com/pyodide/pyodide",
+  "commit": "b1e4fcc2488962f6360a97f19b9982d6fdb5d16f",
+  "sourceUrl": "https://github.com/pyodide/pyodide/tree/b1e4fcc2488962f6360a97f19b9982d6fdb5d16f",
+  "archiveUrl": "https://registry.npmjs.org/pyodide/-/pyodide-314.0.7.tgz",
+  "archiveIntegrity": "sha512-0YvXxEhfEdpLfb/XkM2BFAeMROq0iMUX2bzzH9pOttyMcWkwq+HbE5uyuGD82LN7y2q+SNvi/6V5JEsOlD2R1A==",
+  "archiveSha256": "66b7949e5a0cba2250b586d7e368bf12fb482800748d182c4618254b685ffaa0",
+  "license": "MPL-2.0",
+  "licenseSha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+  "cpython": {
+    "version": "3.14.2",
+    "commit": "df793163d5821791d4e7caf88885a2c11a107986",
+    "sourceUrl": "https://github.com/python/cpython/tree/df793163d5821791d4e7caf88885a2c11a107986",
+    "licenseUrl": "https://raw.githubusercontent.com/python/cpython/df793163d5821791d4e7caf88885a2c11a107986/LICENSE",
+    "licenseSha256": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231",
+    "scope": "Pyodide builds the CPython 3.14.2 release archive with its own patches; this is the upstream CPython license, not a reproducible rebuild claim."
+  },
+  "additionalNotices": {
+    "THIRD_PARTY_NOTICES.txt": "0fc6377ddeec3f325d5e327388196af286b930b5a4ab41bb66b09c9961239a15",
+    "THIRD_PARTY_SOURCES.json": "65069bf10ba5ee3fe56bc1c34ce178cac62f85c61c1fc29734dd8aaa11c8e4f0"
+  },
+  "files": {
+    "package.json": {
+      "sha256": "40ca48e43ce4ddc68412d5b7a7ca9e2477cd4f0e672277ae468ac2245717079b",
+      "bytes": 2999
+    },
+    "README.md": {
+      "sha256": "7d434f487a81a9ea4944000fbbb5a771da89ca32fd1ff5edca0c5954b90cedec",
+      "bytes": 1867
+    },
+    "pyodide-lock.json": {
+      "sha256": "5dc2fc119108bc148c7457dc86e7675b5c87e1cafd420b9c34c1eaef7b36c010",
+      "bytes": 119077
+    },
+    "pyodide.mjs": {
+      "sha256": "6f1d60f7bf529beb300f0f47983c921d3982363640ba20af0e38efdddbc66109",
+      "bytes": 17931
+    },
+    "pyodide.mjs.map": {
+      "sha256": "0d97147b5f205398c614021ca450d1d95b87cdf8abd1b9ab4fc86c4169f88c36",
+      "bytes": 84911
+    },
+    "pyodide.asm.mjs": {
+      "sha256": "f7cdc8ece80678ceb712f8e65ebe6d3a83203a180c399865f49612a051693635",
+      "bytes": 1250344
+    },
+    "pyodide.asm.wasm": {
+      "sha256": "cc36e3cab04fdfc9a63ff13eb52eae2b911bf46c025cc7b281f394bd3de1d5e6",
+      "bytes": 9598218
+    },
+    "python_stdlib.zip": {
+      "sha256": "fa1957e5777068fc4f7437f96d860ae2fbe9c19732ba06c84e004ec16dd7dd7a",
+      "bytes": 2545637
+    }
+  }
+}

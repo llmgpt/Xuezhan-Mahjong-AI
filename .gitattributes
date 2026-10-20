@@ -1,2 +1,7 @@
 docs/benchmarks/*.jsonl text eol=lf
 docs/benchmarks/*.json text eol=lf
+# Browser payload metadata hashes include their declared checkout line endings.
+vendor/ebony72-advanced/.gitattributes text eol=crlf
+vendor/ebony72-advanced/UPSTREAM.json text eol=crlf
+vendor/ebony72-mahjong/.gitattributes text eol=lf
+vendor/ebony72-mahjong/UPSTREAM.json text eol=crlf

@@ -1,0 +1,256 @@
+{
+  "version": 1,
+  "runtime": {
+    "package": "pyodide",
+    "version": "314.0.7",
+    "pyodideCommit": "b1e4fcc2488962f6360a97f19b9982d6fdb5d16f",
+    "cpythonVersion": "3.14.2",
+    "cpythonOfficialTagCommit": "df793163d5821791d4e7caf88885a2c11a107986",
+    "emscriptenVersion": "5.0.3"
+  },
+  "noticeBundle": {
+    "file": "THIRD_PARTY_NOTICES.txt",
+    "sha256": "0fc6377ddeec3f325d5e327388196af286b930b5a4ab41bb66b09c9961239a15",
+    "bytes": 45470
+  },
+  "separateLicenseFiles": ["LICENSE-MPL-2.0.txt", "LICENSE-CPython-3.14.2.txt"],
+  "buildSources": [
+    {
+      "url": "https://raw.githubusercontent.com/pyodide/pyodide/b1e4fcc2488962f6360a97f19b9982d6fdb5d16f/Makefile.envs",
+      "sha256": "d257f9fdeca74f68791b1a37ef6b0a3c07dea523e5c9ee79826c399cb5516eb3"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/pyodide/pyodide/b1e4fcc2488962f6360a97f19b9982d6fdb5d16f/cpython/Makefile",
+      "sha256": "fbeeebe3363fa9da54b6908c903a16bbf736af65647a9fbfe277c8e40eb785bf"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/pyodide/pyodide/b1e4fcc2488962f6360a97f19b9982d6fdb5d16f/cpython/Setup.local",
+      "sha256": "7fbbb0efe5497765122230c24ebc95861973bb985116f89705b6ff51cfcffa4c"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/emscripten-core/emscripten/5.0.3/tools/ports/bzip2.py",
+      "sha256": "8202632f46e4315ac192ac65cf2c536d181cccba365bfa6ae65715bada2d581b"
+    }
+  ],
+  "scope": "Identified bundled runtime components and incorporated Emscripten runtime notices. Complete original notice texts for the listed entries, not a whole-toolchain legal certification.",
+  "limits": [
+    "No reproducible binary build or object-level attribution was performed.",
+    "The CPython official tag commit identifies the license source; Pyodide itself builds a python.org release archive plus Pyodide patches.",
+    "No independent per-object reconciliation of LLVM libc++/compiler-rt, LZ4, all generated-code headers or other toolchain components was performed.",
+    "The HACL entry preserves the complete common MIT header in the fixed CPython source, not an audit of every upstream generated source file.",
+    "Optional Python wheels listed in pyodide-lock.json are not asserted to be bundled or loaded by this application.",
+    "No game or strategy was executed to produce these notices; only a separate local runtime/stdlib presence probe was used."
+  ],
+  "components": [
+    {
+      "component": "libffi",
+      "version": "f08493d249d2067c8b3207ba46693dd858f95db3",
+      "licenseDescription": "MIT",
+      "scope": "runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/libffi/libffi/f08493d249d2067c8b3207ba46693dd858f95db3/LICENSE",
+      "sourceSha256": "2c9c2acb9743e6b007b91350475308aee44691d96aa20eacef8e199988c8c388",
+      "sourceBytes": 1132,
+      "extraction": {
+        "kind": "complete original file"
+      },
+      "noticeSha256": "2c9c2acb9743e6b007b91350475308aee44691d96aa20eacef8e199988c8c388",
+      "noticeBytes": 1132,
+      "bundleByteStart": 1579,
+      "bundleByteEndExclusive": 2711,
+      "presenceEvidence": "Pyodide cpython/Makefile pins this commit and links libffi; actual runtime has builtin _ctypes."
+    },
+    {
+      "component": "hiwire",
+      "version": "6a1e67280a15d929ebeceee54a6358c9c8d5f697",
+      "licenseDescription": "MPL-2.0",
+      "scope": "runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/pyodide/hiwire/6a1e67280a15d929ebeceee54a6358c9c8d5f697/LICENSE",
+      "sourceSha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+      "sourceBytes": 16725,
+      "extraction": {
+        "kind": "complete original file"
+      },
+      "noticeSha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+      "noticeBytes": 16725,
+      "bundleByteStart": 3035,
+      "bundleByteEndExclusive": 19760,
+      "presenceEvidence": "Pyodide cpython/Makefile pins this commit; Makefile.envs links -lhiwire. Its complete license bytes equal the separately supplied Pyodide MPL text."
+    },
+    {
+      "component": "Zstandard",
+      "version": "1.5.7",
+      "licenseDescription": "BSD-3-Clause",
+      "scope": "runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/python/cpython-source-deps/zstd-1.5.7/LICENSE",
+      "sourceSha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8",
+      "sourceBytes": 1549,
+      "extraction": {
+        "kind": "complete original file"
+      },
+      "noticeSha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8",
+      "noticeBytes": 1549,
+      "bundleByteStart": 20034,
+      "bundleByteEndExclusive": 21583,
+      "presenceEvidence": "Actual builtin _zstd.zstd_version is 1.5.7; Pyodide cpython/Makefile uses cpython-source-deps tag zstd-1.5.7."
+    },
+    {
+      "component": "Expat",
+      "version": "2.7.3",
+      "licenseDescription": "MIT",
+      "scope": "runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_7_3/expat/COPYING",
+      "sourceSha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87",
+      "sourceBytes": 1144,
+      "extraction": {
+        "kind": "complete original file"
+      },
+      "noticeSha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87",
+      "noticeBytes": 1144,
+      "bundleByteStart": 21847,
+      "bundleByteEndExclusive": 22991,
+      "presenceEvidence": "Actual builtin pyexpat.EXPAT_VERSION is expat_2.7.3; parser creation succeeds. Notice obtained from matching upstream release."
+    },
+    {
+      "component": "mpdecimal",
+      "version": "2.5.1",
+      "licenseDescription": "BSD-2-Clause",
+      "scope": "runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/python/cpython/df793163d5821791d4e7caf88885a2c11a107986/Modules/_decimal/libmpdec/basearith.c",
+      "sourceSha256": "ad498362c31a5b99ab19fce320ac540cf14c5c4ec09478f0ad3858da1428113d",
+      "sourceBytes": 17006,
+      "extraction": {
+        "kind": "complete initial C block comment",
+        "sourceByteStart": 0,
+        "sourceByteEndExclusive": 1358
+      },
+      "noticeSha256": "e5217e08225fee5ea0c5b9dbbd0907a4f6bed878c806d1ded65482489f3865ad",
+      "noticeBytes": 1358,
+      "bundleByteStart": 23313,
+      "bundleByteEndExclusive": 24671,
+      "presenceEvidence": "Actual builtin _decimal.__libmpdec_version__ is 2.5.1. Complete license comment retained from CPython fixed-tag vendored source."
+    },
+    {
+      "component": "HACL*",
+      "version": "vendored in CPython 3.14.2",
+      "licenseDescription": "MIT",
+      "scope": "runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/python/cpython/df793163d5821791d4e7caf88885a2c11a107986/Modules/_hacl/Hacl_Hash_MD5.c",
+      "sourceSha256": "5b91ed0339074e2e546119833398e2cdb7190c33a59c405bf43b2417c789547d",
+      "sourceBytes": 40719,
+      "extraction": {
+        "kind": "complete initial C block comment",
+        "sourceByteStart": 0,
+        "sourceByteEndExclusive": 1206
+      },
+      "noticeSha256": "912ad428ca5f4b181100446204776c71c53552a265e13413d769ef6671204993",
+      "noticeBytes": 1206,
+      "bundleByteStart": 25002,
+      "bundleByteEndExclusive": 26208,
+      "presenceEvidence": "Pyodide Setup.local explicitly compiles HACL hash/HMAC C files. Actual runtime hash/HMAC calls succeed. This is the complete common license comment in the fixed CPython MD5 source; not a separate audit of every upstream generated file."
+    },
+    {
+      "component": "zlib",
+      "version": "1.3.1",
+      "licenseDescription": "Zlib",
+      "scope": "runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/madler/zlib/v1.3.1/zlib.h",
+      "sourceSha256": "8a5579af72ea4f427ff00a4150f0ccb3fc5c1e4379f726e101133b1ab9fc600c",
+      "sourceBytes": 96829,
+      "extraction": {
+        "kind": "complete initial C block comment",
+        "sourceByteStart": 0,
+        "sourceByteEndExclusive": 1327
+      },
+      "noticeSha256": "fbab901f75feb30106921191b00a52ed14fb439e49ad0e42bc7b329438c34d24",
+      "noticeBytes": 1327,
+      "bundleByteStart": 26457,
+      "bundleByteEndExclusive": 27784,
+      "presenceEvidence": "Actual zlib.ZLIB_RUNTIME_VERSION is 1.3.1 and compression roundtrip succeeds. Complete original first comment includes all license terms."
+    },
+    {
+      "component": "bzip2/libbzip2",
+      "version": "1.0.6",
+      "licenseDescription": "bzip2-1.0.6",
+      "scope": "runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/emscripten-ports/bzip2/1.0.6/LICENSE",
+      "sourceSha256": "4919cfb14a73cd64fcef67b107613970cf1659a09aa675dba31314f373bc7204",
+      "sourceBytes": 1901,
+      "extraction": {
+        "kind": "complete original file"
+      },
+      "noticeSha256": "4919cfb14a73cd64fcef67b107613970cf1659a09aa675dba31314f373bc7204",
+      "noticeBytes": 1901,
+      "bundleByteStart": 28054,
+      "bundleByteEndExclusive": 29955,
+      "presenceEvidence": "Emscripten 5.0.3 tools/ports/bzip2.py pins 1.0.6 and SHA512 of the emscripten-ports archive; actual builtin bz2 roundtrip succeeds. Runtime did not expose the version. Do not substitute the unrelated 1.0.8 license."
+    },
+    {
+      "component": "XZ liblzma",
+      "version": "5.2.2",
+      "licenseDescription": "Public domain declaration for liblzma; see original COPYING",
+      "scope": "runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/xz-mirror/xz/v5.2.2/COPYING",
+      "sourceSha256": "c4f8e14fafe458d84808a4cd8b69f94673ebe2bf8fc992291629a69ac12218f8",
+      "sourceBytes": 2774,
+      "extraction": {
+        "kind": "complete original file"
+      },
+      "noticeSha256": "c4f8e14fafe458d84808a4cd8b69f94673ebe2bf8fc992291629a69ac12218f8",
+      "noticeBytes": 2774,
+      "bundleByteStart": 30212,
+      "bundleByteEndExclusive": 32986,
+      "presenceEvidence": "Pyodide cpython/Makefile pins xz-5.2.2 archive and builds liblzma with command-line tools/scripts disabled. Actual lzma roundtrip succeeds. Included COPYING distinguishes public-domain library from GPL/LGPL tools, which are not asserted to be shipped."
+    },
+    {
+      "component": "SQLite",
+      "version": "3.39.0",
+      "licenseDescription": "Public domain declaration",
+      "scope": "runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/sqlite/sqlite/version-3.39.0/LICENSE.md",
+      "sourceSha256": "9c6479123f32a1ed50d9a0af203dfe8972e65035b0cdeef436b5f8d0924517fe",
+      "sourceBytes": 263,
+      "extraction": {
+        "kind": "complete original file"
+      },
+      "noticeSha256": "9c6479123f32a1ed50d9a0af203dfe8972e65035b0cdeef436b5f8d0924517fe",
+      "noticeBytes": 263,
+      "bundleByteStart": 33253,
+      "bundleByteEndExclusive": 33516,
+      "presenceEvidence": "Actual sqlite3.sqlite_version is 3.39.0; matching Pyodide source archive is sqlite-autoconf-3390000. Complete original release LICENSE.md retained."
+    },
+    {
+      "component": "Emscripten",
+      "version": "5.0.3",
+      "licenseDescription": "MIT OR NCSA, with original Node.js notice",
+      "scope": "incorporated-toolchain-runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/emscripten-core/emscripten/5.0.3/LICENSE",
+      "sourceSha256": "620a78084fc7ca97c0b5dea9abf891f3ffcadfdbf305276f099c9c4e12fc1d86",
+      "sourceBytes": 5093,
+      "extraction": {
+        "kind": "complete original file"
+      },
+      "noticeSha256": "620a78084fc7ca97c0b5dea9abf891f3ffcadfdbf305276f099c9c4e12fc1d86",
+      "noticeBytes": 5093,
+      "bundleByteStart": 33810,
+      "bundleByteEndExclusive": 38903,
+      "presenceEvidence": "Pyodide Makefile.envs pins Emscripten 5.0.3. Includes complete upstream license text and its Node.js portion; does not claim the compiler executable itself is distributed."
+    },
+    {
+      "component": "musl vendored by Emscripten",
+      "version": "Emscripten 5.0.3 vendored snapshot",
+      "licenseDescription": "MIT and supplemental copyright notices in original COPYRIGHT",
+      "scope": "incorporated-toolchain-runtime",
+      "sourceUrl": "https://raw.githubusercontent.com/emscripten-core/emscripten/5.0.3/system/lib/libc/musl/COPYRIGHT",
+      "sourceSha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af",
+      "sourceBytes": 6204,
+      "extraction": {
+        "kind": "complete original file"
+      },
+      "noticeSha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af",
+      "noticeBytes": 6204,
+      "bundleByteStart": 39266,
+      "bundleByteEndExclusive": 45470,
+      "presenceEvidence": "Fixed Emscripten 5.0.3 source contains this full libc copyright inventory. Included for libc portions incorporated in the WASM runtime; no binary object-level attribution was performed."
+    }
+  ]
+}
