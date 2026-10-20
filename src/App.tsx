@@ -10,12 +10,7 @@ import { AdviceCoach } from "./components/AdviceCoach";
 import { GameDialog } from "./components/GameDialog";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
-import { setupAdvice } from "./components/setupAdvice";
 import { actionKey } from "./game/actionAdvice";
-import {
-  recommendTeacherDiscards,
-  recommendTeacherActions,
-} from "./game/teacher";
 import { completeExchange, completeMissing } from "./game/demo";
 import {
   countTiles,
@@ -27,12 +22,7 @@ import {
   type ResponseChoice,
 } from "./game/game";
 import { advanceToHuman, type PlayerAction } from "./game/session";
-import {
-  applyDecisionAction,
-  chooseAutoplayAction,
-  describeDecision,
-  type DecisionAction,
-} from "./game/decision";
+import { applyDecisionAction, type DecisionAction } from "./game/decision";
 import { labelOf, suitOf, type Suit, type Tile } from "./game/tiles";
 import { playerView } from "./game/view";
 import {
@@ -48,6 +38,12 @@ import {
   stopAnnouncements,
 } from "./sound";
 import { newGameSeed } from "./newGameSeed";
+import type { AdvancedAssets, Position } from "./strategy/advancedProtocol";
+import { explainProductionAction } from "./strategy/productionAdvice";
+import {
+  useProductionAdvice,
+  type ProductionStrategyMode,
+} from "./strategy/useProductionAdvice";
 import "./style.css";
 
 const suits: { key: Suit; label: string; tile: Tile }[] = [
@@ -70,7 +66,6 @@ const responseLabels: Record<ResponseChoice, string> = {
   kong: "杠",
 };
 const names = ["你", "阿川", "小满", "老茶客"];
-const initialSeed = newGameSeed();
 
 function ActionButton({
   action,
@@ -194,12 +189,35 @@ function Opponent({
   );
 }
 
-function App() {
-  const [seedText, setSeedText] = useState(String(initialSeed));
-  const [game, setGame] = useState(() => createGame(initialSeed));
+export interface AppProps {
+  strategyMode?: ProductionStrategyMode;
+  strategyAssets?: AdvancedAssets;
+  initialSeed?: number;
+}
+function App({
+  strategyMode = "teacher",
+  strategyAssets,
+  initialSeed,
+}: AppProps = {}) {
+  const [startingSeed] = useState(() => initialSeed ?? newGameSeed());
+  const [seedText, setSeedText] = useState(String(startingSeed));
+  const [game, setGame] = useState(() => createGame(startingSeed));
   const [selected, setSelected] = useState<number[]>([]);
   const [notice, setNotice] = useState("选择同一花色的三张牌，顺时针交换。");
   const [autoPlay, setAutoPlay] = useState(false);
+  const autoEnabled = useRef(false);
+  const [position, setPosition] = useState<Position>({
+    session: 0,
+    revision: 0,
+  });
+  const livePosition = useRef(position);
+  livePosition.current = position;
+  const liveGame = useRef(game);
+  liveGame.current = game;
+  const pauseAuto = useCallback(() => {
+    autoEnabled.current = false;
+    setAutoPlay(false);
+  }, []);
   const [autoDelay, setAutoDelay] = useState(3000);
   const [soundEnabled, setSoundEnabled] = useState(() => {
     try {
@@ -222,27 +240,28 @@ function App() {
     .map((tile, index) => ({ tile, index }))
     .sort((a, b) => a.tile - b.tile || a.index - b.index);
   const view = useMemo(() => playerView(game, 0), [game]);
-  const openingChoices = useMemo(
-    () => setupAdvice(view, game.phase),
-    [view, game.phase],
+  const strategy = useProductionAdvice(
+    view,
+    game.phase,
+    strategyMode,
+    strategyAssets,
+    position,
   );
   const legal = useMemo(() => new Set(view.legalDiscards), [view]);
-  const advice = useMemo(
-    () =>
-      game.phase === "discard" && game.turn === 0
-        ? recommendTeacherDiscards(view)
-        : [],
-    [game.phase, game.turn, view],
-  );
   const selfActions = legalSelfActions(game, 0);
-  const actionAdvice = useMemo(() => recommendTeacherActions(view), [view]);
-  const suggestedAction = actionAdvice[0]?.action;
-  const suggestedKey = suggestedAction && actionKey(suggestedAction);
-  const suggestedDiscard = actionAdvice.length
-    ? suggestedAction?.type === "discard"
-      ? suggestedAction.tile
-      : undefined
-    : advice[0]?.tile;
+  const recommendation =
+    strategy.current.status === "ready"
+      ? strategy.current.presentation
+      : undefined;
+  const suggestedAction = recommendation?.action;
+  const suggestedKey =
+    suggestedAction &&
+    suggestedAction.type !== "exchange" &&
+    suggestedAction.type !== "missing"
+      ? actionKey(suggestedAction)
+      : undefined;
+  const suggestedDiscard =
+    suggestedAction?.type === "discard" ? suggestedAction.tile : undefined;
   const responses = legalResponses(game, 0);
   const exchangeTiles = selected.map((index) => hand[index]);
   const validExchange =
@@ -255,11 +274,23 @@ function App() {
     : game.lastDiscard;
 
   const commitHuman = useCallback(
-    (action: DecisionAction) => {
+    (action: DecisionAction, expectedKey?: string) => {
+      if (
+        liveGame.current !== game ||
+        (expectedKey !== undefined &&
+          (!autoEnabled.current || !strategy.isCurrent(expectedKey)))
+      )
+        return;
       try {
         const immediate = applyDecisionAction(game, 0, action);
         const explanation = soundEnabled
-          ? describeDecision(game, 0, action)
+          ? explainProductionAction(
+              view,
+              action,
+              strategy.isCurrent(strategy.current.key)
+                ? recommendation
+                : undefined,
+            )
           : undefined;
         const next =
           action.type === "exchange"
@@ -267,9 +298,17 @@ function App() {
             : action.type === "missing"
               ? advanceToHuman(completeMissing(game, action.suit))
               : advanceToHuman(immediate);
+        const nextPosition = {
+          ...livePosition.current,
+          revision: livePosition.current.revision + 1,
+        };
+        strategy.advance(nextPosition);
+        livePosition.current = nextPosition;
+        liveGame.current = next;
+        setPosition(nextPosition);
         setGame(next);
         setSelected([]);
-        if (next.phase === "ended") setAutoPlay(false);
+        if (next.phase === "ended") pauseAuto();
         if (soundEnabled) {
           playCue(cueForAction(action, next.phase === "ended"));
           narration.current = announceGameDecision(
@@ -288,10 +327,10 @@ function App() {
         );
       } catch (error) {
         setNotice((error as Error).message);
-        setAutoPlay(false);
+        pauseAuto();
       }
     },
-    [game, soundEnabled],
+    [game, soundEnabled, view, strategy, recommendation, pauseAuto],
   );
 
   useEffect(() => {
@@ -330,18 +369,44 @@ function App() {
   }, [voiceName, voiceOptions]);
 
   useEffect(() => {
-    if (!autoPlay || game.phase === "ended") return;
+    if (strategy.current.status === "error") {
+      pauseAuto();
+      setNotice(strategy.current.error);
+    }
+  }, [strategy.current, pauseAuto]);
+
+  useEffect(() => {
+    pauseAuto();
+    stopAnnouncements();
+  }, [
+    strategyMode,
+    strategyAssets?.runtimeModuleUrl,
+    strategyAssets?.runtimeIndexUrl,
+    strategyAssets?.payloadUrl,
+    pauseAuto,
+  ]);
+
+  useEffect(() => {
+    if (
+      !autoPlay ||
+      game.phase === "ended" ||
+      strategy.current.status !== "ready"
+    )
+      return;
+    const snapshotKey = strategy.current.key;
+    const action = strategy.current.presentation.action;
     let active = true;
     let timer: number | undefined;
     void narration.current.then(() => {
-      if (!active) return;
+      if (!active || !autoEnabled.current || !strategy.isCurrent(snapshotKey))
+        return;
       timer = window.setTimeout(() => {
         try {
-          const action = chooseAutoplayAction(game);
-          if (action) commitHuman(action);
+          if (active && autoEnabled.current && strategy.isCurrent(snapshotKey))
+            commitHuman(action, snapshotKey);
         } catch (error) {
           setNotice((error as Error).message);
-          setAutoPlay(false);
+          pauseAuto();
         }
       }, autoDelay);
     });
@@ -349,13 +414,19 @@ function App() {
       active = false;
       if (timer !== undefined) window.clearTimeout(timer);
     };
-  }, [autoPlay, autoDelay, game, commitHuman]);
+  }, [autoPlay, autoDelay, game, commitHuman, strategy, pauseAuto]);
 
   function startGame(seed: number) {
-    setGame(createGame(seed));
+    const next = createGame(seed),
+      nextPosition = { session: livePosition.current.session + 1, revision: 0 };
+    strategy.advance(nextPosition);
+    livePosition.current = nextPosition;
+    liveGame.current = next;
+    setPosition(nextPosition);
+    setGame(next);
     setSeedText(String(seed));
     setSelected([]);
-    setAutoPlay(false);
+    pauseAuto();
     stopAnnouncements();
     setNotice("选择同一花色的三张牌，顺时针交换。");
   }
@@ -373,7 +444,7 @@ function App() {
   }
   function toggle(index: number) {
     if (game.phase !== "exchange") return;
-    setAutoPlay(false);
+    pauseAuto();
     if (soundEnabled) playCue("select");
     setSelected((current) =>
       current.includes(index)
@@ -385,15 +456,15 @@ function App() {
   }
   function exchange() {
     if (!validExchange) return;
-    setAutoPlay(false);
+    pauseAuto();
     commitHuman({ type: "exchange", tiles: exchangeTiles });
   }
   function selectMissing(missing: Suit) {
-    setAutoPlay(false);
+    pauseAuto();
     commitHuman({ type: "missing", suit: missing });
   }
   function act(action: PlayerAction) {
-    setAutoPlay(false);
+    pauseAuto();
     commitHuman(action);
   }
 
@@ -418,7 +489,7 @@ function App() {
             title="牌局设置"
             triggerClassName="settingsButton"
             onOpen={() => {
-              setAutoPlay(false);
+              pauseAuto();
               stopAnnouncements();
             }}
           >
@@ -670,13 +741,12 @@ function App() {
             </div>
           </div>
           <AdviceCoach
-            advice={advice}
+            advice={[]}
             view={view}
-            actions={actionAdvice}
-            openingChoices={openingChoices}
+            current={strategy.current}
             onSpeak={soundEnabled ? announceAdvice : undefined}
             onOpen={() => {
-              setAutoPlay(false);
+              pauseAuto();
               stopAnnouncements();
             }}
           />
@@ -787,13 +857,16 @@ function App() {
           <button
             className="textButton"
             type="button"
-            disabled={game.phase === "ended"}
+            disabled={
+              game.phase === "ended" || strategy.current.status === "error"
+            }
             onClick={() => {
               if (autoPlay) stopAnnouncements();
               else if (soundEnabled) {
                 playCue("select");
                 narration.current = announceAutoplayStart();
               }
+              autoEnabled.current = !autoPlay;
               setAutoPlay(!autoPlay);
             }}
           >

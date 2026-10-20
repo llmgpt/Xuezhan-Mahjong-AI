@@ -40,6 +40,74 @@ function renderCoach(
 }
 
 describe("老师建议的展示契约", () => {
+  it("当前推荐碰牌的图标与实际动作一致，不显示胡牌图标", () => {
+    const view = viewFor("w1122589 s123679");
+    const choice = {
+      action: { type: "respond" as const, choice: "pung" as const },
+      label: "碰",
+      summary: "本次选择碰。",
+      reason: "当前可碰。",
+      limit: "规则事实。",
+    };
+    const markup = renderCoach({
+      view,
+      advice: [],
+      current: {
+        status: "ready",
+        presentation: {
+          action: choice.action,
+          choices: [choice],
+          origin: "advanced-public",
+          legalActionCount: 2,
+        },
+      },
+    });
+    expect(markup).toContain('class="actionCoachIcon">碰</span>');
+    expect(markup).not.toContain('class="actionCoachIcon">胡</span>');
+  });
+  it("策略加载/错误时即使残留旧老师props也不显示旧荐牌或两摸解释", () => {
+    const view = viewFor("w11123429 s345678");
+    const advice = recommendDiscards(view);
+    for (const current of [
+      { status: "loading" as const },
+      { status: "error" as const, error: "上游计算失败" },
+    ]) {
+      const markup = renderCoach({ view, advice, current });
+      expect(markup).not.toContain(`建议打出 ${labelOf(advice[0].tile)}`);
+      expect(markup).not.toContain(advice[0].reason);
+      expect(markup).not.toContain("两摸");
+      expect(markup).toContain(
+        current.status === "loading" ? "正在计算当前建议" : "上游计算失败",
+      );
+    }
+  });
+  it("高级单项首选不冒充唯一合法选择，也不显示旧老师两摸模型", () => {
+    const view = viewFor("w11123429 s345678");
+    const choice = {
+      action: { type: "discard" as const, tile: 0 },
+      label: "打出 1万",
+      summary: "当前公开信息策略选择。",
+      reason: "本步实际出处：高级策略。",
+      limit: "当前只提供动作出处和规则事实。",
+    };
+    const markup = renderCoach({
+      view,
+      advice: recommendDiscards(view),
+      current: {
+        status: "ready",
+        presentation: {
+          action: choice.action,
+          choices: [choice],
+          origin: "advanced-public",
+          legalActionCount: 7,
+        },
+      },
+    });
+    expect(markup).toContain(choice.reason);
+    expect(markup).not.toContain("当前只有这一种合法选择");
+    expect(markup).not.toContain("两摸");
+    expect(markup).toContain("仅展示当前策略首选");
+  });
   it("换三张展示老师推荐、理由、局限和查看依据入口", () => {
     const view = viewFor("w123456 s269 d12345", true);
     const openingChoices = teacherChoices(view, "exchange");
