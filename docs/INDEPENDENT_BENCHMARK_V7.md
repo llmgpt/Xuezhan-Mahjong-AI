@@ -29,3 +29,23 @@
 当前浏览器E/D整局接入验证及真实错误处理已完成，见[浏览器记录](BROWSER_STRATEGY_INTEGRATION.md)；V7暂只用于离线评测。详细内部理由与可信较高水平标尺仍待补齐，Goal未完成。
 
 本地审计：`local/v1-income-implementation/`；`local/strength-goal-20261018/{v1-utility-mismatch-review,v1-current-income-policy-red-green,v1-income-policy-independent-review,v1-income-integration}/`。完整开发数据使用`development-v7-source/`、`development-v7-plan/`及`development-v7-shard-1..6/`，未推送、合并或公开发布。
+
+## 后续恢复的当前入口
+
+上轮结束边界后原后台PID均已不存在，未留下实际终态；不把旧JSON心跳当作继续运行。第4/5片已提交5/4个seed的648局，其seed envelope及全部已提交trace行原字节复制到recovery-2目录，原目录和未提交行保持原位；与1..3片合计2160局。四个中断输出共742条完成轨迹均需在最终新trace中逐字节复现，仍只有40个独立seed单位。
+
+第二次恢复只续未提交seed，当前工具入口为`local/strength-goal-20261018/v7-resume-20261021-r2/`；原协调器35208及原后处理35784已停止；当前接管入口见下段。元数据默认cp936读取曾使UTF-8清单五个中文路径错位，校验先失败；显式UTF-8读取后与实际manifest逐项相同，失败与修正证据保留，策略实现未变。
+
+Root沿版本化E跟进报告及其锁定的两份manifest重新核验98项历史产物SHA，两个派生T/E控制目录的games/traces/summary均有原发布锚点；完整对比后还需再次核对。恢复条件、全部原始哈希和当前目录见[恢复协议](benchmarks/independent-v7-recovery-protocol.json)的`continuation2`，没有读取部分V7成绩或改动原科学比较。
+
+## 状态发布失败后的原进程接管
+
+R2协调器在2026-10-20T20:16:48Z因发布心跳的`os.replace`两次WinError5停止，原stdout/stderr及状态均保留；原后处理明确失败，没有进入合并或读分。真实Windows无删除共享锁已复现同一错误，再验证仅重试同一已fsync元数据的发布成功，既不重试对局也不改冻结源。
+
+第4片原进程在观察器建立前已结束，原退出码未知。其7seed/504局complete=true，后续冻结CLI无操作续验真实exit0，games/traces/summary三文件字节不变；首个验证命令误要求逐seed打印而未写收据，日志保留，第二次按实际完整输出JSON契约通过。这些不替代原历史退出码。第5片已有真实exit0；第6片仍为原Node31108，观察器31336核对实体镜像及creationtime后持续持有内核句柄，等待GetExitCodeProcess的真实终态。没有启动或重试任何对局。
+
+新后处理35448使用`postprocess-adopted-state.json`，原失败状态保留。独立审核确认派生diff只改变完成门禁和元数据发布，完整合并/逐动作重放/1920控制/统计尾段与原件一致；第4片必须明确原退出码未知且无操作续验通过，5和6必须有真实终态。当前仍未读取V7部分成绩，最终须验收全部2880局后才判读。新入口、源码摘要和收据见[恢复协议](benchmarks/independent-v7-recovery-protocol.json)的`observerAdoption`。
+
+另外已完成[未来收益量纲静态审计](ADVANCED_FUTURE_INCOME_AUDIT.md)与[外部标尺补查](EXTERNAL_STRATEGY_OPTIONS.md)。它们分别核对确定金额和外部来源，未运行策略、对局或新seed，也没有据此选择新候选。
+
+当前工作树的`npm run check`实际返回1，停在两个未跟踪`.workbuddy`本地笔记的Prettier格式，不是本轮源码或文档告警；未查看/改写这些笔记。其余lint、类型检查、49文件462项测试和生产构建另行实际exit0。历史85e0874的完整check0与当前check1分开保留；逐项收据和日志摘要见[恢复协议](benchmarks/independent-v7-recovery-protocol.json)的`currentWorktreeChecks`。

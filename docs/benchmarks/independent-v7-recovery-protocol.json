@@ -92,5 +92,137 @@
   "execution": "local/strength-goal-20261018/v7-resume-20261021/detached-execution.json",
   "maxConcurrency": 2,
   "formalCandidateSelected": false,
-  "defaultPolicyChanged": false
+  "defaultPolicyChanged": false,
+  "continuation2": {
+    "observedAtUtc": "2026-10-20T20:08:08.542415+00:00",
+    "priorCoordinatorTerminalExitUnproven": true,
+    "priorOsPidsObservedMissing": [32604, 32748, 25536, 33900],
+    "reason": "Prior heartbeat stopped and all prior process identities absent; no original exit code or proven cause. Preserve evidence, do not infer success.",
+    "preparedCommittedPrefix": {
+      "4": {
+        "output": "local/strength-goal-20261018/development-v7-shard-4-recovery-2",
+        "committedSeeds": [60003, 60009, 60015, 60021, 60027],
+        "committedGames": 360,
+        "hashes": {
+          "games.jsonl": "fd7c8b393f8e7edcc794234a0f030e7494866c84c3075f5856884232740d4bec",
+          "traces.jsonl": "c1cef26841921360e9c446114f0b4b542c877761ce411ec5cdbf4c5588e1e72e"
+        },
+        "copiedTraceRowsByteExactly": 360,
+        "originalOutput": "local/strength-goal-20261018/development-v7-shard-4-recovery-1"
+      },
+      "5": {
+        "output": "local/strength-goal-20261018/development-v7-shard-5-recovery-2",
+        "committedSeeds": [60004, 60010, 60016, 60022],
+        "committedGames": 288,
+        "hashes": {
+          "games.jsonl": "80008377e265680868e63353f9172ab694e6e5c270c98bbf11dc0cc164740fb8",
+          "traces.jsonl": "c073f1184c862a469001d03a8172d9d3eb96ae665d333103b500cc02df3cdf60"
+        },
+        "copiedTraceRowsByteExactly": 288,
+        "originalOutput": "local/strength-goal-20261018/development-v7-shard-5-recovery-1"
+      }
+    },
+    "allInterruptedOutputs": [
+      {
+        "shard": 4,
+        "originalOutput": "local/strength-goal-20261018/development-v7-shard-4",
+        "recordedPid": 11796,
+        "committedSeeds": 0,
+        "completedTraceRows": 10,
+        "gamesSha256": "267e778a5c99e072e24ce48e4d63a0eda3f497f10e7db3053e52d384aa5347b2",
+        "tracesSha256": "87d8422b283c74d8f49a791203ddd8d0acfc84762f6cd8f7aa040d87a0ad6101",
+        "terminalExitCode": null,
+        "newAttemptOutput": "local/strength-goal-20261018/development-v7-shard-4-recovery-2"
+      },
+      {
+        "shard": 5,
+        "originalOutput": "local/strength-goal-20261018/development-v7-shard-5",
+        "recordedPid": 35680,
+        "committedSeeds": 0,
+        "completedTraceRows": 10,
+        "gamesSha256": "07669702a08358341c986da30618ea1c1e2ba78d23adf362cd89ee0e92ed1416",
+        "tracesSha256": "e007a91c205820438c613efd3f52cc288d9ece2c49b544adfff4b98cfb0002bf",
+        "terminalExitCode": null,
+        "newAttemptOutput": "local/strength-goal-20261018/development-v7-shard-5-recovery-2"
+      },
+      {
+        "shard": 4,
+        "originalOutput": "local/strength-goal-20261018/development-v7-shard-4-recovery-1",
+        "committedSeeds": 5,
+        "completedTraceRows": 369,
+        "traceBytes": 76123640,
+        "gamesSha256": "fd7c8b393f8e7edcc794234a0f030e7494866c84c3075f5856884232740d4bec",
+        "tracesSha256": "5ad9c9dde7de06670571a4359005962921d3856996286dab82b675d8cccc9f17",
+        "terminalExitCode": null,
+        "newAttemptOutput": "local/strength-goal-20261018/development-v7-shard-4-recovery-2"
+      },
+      {
+        "shard": 5,
+        "originalOutput": "local/strength-goal-20261018/development-v7-shard-5-recovery-1",
+        "committedSeeds": 4,
+        "completedTraceRows": 353,
+        "traceBytes": 64271762,
+        "gamesSha256": "80008377e265680868e63353f9172ab694e6e5c270c98bbf11dc0cc164740fb8",
+        "tracesSha256": "2ed160460603ae465513a1e25f5eedd8280b6c6047a57e89eb17ba025d75d28f",
+        "terminalExitCode": null,
+        "newAttemptOutput": "local/strength-goal-20261018/development-v7-shard-5-recovery-2"
+      }
+    ],
+    "allOriginalFilesRetained": true,
+    "newScienceOrSeeds": false,
+    "mustReproduceEveryCompletedOldTraceRawPrefix": true,
+    "currentResume": "local/strength-goal-20261018/v7-resume-20261021-r2",
+    "coordinatorPid": 35208,
+    "postprocessPid": 35784,
+    "metadataEncoding": "Explicit UTF-8; default cp936 was observed to change five non-ASCII path names (10 symmetric key differences). RED/GREEN evidence retained.",
+    "encodingEvidence": "local/strength-goal-20261018/v7-resume-20261021-r2/encoding-red-green.json",
+    "allPriorControlsPublicationArtifactsVerified": 98,
+    "historicalControlAnchorProof": "local/strength-goal-20261018/v7-resume-20261021-r2/historical-control-publication-hashes.json",
+    "turnPersistenceNotGuaranteed": true,
+    "exitBeforeWholeBatchDiscouraged": "Keep active until this batch and audits finish; if interrupted, verify OS and receipts before any further resume.",
+    "observerAdoption": {
+      "observedAtUtc": "2026-10-20T20:27:55.662998+00:00",
+      "priorCoordinatorPid": 35208,
+      "priorCoordinatorTerminalExitCode": null,
+      "actualError": "PermissionError WinError5 in os.replace publishing detached-execution.json; exception handler publication also failed",
+      "failureLog": "local/strength-goal-20261018/v7-resume-20261021-r2/coordinator.stderr.log",
+      "originalFailedPostprocess": "local/strength-goal-20261018/v7-resume-20261021-r2/postprocess-state.json",
+      "originalFilesPreserved": true,
+      "shard4OriginalExitCode": null,
+      "shard4CompleteSeeds": 7,
+      "shard4CompleteGames": 504,
+      "shard4FrozenCliNoopExitCode": 0,
+      "shard4NoopReceipt": "local/strength-goal-20261018/v7-resume-20261021-r2/shard-4-complete-noop-receipt.json",
+      "shard5ActualExitCode": 0,
+      "shard6OriginalPid": 31108,
+      "shard6ObserverPid": 31336,
+      "shard6ObserverState": "local/strength-goal-20261018/v7-resume-20261021-r2/adopted-process6-execution.json",
+      "currentPostprocessPid": 35448,
+      "currentPostprocessState": "local/strength-goal-20261018/v7-resume-20261021-r2/postprocess-adopted-state.json",
+      "sameScienceAndOutputs": true,
+      "newPolicyExecutionsForAdoption": 0,
+      "realSharingLockRedGreen": "local/strength-goal-20261018/v7-resume-20261021-r2/observer-io-red-green.json",
+      "postprocessSourceSha256": "56f9972372a49bac6006aea5cb56e47fadaa67cab4ba0d66afe49f0f3429f357",
+      "exitBoundary": "Never claim original shard4 process exit0; its later complete-output no-op and full replay are separate evidence."
+    },
+    "currentWorktreeChecks": {
+      "actualNpmRunCheckExitCode": 1,
+      "blockedStage": "format:check",
+      "failedFileCount": 2,
+      "failedFilesScope": "Untracked .workbuddy local notes; no project-source formatting warnings",
+      "unrelatedNotesPreserved": true,
+      "fullCheckLogSha256": "003af2ea25d35162f2fa08eb73cf7cf692fdae3db26b6ae8d9cea5ef62830e72",
+      "remainingStagesAllActualExit0": true,
+      "testFiles": 49,
+      "tests": 462,
+      "stageLogHashes": {
+        "lint": "18beea1c47dbc1b96e84f6e805f2d94f91db7774ea6d96f60e4c17414def96bd",
+        "typecheck": "9fb6e7e679b95644a1e01b5e15ad9967ca53cf1d39008bcfbf560f8ac4e4966a",
+        "test": "52a4be26f4d28ffe454c778cb89ec00557c4bdf3b8e0ddfcb903d415f986bc8a",
+        "build": "b667cdb5d983f90273e543b56051f0ae65c71784f85d48ea1bd1d1c1eba46bfa"
+      },
+      "evidenceDirectory": "local/strength-goal-20261018/v7-resume-20261021-r2",
+      "earlierCompleteCheck85e0874Exit0RemainsHistorical": true
+    }
+  }
 }
