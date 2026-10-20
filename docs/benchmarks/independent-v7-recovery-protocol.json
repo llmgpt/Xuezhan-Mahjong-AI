@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "declaredAtUtc": "2026-10-20T19:25:43.341830+00:00",
+  "developmentOnly": true,
+  "newFormalSeeds": 0,
+  "originalProtocol": "docs/benchmarks/independent-v7-development-protocol.json",
+  "scienceUnchanged": true,
+  "noPartialStrengthScoresRead": true,
+  "runtime": {
+    "node": "v22.22.1",
+    "python": "3.13.5",
+    "numpy": "2.1.3"
+  },
+  "sourceFileCount": 113,
+  "buildInputCount": 28,
+  "bundleSha256": "d4f44ca70bba6857dabb622120d2455c0c000b27306358cfc99394f0c6909ded",
+  "existingCommittedShards": [
+    {
+      "shard": 1,
+      "complete": true,
+      "seeds": 7,
+      "games": 504,
+      "hashes": {
+        "games.jsonl": "346dca635ec4c0a63cfc3c309dfd9ee4199504f550d944c951baee5c7cc90441",
+        "traces.jsonl": "019a87ede4d8f15e010b058ebc04efafb67867c18e60912362362ad7ce60df90",
+        "summary.json": "5fe4c09aa4cdf64c72d3dbb774543de819dd92cbfa9be8e6c3bf6d22c5c162aa"
+      },
+      "originalTerminalExitConfirmed": true
+    },
+    {
+      "shard": 2,
+      "complete": true,
+      "seeds": 7,
+      "games": 504,
+      "hashes": {
+        "games.jsonl": "738b4499778bae65e8d9300008c459423cfaf93b7c5e295ab7e54e5c75f77808",
+        "traces.jsonl": "0efad2cc5dfe945f22c45d67f0183962bdd6463b6694c141996bb11f32d6e3f9",
+        "summary.json": "b579873053721f9383da9bfc6b545e9432cb80d1433debbd91c51408cdf36f4e"
+      },
+      "originalTerminalExitConfirmed": false
+    },
+    {
+      "shard": 3,
+      "complete": true,
+      "seeds": 7,
+      "games": 504,
+      "hashes": {
+        "games.jsonl": "9d718484b433b642b9d0132a1fb6960081d968b49f6e764ceb953cc655c51c99",
+        "traces.jsonl": "c4a4fc4a60c9f40f93466bd523c0781cf621f0484547aecefc100bcaa3583e8e",
+        "summary.json": "c71e827ff23e2b4510b0d188c10a329546aae36e481b94e6223090e48d8197e9"
+      },
+      "originalTerminalExitConfirmed": false
+    }
+  ],
+  "missingHistoricalToolHandles": [75441, 34307],
+  "originalShard2And3ExitCodesUnproven": true,
+  "interruptedAttempts": [
+    {
+      "shard": 4,
+      "originalOutput": "local/strength-goal-20261018/development-v7-shard-4",
+      "recordedPid": 11796,
+      "committedSeeds": 0,
+      "completedTraceRows": 10,
+      "gamesSha256": "267e778a5c99e072e24ce48e4d63a0eda3f497f10e7db3053e52d384aa5347b2",
+      "tracesSha256": "87d8422b283c74d8f49a791203ddd8d0acfc84762f6cd8f7aa040d87a0ad6101",
+      "terminalExitCode": null,
+      "newAttemptOutput": "local/strength-goal-20261018/development-v7-shard-4-recovery-1"
+    },
+    {
+      "shard": 5,
+      "originalOutput": "local/strength-goal-20261018/development-v7-shard-5",
+      "recordedPid": 35680,
+      "committedSeeds": 0,
+      "completedTraceRows": 10,
+      "gamesSha256": "07669702a08358341c986da30618ea1c1e2ba78d23adf362cd89ee0e92ed1416",
+      "tracesSha256": "e007a91c205820438c613efd3f52cc288d9ece2c49b544adfff4b98cfb0002bf",
+      "terminalExitCode": null,
+      "newAttemptOutput": "local/strength-goal-20261018/development-v7-shard-5-recovery-1"
+    }
+  ],
+  "recoveryRules": [
+    "Keep every original games/trace/lock file untouched, including the two interrupted attempts.",
+    "The first interrupted attempts for logical shards 4/5 contain no committed seed and no failure rows. Run the exact original config and frozen standalone bundle into separately named recovery directories.",
+    "Before recovered data is eligible for analysis, every completed original trace raw line must match the same game identity in its recovered shard byte-for-byte; any mismatch stops acceptance, never choose a favorable attempt.",
+    "Preserve all frozen seeds, seats, lineups, openings, policies, three comparisons and seed-cluster statistics. No new scientific tuning or outcome-based scheduling.",
+    "Keep at most two shards live; require fresh >=2GiB free physical memory before launching a second concurrent shard. Queue shard 6 until a slot is available.",
+    "Every worker or policy error stops that shard and prevents queued launches. Do not retry scientific failures.",
+    "A detached hidden coordinator records each child PID and actual exit code. Verify operating-system liveness, not only a status file.",
+    "After all six declared grids complete, verify original hashes, complete source and runtime, replay every stored action and reconcile all T/E result and full trace controls against both existing UI/external followups.",
+    "For historical shard 2/3, distinguish old missing process exit evidence from a later frozen CLI no-op validation and full stored-action replay. Do not claim historical terminal0."
+  ],
+  "execution": "local/strength-goal-20261018/v7-resume-20261021/detached-execution.json",
+  "maxConcurrency": 2,
+  "formalCandidateSelected": false,
+  "defaultPolicyChanged": false
+}
