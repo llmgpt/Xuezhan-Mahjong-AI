@@ -1,0 +1,77 @@
+{
+  "preparationOnly": true,
+  "productionAppIntegrated": false,
+  "defaultStrategyChanged": false,
+  "actualBrowserWorkerVerified": false,
+  "sourceFiles": [
+    {
+      "path": "src/strategy/advanced.worker.ts",
+      "sha256": "35a1cc6bc39f0eee55ca946c8ff2cdda5820766852e1d91cd5292132b9ba027f",
+      "bytes": 405
+    },
+    {
+      "path": "src/strategy/advancedClient.test.ts",
+      "sha256": "d6b79d9cf4c89eec9039198684b5626199dfb2bbbfab2ab6f1788f186b892900",
+      "bytes": 15271
+    },
+    {
+      "path": "src/strategy/advancedClient.ts",
+      "sha256": "b45493ec2c93d74597973ad8aa730a290292803a9cca1a7d583532251d053f83",
+      "bytes": 10032
+    },
+    {
+      "path": "src/strategy/advancedProtocol.ts",
+      "sha256": "74623ad3e1e2f2f1b1f7d0290e87eff3217b595329f8051cc23e0d0626496b13",
+      "bytes": 9540
+    },
+    {
+      "path": "src/strategy/advancedRuntime.test.ts",
+      "sha256": "b2fffc899abeab05b1df7131804f8f4df36096ec1240483c4a092b33e4010f1b",
+      "bytes": 7763
+    },
+    {
+      "path": "src/strategy/advancedRuntime.ts",
+      "sha256": "4303dbd731d42ea8451ba52b03a3d22b74fbfa23efe352447742e6f794a51a5f",
+      "bytes": 9072
+    }
+  ],
+  "rootTargetedCheck": {
+    "chunkId": "76c766",
+    "exitCode": 0,
+    "files": 3,
+    "tests": 59,
+    "newBridgeTests": 30,
+    "existingComponentTests": 29
+  },
+  "agentFullSuiteObservation": {
+    "files": 46,
+    "tests": 410,
+    "exitCode": 0,
+    "authority": "Independent agent actual tool observation, before subsequent App and build-asset work"
+  },
+  "existingPublicNodes": {
+    "nodes": 12,
+    "actualPythonCalls": 8,
+    "allActionsEqualRecordedNodes": true,
+    "elapsedMs": 4812.1341,
+    "environment": "Node22 + actual local Pyodide314.0.7/Python38; in-process transport shim, not browser Worker execution",
+    "newGames": 0,
+    "newSeeds": 0,
+    "resultPath": "local/strength-goal-20261018/production-integration-review/real-nodes.result.json",
+    "resultSha256": "511d7d4716b2907efc7f48e6b066e24914f74ecc9bb245a44cf0d4fe8e147dfc"
+  },
+  "runtimeProvenance": {
+    "version": "314.0.7",
+    "commit": "b1e4fcc2488962f6360a97f19b9982d6fdb5d16f",
+    "officialArchiveIntegrity": "sha512-0YvXxEhfEdpLfb/XkM2BFAeMROq0iMUX2bzzH9pOttyMcWkwq+HbE5uyuGD82LN7y2q+SNvi/6V5JEsOlD2R1A==",
+    "localAssetsExactlyMatchedOfficialArchive": 8,
+    "assetBytes": 13620984,
+    "licenseSource": "https://raw.githubusercontent.com/pyodide/pyodide/b1e4fcc2488962f6360a97f19b9982d6fdb5d16f/LICENSE"
+  },
+  "limitations": [
+    "Node in-process transport compatibility is not real browser Worker execution",
+    "No new strength conclusion",
+    "Advanced output carries actions and origin, not score/risk/reason metrics",
+    "App integration, distributable assets, faithful detailed explanations and browser acceptance remain separate"
+  ]
+}
