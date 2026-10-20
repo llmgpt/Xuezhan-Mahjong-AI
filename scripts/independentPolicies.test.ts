@@ -26,6 +26,106 @@ function openingViews() {
 }
 
 describe("独立评测策略注册", () => {
+  it("当前收益候选沿用E的老师开局和full组件，只换income wire并复用worker", async () => {
+    const views = openingViews();
+    const response = structuredClone(views.self);
+    response.decision = {
+      kind: "respond",
+      responseKind: "discard",
+      from: 1,
+      tile: 0,
+      choices: ["pass", "pung", "hu"],
+    };
+    const inputs = [views.self, response].map((view) => structuredClone(view));
+    const phases: string[] = [];
+    let started = 0;
+    let finished = 0;
+    const session = createPolicySession("candidate-advanced-income-v7", {
+      timeoutMs: 1234,
+      workerFactory: (options) => {
+        expect(options.policy).toBe("ebony72-advanced-current-income-v1");
+        expect(options.timeoutMs).toBe(1234);
+        started++;
+        return {
+          act: async (view, phase) => {
+            phases.push(phase);
+            // The full component delegates the host's hu choice too. It must
+            // not silently turn this candidate into the always-win v4 shell.
+            if (phase === "respond") return { type: "respond", choice: "pung" };
+            const tile = view.legalDiscards[0];
+            view.hand.length = 0;
+            return { type: "discard", tile };
+          },
+          close: async () => {},
+          finish: async () => {
+            finished++;
+          },
+        };
+      },
+    });
+    try {
+      for (const [phase, view] of [
+        ["exchange", views.exchange],
+        ["choose-missing", views.missing],
+      ] as const)
+        expect(await session.choose(view, phase)).toEqual(
+          chooseTeacherAction(view, phase),
+        );
+      expect(started).toBe(0);
+      expect(await session.choose(views.self, "discard")).toEqual({
+        type: "discard",
+        tile: views.self.legalDiscards[0],
+      });
+      expect(await session.choose(response, "respond")).toEqual({
+        type: "respond",
+        choice: "pung",
+      });
+      expect([views.self, response]).toEqual(inputs);
+      expect(phases).toEqual(["discard", "respond"]);
+      expect(started).toBe(1);
+      await session.finish();
+      expect(finished).toBe(1);
+      await expect(session.choose(response, "respond")).rejects.toThrow(/关闭/);
+    } finally {
+      await session.close();
+    }
+  });
+
+  it("当前收益候选保留actor隔离、决策错误和finish错误，cleanup不吞失败", async () => {
+    const views = openingViews();
+    let closed = 0;
+    const session = createPolicySession("candidate-advanced-income-v7", {
+      workerFactory: (options) => {
+        expect(options.policy).toBe("ebony72-advanced-current-income-v1");
+        return {
+          act: async () => {
+            throw new Error("income decision failure");
+          },
+          finish: async () => {
+            throw new Error("income finish failure");
+          },
+          close: async () => {
+            closed++;
+          },
+        };
+      },
+    });
+    try {
+      await expect(session.choose(views.self, "discard")).rejects.toThrow(
+        "income decision failure",
+      );
+      const other = structuredClone(views.self);
+      other.seat = 1;
+      await expect(session.choose(other, "discard")).rejects.toThrow(
+        /不同座位/,
+      );
+      await expect(session.finish()).rejects.toThrow("income finish failure");
+    } finally {
+      await session.close();
+    }
+    expect(closed).toBe(1);
+  });
+
   it("实际牌桌电脑沿用旧greedy开局与行牌，并标为内部阵容且不启动外部worker", async () => {
     const session = createPolicySession("ui-greedy-v1", {
       workerFactory: () => {

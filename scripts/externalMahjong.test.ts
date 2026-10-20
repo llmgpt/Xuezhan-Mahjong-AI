@@ -63,6 +63,7 @@ describe("独立 Python 策略的常驻协议边界", () => {
   it.each([
     "ebony72-advanced-public-v1",
     "ebony72-advanced-cap8-discard-v1",
+    "ebony72-advanced-current-income-v1",
     "fanfou-ba-composite-v1",
   ] as const)(
     "高级参考%s显式发送policy标识，缺失历史直接失败",
@@ -82,6 +83,7 @@ describe("独立 Python 策略的常驻协议边界", () => {
       });
       delete view.publicActions;
       expect(() => worker.act(view, "discard")).toThrow(/历史|publicActions/);
+      await expect(worker.finish()).resolves.toBeUndefined();
     },
   );
   it("同一子进程处理多次请求，不传种子、牌墙或对手暗牌", async () => {

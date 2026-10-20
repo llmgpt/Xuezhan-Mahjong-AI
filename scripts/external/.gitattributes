@@ -1,0 +1,6 @@
+# These browser payload inputs have an exact raw-byte source contract.
+advanced_policy.py -text whitespace=trailing-space,space-before-tab,cr-at-eol
+public_history_validation.py -text
+worker.py -text
+# The score oracle fixture is also checked by its complete raw SHA256.
+fixtures/v1-income-host495.json -text

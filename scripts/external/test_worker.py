@@ -338,5 +338,111 @@ class WorkerTests(unittest.TestCase):
         self.assertEqual(rows[2]["id"], "last")
 
 
+class CurrentIncomeWorkerTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # The fixture is an immutable self-contained public population. Import
+        # only in this new-policy test class, not in the production worker.
+        from test_v1_income_policy import CASES
+        cls.cases = CASES
+
+    def request(self, case, policy="ebony72-advanced-current-income-v1", identifier="income"):
+        return {
+            "id": identifier, "phase": case["phase"],
+            "view": copy.deepcopy(case["view"]), "policy": policy,
+        }
+
+    def test_current_income_wire_real_kong_shot_and_rob_kong_do_not_change_old_A(self):
+        for identifier in [
+            "e597e5944d796dc52d801937a35ad0a96d49138d6475556b26dee33158166c65",
+            "11c64c3ac12d147987b147d642a5f7a4e89f96858d1ba6a22a978a82dd11a935",
+        ]:
+            case = next(case for case in self.cases if case["id"] == identifier)
+            with self.subTest(id=identifier):
+                original = self.request(case, "ebony72-advanced-public-v1", "A")
+                candidate = self.request(case)
+                before = copy.deepcopy(candidate)
+                self.assertEqual(worker.handle_request(original), {"id": "A", "action": case["originalAction"]})
+                self.assertEqual(worker.handle_request(candidate), {
+                    "id": "income", "action": {"type": "respond", "choice": "hu"},
+                })
+                self.assertEqual(worker.handle_request(original), {"id": "A", "action": case["originalAction"]})
+                self.assertEqual(candidate, before)
+
+    def test_current_income_wire_all263_public_nodes_match_fixed_actions(self):
+        self.assertEqual(len(self.cases), 263)
+        for case in self.cases:
+            with self.subTest(id=case["id"]):
+                self.assertEqual(worker.handle_request(self.request(case)), {
+                    "id": "income", "action": case["candidateAction"],
+                })
+
+    def test_current_income_wire_requires_history_and_rejects_hidden_fields(self):
+        case = self.cases[0]
+        request = self.request(case)
+        request["view"].pop("publicActions")
+        self.assertEqual(worker.handle_request(request)["error"]["code"], "invalid-view")
+        for target in ["request", "view", "opponent"]:
+            request = self.request(case)
+            destination = request if target == "request" else request["view"] if target == "view" else request["view"]["opponents"][0]
+            destination["seed" if target != "opponent" else "hand"] = 80000 if target != "opponent" else [0]
+            with self.subTest(target=target):
+                self.assertEqual(worker.handle_request(request)["error"]["code"], "hidden-field")
+
+    def test_current_income_wire_provenance_failure_and_exchange_do_not_fallback(self):
+        import v1_income_policy
+        with patch.object(v1_income_policy, "load_policy", side_effect=ValueError("changed income source")):
+            result = worker.handle_request(self.request(self.cases[0]))
+        self.assertEqual(result["error"]["code"], "provenance-error")
+        self.assertIn("changed income source", result["error"]["message"])
+        request = self.request(self.cases[0])
+        request["phase"] = "exchange"
+        self.assertEqual(worker.handle_request(request)["error"]["code"], "unsupported")
+
+    def test_current_income_wire_EOF_is_clean_and_exports_only_existing_JSONL_schema(self):
+        case = next(case for case in self.cases if case["target"] == "known-kong-shot" and case["candidateAction"] != case["originalAction"])
+        requests = [
+            self.request(case, "ebony72-advanced-public-v1", "A-before"),
+            self.request(case, identifier="income"),
+            self.request(case, "ebony72-advanced-public-v1", "A-after"),
+        ]
+        completed = subprocess.run(
+            [sys.executable, "-B", "-u", str(Path(worker.__file__))],
+            input="".join(json.dumps(request) + "\n" for request in requests),
+            text=True, capture_output=True, encoding="utf-8", timeout=20,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual([json.loads(line) for line in completed.stdout.splitlines()], [
+            {"id": "A-before", "action": case["originalAction"]},
+            {"id": "income", "action": case["candidateAction"]},
+            {"id": "A-after", "action": case["originalAction"]},
+        ])
+
+    def test_current_income_import_is_lazy_old_38_source_browser_bundle_needs_no_new_modules(self):
+        root = Path(worker.__file__).resolve().parents[2]
+        sources = json.loads((root / "scripts/browserPolicySources.json").read_text(encoding="utf-8"))["files"]
+        self.assertEqual(len(sources), 38)
+        self.assertNotIn("scripts/external/v1_income_policy.py", sources)
+        self.assertNotIn("scripts/external/v1_income.py", sources)
+        case = next(case for case in self.cases if case["target"] == "known-kong-shot")
+        with tempfile.TemporaryDirectory() as temporary:
+            bundle = Path(temporary)
+            for relative in sources:
+                target = bundle / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes((root / relative).read_bytes())
+            self.assertFalse((bundle / "scripts/external/v1_income_policy.py").exists())
+            self.assertFalse((bundle / "scripts/external/v1_income.py").exists())
+            completed = subprocess.run(
+                [sys.executable, "-B", "-u", str(bundle / "scripts/external/worker.py")],
+                input=json.dumps(self.request(case, "ebony72-advanced-public-v1", "old-browser")) + "\n",
+                text=True, capture_output=True, encoding="utf-8", timeout=20,
+            )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual([json.loads(line) for line in completed.stdout.splitlines()], [
+            {"id": "old-browser", "action": case["originalAction"]},
+        ])
+
+
 if __name__ == "__main__":
     unittest.main()
