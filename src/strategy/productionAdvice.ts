@@ -115,15 +115,20 @@ export function presentBrowserDecision(
     legalActionCount: count,
   };
 }
-/** Speech adapter. A manual alternative carries operation facts only; this
- * object is not a policy comparison or evaluation record. */
+/** Speech adapter. Teacher comparisons use the current captured choices only;
+ * an uncovered manual alternative carries operation facts, never a new score. */
 export function explainProductionAction(
   view: PlayerView,
   action: DecisionAction,
   recommendation?: ProductionPresentation,
 ): DecisionExplanation {
-  const chosen =
-    recommendation && key(recommendation.action) === key(action)
+  const fromTeacher =
+    recommendation && recommendation.origin !== "advanced-public";
+  const chosen = fromTeacher
+    ? recommendation.choices.find(
+        (choice) => key(choice.action) === key(action),
+      )
+    : recommendation && key(recommendation.action) === key(action)
       ? recommendation.choices[0]
       : undefined;
   const actual = chosen ?? {
@@ -133,11 +138,12 @@ export function explainProductionAction(
     reason: "这是玩家手动选择的合法操作。",
     limit: "此处仅记录操作事实。",
   };
+  const recommended = (fromTeacher && recommendation.choices[0]) || actual;
   return {
     view: { missing: view.missing },
     actual,
-    recommended: actual,
-    matchesRecommendation: true,
+    recommended,
+    matchesRecommendation: key(action) === key(recommended.action),
   };
 }
 

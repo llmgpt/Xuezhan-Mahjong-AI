@@ -154,6 +154,42 @@ describe("当前生产策略的忠实展示与语音快照", () => {
       teacherChoices(input, "discard")[0].reason,
     );
   });
+  it("手动偏离当前老师时保留实际首选及当步已有备选的解释", () => {
+    const input = view(),
+      presented = teacherPresentation(input, "discard")!,
+      alternative = presented.choices[1];
+    expect(alternative).toBeDefined();
+    const explanation = explainProductionAction(
+      input,
+      alternative.action,
+      presented,
+    );
+    expect(explanation.actual).toEqual(alternative);
+    expect(explanation.recommended).toEqual(presented.choices[0]);
+    expect(explanation.matchesRecommendation).toBe(false);
+    expect(announcementsForDecision(explanation, []).join("。")).toContain(
+      `系统建议${presented.choices[0].label}`,
+    );
+  });
+  it("老师未展示的手动弃牌只说明操作事实，仍准确提示当前老师首选", () => {
+    const input = view(),
+      presented = teacherPresentation(input, "discard")!,
+      tile = input.legalDiscards.find(
+        (candidate) =>
+          !presented.choices.some(
+            (choice) =>
+              choice.action.type === "discard" &&
+              choice.action.tile === candidate,
+          ),
+      )!;
+    expect(tile).toBeDefined();
+    const action = { type: "discard" as const, tile },
+      explanation = explainProductionAction(input, action, presented);
+    expect(explanation.actual.action).toEqual(action);
+    expect(explanation.actual.reason).toContain("玩家手动");
+    expect(explanation.recommended).toEqual(presented.choices[0]);
+    expect(explanation.matchesRecommendation).toBe(false);
+  });
 });
 
 describe("React接入使用的异步建议门禁", () => {
