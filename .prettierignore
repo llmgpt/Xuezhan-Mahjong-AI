@@ -1,6 +1,7 @@
 node_modules
 dist
 .vite
+.workbuddy/
 package-lock.json
 vendor/ebony72-mahjong/
 vendor/ebony72-advanced/
