@@ -20,6 +20,16 @@
 
 本轮使用实际生产 39 源 payload、Pyodide 314.0.7 / CPython 3.14.2，通过生产 `BrowserAdvancedClient` → `createAdvancedWorkerHandler` → Python → 推荐文字/语音适配，运行四个既有公开帧。四个动作和全部诊断字段逐项精确匹配固定 fixture；三个拒胡、一个收胡，包括拒胡后碰牌。没有额外策略模块导入，输入与 tracer 保持。总计约 1.94 秒；首次含运行时加载约 1.85 秒，其余三个响应约 27–30 毫秒。这只是本机四个固定节点，不是增量开销、时延分布或浏览器性能承诺。
 
-证据及精确摘要见 [运行时联调记录](benchmarks/advanced-diagnostics-runtime.json)。消息传输使用 Node 进程内桥，Python 是真实运行时和最终生产载荷。浏览器控制工具两次初始化失败，因此本轮没有验证原生 Web Worker、真实 GUI 显示或实际听感；已有旧浏览器整局记录只代表各自快照。后续仍需补当前 UI 运行与未覆盖分支。
+证据及精确摘要见 [运行时联调记录](benchmarks/advanced-diagnostics-runtime.json)。该次消息传输使用 Node 进程内桥，Python 是真实运行时和生产载荷。当时浏览器控制工具两次初始化失败，未验证原生 Web Worker、真实 GUI 显示或实际听感；后续浏览器验证见下节，旧记录仍只代表各自快照。
 
 复跑完整基础检查：`npm run check` 和 `python -B -m unittest discover -s scripts/external -p 'test_*.py'`。本轮运行时探针在 `local/strength-goal-20261018/v7-resume-20261021/production-diagnostics-runtime.{ts,mjs}`。
+
+## 2026-10-21：真实浏览器验证
+
+浏览器控制恢复后，使用本地提交`8ef1e3d`对应的生产39源资产、真实原生Worker和`BrowserAdvancedClient`运行同四个既有公开节点。动作及全部诊断字段逐项精确匹配固定fixture，输入不变，推荐动作的语音文字与同次建议一致。四个节点均打开实际`AdviceCoach`依据弹窗，覆盖杠后炮拒胡后碰、抢杠拒胡、普通拒胡及普通收胡。首次四节点总计约1.99秒；这是固定节点响应观察，不是增量开销或性能分布。
+
+同一构建的真实App另完成E/D两局，均为已排除的80000/seat0/ui-bots/composite；四家终分分别`[22,6,-9,-19]`和`[1,5,3,-9]`，与已保存Node结果相同，墙尽、108张和积分零和。没有导出完整浏览器逐步轨迹，也没有将重复兼容局计为新强度样本。
+
+320×568同站iframe中再次精确复算四节点，并操作最长实际理由的依据弹窗。对话框处于视口内，内容无横向溢出，长文本可在弹窗内滚到底部，关闭按钮始终可用且实际关闭。产品CSS没有修改；这仅覆盖该长理由弹窗，不是全部窄屏流程或手机真机验收。
+
+完整源、17个实际资源、报告、界面截图和AX摘要见[浏览器39源记录](benchmarks/browser-production-diagnostics-39.json)。四节点夹具使用真实组件，但不注入App牌局状态；整局仅通过App现有种子/模式属性和页面操作。声音保持关闭，实际音色、听感、全部异常次序及其他动作的内部评分仍未验证。代理标签页与预览服务已关闭，用户原标签页保留。

@@ -1,0 +1,489 @@
+{
+  "version": 1,
+  "recordedAtUtc": "2026-10-21T00:53:38.129843+00:00",
+  "sourceHead": "8ef1e3df7b109c81a845c1fc05838cf6d233f0c6",
+  "compatibilityOnly": true,
+  "candidatePromoted": false,
+  "newFormalSeeds": 0,
+  "browser": "Codex in-app browser; own background tab5 closed after validation; user tab1 untouched",
+  "qaUrl": "http://127.0.0.1:5175/local/strength-goal-20261018/production-app-qa-39/index.html",
+  "actualApp": "src/App.tsx",
+  "actualNativeWebWorker": true,
+  "productionAssets": {
+    "runtimeVersion": "314.0.7",
+    "sourceFiles": 39,
+    "resourcesIncludingManifest": 17,
+    "allManifestAssetBytesMatchProduction": true,
+    "worker": "assets/advanced.worker-B-AWn6kX.js",
+    "workerSha256": "21c8ca2bd189f3672eda63d4478b966052394c73cafc578adf1da149a4d01f81",
+    "qaEntry": "assets/index-2SBFEmEe.js",
+    "payloadSha256": "29b335debb5713df120d2b9ecd451f07f72870baf51cc9ef0687d56db9f313ed"
+  },
+  "fixedCases": {
+    "pass": true,
+    "atUtc": "2026-10-21T00:41:51.590Z",
+    "nativeWorkers": 1,
+    "sourceFiles": 39,
+    "actualProductionClientAndWorkerAndAdviceCoach": true,
+    "durationMs": 1988.300000011921,
+    "noNewGameOrSeed": true,
+    "audioAudibilityVerified": false,
+    "rows": [
+      {
+        "caseId": "e597e5944d796dc52d801937a35ad0a96d49138d6475556b26dee33158166c65",
+        "label": "拒胡后碰",
+        "exactActionAndDiagnostics": true,
+        "inputUnchanged": true,
+        "action": {
+          "type": "respond",
+          "choice": "pung"
+        },
+        "diagnostics": {
+          "version": 1,
+          "policyId": "ebony72-advanced-public-v1",
+          "publicViewHash": "234aed9232054895d1f0c229837dbd6876a045c2eb63f03e848800b3bd5cb4c1",
+          "coverage": "observed-hu-branch",
+          "branch": {
+            "function": "check_hu",
+            "functionSha256": "02b4ab62ea1c829456a5f2d3ee5f64a21dc1497fe534d09ca056c8b3ee93e1a8",
+            "returnValue": "stand",
+            "returnLine": {
+              "function": 189,
+              "source": 1008
+            },
+            "sourceFileSha256": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2"
+          },
+          "comparison": {
+            "actualUtl": 1,
+            "utlUnit": "legacy-base-score",
+            "numS": 3,
+            "wallRemaining": 27,
+            "approxRemainingDraws": 6.75,
+            "finalHeuristicWaitingFactor": 4.248681500931795,
+            "declineThreshold": 1,
+            "baseScoreThreshold": null,
+            "currentEventRatio": null,
+            "eventFactorStep": {
+              "before": 1.0365223778034522,
+              "after": 4.146089511213809,
+              "delta": 3.1095671334103567
+            },
+            "futureKongStep": {
+              "before": 4.146089511213809,
+              "after": 4.248681500931795,
+              "delta": 0.10259198971798611
+            },
+            "calibration": "heuristic-not-exact-probability"
+          },
+          "currentIncome": {
+            "status": "not-called"
+          },
+          "postHuMeldStage": "not-observed"
+        },
+        "summary": "等待比较值 4.249高于阈值 1，暂不收胡。本次最终选择碰。",
+        "speechSummaryMatches": true,
+        "durationMs": 1892.0999999642372
+      },
+      {
+        "caseId": "11c64c3ac12d147987b147d642a5f7a4e89f96858d1ba6a22a978a82dd11a935",
+        "label": "抢杠拒胡",
+        "exactActionAndDiagnostics": true,
+        "inputUnchanged": true,
+        "action": {
+          "type": "respond",
+          "choice": "pass"
+        },
+        "diagnostics": {
+          "version": 1,
+          "policyId": "ebony72-advanced-public-v1",
+          "publicViewHash": "cb8c8b93ebad18bda74bdfd18427896aa2b52c78d0ef6d1099b2c94bf89772af",
+          "coverage": "observed-hu-branch",
+          "branch": {
+            "function": "check_robkong",
+            "functionSha256": "81a4a29da0758fbe93ae2dc87342f10c4738f24960117381e265a0b272c25e0e",
+            "returnValue": "stand",
+            "returnLine": {
+              "function": 30,
+              "source": 1267
+            },
+            "sourceFileSha256": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2"
+          },
+          "comparison": {
+            "actualUtl": 1,
+            "utlUnit": "legacy-base-score",
+            "numS": 3,
+            "wallRemaining": 25,
+            "approxRemainingDraws": 6.25,
+            "finalHeuristicWaitingFactor": null,
+            "declineThreshold": null,
+            "baseScoreThreshold": 1,
+            "currentEventRatio": null,
+            "eventFactorStep": null,
+            "futureKongStep": null,
+            "calibration": "heuristic-not-exact-probability"
+          },
+          "currentIncome": {
+            "status": "not-called"
+          },
+          "postHuMeldStage": "not-observed"
+        },
+        "summary": "原模型牌型值 1未高于阈值 1，其余收胡条件也未满足，暂不收胡。本次最终选择过。",
+        "speechSummaryMatches": true,
+        "durationMs": 29.5
+      },
+      {
+        "caseId": "62cdfe3176ccffdf22aed0d178532df9b3cad997c0f03d1f1e9c77f4a94305a7",
+        "label": "普通拒胡",
+        "exactActionAndDiagnostics": true,
+        "inputUnchanged": true,
+        "action": {
+          "type": "respond",
+          "choice": "pass"
+        },
+        "diagnostics": {
+          "version": 1,
+          "policyId": "ebony72-advanced-public-v1",
+          "publicViewHash": "f7ce9621fa4e0b0b657d0882cf489d9370916b7d768d5a74917000e671851d41",
+          "coverage": "observed-hu-branch",
+          "branch": {
+            "function": "check_hu",
+            "functionSha256": "02b4ab62ea1c829456a5f2d3ee5f64a21dc1497fe534d09ca056c8b3ee93e1a8",
+            "returnValue": "stand",
+            "returnLine": {
+              "function": 189,
+              "source": 1008
+            },
+            "sourceFileSha256": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2"
+          },
+          "comparison": {
+            "actualUtl": 2,
+            "utlUnit": "legacy-base-score",
+            "numS": 7,
+            "wallRemaining": 31,
+            "approxRemainingDraws": 10.333333333333334,
+            "finalHeuristicWaitingFactor": 1.838321534635477,
+            "declineThreshold": 1,
+            "baseScoreThreshold": null,
+            "currentEventRatio": null,
+            "eventFactorStep": null,
+            "futureKongStep": {
+              "before": 1.7074299030353377,
+              "after": 1.838321534635477,
+              "delta": 0.1308916316001394
+            },
+            "calibration": "heuristic-not-exact-probability"
+          },
+          "currentIncome": {
+            "status": "not-called"
+          },
+          "postHuMeldStage": "not-observed"
+        },
+        "summary": "等待比较值 1.838高于阈值 1，暂不收胡。本次最终选择过。",
+        "speechSummaryMatches": true,
+        "durationMs": 24.69999998807907
+      },
+      {
+        "caseId": "26e419102cc4c066c996d7582673057d0c05909d71ae23d0120a6874346b065e",
+        "label": "普通收胡",
+        "exactActionAndDiagnostics": true,
+        "inputUnchanged": true,
+        "action": {
+          "type": "respond",
+          "choice": "hu"
+        },
+        "diagnostics": {
+          "version": 1,
+          "policyId": "ebony72-advanced-public-v1",
+          "publicViewHash": "26e419102cc4c066c996d7582673057d0c05909d71ae23d0120a6874346b065e",
+          "coverage": "observed-hu-branch",
+          "branch": {
+            "function": "check_hu",
+            "functionSha256": "02b4ab62ea1c829456a5f2d3ee5f64a21dc1497fe534d09ca056c8b3ee93e1a8",
+            "returnValue": "hu",
+            "returnLine": {
+              "function": 191,
+              "source": 1010
+            },
+            "sourceFileSha256": "12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2"
+          },
+          "comparison": {
+            "actualUtl": 1,
+            "utlUnit": "legacy-base-score",
+            "numS": 1,
+            "wallRemaining": 37,
+            "approxRemainingDraws": 9.25,
+            "finalHeuristicWaitingFactor": 0.4735396389550392,
+            "declineThreshold": 1,
+            "baseScoreThreshold": null,
+            "currentEventRatio": null,
+            "eventFactorStep": null,
+            "futureKongStep": {
+              "before": 0.2994182938774641,
+              "after": 0.4735396389550392,
+              "delta": 0.1741213450775751
+            },
+            "calibration": "heuristic-not-exact-probability"
+          },
+          "currentIncome": {
+            "status": "not-called"
+          },
+          "postHuMeldStage": "not-run"
+        },
+        "summary": "等待比较值 0.4735不高于阈值 1，本次收胡。",
+        "speechSummaryMatches": true,
+        "durationMs": 39.80000001192093
+      }
+    ]
+  },
+  "repeatedNarrowFixedCases": {
+    "pass": true,
+    "uniqueCases": 4,
+    "newIndependentSamples": 0,
+    "durationMs": 1558.3999999761581
+  },
+  "wholeGames": [
+    {
+      "mode": "E",
+      "seed": 80000,
+      "seat": 0,
+      "lineup": "ui-bots",
+      "opening": "composite",
+      "browserScores": [22, 6, -9, -19],
+      "historicalNodeScores": [22, 6, -9, -19],
+      "endReason": "wall",
+      "cardCount": 108,
+      "cardCountExpected": 108,
+      "zeroSum": true,
+      "nodeReference": "docs/benchmarks/browser-production-integration.json",
+      "fullBrowserTraceExported": false,
+      "currentAudioHeard": false,
+      "autoDelaySeconds": 1
+    },
+    {
+      "mode": "D",
+      "seed": 80000,
+      "seat": 0,
+      "lineup": "ui-bots",
+      "opening": "composite",
+      "browserScores": [1, 5, 3, -9],
+      "historicalNodeScores": [1, 5, 3, -9],
+      "endReason": "wall",
+      "cardCount": 108,
+      "cardCountExpected": 108,
+      "zeroSum": true,
+      "nodeReference": "docs/benchmarks/browser-production-integration.json",
+      "fullBrowserTraceExported": false,
+      "currentAudioHeard": false,
+      "autoDelaySeconds": 3
+    }
+  ],
+  "narrowAdviceCoach": {
+    "viewport": {
+      "width": 320,
+      "height": 568
+    },
+    "geometry": {
+      "close": {
+        "bottom": 62.66666793823242,
+        "right": 284.3333435058594,
+        "x": 248.33334350585935,
+        "y": 26.666667938232425
+      },
+      "content": {
+        "clientHeight": 478,
+        "clientWidth": 265,
+        "scrollHeight": 689,
+        "scrollWidth": 265
+      },
+      "dialog": {
+        "bottom": 552,
+        "clientWidth": 281,
+        "height": 536,
+        "right": 301,
+        "scrollWidth": 281,
+        "width": 282,
+        "x": 19,
+        "y": 16
+      },
+      "viewport": {
+        "height": 568,
+        "width": 320
+      }
+    },
+    "longReasonDialogOpened": true,
+    "scrolledToLimitAndAlternativeText": true,
+    "closeControlOperated": true,
+    "productCssChanged": false
+  },
+  "check": {
+    "command": "npx vite build --config local/strength-goal-20261018/production-app-qa-39/vite.config.ts",
+    "actualExitCode": 0,
+    "terminalChunk": "89f880"
+  },
+  "cleanup": {
+    "agentTabClosed": true,
+    "previewSession": 22363,
+    "stoppedWithCtrlC": true,
+    "actualStopExitCode": 1,
+    "stopTerminalChunk": "5d2086",
+    "interpretation": "Intentional preview shutdown after completed validation"
+  },
+  "artifacts": {
+    "local/strength-goal-20261018/production-app-qa-39/accept-hu.png": {
+      "bytes": 48670,
+      "sha256": "5d28e3c0275f83f9e84a997bda01624a068507e3d9701e960fe8b2e050bba4cc"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/browser-four-nodes-narrow.json": {
+      "bytes": 7521,
+      "sha256": "6add54d584069a31acee88e1b7f3e6b9824fcfd9fcd7d3045b024280be306c8e"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/browser-four-nodes.json": {
+      "bytes": 7520,
+      "sha256": "9a7c3b452b91897bf75b3654ef755ebd7737cbfdc7643aaf0b9e736b08f8874a"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/d-ended-ax.txt": {
+      "bytes": 5049,
+      "sha256": "2ebf37f277425629f468adf21279210ed95aeb2189bc35a326bf327807d0ab0b"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/d-ended-settings-ax.txt": {
+      "bytes": 1867,
+      "sha256": "39a5ce89ec04e02c6aeb24a6a99cf1f58425d5aa95066ca19e3d422668c016bb"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/d-ended.png": {
+      "bytes": 55994,
+      "sha256": "60f10be94e7d13f10abffa1157be94de51ccc2b6d08daf6f9de9c70fe7f56ba4"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/d-game-observation-1.txt": {
+      "bytes": 5049,
+      "sha256": "2ebf37f277425629f468adf21279210ed95aeb2189bc35a326bf327807d0ab0b"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/decline-then-pung.png": {
+      "bytes": 53855,
+      "sha256": "30f022145b87e7454f28874ab73ad06eb192c9bc6d24e9d1328551e65c63fcac"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/e-ended-ax.txt": {
+      "bytes": 5074,
+      "sha256": "cc976b3cf733199b9a33016eb051ab01ab81299ceda284b57aa3ac9ae8e2b944"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/e-ended-settings-ax.txt": {
+      "bytes": 1867,
+      "sha256": "b243eed761726485f32df022b9127fb1fe9c71065cc272acaca13545121bbaa3"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/e-ended.png": {
+      "bytes": 56351,
+      "sha256": "f340b029a0ac7e311c101d97c1bebc54fbb237aaf08812a9279310810d31d417"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/e-game-observation-1.txt": {
+      "bytes": 2082,
+      "sha256": "3595830cd1d59cc438cb811112fb7bf7f973add117407847c46797be9dd6a803"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/e-game-observation-2.txt": {
+      "bytes": 3234,
+      "sha256": "52fe611ad3abd4234aeef601eaaaadf1f6f2c5830a3a3ddfb1690adb37c6f48f"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/index.html": {
+      "bytes": 356,
+      "sha256": "52cea93c4011cc1d323e91db0e1d3883dfa2d8b9f2e52b5106a44c1349317bc1"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/main.tsx": {
+      "bytes": 6086,
+      "sha256": "0035ea730e21aeb9ee310c772521db6ec87bacbfbb88160e7cbba4b4111c58af"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/narrow-closed-ax.txt": {
+      "bytes": 8802,
+      "sha256": "97d1d5fdb4decd023bc4da2e3ffa54e37d4dc3a16d5240364a3fc6a2fb03f280"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/narrow-dialog-geometry.json": {
+      "bytes": 483,
+      "sha256": "5f67acb6035f3fb339a37953a9b2150a387dd3d6774b500cf9136dd87825c731"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/narrow-long-reason-bottom-ax.txt": {
+      "bytes": 198,
+      "sha256": "a181e97285ba661458aee7e640f84ecfecf9f5f156b93df815deb3ed7f80e227"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/narrow-long-reason-bottom.png": {
+      "bytes": 40690,
+      "sha256": "54aa9e81edce0f9f3fa1e1e16d775a989303f2a74f19690b512d0cd3a7ff1f6c"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/narrow-long-reason.png": {
+      "bytes": 41142,
+      "sha256": "c7c31bd54f725bde234539314cc9b7cf4b659bf5d1108b78bd77e2194b8400e7"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/ordinary-decline-ax.txt": {
+      "bytes": 1446,
+      "sha256": "55d95752ec14df4bec365a3b6bd1658986196347f8e7902ea8ad455053132685"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/publish-receipt.py": {
+      "bytes": 6569,
+      "sha256": "40d70f817fd00867debbd28d82ecdb92ee458c5dfce64c13f42fdf8b152ffdfc"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/rob-decline-ax.txt": {
+      "bytes": 1401,
+      "sha256": "cc4d9562b4611596ab0b2816fc4915ca8bb309bd33b0b1df3e08eb00670559d5"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/rob-decline.png": {
+      "bytes": 50019,
+      "sha256": "29672a818ba1f3e2eaafb59aed451c9733367d2016313f77ffabe11def816727"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/vite.config.ts": {
+      "bytes": 376,
+      "sha256": "ae10cdf94e729a5172172f64c88287c942584b53844b876ec340078bcfe83429"
+    },
+    "local/strength-goal-20261018/production-app-qa-39/dist/strategy/manifest.json": {
+      "bytes": 6980,
+      "sha256": "9b6c206e517aaf3bc469c19de14640627fe6124e4d281de4dbdcd9096d5606c2"
+    },
+    "src/strategy/fixtures/observedHuDecisions.json": {
+      "bytes": 48973,
+      "sha256": "b1e4784659d5b928ab98f8b19ca03a4ba80e2e9f5ac7a57c32ee0636b1990922"
+    },
+    "docs/benchmarks/browser-production-integration.json": {
+      "bytes": 8392,
+      "sha256": "112628d1d592c8a9d2ddc96185dbc02ba2b13e72e33b9a7b5bdd7ff8b67057cb"
+    },
+    "src/App.tsx": {
+      "bytes": 31880,
+      "sha256": "0290671b9b09f6be5c9e6207e333a1678566110d2f206a9da2b439bc4e9b2342"
+    },
+    "src/components/AdviceCoach.tsx": {
+      "bytes": 6403,
+      "sha256": "772207ebaa755ca3f7b1f610a7244eee134176b7e1e7654303bffe75fe36516a"
+    },
+    "src/components/GameDialog.tsx": {
+      "bytes": 1571,
+      "sha256": "ae67da5610f5bd66ef2a0195d9d97b3178213a65a950b8c81f74fa81ae159873"
+    },
+    "src/strategy/advancedClient.ts": {
+      "bytes": 10909,
+      "sha256": "ca3a7a506ddc50df8b3980d5077ed42a0004ecd04318cd1170fff6be046abedf"
+    },
+    "src/strategy/advancedRuntime.ts": {
+      "bytes": 10145,
+      "sha256": "6a4641910ec894f35f2e30238726b4b2411d5ba85678a0fe0f1dabf764169061"
+    },
+    "src/strategy/advancedDiagnostics.ts": {
+      "bytes": 10213,
+      "sha256": "d06f97e225a2ff9199ee75181f14755d7326c09fafecce626f37b04eeefd6e29"
+    },
+    "src/strategy/productionAdvice.ts": {
+      "bytes": 7261,
+      "sha256": "c0fe5d540ffa68bea277411bbd2ac1f48846710a5c34a55b4001c523bbab1acc"
+    },
+    "scripts/external/public_decision_diagnostics.py": {
+      "bytes": 18725,
+      "sha256": "cbdb8d0f2e8a155967c42cb86bdd57104b7f6b1802091a889da914c5560bca07"
+    },
+    "scripts/external/worker.py": {
+      "bytes": 22138,
+      "sha256": "30108283c36fa5ef90c4256660bc15236ff6a403ad6c8227102fd825bc64682b"
+    }
+  },
+  "limits": [
+    "Four fixed public nodes and two already excluded seed80000 compatibility games only; no new strength sample.",
+    "Case page renders actual AdviceCoach from actual client/worker results; full App games use only its existing seed/mode props.",
+    "Browser scores and visible win type/patterns match the existing Node reference; no complete browser decision/state trace was exported.",
+    "Speech text adapter matched; actual audio audibility and voices were not verified.",
+    "Narrow test covers the longest actual hu reason dialog, not every App branch or all resource-loading races.",
+    "Earlier 38-source browser/race receipts remain historical snapshots and are not relabeled current."
+  ]
+}
