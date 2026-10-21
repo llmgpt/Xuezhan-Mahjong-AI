@@ -27,6 +27,7 @@ export const INDEPENDENT_POLICY_IDS = [
   "candidate-advanced-actions-v5",
   "candidate-advanced-cap8-v6",
   "candidate-advanced-income-v7",
+  "candidate-advanced-ready-income-v8",
   "ebony-initial",
   "ebony72-advanced-public-v1",
   "fanfou-ba-composite-v1",
@@ -38,6 +39,7 @@ const ADVANCED_COMPONENTS = {
   "candidate-advanced-discard-v5": "discard",
   "candidate-advanced-actions-v5": "actions",
   "candidate-advanced-income-v7": "full",
+  "candidate-advanced-ready-income-v8": "full",
 } as const;
 
 // Fixed seat vectors. Internal opponents are sensitivity controls, not additional
@@ -109,11 +111,13 @@ export function createPolicySession(
             ? "ebony72-advanced-cap8-discard-v1"
             : name === "candidate-advanced-income-v7"
               ? "ebony72-advanced-current-income-v1"
-              : name === "ebony72-advanced-public-v1" ||
-                  name === "candidate-advanced-hu-v4" ||
-                  component !== undefined
-                ? "ebony72-advanced-public-v1"
-                : undefined,
+              : name === "candidate-advanced-ready-income-v8"
+                ? "ebony72-advanced-ready-income-v1"
+                : name === "ebony72-advanced-public-v1" ||
+                    name === "candidate-advanced-hu-v4" ||
+                    component !== undefined
+                  ? "ebony72-advanced-public-v1"
+                  : undefined,
     };
     worker ??=
       options.workerFactory?.(workerOptions) ??

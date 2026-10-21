@@ -403,6 +403,7 @@ def handle_request(request: Any) -> dict:
         elif policy_id in {
             "ebony72-advanced-public-v1", "ebony72-advanced-cap8-discard-v1",
             "ebony72-advanced-current-income-v1",
+            "ebony72-advanced-ready-income-v1",
         }:
             import advanced_policy
             try:
@@ -413,6 +414,9 @@ def handle_request(request: Any) -> dict:
                 elif policy_id == "ebony72-advanced-current-income-v1":
                     import v1_income_policy
                     policy = v1_income_policy.load_policy()
+                elif policy_id == "ebony72-advanced-ready-income-v1":
+                    import ready_income_policy
+                    policy = ready_income_policy.load_policy()
                 else:
                     policy = advanced_policy.load_policy()
             except ValueError as error:

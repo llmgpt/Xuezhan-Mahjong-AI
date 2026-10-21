@@ -64,6 +64,7 @@ describe("独立 Python 策略的常驻协议边界", () => {
     "ebony72-advanced-public-v1",
     "ebony72-advanced-cap8-discard-v1",
     "ebony72-advanced-current-income-v1",
+    "ebony72-advanced-ready-income-v1",
     "fanfou-ba-composite-v1",
   ] as const)(
     "高级参考%s显式发送policy标识，缺失历史直接失败",

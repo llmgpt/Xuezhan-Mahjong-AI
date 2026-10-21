@@ -14,6 +14,7 @@ export interface ExternalMahjongOptions {
     | "ebony72-advanced-public-v1"
     | "ebony72-advanced-cap8-discard-v1"
     | "ebony72-advanced-current-income-v1"
+    | "ebony72-advanced-ready-income-v1"
     | "fanfou-ba-composite-v1";
 }
 
@@ -174,6 +175,7 @@ export class ExternalMahjongWorker {
       options.policy !== "ebony72-advanced-public-v1" &&
       options.policy !== "ebony72-advanced-cap8-discard-v1" &&
       options.policy !== "ebony72-advanced-current-income-v1" &&
+      options.policy !== "ebony72-advanced-ready-income-v1" &&
       options.policy !== "fanfou-ba-composite-v1"
     )
       throw new Error("未知外部策略");
@@ -230,6 +232,7 @@ export class ExternalMahjongWorker {
       (this.policy === "ebony72-advanced-public-v1" ||
         this.policy === "ebony72-advanced-cap8-discard-v1" ||
         this.policy === "ebony72-advanced-current-income-v1" ||
+        this.policy === "ebony72-advanced-ready-income-v1" ||
         this.policy === "fanfou-ba-composite-v1") &&
       !Array.isArray(view.publicActions)
     )

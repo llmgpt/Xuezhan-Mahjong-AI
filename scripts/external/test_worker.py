@@ -338,6 +338,69 @@ class WorkerTests(unittest.TestCase):
         self.assertEqual(rows[2]["id"], "last")
 
 
+class ReadyIncomeWorkerTests(unittest.TestCase):
+    POLICY = "ebony72-advanced-ready-income-v1"
+
+    @classmethod
+    def setUpClass(cls):
+        root = Path(worker.__file__).resolve().parents[2]
+        cls.rows = json.loads((root / "src/strategy/fixtures/observedHuDecisions.json").read_text(encoding="utf8"))["rows"]
+
+    def request(self, row, identifier="ready", policy=None):
+        return {"id": identifier, "phase": row["phase"], "view": copy.deepcopy(row["view"]), "policy": policy or self.POLICY}
+
+    def test_ready_income_wire_real_four_nodes_and_old_A_V7_are_isolated(self):
+        # Expected actions follow independently checked conditional V1 amounts,
+        # not a second call to the new implementation: Z=.518261..., unchanged
+        # rob-kong, Z=1.280572..., Z=.299418... respectively.
+        choices = ["hu", "hu", "pass", "hu"]
+        for row, choice in zip(self.rows, choices):
+            with self.subTest(case=row["caseId"]):
+                original = self.request(row, "A", "ebony72-advanced-public-v1")
+                old_v7 = self.request(row, "V7", "ebony72-advanced-current-income-v1")
+                original_reply = worker.handle_request(original)
+                old_v7_reply = worker.handle_request(old_v7)
+                request = self.request(row)
+                before = copy.deepcopy(request)
+                self.assertEqual(worker.handle_request(request), {"id": "ready", "action": {"type": "respond", "choice": choice}})
+                request["includeDiagnostics"] = False
+                self.assertEqual(worker.handle_request(request), {"id": "ready", "action": {"type": "respond", "choice": choice}})
+                self.assertEqual(worker.handle_request(old_v7), old_v7_reply)
+                self.assertEqual(worker.handle_request(original), original_reply)
+                request.pop("includeDiagnostics")
+                self.assertEqual(request, before)
+
+    def test_ready_wire_has_no_unsupported_diagnostics_or_hidden_data_escape(self):
+        request = self.request(self.rows[0])
+        request["includeDiagnostics"] = True
+        self.assertEqual(worker.handle_request(request)["error"]["code"], "unsupported")
+        for target in ("request", "view", "opponent"):
+            request = self.request(self.rows[0])
+            destination = request if target == "request" else request["view"] if target == "view" else request["view"]["opponents"][0]
+            destination["seed" if target != "opponent" else "hand"] = 80000 if target != "opponent" else [0]
+            with self.subTest(target=target):
+                self.assertEqual(worker.handle_request(request)["error"]["code"], "hidden-field")
+        request = self.request(self.rows[0])
+        request["view"].pop("publicActions")
+        self.assertEqual(worker.handle_request(request)["error"]["code"], "invalid-view")
+
+    def test_ready_wire_actual_JSONL_EOF_is_clean_and_keeps_action_only_contract(self):
+        request = self.request(self.rows[0])
+        completed = subprocess.run([sys.executable, "-B", "-u", str(Path(worker.__file__))], input=json.dumps(request)+"\n", text=True, capture_output=True, encoding="utf8", timeout=20)
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual([json.loads(line) for line in completed.stdout.splitlines()], [{"id": "ready", "action": {"type": "respond", "choice": "hu"}}])
+
+    def test_ready_wire_source_failure_and_unsupported_phase_never_fallback(self):
+        import ready_income_policy
+        with patch.object(ready_income_policy, "load_policy", side_effect=ValueError("changed ready income source")):
+            result = worker.handle_request(self.request(self.rows[0]))
+        self.assertEqual(result["error"]["code"], "provenance-error")
+        self.assertIn("changed ready income source", result["error"]["message"])
+        request = self.request(self.rows[0])
+        request["phase"] = "exchange"
+        self.assertEqual(worker.handle_request(request)["error"]["code"], "unsupported")
+
+
 class CurrentIncomeWorkerTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

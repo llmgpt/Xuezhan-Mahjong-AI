@@ -6,6 +6,7 @@ worker.py -text
 public_decision_diagnostics.py -text
 v1_income.py -text
 v1_income_policy.py -text
+ready_income_policy.py -text
 test_v1_income_policy.py -text
 # The score oracle fixture is also checked by its complete raw SHA256.
 fixtures/v1-income-host495.json -text

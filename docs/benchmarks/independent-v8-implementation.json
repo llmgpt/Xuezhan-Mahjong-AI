@@ -1,0 +1,269 @@
+{
+  "version": 1,
+  "recordedAtUtc": "2026-10-21T13:53:01.597143+00:00",
+  "implementationBaseCommit": "4f28d3cad67d640c1ff6214b4f0304801a0bcd99",
+  "policy": "candidate-advanced-ready-income-v8",
+  "wirePolicy": "ebony72-advanced-ready-income-v1",
+  "developmentOnly": true,
+  "fullStrategyGamesRun": 0,
+  "newFormalSeeds": 0,
+  "defaultPromoted": false,
+  "model": "Static current waiting shapes, KB-weighted V1 future per-payer self income / current actual single-payer ron income; original opportunity factor once. Removes old speculative meld/pure-suit/multi-step/kong-money terms; other V7 actions retained.",
+  "checks": {
+    "npmFull": {
+      "command": "npm run check",
+      "actualExitCode": 0,
+      "session": 8077,
+      "terminalChunk": "99ce23",
+      "testFiles": 49,
+      "tests": 465,
+      "formatLintTypesBuildPassed": true
+    },
+    "pythonFull": {
+      "command": "python -B -m unittest discover -s scripts/external -p 'test_*.py'",
+      "actualExitCode": 0,
+      "session": 39349,
+      "terminalChunk": "7ec16c",
+      "tests": 178
+    },
+    "registrationRed": {
+      "actualExitCode": 1,
+      "terminalChunk": "e5242a",
+      "testsFailed": 3,
+      "testsPassed": 40
+    },
+    "registrationGreen": {
+      "actualExitCode": 0,
+      "terminalChunk": "186216",
+      "testsPassed": 43
+    },
+    "workerRed": {
+      "actualExitCode": 1,
+      "terminalChunk": "743486",
+      "failedSubtests": 6
+    },
+    "workerGreen": {
+      "actualExitCode": 0,
+      "terminalChunk": "bb10a1",
+      "testsPassed": 4
+    },
+    "behaviorRed": {
+      "argv": [
+        "C:/ProgramData/anaconda3/python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_ready_income_policy.ReadyIncomePolicyTests.test_mixed_root_waits_use_KB_money_instead_of_one_global_multiplier",
+        "test_ready_income_policy.ReadyIncomePolicyTests.test_capped_real_short_hand_changes_legacy_decline_to_accept"
+      ],
+      "cwd": "C:\\1workspace\\xuezhan\\scripts\\external",
+      "startedAtUtc": "2026-10-21T01:02:35.5732914Z",
+      "endedAtUtc": "2026-10-21T01:02:35.9175303Z",
+      "realExitCode": 1,
+      "elapsedSeconds": 0.338968,
+      "pythonProcessCount": 1,
+      "fullGamesExecuted": 0,
+      "newSeeds": 0
+    },
+    "moduleGreen": {
+      "argv": [
+        "C:/ProgramData/anaconda3/python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_ready_income_policy"
+      ],
+      "cwd": "C:\\1workspace\\xuezhan\\scripts\\external",
+      "startedAtUtc": "2026-10-21T01:06:25.9043338Z",
+      "endedAtUtc": "2026-10-21T01:06:30.6975667Z",
+      "realExitCode": 0,
+      "elapsedSeconds": 4.7867333,
+      "pythonProcessCount": 1,
+      "fullGamesExecuted": 0,
+      "newSeeds": 0
+    },
+    "nodeWire": {
+      "actualExitCode": 0,
+      "session": 89381,
+      "terminalChunk": "88c759",
+      "fixedPublicCases": 4,
+      "normalWorkerFinishes": 12
+    }
+  },
+  "sourceFiles": {
+    "scripts/external/ready_income_policy.py": {
+      "bytes": 10410,
+      "sha256": "934aa8d7e3d59c4bd29fb18a99b5d36f82a26dbd418b6dfaba21ed3cbdba203a"
+    },
+    "scripts/external/test_ready_income_policy.py": {
+      "bytes": 15626,
+      "sha256": "4b31d344ff99ccd65a0abb68f48ea2f98622e7a96d802ea1d733ee445f961279"
+    },
+    "scripts/external/worker.py": {
+      "bytes": 22366,
+      "sha256": "852756ab764a1a7ca79d2cabc5540a92cd7196f8c24203c664b099a248dd74b9"
+    },
+    "scripts/external/test_worker.py": {
+      "bytes": 39344,
+      "sha256": "e20b7dc424a1ca70de4352e9c5fd708880380fabc985a17b84fdec714de4b4de"
+    },
+    "scripts/external/.gitattributes": {
+      "bytes": 532,
+      "sha256": "c785577c9b9402c877d97c834da0bb97adf2f5f7b2d151b5770b5c3642454a6a"
+    },
+    "scripts/externalMahjong.ts": {
+      "bytes": 12259,
+      "sha256": "1c8ba45d443b8c8fa391617244bd6bd8d3c36769c54d0a1ff2493a462a4e4952"
+    },
+    "scripts/independentPolicies.ts": {
+      "bytes": 6090,
+      "sha256": "bcb786e737d5217aa70ba47c3ee376e7818dcfc24e39442534f52bc859799315"
+    },
+    "scripts/independentPolicies.test.ts": {
+      "bytes": 18957,
+      "sha256": "48db35f145e1ea16fc70b0c547e3c1803199b2bc28c6d10a502ceac647d8b3c2"
+    },
+    "scripts/externalMahjong.test.ts": {
+      "bytes": 9122,
+      "sha256": "2dccd71f7a4ae19c92fa5a4d60c45f597afa1004a710ff22f9e4bfbe63116603"
+    },
+    "scripts/browserPolicySources.json": {
+      "bytes": 5035,
+      "sha256": "9cff2355950a62c87d0ea396391121e8128d3097216a8074bb53d760cc64480b"
+    },
+    "scripts/browserPolicyAssets.test.ts": {
+      "bytes": 6827,
+      "sha256": "d35a738f15aa2b6cfde039a9f841272f00fe28183671e2252dbd0ec587a5fd3c"
+    }
+  },
+  "evidence": {
+    "local/strength-goal-20261018/ready-income-v8-integration/npm-full.log": {
+      "bytes": 11281,
+      "sha256": "85115ce6f885345fd930c9ded2905ca56599c1701c30e88434cc35930262b381"
+    },
+    "local/strength-goal-20261018/ready-income-v8-integration/python-full.log": {
+      "bytes": 284,
+      "sha256": "48f99f74973e2c0bc474ba50de2ca976c95e637fcaac7be99b17086d0350c62d"
+    },
+    "local/strength-goal-20261018/ready-income-v8-integration/registration-red.log": {
+      "bytes": 7907,
+      "sha256": "cef68e8ae09395d90711d2b0cd65da31ff92e9a9f91595bbe1fc3ad60ec08172"
+    },
+    "local/strength-goal-20261018/ready-income-v8-integration/registration-green.log": {
+      "bytes": 476,
+      "sha256": "8967021b30acc09b0bb3f855ebdbf1222235234fcde47437967162e864934c03"
+    },
+    "local/strength-goal-20261018/ready-income-v8-integration/worker-red.log": {
+      "bytes": 7137,
+      "sha256": "895e94ed9a46d7f956de3380f1cfcabed88e0d8afef107e7d51bf7bc74b33ec9"
+    },
+    "local/strength-goal-20261018/ready-income-v8-integration/worker-green.log": {
+      "bytes": 107,
+      "sha256": "f04d316157027199b94cdfde548cffb1eb91069617b79ee909e66cc17cbf5d17"
+    },
+    "local/strength-goal-20261018/ready-income-v8-integration/node-wire.ts": {
+      "bytes": 2422,
+      "sha256": "fa483a4a952f3a8d4a81b03ecb8ae321439e8310728b24a967d0f1c35c678e05"
+    },
+    "local/strength-goal-20261018/ready-income-v8-integration/node-wire.json": {
+      "bytes": 2208,
+      "sha256": "8900fc9489600a3e14eeaafea1d28190b3400160373cf275ef66cd56003009f0"
+    },
+    "local/strength-goal-20261018/ready-income-v8-implementation/behavior-red.json": {
+      "bytes": 640,
+      "sha256": "4daf6514370371ba65bb84f4cda81665708f31aefbf4a7ed7070b6bcb90ab669"
+    },
+    "local/strength-goal-20261018/ready-income-v8-implementation/behavior-red.stderr.txt": {
+      "bytes": 1849,
+      "sha256": "7a135ec4a9154662a13776c41a4bb9deefedd148cf0cbd58171d6d4809568e75"
+    },
+    "local/strength-goal-20261018/ready-income-v8-implementation/stub-ready_income_policy.py": {
+      "bytes": 453,
+      "sha256": "60019856bd0928023d14c3b599d12734b5e40b5ba401ff257cbc929d9676d01e"
+    },
+    "local/strength-goal-20261018/ready-income-v8-implementation/opportunity-order-red.json": {
+      "bytes": 528,
+      "sha256": "29a5df3493533b91840cf5a8eec979edb13cbdaab6c9a6d56a788bf0eec07a85"
+    },
+    "local/strength-goal-20261018/ready-income-v8-implementation/opportunity-order-red.stderr.txt": {
+      "bytes": 6433,
+      "sha256": "c487e04e4342f66e238c7e0c8a42e5dfc39a5161e8b6ce6bd662a1b209365476"
+    },
+    "local/strength-goal-20261018/ready-income-v8-implementation/green-final.json": {
+      "bytes": 433,
+      "sha256": "2dd49822b83f56a8c29040adc94a9a4540e99bddd51cc811068d33239d6eed96"
+    },
+    "local/strength-goal-20261018/ready-income-v8-implementation/green-final.stderr.txt": {
+      "bytes": 3522,
+      "sha256": "513fe349efd2723695c76e8ad0a1ec4ee5518f445315e20136bd125ebc2b0dd6"
+    }
+  },
+  "limits": [
+    "Fixed synthetic own/public states and the existing 263-frame population are regression checks, not independent strength samples.",
+    "No full V8 development game, new formal holdout, V8 browser integration or expert-level claim yet.",
+    "The original opportunity factor and fixed current payer count remain uncalibrated; future payments to others, flow-end risks and actual post-decline meld changes are not priced.",
+    "V8 diagnostics are explicitly unsupported by the current browser A observer; the browser 39-source payload excludes this optional module."
+  ],
+  "existingBrowserCompatibilityAfterNewWire": {
+    "actualNativeWorker": true,
+    "fixedOldAPublicCases": 4,
+    "exactActionsAndDiagnostics": true,
+    "sourceFiles": 39,
+    "newCandidatePackaged": false,
+    "actualV8BrowserVerified": false,
+    "all17ResourcesMatchProduction": true,
+    "workerPythonSha256": "852756ab764a1a7ca79d2cabc5540a92cd7196f8c24203c664b099a248dd74b9",
+    "payloadSha256": "794b649724cb60f22006a9b4107168eb145a3550756df03900c4ceb105fe6c75",
+    "buildActualExitCode": 0,
+    "buildTerminalChunk": "f25fcf",
+    "tabClosed": true,
+    "previewStoppedWithCtrlC": true,
+    "previewStopActualExitCode": 1,
+    "previewStopTerminalChunk": "45a012",
+    "evidence": {
+      "local/strength-goal-20261018/production-app-qa-v8-wire/browser-four-nodes.json": {
+        "bytes": 7536,
+        "sha256": "f4b504d314696bfa7a8ab735505ba9ca61b1befbcde20d96ba86d50c37034dab"
+      },
+      "local/strength-goal-20261018/production-app-qa-v8-wire/actual-reason.png": {
+        "bytes": 53855,
+        "sha256": "30f022145b87e7454f28874ab73ad06eb192c9bc6d24e9d1328551e65c63fcac"
+      },
+      "local/strength-goal-20261018/production-app-qa-v8-wire/actual-reason-ax.txt": {
+        "bytes": 1519,
+        "sha256": "2c574d5282b199346fee4a66190b2cbcac6dd6beba16eef8613206ac094d4a07"
+      },
+      "local/strength-goal-20261018/production-app-qa-v8-wire/dist/strategy/manifest.json": {
+        "bytes": 6980,
+        "sha256": "4311dc4f9193f61ee7c9bc70a3f64ff3e52a6f369bf0bc0c871331a68618c55b"
+      }
+    },
+    "limitation": "Only compatibility of existing browser A after adding the lazy offline V8 dispatch; no new full game, V8 GUI or audio verification."
+  },
+  "independentSourceReview": {
+    "directory": "local/strength-goal-20261018/ready-income-v8-source-review",
+    "result": "passed; no blocking or nonblocking source findings",
+    "actualFocusedPythonTests": 21,
+    "fixedPublicFrames": 267,
+    "ordinaryHuFrames": 224,
+    "hostScoringCallsOnExistingFrames": 11248,
+    "explicitSyntheticScenarios": 19,
+    "hostScoringCallsOnSyntheticScenarios": 420,
+    "actualNodeJsonlWorkersFinished": 12,
+    "fullGamesExecuted": 0,
+    "newSeeds": 0,
+    "browserFieldIndependentlyAudited": false,
+    "artifacts": {
+      "REPORT.md": "1f4dd66c7cfa03b9d1e122a822ab24a4db12fcb591068f451696534201b923fa",
+      "audit.json": "154e078dcab72bc146ded2d78dd7e6e3dbbb73e74e1859ef75504f8b5a1b7e6a",
+      "manifest.json": "6bb934ee6ceb68fa2d002d7c3a0087c6abb45ae68f805a43d787032bff0607d7",
+      "execution.json": "d4a0b9e194c8d05ce69aca04c0203eb62b957f3f4fba7ec11222302536558061",
+      "host-H-M-C0-checks.json": "bda1986dcf6ae4af828a91797512fd4a0702fc85f248260edbf59144fc90d02e",
+      "synthetic-host-results.json": "406216a86e628e8bafd1abc710e036e01333878c25765252e7589ce079901840",
+      "python-probe.json": "668ca76d87d04d5e8acfca603268036d425b72c3cba8f6b333d2ae04d3b0c500",
+      "lazy-probe-results.json": "5c2148b9ebfe7f0d1d370206eb60dc94e37dee691fb83558c5641fe69b0dbfcd"
+    }
+  }
+}
