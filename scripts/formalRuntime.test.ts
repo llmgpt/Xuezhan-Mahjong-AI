@@ -52,6 +52,8 @@ describe("正式运行环境的实际文件闭包", () => {
       (source) => {
         expect(source).not.toContain("import numpy");
         expect(source).not.toContain("import fanfou_policy");
+        expect(source).not.toContain("import v1_income_policy");
+        expect(source).not.toContain("import ready_income_policy");
         return JSON.stringify(pythonInfo());
       },
     );
@@ -90,6 +92,33 @@ describe("正式运行环境的实际文件闭包", () => {
       "c".repeat(64),
     );
   });
+
+  it.each([
+    {
+      policy: "candidate-advanced-income-v7",
+      module: "v1_income_policy",
+    },
+    {
+      policy: "candidate-advanced-ready-income-v8",
+      module: "ready_income_policy",
+    },
+  ])(
+    "金额候选 $policy 的实际加载路径必须进入运行时探针",
+    async ({ policy, module }) => {
+      await captureFormalRuntime(
+        { policies: [policy], lineups: ["ui-bots"] },
+        (source) => {
+          const imports = source.indexOf(`import ${module}\n`);
+          const load = source.indexOf(`${module}.load_policy()`);
+          const collect = source.indexOf("modules = {}");
+          expect(imports).toBeGreaterThanOrEqual(0);
+          expect(load).toBeGreaterThan(imports);
+          expect(load).toBeLessThan(collect);
+          return JSON.stringify(pythonInfo());
+        },
+      );
+    },
+  );
 
   it("相同版本的Python二进制或NumPy文件变化仍留在冻结记录中", async () => {
     const config = { policies: ["teacher-v1"], lineups: ["fanfou-ba"] };

@@ -1,6 +1,6 @@
 # 正式评测入口准备
 
-> 更新于 2026-10-20。已实现科学协议/种子登记、原始动作重放、运行时文件采集、持久化前缀、真实单seed事务和正式外层控制器。新增控制器及固定CLI后的全量TypeScript检查为44文件380项通过（两个worker），lint、类型检查通过；Python源未改，原95项结果保留。没有创建真实正式种子预约，没有选定实际正式候选、门槛或新留出。开发CLI仍拒绝 `formal` 模式；下述正式入口与准备探针另行区分。
+> 更新于 2026-10-22。已实现科学协议/种子登记、原始动作重放、运行时文件采集、持久化前缀、真实单seed事务和正式外层控制器。最新完整`npm run check`为49文件467项通过，含格式、lint、类型和构建；V7/V8运行时探针补加载见末段及[准备证据](benchmarks/formal-income-runtime-preparation.json)。没有创建真实正式种子预约，没有选定实际正式候选、门槛或新留出。开发CLI仍拒绝 `formal` 模式；下述历史准备探针和正式执行另行区分。
 
 [formalProtocol.ts](../scripts/formalProtocol.ts) 明确区分外层 `purpose=formal` 与复用引擎的 `innerEngineMode=development`。科学配置必须先指定样本数、完整对手映射、源码指纹、V1 规则、相关运行时、全部通过条件、统计与失败恢复合同；这一步不含种子。四座位、共同/组合两开局及至少两个不同作者的外部来源是必要条件，初级与高级 ebony 阵容只算同一来源。主提升条件必须相对当前老师、阈值非负，且覆盖两外部来源；统计方法不能在见到结果后更换。
 
@@ -51,3 +51,7 @@
 固定入口 [evaluate-formal.ts](../scripts/evaluate-formal.ts) 只接受 `seal`、`verify`、`reserve <ledger.json> <project-root> <seeds.json> <shards>`、`run <shard>`、`finalize`，所有操作均使用真实服务。四项参数测试拒绝未知/额外参数、非规范分片和无效种子数组；没有注入测试执行器、跳过审计或生成替代seed的CLI开关。必须先在独立复制目录编译为 `scripts/evaluate-formal.mjs`，普通活动源码入口不能冒充冻结产物。
 
 已实际复制当前107项执行源，用esbuild的真实metafile核对36项构建输入全部来自复制目录，独立Node产物执行 `seal` 和 `verify` 均退出0；完整运行时214模块/库及830个NumPy自有非缓存文件一致。产物SHA为 `c8ea33af5be03bc0924840d6da4ecb83242ed972406b67bf4994123c349e7b19`，[准备证据](benchmarks/formal-entry-preparation.json)保留命令及原始文件摘要。此探针的科学配置明确是 `preparation-only-cli-compatibility`，只是验证真实入口的封存/核验，未选种子、未创建账本、未执行牌局或真实外层正式网格，也不是最终候选及门槛的选择。实际历史完整性、正式科学选择和浏览器验收仍待完成。
+
+2026-10-22补查发现：选中V7/V8时，原Python探针只加载基础高级模块，没有加载相应金额候选的实际facade。两项回归先真实失败，再按所选policy补齐load。只读真实探针核V7/UI的92个模块/库、V8/UI及两外部阵容的219个模块/库和830个NumPy文件，新增金额模块SHA均与当前115项源码对应；V7探针没有额外加载V8。探针未执行choose、牌局或种子，未封存新的正式capsule，也不补造历史二进制身份。当前运行中的V8开发快照未改；正式执行前仍需用最终选定源码重新构建、seal与verify。原始收据与完整检查见[金额候选运行时准备](benchmarks/formal-income-runtime-preparation.json)。
+
+独立补查另复现一个既有边界：`-B`只禁止写入cache，仍可能读取有效timestamp `.pyc`；只记录`module.__file__`源码SHA不能单独证明实际执行了这些源码。隔离的常量worker合成探针实际执行值2/3，完整runtime报告却相同，未涉及真实策略或牌局。该材料在`local/strength-goal-20261018/ready-income-v8-source-review/formal-runtime-income-review/`。新正式冻结前须让探针与真实worker采用一致的源码/cache合同；本次模块补加载不冒称已经解决这个问题，合成缺口也不证明旧V8运行曾用了错误cache。

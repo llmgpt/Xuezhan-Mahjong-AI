@@ -54,6 +54,8 @@ function pythonSource(
   advanced: boolean,
   numpy: boolean,
   cap8: boolean,
+  income: boolean,
+  readyIncome: boolean,
 ): string {
   return `
 import hashlib, json, pathlib, platform, sys, sysconfig
@@ -70,6 +72,8 @@ if pathlib.Path(worker.__file__).resolve() != worker_directory / 'worker.py':
     raise RuntimeError('Worker resolved outside the frozen policy root')
 ${advanced ? "import advanced_policy\nadvanced_policy.load_policy()" : ""}
 ${cap8 ? "import cap8_policy\ncap8_policy.load_policy()" : ""}
+${income ? "import v1_income_policy\nv1_income_policy.load_policy()" : ""}
+${readyIncome ? "import ready_income_policy\nready_income_policy.load_policy()" : ""}
 ${
   numpy
     ? `
@@ -221,6 +225,8 @@ export async function captureFormalRuntime(
         advanced,
         numpy,
         policies.includes("candidate-advanced-cap8-v6"),
+        policies.includes("candidate-advanced-income-v7"),
+        policies.includes("candidate-advanced-ready-income-v8"),
       ),
     ),
   );
