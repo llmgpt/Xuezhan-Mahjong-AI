@@ -56,9 +56,13 @@ V7完整开发组已完成：113冻结源/28构建输入、40旧seed×四座位�
 
 V8当前等待牌金额模型已实现，只替换合法点胡check_hu，逐KB完成牌按V1未来每家实付/当前单家实收比较，人数和分母各一次；明确删除旧推测金钩/清一色/未来杠钱项，保留原机会折扣与其他V7动作。代表性金额/动作真实RED→GREEN、263既有公开帧隔离、49文件465项TS完整check和178项Python均实际通过；Node注册→真实JSONL另核四帧，12worker正常收尾。新离线路由后的39源浏览器包仍排除V8模块，原A四帧动作/诊断又经真实native Worker精确匹配；这不是V8 GUI或新强度样本。实现、局限与源码/日志SHA见[V8记录](INDEPENDENT_BENCHMARK_V8.md)及[实现证据](benchmarks/independent-v8-implementation.json)。
 
-V8开发组已在2026-10-22冻结并启动：115源自2dd067a、29构建输入、237项派生fingerprint及309项快照输入绑定。独立门核旧113源的107不变/6明确差异+2新增lazy源，旧ID的Python/TS投影与旧动作路径等价；当前版本合同相同，旧二进制身份unknown保留。缓存18合成检查及真实2880结果/rawtrace预检、调度器14合成检查及实际Windows check均通过。10片×4旧seed、最多两片并行，源/协议在`development-v8-{source,plan}/`，实际Popen及wait收据在`ready-income-v8-orchestration/run-attempt-1/`，共同前缀仍为`local/strength-goal-20261018/`。逐局origin区分2880复用T/E/V7控制与960真实新V8执行；逻辑3840仍只有40旧seed，没有新正式预约。下一步等全组完整，再核来源/原字节、全部合法状态重放、六比较的12官方面板/七收入/四座位和V8−V7合法普通点胡首分歧；不看部分成绩选子集，不把金额正确性替代净分提升。详见[V8记录](INDEPENDENT_BENCHMARK_V8.md)与[冻结协议](benchmarks/independent-v8-development-protocol.json)。[外部标尺补查](EXTERNAL_STRATEGY_OPTIONS.md)仍未确认同规则较高水平锚点。
+V8开发组在2026-10-22冻结并执行完成：115源自2dd067a、29构建输入、237项派生fingerprint及309项快照输入绑定。独立门核旧113源的107不变/6明确差异+2新增lazy源，旧ID的Python/TS投影与旧动作路径等价；当前版本合同相同，旧二进制身份unknown保留。缓存18合成检查及真实2880结果/rawtrace预检、调度器14合成检查及实际Windows check均通过。10片×4旧seed、最多两片并行，源/协议在`development-v8-{source,plan}/`，实际Popen及wait收据在`ready-income-v8-orchestration/run-attempt-1/`，共同前缀仍为`local/strength-goal-20261018/`。逐局origin区分2880复用T/E/V7控制与960真实新V8执行；逻辑3840仍只有40旧seed，没有新正式预约。该组及全部来源/原字节、完整合法状态重放、12官方面板/七收入/四座位与首分歧核查现已完成，全部真实退出0；未读取部分成绩选择子集。详见[V8记录](INDEPENDENT_BENCHMARK_V8.md)与[冻结协议](benchmarks/independent-v8-development-protocol.json)。[外部标尺补查](EXTERNAL_STRATEGY_OPTIONS.md)仍未确认同规则较高水平锚点。
+
+V8完整结果仍未证明提升：3840逻辑配置=2880旧控制+960新执行，253736决定/420515状态全重放；72官方比较/504收入与四席24比较/168收入全部独立核齐。V8−T总体+0.416667、95%近似区间[-0.048253,0.881586]，V8−V7仅+0.001042、区间[-0.180054,0.182137]；实际组合×UI为+0.231250、区间[-0.435773,0.898273]。V8−V7的130配置/92公开context都是合法普通点胡首分歧，整局净差合计仅+1；其余830完整轨迹及结果相同。未提升默认策略，继续诊断全部分歧及拒胡后的净分风险；正式留出和强标尺仍待完成。[完整报告](INDEPENDENT_BENCHMARK_V8.md)与[机器记录](benchmarks/independent-v8-complete.json)保留全部分层、负例、来源和真实终端证据。
 
 2026-10-22另已取得并核图公开川麻实战论文与手册，规则差异和证据边界见[实战文献补查](EXTERNAL_STRATEGY_OPTIONS.md)。隔离的`public-wall-suit-prototype/`精确组合计数原型14项纯数学测试通过；当前时点的清缺证明、公开库存与未知槽的真实映射仍在审核。没有接入V8、改变本组策略或据部分成绩调参，数学原型通过也不代表牌力改善。
+
+正式入口另补齐V7/V8所选金额模块的实际runtime加载：两回归RED后通过，真实只读探针0牌局/0seed，V7为92模块/库，V8含两作者阵容为219模块/库+830NumPy文件；完整check为49文件467项通过。运行中的V8冻结源未改，当前活动源码的正式探针修复不冒称已用于历史执行。见[准备证据](benchmarks/formal-income-runtime-preparation.json)，新正式候选/门槛/留出仍未选。
 
 1. 优先建立独立强度对照：适配并审核不共享当前决策实现的外部川麻参考策略，核齐规则、许可和公开信息边界；在合理相同开局下比较出牌与碰杠，并保留整套策略对照。详见[验证顺序](TEACHER_INDEPENDENT_VALIDATION.md)。先做开发诊断，再在运行前冻结协议、源码、对手和新的未用留出种子；不能用已有结果反复调参后宣称有效。
 2. 根据独立对照定位并提高攻守、牌型收益、碰杠和残局能力；真实牌局与完整分歧局面用于诊断和回归。规则、有限搜索、模仿学习或强化学习均以可验证的净分收益和成本决定取舍。原因说明同步展示实际依据；教学题库、课程和学习前后测不作为当前策略交付的前置条件。
