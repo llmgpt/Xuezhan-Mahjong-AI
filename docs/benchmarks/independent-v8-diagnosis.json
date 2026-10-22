@@ -1,0 +1,554 @@
+{
+  "kind": "complete-v8-v7-fixed-public-node-diagnosis",
+  "version": 1,
+  "developmentOnly": true,
+  "newBenchmarkGames": 0,
+  "newSeeds": 0,
+  "counts": {
+    "fullPairedConfigurations": 960,
+    "equalFullTracesAndFinals": 830,
+    "changedActionPairs": 130,
+    "uniqueFullPublicContexts": 92,
+    "independentSeedUnits": 40,
+    "changedPairSeedUnits": 37,
+    "wholeGamesExecuted": 0,
+    "newSeeds": 0
+  },
+  "allChangedPairs": {
+    "pairs": 130,
+    "uniqueContexts": 92,
+    "seeds": 37,
+    "finalDeltaSigns": {
+      "negative": 54,
+      "positive": 56,
+      "zero": 20
+    },
+    "finalDeltaSum": 1,
+    "incomeDeltaSums": {
+      "selfWin": -395,
+      "discardWin": 180,
+      "dealIn": 75,
+      "paidSelfWin": 187,
+      "kong": -32,
+      "flower": 0,
+      "ready": -14
+    }
+  },
+  "uniqueContextModelSummary": {
+    "contexts": 92,
+    "byDirection": {
+      "V8-hu_V7-decline": 92
+    },
+    "byActions": {
+      "pung -> hu": 39,
+      "pass -> hu": 49,
+      "kong -> hu": 4
+    },
+    "numeric": {
+      "wall": {
+        "n": 92,
+        "min": 6,
+        "median": 28.0,
+        "max": 50,
+        "mean": 28.554347826086957
+      },
+      "currentIncome": {
+        "n": 92,
+        "min": 1,
+        "median": 2.0,
+        "max": 8,
+        "mean": 2.6630434782608696
+      },
+      "v8WaitingRatio": {
+        "n": 92,
+        "min": 0.0,
+        "median": 0.655920262163989,
+        "max": 0.9870560897083598,
+        "mean": 0.6315469007443746
+      },
+      "v7WaitingFactor": {
+        "n": 92,
+        "min": 1.0141314729000195,
+        "median": 1.4568420608191843,
+        "max": 6.246141955893654,
+        "mean": 1.8274931449999359
+      },
+      "waitingCopies": {
+        "n": 92,
+        "min": 0,
+        "median": 3.0,
+        "max": 9,
+        "mean": 3.0434782608695654
+      },
+      "knowledgeTotal": {
+        "n": 92,
+        "min": 27,
+        "median": 58.0,
+        "max": 89,
+        "mean": 58.26086956521739
+      }
+    }
+  },
+  "byActualActionChange": {
+    "kong -> hu": {
+      "pairs": 6,
+      "uniqueContexts": 4,
+      "seeds": 4,
+      "finalDeltaSigns": {
+        "negative": 3,
+        "positive": 1,
+        "zero": 2
+      },
+      "finalDeltaSum": -36,
+      "incomeDeltaSums": {
+        "selfWin": -45,
+        "discardWin": 14,
+        "dealIn": 3,
+        "paidSelfWin": 0,
+        "kong": -8,
+        "flower": 0,
+        "ready": 0
+      }
+    },
+    "pass -> hu": {
+      "pairs": 72,
+      "uniqueContexts": 49,
+      "seeds": 29,
+      "finalDeltaSigns": {
+        "positive": 32,
+        "negative": 28,
+        "zero": 12
+      },
+      "finalDeltaSum": 79,
+      "incomeDeltaSums": {
+        "selfWin": -145,
+        "discardWin": 91,
+        "dealIn": 53,
+        "paidSelfWin": 114,
+        "kong": -24,
+        "flower": 0,
+        "ready": -10
+      }
+    },
+    "pung -> hu": {
+      "pairs": 52,
+      "uniqueContexts": 39,
+      "seeds": 24,
+      "finalDeltaSigns": {
+        "negative": 23,
+        "positive": 23,
+        "zero": 6
+      },
+      "finalDeltaSum": -42,
+      "incomeDeltaSums": {
+        "selfWin": -205,
+        "discardWin": 75,
+        "dealIn": 19,
+        "paidSelfWin": 73,
+        "kong": 0,
+        "flower": 0,
+        "ready": -4
+      }
+    }
+  },
+  "byWallBand": {
+    "17-32": {
+      "pairs": 75,
+      "uniqueContexts": 53,
+      "seeds": 31,
+      "finalDeltaSigns": {
+        "negative": 28,
+        "positive": 33,
+        "zero": 14
+      },
+      "finalDeltaSum": 37,
+      "incomeDeltaSums": {
+        "selfWin": -194,
+        "discardWin": 105,
+        "dealIn": 44,
+        "paidSelfWin": 102,
+        "kong": -20,
+        "flower": 0,
+        "ready": 0
+      }
+    },
+    "2-8": {
+      "pairs": 2,
+      "uniqueContexts": 2,
+      "seeds": 2,
+      "finalDeltaSigns": {
+        "positive": 1,
+        "zero": 1
+      },
+      "finalDeltaSum": 3,
+      "incomeDeltaSums": {
+        "selfWin": 0,
+        "discardWin": 12,
+        "dealIn": 0,
+        "paidSelfWin": 0,
+        "kong": -1,
+        "flower": 0,
+        "ready": -8
+      }
+    },
+    "33-55": {
+      "pairs": 43,
+      "uniqueContexts": 31,
+      "seeds": 19,
+      "finalDeltaSigns": {
+        "positive": 15,
+        "negative": 23,
+        "zero": 5
+      },
+      "finalDeltaSum": -91,
+      "incomeDeltaSums": {
+        "selfWin": -189,
+        "discardWin": 37,
+        "dealIn": 13,
+        "paidSelfWin": 65,
+        "kong": -13,
+        "flower": 0,
+        "ready": -4
+      }
+    },
+    "9-16": {
+      "pairs": 10,
+      "uniqueContexts": 6,
+      "seeds": 5,
+      "finalDeltaSigns": {
+        "negative": 3,
+        "positive": 7
+      },
+      "finalDeltaSum": 52,
+      "incomeDeltaSums": {
+        "selfWin": -12,
+        "discardWin": 26,
+        "dealIn": 18,
+        "paidSelfWin": 20,
+        "kong": 2,
+        "flower": 0,
+        "ready": -2
+      }
+    }
+  },
+  "byCurrentIncome": {
+    "1": {
+      "pairs": 53,
+      "uniqueContexts": 37,
+      "seeds": 26,
+      "finalDeltaSigns": {
+        "positive": 26,
+        "negative": 20,
+        "zero": 7
+      },
+      "finalDeltaSum": 42,
+      "incomeDeltaSums": {
+        "selfWin": -70,
+        "discardWin": 8,
+        "dealIn": 38,
+        "paidSelfWin": 89,
+        "kong": -19,
+        "flower": 0,
+        "ready": -4
+      }
+    },
+    "2": {
+      "pairs": 37,
+      "uniqueContexts": 26,
+      "seeds": 20,
+      "finalDeltaSigns": {
+        "negative": 19,
+        "zero": 11,
+        "positive": 7
+      },
+      "finalDeltaSum": -100,
+      "incomeDeltaSums": {
+        "selfWin": -171,
+        "discardWin": 42,
+        "dealIn": 19,
+        "paidSelfWin": 14,
+        "kong": -2,
+        "flower": 0,
+        "ready": -2
+      }
+    },
+    "4": {
+      "pairs": 27,
+      "uniqueContexts": 19,
+      "seeds": 16,
+      "finalDeltaSigns": {
+        "negative": 13,
+        "positive": 14
+      },
+      "finalDeltaSum": 3,
+      "incomeDeltaSums": {
+        "selfWin": -112,
+        "discardWin": 66,
+        "dealIn": 13,
+        "paidSelfWin": 41,
+        "kong": -5,
+        "flower": 0,
+        "ready": 0
+      }
+    },
+    "8": {
+      "pairs": 13,
+      "uniqueContexts": 10,
+      "seeds": 8,
+      "finalDeltaSigns": {
+        "positive": 9,
+        "negative": 2,
+        "zero": 2
+      },
+      "finalDeltaSum": 56,
+      "incomeDeltaSums": {
+        "selfWin": -42,
+        "discardWin": 64,
+        "dealIn": 5,
+        "paidSelfWin": 43,
+        "kong": -6,
+        "flower": 0,
+        "ready": -8
+      }
+    }
+  },
+  "byActiveOpponents": {
+    "1": {
+      "pairs": 6,
+      "uniqueContexts": 4,
+      "seeds": 3,
+      "finalDeltaSigns": {
+        "positive": 1,
+        "zero": 2,
+        "negative": 3
+      },
+      "finalDeltaSum": -7,
+      "incomeDeltaSums": {
+        "selfWin": -19,
+        "discardWin": 9,
+        "dealIn": 1,
+        "paidSelfWin": 0,
+        "kong": 2,
+        "flower": 0,
+        "ready": 0
+      }
+    },
+    "2": {
+      "pairs": 45,
+      "uniqueContexts": 30,
+      "seeds": 24,
+      "finalDeltaSigns": {
+        "positive": 25,
+        "negative": 12,
+        "zero": 8
+      },
+      "finalDeltaSum": 102,
+      "incomeDeltaSums": {
+        "selfWin": -74,
+        "discardWin": 93,
+        "dealIn": 26,
+        "paidSelfWin": 81,
+        "kong": -16,
+        "flower": 0,
+        "ready": -8
+      }
+    },
+    "3": {
+      "pairs": 79,
+      "uniqueContexts": 58,
+      "seeds": 30,
+      "finalDeltaSigns": {
+        "negative": 39,
+        "positive": 30,
+        "zero": 10
+      },
+      "finalDeltaSum": -94,
+      "incomeDeltaSums": {
+        "selfWin": -302,
+        "discardWin": 78,
+        "dealIn": 48,
+        "paidSelfWin": 106,
+        "kong": -18,
+        "flower": 0,
+        "ready": -6
+      }
+    }
+  },
+  "byLineupOpening": {
+    "ebony-advanced/common": {
+      "pairs": 18,
+      "uniqueContexts": 18,
+      "seeds": 16,
+      "finalDeltaSigns": {
+        "negative": 10,
+        "positive": 6,
+        "zero": 2
+      },
+      "finalDeltaSum": -19,
+      "incomeDeltaSums": {
+        "selfWin": -75,
+        "discardWin": 29,
+        "dealIn": 1,
+        "paidSelfWin": 35,
+        "kong": -7,
+        "flower": 0,
+        "ready": -2
+      }
+    },
+    "ebony-advanced/composite": {
+      "pairs": 25,
+      "uniqueContexts": 25,
+      "seeds": 21,
+      "finalDeltaSigns": {
+        "negative": 12,
+        "positive": 11,
+        "zero": 2
+      },
+      "finalDeltaSum": -4,
+      "incomeDeltaSums": {
+        "selfWin": -80,
+        "discardWin": 36,
+        "dealIn": 13,
+        "paidSelfWin": 37,
+        "kong": -6,
+        "flower": 0,
+        "ready": -4
+      }
+    },
+    "fanfou-ba/common": {
+      "pairs": 23,
+      "uniqueContexts": 23,
+      "seeds": 19,
+      "finalDeltaSigns": {
+        "positive": 11,
+        "negative": 8,
+        "zero": 4
+      },
+      "finalDeltaSum": 19,
+      "incomeDeltaSums": {
+        "selfWin": -53,
+        "discardWin": 20,
+        "dealIn": 17,
+        "paidSelfWin": 43,
+        "kong": -8,
+        "flower": 0,
+        "ready": 0
+      }
+    },
+    "fanfou-ba/composite": {
+      "pairs": 21,
+      "uniqueContexts": 21,
+      "seeds": 18,
+      "finalDeltaSigns": {
+        "positive": 11,
+        "negative": 6,
+        "zero": 4
+      },
+      "finalDeltaSum": 27,
+      "incomeDeltaSums": {
+        "selfWin": -53,
+        "discardWin": 29,
+        "dealIn": 19,
+        "paidSelfWin": 39,
+        "kong": -7,
+        "flower": 0,
+        "ready": 0
+      }
+    },
+    "ui-bots/common": {
+      "pairs": 18,
+      "uniqueContexts": 18,
+      "seeds": 16,
+      "finalDeltaSigns": {
+        "positive": 9,
+        "negative": 5,
+        "zero": 4
+      },
+      "finalDeltaSum": 15,
+      "incomeDeltaSums": {
+        "selfWin": -36,
+        "discardWin": 35,
+        "dealIn": 10,
+        "paidSelfWin": 15,
+        "kong": -1,
+        "flower": 0,
+        "ready": -8
+      }
+    },
+    "ui-bots/composite": {
+      "pairs": 25,
+      "uniqueContexts": 25,
+      "seeds": 24,
+      "finalDeltaSigns": {
+        "negative": 13,
+        "positive": 8,
+        "zero": 4
+      },
+      "finalDeltaSum": -37,
+      "incomeDeltaSums": {
+        "selfWin": -98,
+        "discardWin": 31,
+        "dealIn": 15,
+        "paidSelfWin": 18,
+        "kong": -3,
+        "flower": 0,
+        "ready": 0
+      }
+    }
+  },
+  "fixedActionsReproduced": {
+    "publicContexts": 92,
+    "V7CheckHuCalls": 92,
+    "V7V8V7WorkerActionCalls": 276,
+    "sourceOnlyImports": true,
+    "inputsUnchanged": true
+  },
+  "observations": {
+    "completedToolChunk": "b77a5b",
+    "sessionId": 94334,
+    "actualExitCode": 0,
+    "focusedTests": 7
+  },
+  "artifacts": {
+    "local/strength-goal-20261018/ready-income-v8-diagnosis/execution-receipt.json": {
+      "sha256": "8a353e83c851729332348e9220e2b70333a69a7a39e0a17ee77e4030af7de8d1",
+      "bytes": 6040
+    },
+    "local/strength-goal-20261018/ready-income-v8-diagnosis/summary.json": {
+      "sha256": "ac1d05c6b357a35b8acf1bdd8d01bf91181e825aae628ef3bf42468cd25b442a",
+      "bytes": 61355
+    },
+    "local/strength-goal-20261018/ready-income-v8-diagnosis/all-130-cases.json": {
+      "sha256": "ccc8a25b661f02d09210cd4ab76a9b3c0b45c5f4f27a5c105816a699cb52afa8",
+      "bytes": 2249970
+    },
+    "local/strength-goal-20261018/ready-income-v8-diagnosis/all-92-contexts.json": {
+      "sha256": "1763cd921faee985aafd909ac347423683e22aa514a1f0f389d055763b074b25",
+      "bytes": 1681485
+    },
+    "local/strength-goal-20261018/ready-income-v8-diagnosis/all-960-paired-finals.json": {
+      "sha256": "f3a4ebbcb73e3a4ddac82b878ae9913ae827977552905fd8ac69e9fa359efcef",
+      "bytes": 295511
+    },
+    "local/strength-goal-20261018/ready-income-v8-diagnosis/analyze_all.py": {
+      "sha256": "05f56213dde2226ec43936e4699f371310f1e5c02651896f33d92a4d5a4d6521",
+      "bytes": 25048
+    },
+    "local/strength-goal-20261018/ready-income-v8-diagnosis/test_analysis.py": {
+      "sha256": "90be2c8e9771605ce5c7a5d11b6f8671d2438e79d95699fbd20e0a45126a65f3",
+      "bytes": 3649
+    },
+    "local/strength-goal-20261018/ready-income-v8-diagnosis/preparation-failures.json": {
+      "sha256": "1694bd5354ef1c34808056b70747b65583c4cf43a451d7194ecb7e7413d56032",
+      "bytes": 832
+    }
+  },
+  "conclusion": "All 130 changed configurations accept hu where V7 declines. Both avoided future payments and lost future self-win/meld opportunities matter; full paired final differences are not per-action causal values or optimal labels.",
+  "limitations": [
+    "Final scores and seven incomes are paired whole-game associations, never causal or action-optimal labels.",
+    "Multiple lineup/opening/seat configurations share each seed; the 130 cases and 92 contexts are not independent samples.",
+    "The waiting model freezes hand/melds and payer count, retains an uncalibrated opportunity approximation, and omits future deal-in/payment/meld changes.",
+    "These are reused exploratory development seeds, not new formal/pre-registered acceptance or proof of expert strength.",
+    "Pure fixed-node calls do not evaluate a full counterfactual action tree."
+  ]
+}
