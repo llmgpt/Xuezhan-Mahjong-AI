@@ -1,6 +1,6 @@
 # 正式评测入口准备
 
-> 更新于 2026-10-22。已实现科学协议/种子登记、原始动作重放、运行时文件采集、持久化前缀、真实单seed事务和正式外层控制器。最新完整`npm run check`为49文件467项通过，含格式、lint、类型和构建；V7/V8运行时探针补加载见末段及[准备证据](benchmarks/formal-income-runtime-preparation.json)。没有创建真实正式种子预约，没有选定实际正式候选、门槛或新留出。开发CLI仍拒绝 `formal` 模式；下述历史准备探针和正式执行另行区分。
+> 更新于 2026-10-22。已实现科学协议/种子登记、原始动作重放、运行时文件采集、持久化前缀、真实单seed事务和正式外层控制器。V9加入后的完整`npm run check`为52文件487项通过，含格式、lint、类型和构建；V9非点胡节点仍用V8，其runtime也须加载ready-income模块，见[V9实现记录](benchmarks/independent-v9-implementation.json)。V7/V8早期真实探针见[准备证据](benchmarks/formal-income-runtime-preparation.json)。没有创建真实正式种子预约，没有选定实际正式候选、门槛或新留出。开发CLI仍拒绝 `formal` 模式；下述历史准备探针和正式执行另行区分。
 
 [formalProtocol.ts](../scripts/formalProtocol.ts) 明确区分外层 `purpose=formal` 与复用引擎的 `innerEngineMode=development`。科学配置必须先指定样本数、完整对手映射、源码指纹、V1 规则、相关运行时、全部通过条件、统计与失败恢复合同；这一步不含种子。四座位、共同/组合两开局及至少两个不同作者的外部来源是必要条件，初级与高级 ebony 阵容只算同一来源。主提升条件必须相对当前老师、阈值非负，且覆盖两外部来源；统计方法不能在见到结果后更换。
 

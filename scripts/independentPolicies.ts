@@ -7,6 +7,7 @@ import {
   type RolloutDecision,
 } from "../src/game/rolloutTeacher";
 import { chooseStrongAction } from "../src/game/strongTeacher";
+import { evaluateRonContinuationDecision } from "../src/game/ronContinuationTeacher";
 import { chooseTeacherAction } from "../src/game/teacher";
 import type { PlayerView } from "../src/game/view";
 import {
@@ -28,6 +29,7 @@ export const INDEPENDENT_POLICY_IDS = [
   "candidate-advanced-cap8-v6",
   "candidate-advanced-income-v7",
   "candidate-advanced-ready-income-v8",
+  "candidate-advanced-ron-continuation-v9",
   "ebony-initial",
   "ebony72-advanced-public-v1",
   "fanfou-ba-composite-v1",
@@ -40,6 +42,7 @@ const ADVANCED_COMPONENTS = {
   "candidate-advanced-actions-v5": "actions",
   "candidate-advanced-income-v7": "full",
   "candidate-advanced-ready-income-v8": "full",
+  "candidate-advanced-ron-continuation-v9": "full",
 } as const;
 
 // Fixed seat vectors. Internal opponents are sensitivity controls, not additional
@@ -111,7 +114,8 @@ export function createPolicySession(
             ? "ebony72-advanced-cap8-discard-v1"
             : name === "candidate-advanced-income-v7"
               ? "ebony72-advanced-current-income-v1"
-              : name === "candidate-advanced-ready-income-v8"
+              : name === "candidate-advanced-ready-income-v8" ||
+                  name === "candidate-advanced-ron-continuation-v9"
                 ? "ebony72-advanced-ready-income-v1"
                 : name === "ebony72-advanced-public-v1" ||
                     name === "candidate-advanced-hu-v4" ||
@@ -138,6 +142,19 @@ export function createPolicySession(
         const report = evaluateRolloutDecision(view, phase);
         options.onEvaluation?.(structuredClone(report));
         return report.choices[0]?.action;
+      }
+      if (
+        name === "candidate-advanced-ron-continuation-v9" &&
+        phase === "respond" &&
+        view.decision?.kind === "respond" &&
+        view.decision.responseKind === "discard" &&
+        view.decision.choices.includes("hu")
+      ) {
+        const report = evaluateRonContinuationDecision(view, phase);
+        if (report.status === "not-applicable" || !report.choices.length)
+          throw new Error("合法普通点胡未产生完整候选或明确回退");
+        options.onEvaluation?.(structuredClone(report));
+        return report.choices[0].action;
       }
       if (name === "candidate-advanced-hu-v4") {
         const win = immediateWinChoice(view, phase);

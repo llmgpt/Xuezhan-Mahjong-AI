@@ -5,6 +5,9 @@ import { chooseTeacherAction } from "../src/game/teacher";
 import { playerView } from "../src/game/view";
 import { createPolicySession, resolveLineup } from "./independentPolicies";
 import { chooseOpponentAction } from "./benchmarkPolicies";
+import ronBoundaries from "../src/game/fixtures/public-ron-v1.json";
+import type { PlayerView } from "../src/game/view";
+import type { RolloutDecision } from "../src/game/rolloutTeacher";
 
 function openingViews() {
   let state = createGame(80000);
@@ -26,6 +29,100 @@ function openingViews() {
 }
 
 describe("独立评测策略注册", () => {
+  it("V9普通点胡记录实际模型选择，观察者副本不能改变动作且不用Python重问该节点", async () => {
+    const input = structuredClone(
+      ronBoundaries.cases.find((c) => c.name === "last-wall-discard")!.context
+        .view,
+    ) as PlayerView;
+    const before = structuredClone(input);
+    const reports: RolloutDecision[] = [];
+    const session = createPolicySession(
+      "candidate-advanced-ron-continuation-v9",
+      {
+        workerFactory: () => {
+          throw new Error("当前点胡不应调用基础worker");
+        },
+        onEvaluation: (report) => {
+          reports.push(structuredClone(report));
+          report.choices[0].action = { type: "missing", suit: "wan" };
+        },
+      },
+    );
+    try {
+      const action = await session.choose(input, "respond");
+      expect(reports).toHaveLength(1);
+      expect(action).toEqual(reports[0].choices[0].action);
+      expect(action?.type).toBe("respond");
+      if (action?.type === "respond" && input.decision?.kind === "respond")
+        expect(input.decision.choices).toContain(action.choice);
+      expect(["sampled", "fallback"]).toContain(reports[0].status);
+      expect(reports[0].samples).toBe(reports[0].status === "sampled" ? 8 : 0);
+      expect(input).toEqual(before);
+      await session.finish();
+    } finally {
+      await session.close();
+    }
+  }, 30000);
+
+  it("V9其他节点精确沿用V8的full组件、老师开局和正常worker收尾", async () => {
+    const views = openingViews();
+    const seen: string[] = [];
+    let finished = 0;
+    const session = createPolicySession(
+      "candidate-advanced-ron-continuation-v9",
+      {
+        workerFactory: (options) => {
+          expect(options.policy).toBe("ebony72-advanced-ready-income-v1");
+          return {
+            act: async (view, phase) => {
+              seen.push(phase);
+              return phase === "respond"
+                ? { type: "respond" as const, choice: "hu" as const }
+                : { type: "discard" as const, tile: view.legalDiscards[0] };
+            },
+            close: async () => {},
+            finish: async () => {
+              finished++;
+            },
+          };
+        },
+        onEvaluation: () => {
+          throw new Error("不适用节点不应创建续局模型附录");
+        },
+      },
+    );
+    try {
+      expect(await session.choose(views.exchange, "exchange")).toEqual(
+        chooseTeacherAction(views.exchange, "exchange"),
+      );
+      expect(await session.choose(views.missing, "choose-missing")).toEqual(
+        chooseTeacherAction(views.missing, "choose-missing"),
+      );
+      expect(seen).toEqual([]);
+      expect(await session.choose(views.self, "discard")).toEqual({
+        type: "discard",
+        tile: views.self.legalDiscards[0],
+      });
+      const robbed = structuredClone(views.self);
+      robbed.decision = {
+        kind: "respond",
+        responseKind: "rob-kong",
+        from: 1,
+        tile: 0,
+        choices: ["pass", "hu"],
+      };
+      expect(await session.choose(robbed, "respond")).toEqual({
+        type: "respond",
+        choice: "hu",
+      });
+      await session.finish();
+      expect(seen).toEqual(["discard", "respond"]);
+      expect(finished).toBe(1);
+    } finally {
+      await session.close();
+    }
+  });
+
   it.each([
     ["candidate-advanced-income-v7", "ebony72-advanced-current-income-v1"],
     ["candidate-advanced-ready-income-v8", "ebony72-advanced-ready-income-v1"],

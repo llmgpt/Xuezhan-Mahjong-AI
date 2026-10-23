@@ -1,0 +1,181 @@
+{
+  "kind": "ordinary-ron-net-continuation-candidate-implementation",
+  "version": 1,
+  "date": "2026-10-22",
+  "candidate": "candidate-advanced-ron-continuation-v9",
+  "developmentOnly": true,
+  "candidatePromoted": false,
+  "newFormalSeeds": 0,
+  "wholeV9BenchmarkGamesAtThisRecord": 0,
+  "parameters": {
+    "kind": "development-candidate-design-before-fixed-node-value-analysis",
+    "version": 1,
+    "developmentOnly": true,
+    "candidate": "candidate-advanced-ron-continuation-v9",
+    "scope": "All host-legal ordinary discard-hu responses, including pass/pung/kong alternatives; outside these nodes delegate V8 unchanged",
+    "samples": 8,
+    "maxStepsPerAlternativeAndParticle": 3000,
+    "currentHuValue": "Exact default-V1 one-payer current income, a constant with no rollout",
+    "alternativeValues": "Full future net score for every other legal response over the same public-only generated worlds",
+    "futurePolicy": "teacher-v1 for every generated actor, with each actor receiving only its own generated PlayerView",
+    "selection": "Maximize mean future net minus 2 times model Monte Carlo SE; change hu only for a strict improvement over current income; ties and unknown SE keep hu",
+    "modelSafetyMultiplier": 2,
+    "unavailableJointSampler": "Explicitly logged deterministic accept-current-hu fallback, with no claimed successful samples",
+    "otherErrors": "Propagate invalid history, stock, incomplete continuations or budget failure; never summarize selected partial samples",
+    "noFormalPassThresholdChosen": true,
+    "noNewFormalSeeds": true,
+    "all92FixedNodeContinuationValuesComputedBeforeThisDeclaration": false,
+    "benchmarkGamesRunByThisCandidateBeforeThisDeclaration": 0,
+    "limitations": [
+      "Indexed public particles are a biased approximate joint distribution, not a complete posterior",
+      "Other players' actual hidden submitted answers are unavailable and replaced by a fixed generated response model",
+      "Future teacher behavior is not a fitted model of the independent advanced or BA opponents",
+      "The two-SE margin is a frozen conservative heuristic, not a calibrated confidence or formal significance test",
+      "Actual strength requires complete paired development comparisons and later new frozen formal holdout"
+    ]
+  },
+  "sourceHashes": {
+    "src/game/game.ts": "f6717f539acc39a949b633a08a4f1f041005d308c0c57a54fc51feed01881d5e",
+    "src/game/publicSampler.ts": "c1422c8e6c27d28123bc401ce7996dbd9e8e94b7836d0bc61e27844a394ae8e0",
+    "src/game/sampledContinuation.ts": "1b09e57f99530a88039c8f9549691882baa765560c7dc776007549767ac13a44",
+    "src/game/publicRonContinuation.ts": "c7c3290a4e8cf6d95c0122406bfd7ab717abd3022943c58636d827be374215c7",
+    "src/game/ronContinuationTeacher.ts": "5910537887dc5761d8eb98bb1353be0d08b0da6956fc33f0af0fb1e3f13c1bb8",
+    "src/game/publicRonSampling.test.ts": "11274bf8b79eec812852d76d8468005c92c3d4bf45bb270c60ac55fc88ea33a9",
+    "src/game/publicRonContinuation.test.ts": "63dc10b96eecb6d2ce81cd02a8d1534782e6b8a5f92b489547bdda14ec7af987",
+    "src/game/ronContinuationTeacher.test.ts": "a65cbc85c1122d13ae6bd6a2d1f546c6b7b3c0b8b5a093e87a577d8b920f9651",
+    "src/game/fixtures/public-ron-v1.json": "9075c5b31ab3612c6e1fbb4ce55b6ce92e53571824cead61de38f0dfafbae6e6",
+    "scripts/independentPolicies.ts": "292a38c83baa6a27dbeb8caf1d5e9c4e2e9ab24f075ef4719cded88e4a585c86",
+    "scripts/independentPolicies.test.ts": "2a7071d16237c09d899003fff3f1ecf142d7b371445fe96c48e809f234605c3b",
+    "scripts/formalRuntime.ts": "bead82a5d6b45d1d75a3ce55ffb1519dc4dbd7113032b02355ad257d7de65f0b",
+    "scripts/formalRuntime.test.ts": "8e6c79afb6f926b19035d744329a9e990d4158320e0fb8c35cd43fbe54160c49"
+  },
+  "validation": {
+    "behaviorReds": [
+      {
+        "chunk": "34617d",
+        "exitCode": 1,
+        "cases": 3,
+        "scope": "ordinary ron rejected by self-only sampler delegation"
+      },
+      {
+        "chunk": "906b00",
+        "exitCode": 1,
+        "cases": 2,
+        "scope": "response continuation rejected by self-only materializer"
+      },
+      {
+        "chunk": "0812dd",
+        "exitCode": 1,
+        "cases": 5,
+        "scope": "net estimator stub omitted values and strict completeness"
+      },
+      {
+        "chunk": "59aae7",
+        "exitCode": 1,
+        "cases": 3,
+        "scope": "decision stub omitted selection and truthful fallback"
+      },
+      {
+        "chunk": "64d873",
+        "exitCode": 1,
+        "cases": 3,
+        "scope": "new registry/runtime route absent"
+      }
+    ],
+    "testCorrections": [
+      {
+        "chunk": "824867",
+        "exitCode": 1,
+        "scope": "Pure-flush seven-pairs root example is capped at 8, not test-assumed 4; corrected expected test arithmetic"
+      },
+      {
+        "chunk": "017daf",
+        "exitCode": 1,
+        "scope": "Intentional hostile readonly-particle mutation in a test required an explicit test-only cast"
+      }
+    ],
+    "focusedGreens": [
+      {
+        "chunk": "2d6b3d",
+        "exitCode": 0,
+        "cases": 30
+      },
+      {
+        "chunk": "e37405",
+        "exitCode": 0,
+        "cases": 9
+      },
+      {
+        "chunk": "fc0cb5",
+        "exitCode": 0,
+        "cases": 39
+      },
+      {
+        "chunk": "89a2c1",
+        "exitCode": 0,
+        "cases": 3
+      },
+      {
+        "chunk": "67b7d4",
+        "exitCode": 0,
+        "cases": 32
+      }
+    ],
+    "fullProjectCheck": {
+      "command": "npm run check",
+      "sessionId": 3804,
+      "terminalChunk": "ac922c",
+      "actualExitCode": 0,
+      "testFiles": 52,
+      "tests": 487,
+      "formatLintTypesTestsBuild": true
+    },
+    "legacySelfSampler": {
+      "toolChunk": "0721e2",
+      "exitCode": 0,
+      "fixedPublicViews": 4,
+      "exactParticleAndAssumptionReports": 8,
+      "artifact": "local/strength-goal-20261018/legacy-self-ron-extension-compatibility.json",
+      "sha256": "a7259c367a1b05bbb67c20ffd77c873eff436f4d0e4c3a36e2bd7fc13a35ee8e"
+    },
+    "boundaryFixtures": {
+      "source": "complete frozen V8 development traces",
+      "newSeeds": 0,
+      "sourceOnlyFrozenPythonMoneyOracleTool": "7e9eda",
+      "ordinaryResponseBoundaries": [
+        "current-kong-shot",
+        "two-existing-winners",
+        "last-wall-discard",
+        "wall-empty-claim-discard"
+      ]
+    },
+    "pythonSourcesChanged": false
+  },
+  "scope": "Default-V1 ordinary legal discard-hu decisions; all pass/pung/kong alternatives and generated other-player responses; remaining nodes use V8 full component unchanged",
+  "traceSchema": "RolloutDecision per-world differences against the exact hu C0 constant. pairedGain and pairedStandardError field names do not imply extra variance reduction from a simulated hu branch.",
+  "artifacts": {
+    "local/strength-goal-20261018/legacy-self-ron-extension-compatibility.json": {
+      "sha256": "a7259c367a1b05bbb67c20ffd77c873eff436f4d0e4c3a36e2bd7fc13a35ee8e",
+      "bytes": 1524
+    },
+    "local/strength-goal-20261018/ron-continuation-v9-proposal.json": {
+      "sha256": "6089738059af95814bdc3b67a0be4e15a5a438fa5ad88f3ffd265c64789709a4",
+      "bytes": 1947
+    },
+    "local/strength-goal-20261018/prepare-ron-boundary-fixtures.py": {
+      "sha256": "310480573ed58077eff3c8300343889699a24015446297bb5eef34277e9f0216",
+      "bytes": 3672
+    },
+    "local/strength-goal-20261018/check-legacy-self-particles.ts": {
+      "sha256": "7b7ee1a8950d5e77b05702bd479c7f133796db27d34804cc7cb6855e89025ba9",
+      "bytes": 2497
+    }
+  },
+  "limitations": [
+    "Biased approximate joint particles and teacher-v1 future behavior, not a complete posterior or fitted independent-opponent model.",
+    "Hidden actual submitted answers are unavailable; new simulated response queues are recomputed from generated hands.",
+    "2 times model SE is a fixed heuristic safety margin, not formal statistical confidence.",
+    "No V9 whole-game strength result, new formal acceptance, expert anchor or V9 production-browser validation yet.",
+    "Known pre-existing Python pyc runtime closure gap remains to be addressed before any new formal freeze."
+  ]
+}

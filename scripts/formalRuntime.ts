@@ -226,7 +226,11 @@ export async function captureFormalRuntime(
         numpy,
         policies.includes("candidate-advanced-cap8-v6"),
         policies.includes("candidate-advanced-income-v7"),
-        policies.includes("candidate-advanced-ready-income-v8"),
+        policies.some(
+          (name) =>
+            name === "candidate-advanced-ready-income-v8" ||
+            name === "candidate-advanced-ron-continuation-v9",
+        ),
       ),
     ),
   );
