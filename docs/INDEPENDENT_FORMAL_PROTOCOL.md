@@ -1,6 +1,6 @@
 # 正式评测入口准备
 
-> 更新于 2026-10-23。已实现科学协议/种子登记、原始动作重放、运行时文件采集、持久化前缀、真实单seed事务和正式外层控制器。最新源码缓存合同修复后的完整`npm run check`为53文件493项通过，含格式、lint、类型和构建；[修复证据](benchmarks/formal-source-cache-fix.json)另含真实陈旧字节码回归与默认worker检查。V9实现时的52文件487项见[原实现记录](benchmarks/independent-v9-implementation.json)。没有创建真实正式种子预约，没有选定实际正式候选、门槛或新留出；仍需从最终选定源码重新构建、seal与verify。开发CLI仍拒绝 `formal` 模式；下述历史准备探针和正式执行另行区分。
+> 更新于 2026-10-23。已实现科学协议/种子登记、原始动作重放、运行时文件采集、持久化前缀、真实单seed事务和正式外层控制器。最新完整`npm run check`为56文件517项通过，含格式、lint、类型和构建，见[V11实现](benchmarks/independent-v11-implementation.json)；[源码缓存修复](benchmarks/formal-source-cache-fix.json)另含真实陈旧字节码回归与默认worker检查。没有创建真实正式种子预约，没有选定实际正式候选、门槛或新留出；仍需从最终选定源码重新构建、seal与verify。开发CLI仍拒绝 `formal` 模式；下述历史准备探针和正式执行另行区分。
 
 [formalProtocol.ts](../scripts/formalProtocol.ts) 明确区分外层 `purpose=formal` 与复用引擎的 `innerEngineMode=development`。科学配置必须先指定样本数、完整对手映射、源码指纹、V1 规则、相关运行时、全部通过条件、统计与失败恢复合同；这一步不含种子。四座位、共同/组合两开局及至少两个不同作者的外部来源是必要条件，初级与高级 ebony 阵容只算同一来源。主提升条件必须相对当前老师、阈值非负，且覆盖两外部来源；统计方法不能在见到结果后更换。
 
@@ -16,7 +16,9 @@
 
 2026-10-20 Root已逐项复核235份导入哈希与提案摘要，以独占创建和fsync初始化真实 `local/strength-goal-20261018/formal-seed-usage-ledger.json`，其预约仍为空。见[初始化证据](benchmarks/seed-history-initialization.json)。这解决项目可追溯已知历史的初始化，不能证明未记录的所有临时浏览器seed均被覆盖；正式选择前还需检查后续新增活动。没有选择、生成或预约新正式seed。随后真实牌桌QA只重复既已排除的80000。
 
-[formalAudit.ts](../scripts/formalAudit.ts) 只接收单 seed 的完整 attempt。逐行审核成绩 manifest/envelope 与成功 trace 的精确笛卡尔积，拒绝失败、额外/重复/缺失日志、未知字段和截断。按既存动作调用可信引擎重放，不再次询问任何候选；核对每步完整公开视图、座位、阶段、step、合法动作、共同开局及最终胡牌/番型/积分收入。只有 `DEFAULT_RULES` 真正在引擎执行，非默认标签不能冒充规则变体。文件审计前后再核 SHA256，报告仅输出原始哈希、公开终局与计数。
+V11另预声明20个新开发seed（62000..62019），开跑前核旧235份导入和93份相关JSON，保存原账本后增加一个协议导入及开发排除范围。当前为236导入、36范围、932个排除值，正式预约仍为空；新增的是开发声明，非正式留出或已完成牌局。实际登记、旧/新账本SHA与范围边界见[V11启动](benchmarks/independent-v11-start.json)。
+
+[formalAudit.ts](../scripts/formalAudit.ts) 只接收单 seed 的完整 attempt。逐行审核成绩 manifest/envelope 与成功 trace 的精确笛卡尔积，拒绝失败、额外/重复/缺失日志、未知字段和截断。按既存动作调用可信引擎重放，核对每步完整公开视图、座位、阶段、step、合法动作、共同开局及最终胡牌/番型/积分收入。共同开局会重算老师动作；V11另逐项重算已记录实际基准条件下的固定赔付预测、结构约束和选择，拒绝篡改或遗漏。这些重算不重新询问外部worker、不抽粒子或执行未来策略续局，但也不能统称零策略运算。只有 `DEFAULT_RULES` 真正在引擎执行，非默认标签不能冒充规则变体。文件审计前后再核 SHA256，报告输出原始哈希、公开终局与计数。
 
 首次模块缺失 RED 后完成实现；另加动作额外载荷回归，观察到错误接纳的 RED，再补严格动作 schema 后通过。模块已实际重放 Fanfou 烟测的 96 局、5,516 个决定、8,756 个守恒状态，全部一致，材料见[组合参考报告](INDEPENDENT_REFERENCE_FANFOU.md)。这属于对已用开发材料的审计，不是新的正式实验。
 

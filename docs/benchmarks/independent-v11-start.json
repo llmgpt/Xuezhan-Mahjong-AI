@@ -1,0 +1,260 @@
+{
+  "kind": "actual-v11-new-development-start",
+  "completeStartEvidence": true,
+  "observedAtUtc": "2026-10-23T08:27:26.093691+00:00",
+  "wholeCohortComplete": false,
+  "relativeScoresRead": false,
+  "actualRootSession": 22225,
+  "actualLaunchChunk": "eed59e",
+  "actualGuardianPid": 31904,
+  "guardianStartUtc": "2026-10-23T08:24:48.318993Z",
+  "guardianExecutable": "C:/ProgramData/anaconda3/python.exe",
+  "coordinatorStarted": {
+    "intentAtUtc": "2026-10-23T08:24:48.415124+00:00",
+    "command": [
+      "C:/ProgramData/anaconda3/python.exe",
+      "-B",
+      "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v11-plan\\coordinate.py"
+    ],
+    "cwd": "C:\\1workspace\\xuezhan",
+    "freezeSha256": "6452e532a4e25a16daf8dde6f02a113d3666f58317883e656b464fa9c5d9d88f",
+    "coordinatorSha256": "66b5b3c0d519c249a382abfe9ca17d3650b6752310d68fbc9600b0f163ef4e23",
+    "launcherSha256": "4932e8ee9ec543aa7f74b1a3384f35896015efd4be89a5a0b1aa799fc9d99489",
+    "snapshotWorkerQualificationSha256": "b5fbd17e802a188068ef2ac3ef0bcff77975f52c2b719aed0f7b0291994203a3",
+    "developmentSeedRegistrationSha256": "dfbe7a4565828c6b7265b6ef9a10b7692c924014bab95f6601b2e75d4331532b",
+    "pid": 32904,
+    "startedAtUtc": "2026-10-23T08:24:48.432396+00:00"
+  },
+  "actualFirstChildren": [
+    {
+      "shard": 1,
+      "seeds": [62000, 62004, 62008, 62012, 62016],
+      "expectedGames": 360,
+      "command": [
+        "C:\\nvm4w\\nodejs\\node.exe",
+        "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v11-source\\scripts\\evaluate-independent.mjs",
+        "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v11-plan\\shard-1.json",
+        "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v11-shard-1"
+      ],
+      "cwd": "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v11-source",
+      "intentAtUtc": "2026-10-23T08:24:48.766368+00:00",
+      "freezeSha256": "6452e532a4e25a16daf8dde6f02a113d3666f58317883e656b464fa9c5d9d88f",
+      "pid": 15072,
+      "spawnObservedAtUtc": "2026-10-23T08:24:48.775717+00:00"
+    },
+    {
+      "shard": 2,
+      "seeds": [62001, 62005, 62009, 62013, 62017],
+      "expectedGames": 360,
+      "command": [
+        "C:\\nvm4w\\nodejs\\node.exe",
+        "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v11-source\\scripts\\evaluate-independent.mjs",
+        "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v11-plan\\shard-2.json",
+        "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v11-shard-2"
+      ],
+      "cwd": "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v11-source",
+      "intentAtUtc": "2026-10-23T08:24:48.869873+00:00",
+      "freezeSha256": "6452e532a4e25a16daf8dde6f02a113d3666f58317883e656b464fa9c5d9d88f",
+      "pid": 32644,
+      "spawnObservedAtUtc": "2026-10-23T08:24:48.883559+00:00"
+    }
+  ],
+  "laterTwoShardsQueued": true,
+  "config": {
+    "mode": "development",
+    "seeds": [
+      62000, 62001, 62002, 62003, 62004, 62005, 62006, 62007, 62008, 62009,
+      62010, 62011, 62012, 62013, 62014, 62015, 62016, 62017, 62018, 62019
+    ],
+    "seats": [0, 1, 2, 3],
+    "lineups": ["ui-bots", "ebony-advanced", "fanfou-ba"],
+    "openings": ["common", "composite"],
+    "policies": [
+      "teacher-v1",
+      "candidate-advanced-accept-ron-v10",
+      "candidate-advanced-liability-v11"
+    ],
+    "comparisons": [
+      {
+        "candidate": "candidate-advanced-liability-v11",
+        "baseline": "teacher-v1"
+      },
+      {
+        "candidate": "candidate-advanced-liability-v11",
+        "baseline": "candidate-advanced-accept-ron-v10"
+      },
+      {
+        "candidate": "candidate-advanced-accept-ron-v10",
+        "baseline": "teacher-v1"
+      }
+    ],
+    "timeoutMs": 60000
+  },
+  "expectedFreshGames": 1440,
+  "freshV11Games": 480,
+  "freshControls": 960,
+  "newDevelopmentSeedUnits": 20,
+  "newFormalSeeds": 0,
+  "freezeSha256": "6452e532a4e25a16daf8dde6f02a113d3666f58317883e656b464fa9c5d9d88f",
+  "sourceFiles": 126,
+  "buildInputs": 37,
+  "immutableSnapshotFiles": 127,
+  "snapshotQualification": {
+    "launchChunk": "f43c37",
+    "rootSession": 13290,
+    "actualTerminalChunk": "4fd1a2",
+    "actualExitCode": 0,
+    "oldPublicCases": 11,
+    "normalWorkerFinishes": 22,
+    "requests": 33,
+    "sourceCache": {
+      "policy": "empty-prefix-no-bytecode-v1",
+      "prefix": "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v11-source\\.source-only-pycache-v1"
+    },
+    "modules": 219,
+    "numpyOwnedFiles": 830,
+    "sourceFingerprintMatchesPlan": true
+  },
+  "preflight": {
+    "toolChunk": "1a1c9c",
+    "actualExitCode": 0,
+    "snapshotFiles": 127,
+    "wholeGamesExecuted": 0,
+    "inheritedPrintedExpectedGames": 2880,
+    "actualDeclaredExpectedGames": 1440,
+    "explanation": "Inherited unchanged coordinator has literal2880 only in --preflight print. Execution uses four frozen shards with5 seeds and360 games each, sum1440. Printed label is not count authority; coordinator bytes/hash preserved during active execution."
+  },
+  "seedRegistration": {
+    "complete": true,
+    "recordedAtUtc": "2026-10-23T08:24:47.941999+00:00",
+    "operation": "development-predeclaration-only",
+    "seedIds": [
+      62000, 62001, 62002, 62003, 62004, 62005, 62006, 62007, 62008, 62009,
+      62010, 62011, 62012, 62013, 62014, 62015, 62016, 62017, 62018, 62019
+    ],
+    "knownRangeAdded": [62000, 62019],
+    "formalReservationsAdded": 0,
+    "newFormalSeeds": 0,
+    "wholeGamesAtRegistration": 0,
+    "freezeSha256": "6452e532a4e25a16daf8dde6f02a113d3666f58317883e656b464fa9c5d9d88f",
+    "priorLedgerSha256": "c6ed021638493061ccbcb1bb088b960ef7038633359325a7f44f170c00df936b",
+    "updatedLedgerSha256": "d073e3334feb16f5c0a5da21373e9df2ca7dd5c1efd83e74b1f49d6c58e5b6ee",
+    "preservedPriorLedgerSha256": "c6ed021638493061ccbcb1bb088b960ef7038633359325a7f44f170c00df936b",
+    "historicalImportsBefore": 235,
+    "historicalImportsAfter": 236,
+    "methodSourceSha256": "f5a916c4c794c9bc26f8765bd66c90446e6c1c12abff5ecee4115c6bf50eb150",
+    "scope": "Exclude declared development seeds from future formal draws before first game. The original ledger bytes remain preserved; no formal reservation is created and predeclaration does not mean games already executed."
+  },
+  "scopedHistoryCheck": {
+    "verifiedHistoricalImports": 235,
+    "otherExactSeedFieldJSONSources": 93,
+    "proposedRange": [62000, 62019],
+    "knownMatches": 0,
+    "scope": "Known traceable history only; no claim about every unrecorded temporary seed. New development predeclaration excluded before first execution; original ledger bytes retained and no formal reservations added."
+  },
+  "coordinatorScheduleChecks": "Unchanged66b5 coordinator inherited four previous synthetic scheduling checks and completed V10 scheduling, not newly rerun as V11-specific tests.",
+  "artifacts": {
+    "local/strength-goal-20261018/development-v11-plan/freeze.json": {
+      "sha256": "6452e532a4e25a16daf8dde6f02a113d3666f58317883e656b464fa9c5d9d88f",
+      "bytes": 42891
+    },
+    "local/strength-goal-20261018/development-v11-plan/master-config.json": {
+      "sha256": "11b5fb5ef53b03b360f643820151ab5302017a6e6d7f47e25db55799724e8930",
+      "bytes": 919
+    },
+    "local/strength-goal-20261018/development-v11-plan/build-metafile.json": {
+      "sha256": "9adfab3ec44b045c30a11847cf4318aeefb0fc19eeb60b417fa7cbb3482a2646",
+      "bytes": 23580
+    },
+    "local/strength-goal-20261018/development-v11-plan/seed-ledger-before.json": {
+      "sha256": "c6ed021638493061ccbcb1bb088b960ef7038633359325a7f44f170c00df936b",
+      "bytes": 65960
+    },
+    "local/strength-goal-20261018/development-v11-plan/development-seed-registration.json": {
+      "sha256": "dfbe7a4565828c6b7265b6ef9a10b7692c924014bab95f6601b2e75d4331532b",
+      "bytes": 1260
+    },
+    "local/strength-goal-20261018/development-v11-plan/coordinate.py": {
+      "sha256": "66b5b3c0d519c249a382abfe9ca17d3650b6752310d68fbc9600b0f163ef4e23",
+      "bytes": 5104
+    },
+    "local/strength-goal-20261018/development-v11-plan/coordinator-launch-intent.json": {
+      "sha256": "e1ef920fb1e8273c0e5c8819697a31796f34799d2632b828980fd38bccc4b441",
+      "bytes": 742
+    },
+    "local/strength-goal-20261018/development-v11-plan/coordinator-started.json": {
+      "sha256": "fafc73fbf050d6cd861c7371ee7514138f1bffc4b5fc1ab222c37b1eaef8841b",
+      "bytes": 812
+    },
+    "local/strength-goal-20261018/development-v11-plan/attempt-1/coordinator-start.json": {
+      "sha256": "cb4367d12b52d2bbb72bed90c276e92085ba6f4b4b94b945b69f9ed029094cc6",
+      "bytes": 159
+    },
+    "local/strength-goal-20261018/development-v11-plan/attempt-1/shard-1.started.json": {
+      "sha256": "3eb629ca24740cc1fbdbe4b275cf3694b1153b6f55a208ca2d30b3a070b86a75",
+      "bytes": 779
+    },
+    "local/strength-goal-20261018/development-v11-plan/attempt-1/shard-2.started.json": {
+      "sha256": "15c611bef57744c66ec294424af784976eaf7eac659af5d62ece891ef2fffba6",
+      "bytes": 779
+    },
+    "local/strength-goal-20261018/development-v11-plan/shard-1.json": {
+      "sha256": "9e310f3eaa0200dc4a30e4fac060cfef84a7442925c6c91e6ead720667846276",
+      "bytes": 754
+    },
+    "local/strength-goal-20261018/development-v11-plan/shard-2.json": {
+      "sha256": "b1b6b98b071489de69070d6ebd9b8fde2f56cae148fee68a2f355966a64afee7",
+      "bytes": 754
+    },
+    "local/strength-goal-20261018/development-v11-plan/shard-3.json": {
+      "sha256": "a3ca864bf99977fb6f2ee50273bb70319d086ee090bb995670fd2a442510f8cb",
+      "bytes": 754
+    },
+    "local/strength-goal-20261018/development-v11-plan/shard-4.json": {
+      "sha256": "f9014735dec6733c94ab61bc64f93a76fd18a20fc34f67063e1525c55386d1f3",
+      "bytes": 754
+    },
+    "local/strength-goal-20261018/v11-snapshot-worker-smoke.ts": {
+      "sha256": "4993d3056a1c2d06042e8698fe78d383f09643054121275f0adc021201b2a6c7",
+      "bytes": 7120
+    },
+    "local/strength-goal-20261018/freeze-v11-development.ts": {
+      "sha256": "f4fcf84f384673dba9a07094ac274c7143c9827e1a53e82728f7dc0958929493",
+      "bytes": 9367
+    },
+    "local/strength-goal-20261018/check-v11-development-seed-history.py": {
+      "sha256": "8951a053daa783610e0fe59c988b33ea1d34d9e0984dd444f6b9d9e862857505",
+      "bytes": 2717
+    },
+    "local/strength-goal-20261018/register-v11-development-seeds.py": {
+      "sha256": "f5a916c4c794c9bc26f8765bd66c90446e6c1c12abff5ecee4115c6bf50eb150",
+      "bytes": 3308
+    },
+    "local/strength-goal-20261018/launch-v11-development.py": {
+      "sha256": "4932e8ee9ec543aa7f74b1a3384f35896015efd4be89a5a0b1aa799fc9d99489",
+      "bytes": 3616
+    },
+    "local/strength-goal-20261018/v11-implementation/snapshot-worker-smoke.json": {
+      "sha256": "b5fbd17e802a188068ef2ac3ef0bcff77975f52c2b719aed0f7b0291994203a3",
+      "bytes": 285252
+    },
+    "local/strength-goal-20261018/v11-implementation/development-seed-history.json": {
+      "sha256": "215492f0074a8c380facb9c201e037c5236160842b0c4733250b3bd0ca1ab84c",
+      "bytes": 16695
+    },
+    "local/strength-goal-20261018/v11-implementation/engineering-check.json": {
+      "sha256": "b8715bd4c43c6d93095df49a90e9a5614014ce145e7e3001a87427092295f80b",
+      "bytes": 16227
+    },
+    "local/strength-goal-20261018/report-v11-start.py": {
+      "sha256": "ac46a379da7b82c68723ca444a8be8e240b6ba560021b6d31ba7829b7aa6d1db",
+      "bytes": 5085
+    }
+  },
+  "next": "Observe original22225; do not restart on observation timeout. Freeze matching complete V11 audit with deterministic saved-baseline forecast re-evaluation, actual waits and all panels before inspecting relative scores.",
+  "limitations": [
+    "Starting and source qualification are not successful cohort or strength evidence.",
+    "No browser integration, final scientific threshold, formal unused seed reservation or expert anchor.",
+    "Advanced opponent shares inherited code with this candidate; BA has a different decision source."
+  ]
+}
