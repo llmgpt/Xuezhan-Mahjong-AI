@@ -2,6 +2,7 @@ import { chooseAdvancedComponentAction } from "../game/advancedComponents";
 import type { DecisionAction } from "../game/decision";
 import type { Phase } from "../game/game";
 import type { PlayerView } from "../game/view";
+import { v10ResponseChoice } from "../game/v10Response";
 import {
   readAdvancedDiagnostics,
   type AdvancedDiagnostics,
@@ -27,8 +28,9 @@ export interface BrowserPolicyWorker {
 export interface BrowserDecision extends Position {
   action: DecisionAction;
   phase: Phase;
-  policy: "E" | "D";
-  origin: "teacher-opening" | "teacher-actions" | "advanced-public";
+  policy: "E" | "D" | "V10";
+  origin:
+    "teacher-opening" | "teacher-actions" | "advanced-public" | "v10-response";
   recommendationCount: 1;
   legalActionCount?: number;
   diagnostics?: AdvancedDiagnostics;
@@ -295,7 +297,7 @@ export class BrowserAdvancedClient {
   async choose(
     view: PlayerView,
     phase: Phase,
-    context: Position & { policy: "E" | "D" },
+    context: Position & { policy: BrowserDecision["policy"] },
   ): Promise<BrowserDecision | undefined> {
     if (this.closed) throw new Error("策略客户端已关闭");
     context = {
@@ -305,7 +307,7 @@ export class BrowserAdvancedClient {
     };
     assertPublicView(view);
     assertPosition(context);
-    if (!["E", "D"].includes(context.policy))
+    if (!["E", "D", "V10"].includes(context.policy))
       throw new Error("未知生产高级策略");
     this.setPosition(context);
     const snapshot = structuredClone(view),
@@ -320,22 +322,29 @@ export class BrowserAdvancedClient {
           ? "teacher-opening"
           : "teacher-actions";
       let diagnostics: AdvancedDiagnostics | undefined;
-      const action = await chooseAdvancedComponentAction(
-        snapshot,
-        phase,
-        context.policy === "E" ? "full" : "discard",
-        async (input, decisionPhase) => {
-          origin = "advanced-public";
-          const result = await this.advanced(
-            input,
-            decisionPhase,
-            context,
-            epoch,
-          );
-          diagnostics = result.diagnostics;
-          return result.action;
-        },
-      );
+      const response =
+        context.policy === "V10"
+          ? v10ResponseChoice(snapshot, phase)
+          : undefined;
+      if (response) origin = "v10-response";
+      const action =
+        response?.action ??
+        (await chooseAdvancedComponentAction(
+          snapshot,
+          phase,
+          context.policy === "D" ? "discard" : "full",
+          async (input, decisionPhase) => {
+            origin = "advanced-public";
+            const result = await this.advanced(
+              input,
+              decisionPhase,
+              context,
+              epoch,
+            );
+            diagnostics = result.diagnostics;
+            return result.action;
+          },
+        ));
       if (this.epoch !== epoch || this.closed)
         throw new Error("策略结果已取消或过期");
       if (!action) return undefined;

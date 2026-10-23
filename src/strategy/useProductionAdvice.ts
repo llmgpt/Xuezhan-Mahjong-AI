@@ -10,7 +10,7 @@ import {
   type ProductionAdviceState,
 } from "./productionAdvice";
 
-export type ProductionStrategyMode = "teacher" | "E" | "D";
+export type ProductionStrategyMode = "teacher" | "E" | "D" | "V10";
 export function useProductionAdvice(
   view: PlayerView,
   phase: Phase,

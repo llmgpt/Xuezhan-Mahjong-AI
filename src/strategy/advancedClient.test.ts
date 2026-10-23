@@ -19,6 +19,7 @@ import { createWall, tile, type Tile } from "../game/tiles";
 import { playerView, type PlayerView } from "../game/view";
 import * as diagnosticReader from "./advancedDiagnostics";
 import observedHuFixture from "./fixtures/observedHuDecisions.json";
+import ronBoundaries from "../game/fixtures/public-ron-v1.json";
 
 // Synthetic transport only. Host legality and E/D composition are real;
 // these tests do not claim that a mock ran Python or established strength.
@@ -307,6 +308,53 @@ describe("同一回复中的实际高级诊断", () => {
 });
 
 describe("浏览器高级客户端的真实E/D组合与公开输入", () => {
+  it("V10普通点胡与固定V1抢杠直接使用真实公开收入，未创建Python worker", async () => {
+    const views = [
+      ...ronBoundaries.cases.map((c) => c.context.view as PlayerView),
+      ...observedHuFixture.rows
+        .filter(
+          (r) =>
+            r.view.decision.kind === "respond" &&
+            r.view.decision.responseKind === "rob-kong",
+        )
+        .map((r) => r.view as unknown as PlayerView),
+    ];
+    for (const view of views) {
+      const f = fixture({ type: "respond", choice: "pass" });
+      const result = await f.client.choose(view, "respond", {
+        ...position,
+        policy: "V10",
+      });
+      expect(result?.action).toEqual({ type: "respond", choice: "hu" });
+      expect(result?.origin).toBe("v10-response");
+      expect(result?.diagnostics).toBeUndefined();
+      expect(f.workers).toHaveLength(0);
+    }
+  });
+  it("V10的其他节点保留完整A组件与同一开局，不引入弃牌模型或更换原动作", async () => {
+    const view = normal(),
+      reply = { type: "discard" as const, tile: view.legalDiscards.at(-1)! },
+      f = fixture(reply);
+    const result = await f.client.choose(view, "discard", {
+      ...position,
+      policy: "V10",
+    });
+    expect(result?.action).toEqual(reply);
+    expect(result?.origin).toBe("advanced-public");
+    expect(f.workers).toHaveLength(1);
+    const start = createGame(80000),
+      opening = playerView(start, 0),
+      g = fixture();
+    expect(
+      (
+        await g.client.choose(opening, "exchange", {
+          ...position,
+          policy: "V10",
+        })
+      )?.action,
+    ).toEqual(chooseTeacherAction(opening, "exchange"));
+    expect(g.workers).toHaveLength(0);
+  });
   it("E保留高级拒绝合法点胡，D采用老师胡牌，不伪装成同一策略", async () => {
     const { view, state } = response();
     const e = fixture({ type: "respond", choice: "pass" });

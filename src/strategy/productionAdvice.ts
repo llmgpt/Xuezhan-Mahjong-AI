@@ -9,6 +9,7 @@ import type { Phase } from "../game/game";
 import { teacherChoices } from "../game/teacher";
 import { labelOf, suitOf } from "../game/tiles";
 import type { PlayerView } from "../game/view";
+import { v10ResponseChoice } from "../game/v10Response";
 import type { BrowserDecision } from "./advancedClient";
 import { assertLegalAction, legalActionCount } from "./advancedProtocol";
 import {
@@ -72,6 +73,22 @@ export function presentBrowserDecision(
   result: BrowserDecision,
 ): ProductionPresentation {
   assertLegalAction(result.action, view, result.phase);
+  if (result.origin === "v10-response") {
+    const response = v10ResponseChoice(view, result.phase);
+    if (
+      result.policy !== "V10" ||
+      Object.hasOwn(result, "diagnostics") ||
+      !response ||
+      key(response.action) !== key(result.action)
+    )
+      throw new Error("V10响应来源与实际兑现选择不一致");
+    return {
+      action: structuredClone(response.action),
+      choices: [response],
+      origin: "v10-response",
+      legalActionCount: legalActionCount(view, result.phase),
+    };
+  }
   if (result.origin !== "advanced-public") {
     if (Object.hasOwn(result, "diagnostics"))
       throw new Error("老师来源不能附带其他策略的分支诊断");
@@ -143,7 +160,9 @@ export function explainProductionAction(
   recommendation?: ProductionPresentation,
 ): DecisionExplanation {
   const fromTeacher =
-    recommendation && recommendation.origin !== "advanced-public";
+    recommendation &&
+    (recommendation.origin === "teacher-opening" ||
+      recommendation.origin === "teacher-actions");
   const chosen = fromTeacher
     ? recommendation.choices.find(
         (choice) => key(choice.action) === key(action),

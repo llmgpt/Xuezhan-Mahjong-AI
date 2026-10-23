@@ -1,0 +1,418 @@
+{
+  "kind": "V10-browser-integration-qualification",
+  "version": 1,
+  "developmentOnly": true,
+  "candidate": "candidate-advanced-accept-ron-v10",
+  "browserMode": "V10",
+  "defaultPageStillTeacher": true,
+  "actualEngineering": {
+    "rootActualTerminalChunk": "4b7283",
+    "session": 25567,
+    "exitCode": 0,
+    "testFiles": 57,
+    "tests": 526,
+    "formatLintTypesTestsBuild": true,
+    "redClientAndPresentationChunk": "85a7b1",
+    "greenChunk": "80b474"
+  },
+  "actualBrowser": {
+    "nativeBrowser": "Codex IAB",
+    "seed": 80000,
+    "seat": 0,
+    "lineup": "ui-bots",
+    "opening": "composite",
+    "focalPublicViewsAndActionsExact": 13,
+    "comparisons": [
+      {
+        "index": 0,
+        "phase": "exchange",
+        "action": {
+          "type": "exchange",
+          "tiles": [12, 13, 14]
+        },
+        "nodeStep": 0,
+        "publicViewSha256": "a63d5da6abfcff2be0185152ef9d8f8c2b71b1151563aa3842db413a0b2e3950"
+      },
+      {
+        "index": 1,
+        "phase": "choose-missing",
+        "action": {
+          "type": "missing",
+          "suit": "tiao"
+        },
+        "nodeStep": 4,
+        "publicViewSha256": "dd18ab552e884bb2a7ccf000f3d5983bd90eb124f30fd3129bc1a0a850fc286f"
+      },
+      {
+        "index": 2,
+        "phase": "discard",
+        "action": {
+          "type": "discard",
+          "tile": 23
+        },
+        "nodeStep": 8,
+        "publicViewSha256": "243c2d0b80ecbd9a02bfcbf3694f44d2f3240d7a10095419ad74d183aed08e2d"
+      },
+      {
+        "index": 3,
+        "phase": "discard",
+        "action": {
+          "type": "discard",
+          "tile": 18
+        },
+        "nodeStep": 16,
+        "publicViewSha256": "b97261747a653d34a792162807e7c440c69c8365cfa4f40393a40b21bdd57f42"
+      },
+      {
+        "index": 4,
+        "phase": "discard",
+        "action": {
+          "type": "discard",
+          "tile": 0
+        },
+        "nodeStep": 30,
+        "publicViewSha256": "b44a01e5d16e37dce1fa96abdc2093b87e97624fd9983d900d6bb9825afa26ff"
+      },
+      {
+        "index": 5,
+        "phase": "discard",
+        "action": {
+          "type": "discard",
+          "tile": 6
+        },
+        "nodeStep": 36,
+        "publicViewSha256": "cda3bebb6ba6e21a3f6d2f8776ef2df9b10015e629db3c715ca15fee12161c5a"
+      },
+      {
+        "index": 6,
+        "phase": "discard",
+        "action": {
+          "type": "discard",
+          "tile": 10
+        },
+        "nodeStep": 44,
+        "publicViewSha256": "e1d12c1453d7eddb9787d2d38b2822917972cbd3128476b2bad06c7717ddcf6e"
+      },
+      {
+        "index": 7,
+        "phase": "respond",
+        "action": {
+          "type": "respond",
+          "choice": "pung"
+        },
+        "nodeStep": 49,
+        "publicViewSha256": "6174684b9c10269a0d4caa1b09f9002d10beaf8a05146ca9cd834c14af1c6dfb"
+      },
+      {
+        "index": 8,
+        "phase": "discard",
+        "action": {
+          "type": "discard",
+          "tile": 19
+        },
+        "nodeStep": 50,
+        "publicViewSha256": "dd0e654d0a840e9ccfafdbd03f9b3c8be08c8baea98610066d69583579aed492"
+      },
+      {
+        "index": 9,
+        "phase": "discard",
+        "action": {
+          "type": "discard",
+          "tile": 11
+        },
+        "nodeStep": 62,
+        "publicViewSha256": "2ce6dee9fbcc296abdbd73701a5520d1b0852cfabb910bee7e8e4ad1e0d6e071"
+      },
+      {
+        "index": 10,
+        "phase": "discard",
+        "action": {
+          "type": "discard",
+          "tile": 21
+        },
+        "nodeStep": 70,
+        "publicViewSha256": "4ffa9e5f8e67851fa9e040199f923a86ab6892b7c6e275aa8322813cd81909c9"
+      },
+      {
+        "index": 11,
+        "phase": "discard",
+        "action": {
+          "type": "discard",
+          "tile": 19
+        },
+        "nodeStep": 78,
+        "publicViewSha256": "5382c9baf1dee50c33e0446001899ac865b6eeeb26c19328961a781e6d1f4bba"
+      },
+      {
+        "index": 12,
+        "phase": "respond",
+        "action": {
+          "type": "respond",
+          "choice": "hu"
+        },
+        "nodeStep": 81,
+        "publicViewSha256": "dfe4fe5950667a752c5ecacf600158d4bb14082d56ea98aff719d3fd66d4b104"
+      }
+    ],
+    "browserObservedScores": [1, 5, 3, -9],
+    "browserObservedEndReason": "wall",
+    "browserErrors": 0,
+    "fixedResponseCases": 5,
+    "ordinaryCases": 4,
+    "robCases": 1,
+    "responseOnlyWorkers": 0,
+    "audioAudibilityVerified": false,
+    "browserTerminalRawGameStateExported": false,
+    "browserOpponentInternalDecisionsExported": false
+  },
+  "completedDevelopmentResponseParity": {
+    "valid": true,
+    "inputs": [
+      {
+        "source": "development-v10-combined",
+        "wholeV10Traces": 960,
+        "ordinary": 497,
+        "rob": 4,
+        "traceSha256": "5220ffacbabd102ca2c008d9525e25cc528d05761bd153649ef988072ea5e916"
+      },
+      {
+        "source": "development-v11-combined",
+        "wholeV10Traces": 480,
+        "ordinary": 244,
+        "rob": 0,
+        "traceSha256": "98a8550808eedd0591796418cadadf9809316fb3ed4021e551b960fcd9b90725"
+      }
+    ],
+    "uniquePublicResponseContexts": 508,
+    "outputSha256": "ccdbde54e43755dbcf6ecae22688a31b15ec247e27a7d7d126dc83b7e744b13d",
+    "newSeeds": 0,
+    "newStrengthGames": 0,
+    "externalRequeries": 0,
+    "limitation": "Completed development public responses only; no new strength sample and no general proof of alternate rules."
+  },
+  "composition": {
+    "unchangedNamespaceObjects": 66,
+    "ordinaryV10AcceptsLegalHU": true,
+    "correctedRobCurrentPointsMinimum": 2,
+    "originalRobThreshold": 1,
+    "onlyDefaultV1ValidStates": true
+  },
+  "nodeResult": {
+    "scores": [1, 5, 3, -9],
+    "wins": [
+      {
+        "winner": 0,
+        "payer": 1,
+        "tile": 2,
+        "selfDraw": false,
+        "evaluation": {
+          "fan": 0,
+          "points": 1,
+          "patterns": ["平胡"]
+        }
+      },
+      {
+        "winner": 1,
+        "payer": 3,
+        "tile": 26,
+        "selfDraw": false,
+        "evaluation": {
+          "fan": 2,
+          "points": 4,
+          "patterns": ["对对胡", "根"]
+        }
+      }
+    ],
+    "steps": 132,
+    "income": [
+      {
+        "selfWin": 0,
+        "discardWin": 1,
+        "dealIn": 0,
+        "paidSelfWin": 0,
+        "kong": 0,
+        "flower": 0,
+        "ready": 0
+      },
+      {
+        "selfWin": 0,
+        "discardWin": 4,
+        "dealIn": -1,
+        "paidSelfWin": 0,
+        "kong": 2,
+        "flower": 0,
+        "ready": 0
+      },
+      {
+        "selfWin": 0,
+        "discardWin": 0,
+        "dealIn": 0,
+        "paidSelfWin": 0,
+        "kong": 3,
+        "flower": 0,
+        "ready": 0
+      },
+      {
+        "selfWin": 0,
+        "discardWin": 0,
+        "dealIn": -4,
+        "paidSelfWin": 0,
+        "kong": -5,
+        "flower": 0,
+        "ready": 0
+      }
+    ],
+    "endReason": "wall"
+  },
+  "wholeCompatibilityNodeGames": 2,
+  "wholeCompatibilityBrowserGames": 1,
+  "newIndependentSeeds": 0,
+  "strengthSampleIncrement": 0,
+  "sourceHashes": {
+    "src/App.test.tsx": "e8acadcce44b144a6cf0756531de5713535b4394ecad1f5dd84f85fe0c61a298",
+    "src/App.tsx": "0290671b9b09f6be5c9e6207e333a1678566110d2f206a9da2b439bc4e9b2342",
+    "src/components/AdviceCoach.test.tsx": "8ea1b41746621d7253ecc76d001591e944a51f9784cd65cafd70a5abb528e370",
+    "src/components/AdviceCoach.tsx": "772207ebaa755ca3f7b1f610a7244eee134176b7e1e7654303bffe75fe36516a",
+    "src/components/GameDialog.tsx": "ae67da5610f5bd66ef2a0195d9d97b3178213a65a950b8c81f74fa81ae159873",
+    "src/components/MahjongTile.tsx": "f812f5ef33f4c799a446e250ab587a8f6d2c3a388f674e2da044cc6e87320b63",
+    "src/components/NextDrawPanel.tsx": "6164c3c20b341d03467afc09c5507d7756658645fd955d427ce8897e9e03b08e",
+    "src/components/PlayerAvatar.tsx": "65c0193f5f57a399d9491a5e583126fbe20f8ed18d1c52c38a7ff45e442ddb86",
+    "src/components/setupAdvice.test.ts": "3568fc91abbca4126ad95554191b0eb1fc231267fddbb1d6644ceb8f13583894",
+    "src/components/setupAdvice.ts": "d7bcf513e42fce3f4013150e153e1c8bd3aa9e03c41e9314287bae0460c68ccb",
+    "src/game/acceptRonTeacher.test.ts": "906d05b8d3a50da82a5f86d4f0583708573530593fb6442f01dcf6efd9760efd",
+    "src/game/acceptRonTeacher.ts": "6eb8f84c96c1c8ce59c74625a16952cdfc21ee5a141115a332e73c9f736216d0",
+    "src/game/actionAdvice.test.ts": "f66c5a1b83ae139b146d6ae3618fdc54286f776fc600aea980d1f9f400450537",
+    "src/game/actionAdvice.ts": "08036cafad433508906f0312801d4a418fc767180f9f0e7320162d9c29451ce4",
+    "src/game/advancedComponents.test.ts": "cd1f1c151785b08984282eb6f42ce5ea0a966cea52f9f3bb085509e15f3fafa9",
+    "src/game/advancedComponents.ts": "99cc9c60287d498d448e708ed932a4b06ccec71c59ebb463dcfe5761995ff681",
+    "src/game/advice.test.ts": "014c8d3698305c96438cb7f183fb3608edd2188fce9a547ce75fb69602516f41",
+    "src/game/advice.ts": "dba080f3c61d99bccefed33477f77ffdc394fd072a4a8ce9e265a2ba33b76e15",
+    "src/game/bot.ts": "7cf9998abb3a6b5ecc73ab7cbcf961cee5f299901c859418d0f220aced07b189",
+    "src/game/candidateEvaluation.test.ts": "bd0545c2607af48a076b6fbc02ba71bfdab8718ff39791309104c68e5cb144c4",
+    "src/game/candidateEvaluation.ts": "62cac95d93809204168ffec5c537667bcfead9e80deec8b5cfeecce545de93f5",
+    "src/game/decision.test.ts": "62a9c0868482eef3d153a6277fe02225967d5d1f03c27ed4a0c59e3652631531",
+    "src/game/decision.ts": "13487f4ad5f6c049cca7e9691ec1845fd51878d1fa907bc5670af695108c4e97",
+    "src/game/demo.test.ts": "85adee9a9b2da5420211f66d30dda675e09bc6a025d0a3127f337b5bcfd8c5df",
+    "src/game/demo.ts": "e0041c4141fe52310b92d92de8febbe1679e4160cee267ef6eeb6081d39ad3cb",
+    "src/game/fixtures/public-liability-model-v1.json": "b03039fc29ab755c9355bc5b37b0e6db0097f9a9e46cc4665776f3768187d5b2",
+    "src/game/fixtures/public-liability-reference-v1.json": "7b6a04d723f4ba8ae7fd34e6a193315c3cd5376b25acf0d17a80f04d5b04d114",
+    "src/game/fixtures/public-ron-v1.json": "9075c5b31ab3612c6e1fbb4ce55b6ce92e53571824cead61de38f0dfafbae6e6",
+    "src/game/flow.test.ts": "66a91d4d93fb444a85dbd4a3ecadd6bb0a2d9be4934f815247532588109326b5",
+    "src/game/game.test.ts": "9a5242ceb8e946878f619b2cf833cbe14c8fd1ca914ce813244b1c9ed55ba267",
+    "src/game/game.ts": "f6717f539acc39a949b633a08a4f1f041005d308c0c57a54fc51feed01881d5e",
+    "src/game/immediateWin.test.ts": "b6fa70dcc0a7750166608ff5fdaa85ac5ca7c680a1ef6c8a448d3f35586f8778",
+    "src/game/immediateWin.ts": "b0f0c6f8ce39cdf8fed58a16426f0201c17188a18cb586062bbf2766dd455749",
+    "src/game/liabilityDiscard.test.ts": "cecd0425dcb184e6cc166da61e2c1479d014ff53c7a91936c542c5a666f1ca42",
+    "src/game/liabilityDiscard.ts": "10ae71c3bdba45877dd6cb4b16cb9b99c8872c5bef6f331a76c3a4c9cc22c804",
+    "src/game/lookahead.test.ts": "e499ede9081261efa23bebb0f783fcf7d0ceaef90ff1d4e42f06ab85cf5e6143",
+    "src/game/lookahead.ts": "abc9cd298f054b5544568f49f48ef2d215c5426ca79588e381e21e3bb0bd6171",
+    "src/game/openingAdvice.test.ts": "a4d7a4a4274f6afe4cf1e7a73af919d5ca0ed567c76a4cbd803651e7fe5cc9f3",
+    "src/game/openingAdvice.ts": "c34f9c41c16dfbab2ebad8aee62fe67c5d2dabdfe34337471e2a48ec6efd1ceb",
+    "src/game/publicHistory.test.ts": "af6f6b6dbb35a83b3e4e898bd5a59680f5db5ecf24954ca69142c85145ebfbbe",
+    "src/game/publicLiability.test.ts": "851ec7cc2bcfb31bb99d2ea537ee279e4f2559a7cf8fdc590d250eb0bd6567eb",
+    "src/game/publicLiability.ts": "84dd15dafd27b91745f9a36808db103dabd3e2aadf9bad377425738267d1b5ef",
+    "src/game/publicLiabilityFeatures.ts": "cc4ccb757381af7cfc84e509c2116501076d8fc4160b2d0d1cef44e6af211ed1",
+    "src/game/publicLiabilityInference.ts": "a2ffeaf0ad2c36679bb3b1daf10cd6776e8ac65bcdd81899b27f335c5cfc87a2",
+    "src/game/publicRonContinuation.test.ts": "63dc10b96eecb6d2ce81cd02a8d1534782e6b8a5f92b489547bdda14ec7af987",
+    "src/game/publicRonContinuation.ts": "c7c3290a4e8cf6d95c0122406bfd7ab717abd3022943c58636d827be374215c7",
+    "src/game/publicRonSampling.test.ts": "11274bf8b79eec812852d76d8468005c92c3d4bf45bb270c60ac55fc88ea33a9",
+    "src/game/publicSampler.test.ts": "368ab2bcb997066ef294d70c95eee8b9448c900d1857aac6a2b352ef0599a3cd",
+    "src/game/publicSampler.ts": "c1422c8e6c27d28123bc401ce7996dbd9e8e94b7836d0bc61e27844a394ae8e0",
+    "src/game/publicState.test.ts": "1fb4e843de4a6a9952659cd61a79fb6a3c0c316884c34291df3cd21ab65e99bf",
+    "src/game/rolloutTeacher.test.ts": "fe5d73363642f15c3ffffdf933c553207fe12aaff3cd79938fe5c27127b0d616",
+    "src/game/rolloutTeacher.ts": "6d5f4c67efb05dd338aab960156ba6acd669d10056e89c3e01fb4715ecab72c5",
+    "src/game/ronContinuationTeacher.test.ts": "a65cbc85c1122d13ae6bd6a2d1f546c6b7b3c0b8b5a093e87a577d8b920f9651",
+    "src/game/ronContinuationTeacher.ts": "5910537887dc5761d8eb98bb1353be0d08b0da6956fc33f0af0fb1e3f13c1bb8",
+    "src/game/rules.test.ts": "7872a49e64d2796a8f6f14f4cf2d5ac5bbf7115b59b438209a1393518dad7549",
+    "src/game/rules.ts": "89600183168a491703fbdb0daff02905c0e29ad49d09be73e81dc5a39194a552",
+    "src/game/sampledContinuation.test.ts": "c7e4e114a7361cb2d9ea4cb3ac56a33e12ea42622c9567d9a9c267241faff56d",
+    "src/game/sampledContinuation.ts": "1b09e57f99530a88039c8f9549691882baa765560c7dc776007549767ac13a44",
+    "src/game/scoring.test.ts": "ede8ec53e8f9960504710aaf693478f6f06c45d1359c4f815eaeeba02691b7b9",
+    "src/game/scoring.ts": "c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e",
+    "src/game/session.test.ts": "97e9fd1e24765aba4079e084b0e254f0553bcab8d3fa9748672a80e64678dd0a",
+    "src/game/session.ts": "497d3cdf840070006ba5bbb870d30cb2f2fd434099a710fa422d5326ef0f0d09",
+    "src/game/strongTeacher.test.ts": "d47574dcf523cf35ff9e24598518598aba20b138d91aafc9bdfdf6d8affcd432",
+    "src/game/strongTeacher.ts": "18d611bb9885445654c6159ab97fe01694583aae115f7a11f5eecc8822086a6f",
+    "src/game/teacher.test.ts": "9164130e25c91dcc8dfe395380218e37311b31c1e0962e240561efa82442795a",
+    "src/game/teacher.ts": "ef3ccd51b9b68a3729ff85dcfe81d45419f5657ff196ab0afca6632dced0806d",
+    "src/game/teacherEvaluation.test.ts": "35160f986cd5f5ff857d53be9a6f95c72759b09c5854083fc60d3c91ee6d81ca",
+    "src/game/teacherEvaluation.ts": "8f76b448018c48b428f6855946b681148e3e712d52489b8ea1bd57c2c33f7d12",
+    "src/game/testHelpers.ts": "9c69f85f668f9ede112fe613ba2ae1a1e7b0910472eb3b5d65e5d067a98a9ba3",
+    "src/game/tiles.test.ts": "c9d91b154ff88421b3d89d1934c54262c507db54f7eb24925281f5f229754b94",
+    "src/game/tiles.ts": "1de601067eeb8f78d1774136b0ac19a6f174db6ec36aa19344a1477fc153b979",
+    "src/game/v10Response.test.ts": "13bc8aff2cb24dc0e9126e604d6467bdf1600fe0b801870c01222cbbce1e327d",
+    "src/game/v10Response.ts": "b91848468e3342f50d15e55cf955af4689c95021823b9f0055016e21048036d0",
+    "src/game/view.ts": "3dfafba0db3775ae5b1bb2972edff360681411739dc16da594dc731a6db67981",
+    "src/main.tsx": "4657a8973a4a8c4be198aa0855ad4e5f5855771c8b4a8e467fce4c4ab09d929f",
+    "src/newGameSeed.test.ts": "a7a34d0571074b3c51db43e54cf42647a6e1badadc97966e1bc85191e3d7c4ee",
+    "src/newGameSeed.ts": "d1ed2ec05a1ec2e9a528d7318b4f216dc5ccfa444360ba7cdb8a2eb8aa8f5c1e",
+    "src/sound.test.ts": "da2635f9099b34d01f23246a120afc0d8b6906569bf5c8bf4c0ddcac15871f37",
+    "src/sound.ts": "3194a28741ff84096699b41aa915017e8f9e11d106364425a73c2a922381e9a7",
+    "src/strategy/advanced.worker.ts": "35a1cc6bc39f0eee55ca946c8ff2cdda5820766852e1d91cd5292132b9ba027f",
+    "src/strategy/advancedClient.test.ts": "62b28c8b0af9e7439c286bd7214c83a3db4f630f15f83f63eb84ca30cb123f5d",
+    "src/strategy/advancedClient.ts": "13f907887396f40db9df14334c4254ca0e7b1d6497063501d70d3ed60fad21bd",
+    "src/strategy/advancedDiagnostics.test.ts": "9515ca47aad59fd8fa2f505fe4817f1bef2dd325916601188ef1894489e192b6",
+    "src/strategy/advancedDiagnostics.ts": "d06f97e225a2ff9199ee75181f14755d7326c09fafecce626f37b04eeefd6e29",
+    "src/strategy/advancedProtocol.ts": "d96cf17af6cb0bb414e21f706ae58a86f834fc5471515a2249d14d128d7cbf0b",
+    "src/strategy/advancedRuntime.test.ts": "b4122dd5f28f677589524e1c76cd53109c65e37be333200d1bfdfc6022c4a352",
+    "src/strategy/advancedRuntime.ts": "6a4641910ec894f35f2e30238726b4b2411d5ba85678a0fe0f1dabf764169061",
+    "src/strategy/fixtures/observedHuDecisions.json": "b1e4784659d5b928ab98f8b19ca03a4ba80e2e9f5ac7a57c32ee0636b1990922",
+    "src/strategy/productionAdvice.test.ts": "c51ef7d31bf02245b25b2a2d9b2f49adb4f7f6468714a2563dca0b8ae3984542",
+    "src/strategy/productionAdvice.ts": "674d5c970e2e0313100980973c9f228f75b29d30d29e9e4017c05323da0e6916",
+    "src/strategy/useProductionAdvice.ts": "422083a9ee3d4cdf5b4f1778e5d369b23908b81efa9c1ec72d4af892f2d11eca",
+    "src/style.css": "ae2f20a70c5951c8391c314fb7f69794f2fb82e681a6ec9e415b0201b1b38388"
+  },
+  "artifactHashes": {
+    "local/strength-goal-20261018/production-app-qa-v10/index.html": "7bb30ad63ed9b17f1781d6e59eb34b48afa7242d61214dee5845c06141d975ea",
+    "local/strength-goal-20261018/production-app-qa-v10/main.tsx": "4e66826a0d3b83a273e89cafa0171e4ab77dfdf5bc7c49623a74b2314a065091",
+    "local/strength-goal-20261018/production-app-qa-v10/vite.config.ts": "cc477b5ebc0fb7fc2399516d4cf3dcae4f20666b9323cce14defb268eb6b414b",
+    "local/strength-goal-20261018/production-app-qa-v10/node-expected.config.json": "c15391ff39e103a48a65fa92b92dcd4f2c7048accdcd783bac27931cb60b3993",
+    "local/strength-goal-20261018/production-app-qa-v10/browser-decisions.json": "413fd7caad856203e59942577f511a322c28d5bfc95c8b6ff07992e5abf002ed",
+    "local/strength-goal-20261018/production-app-qa-v10/browser-responses.json": "514f867ea82cc2c2325b1f68a5bdceb4a6878eeba36eb06e5b12602cf2d06eaa",
+    "local/strength-goal-20261018/production-app-qa-v10/finished.ax.txt": "8f7df0de88ae7dcc12d74e619a17ad5e789a323d2c33c77667ced6652c885734",
+    "local/strength-goal-20261018/production-app-qa-v10/finished.png": "f7a3504120c0c9f146a0672b4ca1e2420b7d3b23b237f62c57e07bda8364da90",
+    "local/strength-goal-20261018/production-app-qa-v10/ordinary-reason.ax.txt": "52f947b0fcb04552e8f302da593033db10f000b607375cdf8295a83ae3834ac5",
+    "local/strength-goal-20261018/production-app-qa-v10/rob-reason.ax.txt": "16898e25fbb08544db2c5c4615f2305403d5bffaf10fa60735aba888bf0a97ea",
+    "local/strength-goal-20261018/production-app-qa-v10/rob-reason.png": "18f7c6aa416ceddd47e8eaea202c527a631d61ea24737e7c2be6dd042ea78f78",
+    "local/strength-goal-20261018/production-app-qa-v10/node-expected/games.jsonl": "701a42293ee69155b8e72121d9204e6ff054085d2afa5d294c3ab297836b53b4",
+    "local/strength-goal-20261018/production-app-qa-v10/node-expected/traces.jsonl": "484c9a97bb49e6e01ec611c850427dc71bcec8bf66f425de0f993e7f0432c807",
+    "local/strength-goal-20261018/production-app-qa-v10/node-expected/summary.json": "bbd6829fc33fcdcaa618b874646d448b51068dc2b6798c435873700cdddfe5f1",
+    "local/strength-goal-20261018/v10-browser-integration/composition-proof.json": "847d32f37ee87d6ca090e54f2e6bbd5087c9219b768a48dba5c18b34dd89604c",
+    "local/strength-goal-20261018/v10-browser-integration/old-response-parity-receipt.json": "9168eea863f67644fc8c72041a131565b59abd3b422f4160dcdd155ed57da6e4",
+    "local/strength-goal-20261018/v10-browser-integration/old-response-parity.jsonl": "ccdbde54e43755dbcf6ecae22688a31b15ec247e27a7d7d126dc83b7e744b13d",
+    "local/strength-goal-20261018/prove-v10-browser-composition.py": "86a3920de30cb746900a79f738f2dda58fdfb1387c201a3f0f89e97145cef7c0",
+    "local/strength-goal-20261018/check-v10-browser-old-responses.ts": "70a1a8a25c77b337307f06edb7ca08d362ebab8fe44b82bca9b7aad3982d3824",
+    "local/strength-goal-20261018/audit-v10-browser-run.py": "456109d6ab2a2face3c4104ec98528d152a9fb9f77b962c0181d7e4c65f7d7d5",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/assets/advanced.worker-B-AWn6kX.js": "21c8ca2bd189f3672eda63d4478b966052394c73cafc578adf1da149a4d01f81",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/assets/index-CBlWJC5D.css": "e0ac0ebe5301e0b7b60313c52df56a6b91da4c7319c739e2445fc1c0f7b433e6",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/assets/index-Cs7KZXKW.js": "8c110fc2924c44c3358226f99c5010e8d267299d11bdaa1915a659f4540ac19b",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/local/strength-goal-20261018/production-app-qa-v10/index.html": "4be8c0d0417de0376308e6d0b0046dfd3f0f08e56a3a2f7fbe7badbf3e0a5850",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/advanced-public-v1/LICENSE-advanced.txt": "20b7d2ddbd084a84030ba985d5cb7011c406e75edcd40ddc5f974a3bc46b07f3",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/advanced-public-v1/LICENSE-initial.txt": "20b7d2ddbd084a84030ba985d5cb7011c406e75edcd40ddc5f974a3bc46b07f3",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/advanced-public-v1/payload.json": "794b649724cb60f22006a9b4107168eb145a3550756df03900c4ceb105fe6c75",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/manifest.json": "4311dc4f9193f61ee7c9bc70a3f64ff3e52a6f369bf0bc0c871331a68618c55b",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/LICENSE-CPython-3.14.2.txt": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/LICENSE-MPL-2.0.txt": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/NOTICE.txt": "fef05f5825ee8c2dc3e23e0ccc2cc88ac0e6634c752f0f6e613b820f3977974c",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/package.json": "40ca48e43ce4ddc68412d5b7a7ca9e2477cd4f0e672277ae468ac2245717079b",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/pyodide-lock.json": "5dc2fc119108bc148c7457dc86e7675b5c87e1cafd420b9c34c1eaef7b36c010",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/pyodide.asm.mjs": "f7cdc8ece80678ceb712f8e65ebe6d3a83203a180c399865f49612a051693635",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/pyodide.asm.wasm": "cc36e3cab04fdfc9a63ff13eb52eae2b911bf46c025cc7b281f394bd3de1d5e6",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/pyodide.mjs": "6f1d60f7bf529beb300f0f47983c921d3982363640ba20af0e38efdddbc66109",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/pyodide.mjs.map": "0d97147b5f205398c614021ca450d1d95b87cdf8abd1b9ab4fc86c4169f88c36",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/python_stdlib.zip": "fa1957e5777068fc4f7437f96d860ae2fbe9c19732ba06c84e004ec16dd7dd7a",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/README.md": "7d434f487a81a9ea4944000fbbb5a771da89ca32fd1ff5edca0c5954b90cedec",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/THIRD_PARTY_NOTICES.txt": "0fc6377ddeec3f325d5e327388196af286b930b5a4ab41bb66b09c9961239a15",
+    "local/strength-goal-20261018/production-app-qa-v10/dist/strategy/pyodide-314.0.7/THIRD_PARTY_SOURCES.json": "65069bf10ba5ee3fe56bc1c34ce178cac62f85c61c1fc29734dd8aaa11c8e4f0",
+    "local/strength-goal-20261018/v10-browser-integration/browser-run-audit.json": "e9f5dd19494da3d85e8947b1461b538f4dc7469fec2ba090ff4aa20fcc1c5022"
+  },
+  "privateCheckerFailures": [
+    "Python AST initially searched direct policy calls instead of policy function references passed to upstream_call; then corrected discard function spelling. Both failed before proof write; candidate unchanged.",
+    "First QA build used a wrong fixture path, failed before browser execution; corrected to existing public-ron-v1.json and context.view."
+  ],
+  "limits": [
+    "Focal successful recommendations/public views compared in order; browser other-seat internal decisions and hidden terminal state not exported.",
+    "Runtime/browser/source composition is default V1 valid host states only; no alternate-rule equivalence or human-expert strength proof.",
+    "Other A branch explanations remain limited to actual source and legal facts; no fabricated full score table."
+  ]
+}

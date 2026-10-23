@@ -5,6 +5,7 @@ import { hand } from "../game/testHelpers";
 import type { PlayerView } from "../game/view";
 import type { BrowserDecision } from "./advancedClient";
 import observations from "./fixtures/observedHuDecisions.json";
+import ronBoundaries from "../game/fixtures/public-ron-v1.json";
 import {
   presentBrowserDecision,
   teacherPresentation,
@@ -54,6 +55,40 @@ function advanced(input: PlayerView): BrowserDecision {
   };
 }
 describe("当前生产策略的忠实展示与语音快照", () => {
+  it("V10兑现响应展示该步确定金额，禁止伪装其他动作或附加别的分支诊断", () => {
+    const c = ronBoundaries.cases[0],
+      input = structuredClone(c.context.view) as PlayerView;
+    const result = {
+      action: { type: "respond" as const, choice: "hu" as const },
+      phase: "respond" as const,
+      policy: "V10" as const,
+      origin: "v10-response" as const,
+      session: 1,
+      revision: 0,
+      recommendationCount: 1 as const,
+    };
+    const shown = presentBrowserDecision(input, result);
+    expect(shown.choices[0].reason).toContain(c.expectedIncome.toFixed(2));
+    expect(shown.origin).toBe("v10-response");
+    expect(() =>
+      presentBrowserDecision(input, {
+        ...result,
+        action: { type: "respond", choice: "pass" },
+      }),
+    ).toThrow();
+    expect(() =>
+      presentBrowserDecision(input, {
+        ...result,
+        diagnostics: observations.rows[0].diagnostics as never,
+      }),
+    ).toThrow();
+    const manual = explainProductionAction(
+      input,
+      { type: "respond", choice: "pass" },
+      shown,
+    );
+    expect(manual.actual.reason).toBe("这是玩家手动选择的合法操作。");
+  });
   it("实际高级胡牌分支显示同次比较值，拒胡后碰牌不被改写成过", () => {
     const row = observations.rows[0],
       input = row.view as unknown as PlayerView;
