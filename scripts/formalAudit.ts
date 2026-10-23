@@ -6,6 +6,11 @@ import { DEFAULT_RULES } from "../src/game/game";
 import type { RolloutDecision } from "../src/game/rolloutTeacher";
 import { chooseTeacherAction } from "../src/game/teacher";
 import {
+  evaluateLiabilityDiscard,
+  type LiabilityDiscardDecision,
+} from "../src/game/liabilityDiscard";
+import { suitOf } from "../src/game/tiles";
+import {
   parseIndependentConfig,
   type IndependentConfig,
 } from "./independentBenchmark";
@@ -132,9 +137,11 @@ function validateAction(value: unknown): void {
 function validateEvaluations(
   raw: unknown,
   decisions: IndependentDecisionTrace[],
+  record: Pick<IndependentRecord, "policy" | "seat">,
 ): void {
   if (!Array.isArray(raw)) throw new Error("trace缺少评估数组");
   const seen = new Set<number>();
+  const liabilitySeen = new Set<number>();
   for (const value of raw) {
     fields(value, ["actor", "decisionIndex", "report"], "evaluation");
     const index = value.decisionIndex;
@@ -149,6 +156,35 @@ function validateEvaluations(
       throw new Error("评估附录不对应唯一的实际决定");
     seen.add(index);
     const report = value.report as RolloutDecision;
+    if (report && typeof report === "object" && "kind" in report) {
+      if (
+        report.kind !== "public-liability-discard-v1" ||
+        record.policy !== "candidate-advanced-liability-v11" ||
+        value.actor !== record.seat ||
+        decisions[index].phase !== "discard"
+      )
+        throw new Error("赔付模型附录不是本家实际V11弃牌");
+      const liabilityReport = report as unknown as LiabilityDiscardDecision;
+      const expected = evaluateLiabilityDiscard(
+        decisions[index].view,
+        liabilityReport.baselineTile,
+      );
+      if (!expected) throw new Error("赔付附录节点不适用");
+      exact(
+        liabilityReport,
+        expected,
+        "赔付附录与固定模型、约束或实际基准不符",
+      );
+      exact(
+        expected.choice.action,
+        decisions[index].action,
+        "赔付比较首选与实际动作不符",
+      );
+      liabilitySeen.add(index);
+      continue;
+    }
+    if (record.policy === "candidate-advanced-liability-v11")
+      throw new Error("V11只能记录实际赔付比较，没有续局采样");
     const allowed = [
       "status",
       "choices",
@@ -182,6 +218,22 @@ function validateEvaluations(
       decisions[index].action,
       "评估首选与实际动作不一致",
     );
+  }
+  if (record.policy === "candidate-advanced-liability-v11") {
+    decisions.forEach((event, index) => {
+      const view = event.view;
+      if (
+        event.actor === record.seat &&
+        event.phase === "discard" &&
+        event.action.type === "discard" &&
+        view.decision?.kind === "self" &&
+        !view.decision.canWin &&
+        view.missing &&
+        !view.hand.some((t) => suitOf(t) === view.missing) &&
+        !liabilitySeen.has(index)
+      )
+        throw new Error("V11实际弃牌缺少完整赔付比较记录");
+    });
   }
 }
 
@@ -303,7 +355,7 @@ export async function auditFormalSeedAttempt(
       validateAction(event.action);
     }
     const decisions = value.decisions as IndependentDecisionTrace[];
-    validateEvaluations(value.evaluations, decisions);
+    validateEvaluations(value.evaluations, decisions, record);
     let index = 0;
     const replay: Policy = (view, phase) => {
       const event = decisions[index++];

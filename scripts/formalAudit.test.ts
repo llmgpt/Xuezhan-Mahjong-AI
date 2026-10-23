@@ -121,6 +121,82 @@ afterAll(() => {
 });
 
 describe("正式证据的逐动作全网格审计", () => {
+  it("保存并重算V11实际弃牌比较，拒绝篡改概率/金额、基准或遗漏记录", async () => {
+    const output = temporary();
+    const custom = {
+      ...config,
+      policies: ["teacher-v1", "candidate-advanced-liability-v11"],
+      comparisons: [
+        {
+          candidate: "candidate-advanced-liability-v11",
+          baseline: "teacher-v1",
+        },
+      ],
+    };
+    await runIndependentBenchmark(custom, output, {
+      runtime,
+      fingerprint: () => sourceFingerprint,
+      play: async (spec, events) => {
+        const own = createPolicySession(spec.policy, {
+          workerFactory: () => ({
+            act: async (v, p) => chooseTeacherAction(v, p)!,
+            close: async () => {},
+            finish: async () => {},
+          }),
+          onLiabilityEvaluation: (report) =>
+            events.onLiabilityEvaluation({ actor: spec.seat, report }),
+        });
+        const teacher: Policy = (v, p) => chooseTeacherAction(v, p);
+        try {
+          return await playIndependentGame(
+            spec.seed,
+            spec.seat,
+            own.choose,
+            { 0: teacher, 1: teacher, 2: teacher, 3: teacher },
+            { openingPolicy: teacher, onDecision: events.onDecision },
+          );
+        } finally {
+          await own.finish();
+        }
+      },
+    });
+    const auditLocal = () => audit({ config: custom, directory: output });
+    await expect(auditLocal()).resolves.toMatchObject({ gameCount: 2 });
+    const original = readFileSync(join(output, "traces.jsonl"), "utf8")
+      .trimEnd()
+      .split("\n")
+      .map((s) => JSON.parse(s));
+    const originalCandidate = original.find(
+      (r) => r.policy === "candidate-advanced-liability-v11",
+    );
+    expect(originalCandidate.evaluations.length).toBeGreaterThan(0);
+    for (const mode of [
+      "payment",
+      "probability",
+      "baseline",
+      "omitted",
+      "other-policy",
+    ]) {
+      const changed = structuredClone(original),
+        focal = changed.find(
+          (r) => r.policy === "candidate-advanced-liability-v11",
+        );
+      const entry = focal.evaluations[0];
+      if (mode === "payment") entry.report.candidates[0].expectedPayment += 1;
+      if (mode === "probability")
+        entry.report.candidates[0].liability.opponents[0].probabilities[0] = 0.5;
+      if (mode === "baseline") entry.report.baselineTile = 99;
+      if (mode === "omitted") focal.evaluations.shift();
+      if (mode === "other-policy")
+        changed.find((r) => r.policy === "teacher-v1").evaluations = [entry];
+      writeFileSync(
+        join(output, "traces.jsonl"),
+        changed.map((r) => JSON.stringify(r)).join("\n") + "\n",
+      );
+      await expect(auditLocal()).rejects.toThrow();
+    }
+  }, 30000);
+
   it("只重放已保存动作，完整终局和公开视图都与真实引擎一致", async () => {
     const report = await audit();
     expect(report.gameCount).toBe(2);

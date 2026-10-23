@@ -8,6 +8,10 @@ import { chooseOpponentAction } from "./benchmarkPolicies";
 import ronBoundaries from "../src/game/fixtures/public-ron-v1.json";
 import type { PlayerView } from "../src/game/view";
 import type { RolloutDecision } from "../src/game/rolloutTeacher";
+import {
+  evaluateLiabilityDiscard,
+  type LiabilityDiscardDecision,
+} from "../src/game/liabilityDiscard";
 
 function openingViews() {
   let state = createGame(80000);
@@ -29,6 +33,91 @@ function openingViews() {
 }
 
 describe("独立评测策略注册", () => {
+  it("V11普通合法点胡仍直接兑现，不创建worker或模型弃牌报告", async () => {
+    const session = createPolicySession("candidate-advanced-liability-v11", {
+      workerFactory: () => {
+        throw new Error("无需worker");
+      },
+      onLiabilityEvaluation: () => {
+        throw new Error("点胡无弃牌报告");
+      },
+    });
+    try {
+      expect(
+        await session.choose(
+          structuredClone(ronBoundaries.cases[0].context.view) as PlayerView,
+          "respond",
+        ),
+      ).toEqual({ type: "respond", choice: "hu" });
+      await session.finish();
+    } finally {
+      await session.close();
+    }
+  });
+
+  it("V11仅修正worker实际弃牌；记录真实基准及比较，回调不可篡改实际选择", async () => {
+    const hand = [0, 0, 0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13];
+    const view: PlayerView = {
+      seat: 0,
+      hand,
+      missing: "tong",
+      melds: [],
+      legalDiscards: [...new Set(hand)],
+      ownDiscards: [],
+      wallRemaining: 55,
+      opponents: [1, 2, 3].map((seat) => ({
+        seat,
+        handCount: 13,
+        missing: "tong",
+        melds: [],
+        discards: [],
+        won: false,
+        score: 0,
+      })),
+      publicActions: [],
+      publicTiles: [],
+      decision: {
+        kind: "self",
+        canWin: false,
+        concealedKongs: [],
+        addedKongs: [],
+      },
+    };
+    const expected = evaluateLiabilityDiscard(view, 13)!;
+    const reports: LiabilityDiscardDecision[] = [];
+    let calls = 0;
+    const session = createPolicySession("candidate-advanced-liability-v11", {
+      workerFactory: (options) => {
+        expect(options.policy).toBe("ebony72-advanced-ready-income-v1");
+        return {
+          act: async () => {
+            calls++;
+            return { type: "discard", tile: 13 };
+          },
+          close: async () => {},
+          finish: async () => {},
+        };
+      },
+      onLiabilityEvaluation: (report) => {
+        reports.push(structuredClone(report));
+        report.choice.action = { type: "discard", tile: 26 };
+      },
+      onEvaluation: () => {
+        throw new Error("无采样");
+      },
+    });
+    try {
+      expect(await session.choose(view, "discard")).toEqual(
+        expected.choice.action,
+      );
+      expect(reports).toEqual([expected]);
+      expect(calls).toBe(1);
+      await session.finish();
+    } finally {
+      await session.close();
+    }
+  });
+
   it.each(ronBoundaries.cases)(
     "V10 $name 普通点胡直接兑现，不创建worker或续局样本",
     async (c) => {

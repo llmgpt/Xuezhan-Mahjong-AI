@@ -16,6 +16,7 @@ import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_RULES, type Phase } from "../src/game/game";
 import type { RolloutDecision } from "../src/game/rolloutTeacher";
+import type { LiabilityDiscardDecision } from "../src/game/liabilityDiscard";
 import { chooseTeacherAction } from "../src/game/teacher";
 import type { PlayerView } from "../src/game/view";
 import {
@@ -56,6 +57,10 @@ interface Observers {
   onDecision: (trace: IndependentDecisionTrace) => void;
   onAttempt: (attempt: Attempt) => void;
   onEvaluation: (event: { actor: number; report: RolloutDecision }) => void;
+  onLiabilityEvaluation: (event: {
+    actor: number;
+    report: LiabilityDiscardDecision;
+  }) => void;
 }
 interface RunOptions {
   runtime?: Runtime;
@@ -267,6 +272,8 @@ export async function playRegisteredGame(
         if (report.status !== "not-applicable")
           observers.onEvaluation({ actor, report });
       },
+      onLiabilityEvaluation: (report) =>
+        observers.onLiabilityEvaluation({ actor, report }),
     }),
   );
   const policies = Object.fromEntries(
@@ -418,7 +425,7 @@ export async function runIndependentBenchmark(
               const evaluations: {
                 actor: number;
                 decisionIndex: number;
-                report: RolloutDecision;
+                report: RolloutDecision | LiabilityDiscardDecision;
               }[] = [];
               let pending: Attempt | undefined;
               const observers: Observers = {
@@ -429,6 +436,12 @@ export async function runIndependentBenchmark(
                   pending = structuredClone(attempt);
                 },
                 onEvaluation: (event) => {
+                  evaluations.push({
+                    ...structuredClone(event),
+                    decisionIndex: decisions.length,
+                  });
+                },
+                onLiabilityEvaluation: (event) => {
                   evaluations.push({
                     ...structuredClone(event),
                     decisionIndex: decisions.length,

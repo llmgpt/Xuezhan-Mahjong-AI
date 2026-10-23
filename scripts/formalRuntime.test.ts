@@ -162,6 +162,10 @@ describe("正式运行环境的实际文件闭包", () => {
       policy: "candidate-advanced-accept-ron-v10",
       module: "ready_income_policy",
     },
+    {
+      policy: "candidate-advanced-liability-v11",
+      module: "ready_income_policy",
+    },
   ])(
     "金额候选 $policy 的实际加载路径必须进入运行时探针",
     async ({ policy, module }) => {

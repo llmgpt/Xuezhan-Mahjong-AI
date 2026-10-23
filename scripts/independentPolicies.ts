@@ -4,6 +4,10 @@ import type { Phase } from "../src/game/game";
 import { immediateWinChoice } from "../src/game/immediateWin";
 import { acceptRonChoice } from "../src/game/acceptRonTeacher";
 import {
+  evaluateLiabilityDiscard,
+  type LiabilityDiscardDecision,
+} from "../src/game/liabilityDiscard";
+import {
   evaluateRolloutDecision,
   type RolloutDecision,
 } from "../src/game/rolloutTeacher";
@@ -32,6 +36,7 @@ export const INDEPENDENT_POLICY_IDS = [
   "candidate-advanced-ready-income-v8",
   "candidate-advanced-ron-continuation-v9",
   "candidate-advanced-accept-ron-v10",
+  "candidate-advanced-liability-v11",
   "ebony-initial",
   "ebony72-advanced-public-v1",
   "fanfou-ba-composite-v1",
@@ -46,6 +51,7 @@ const ADVANCED_COMPONENTS = {
   "candidate-advanced-ready-income-v8": "full",
   "candidate-advanced-ron-continuation-v9": "full",
   "candidate-advanced-accept-ron-v10": "full",
+  "candidate-advanced-liability-v11": "full",
 } as const;
 
 // Fixed seat vectors. Internal opponents are sensitivity controls, not additional
@@ -97,6 +103,7 @@ export function createPolicySession(
     timeoutMs?: number;
     workerFactory?: (options: ExternalMahjongOptions) => Worker;
     onEvaluation?: (report: RolloutDecision) => void;
+    onLiabilityEvaluation?: (report: LiabilityDiscardDecision) => void;
   } = {},
 ): PolicySession {
   if (!INDEPENDENT_POLICY_IDS.includes(name as IndependentPolicyId))
@@ -119,7 +126,8 @@ export function createPolicySession(
               ? "ebony72-advanced-current-income-v1"
               : name === "candidate-advanced-ready-income-v8" ||
                   name === "candidate-advanced-ron-continuation-v9" ||
-                  name === "candidate-advanced-accept-ron-v10"
+                  name === "candidate-advanced-accept-ron-v10" ||
+                  name === "candidate-advanced-liability-v11"
                 ? "ebony72-advanced-ready-income-v1"
                 : name === "ebony72-advanced-public-v1" ||
                     name === "candidate-advanced-hu-v4" ||
@@ -142,7 +150,10 @@ export function createPolicySession(
       if (name === "ui-greedy-v1")
         return chooseOpponentAction(view, phase, "greedy");
       if (name === "candidate-v2") return chooseStrongAction(view, phase);
-      if (name === "candidate-advanced-accept-ron-v10") {
+      if (
+        name === "candidate-advanced-accept-ron-v10" ||
+        name === "candidate-advanced-liability-v11"
+      ) {
         const accepted = acceptRonChoice(view, phase);
         if (accepted) return accepted.action;
       }
@@ -168,13 +179,26 @@ export function createPolicySession(
         const win = immediateWinChoice(view, phase);
         if (win) return win.action;
       }
-      if (component)
-        return chooseAdvancedComponentAction(
+      if (component) {
+        const action = await chooseAdvancedComponentAction(
           view,
           phase,
           component,
           externalChoose,
         );
+        if (
+          name === "candidate-advanced-liability-v11" &&
+          phase === "discard" &&
+          action?.type === "discard"
+        ) {
+          const report = evaluateLiabilityDiscard(view, action.tile);
+          if (report) {
+            options.onLiabilityEvaluation?.(structuredClone(report));
+            return report.choice.action;
+          }
+        }
+        return action;
+      }
       // Upstream has no exchange implementation. The composite strategy states
       // this shared exchange explicitly; all later decisions use the named
       // external policy (including any explicitly documented V1 rule shell).

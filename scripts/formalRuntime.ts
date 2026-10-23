@@ -244,7 +244,8 @@ export async function captureFormalRuntime(
           (name) =>
             name === "candidate-advanced-ready-income-v8" ||
             name === "candidate-advanced-ron-continuation-v9" ||
-            name === "candidate-advanced-accept-ron-v10",
+            name === "candidate-advanced-accept-ron-v10" ||
+            name === "candidate-advanced-liability-v11",
         ),
       ),
     ),
