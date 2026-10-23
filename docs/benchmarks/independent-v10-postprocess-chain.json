@@ -1,0 +1,35 @@
+{
+  "kind": "v10-single-wait-then-sealed-postprocess-chain",
+  "observedAtUtc": "2026-10-23T06:04:40.155639+00:00",
+  "cohortRootSession": 99481,
+  "chainRootSession": 66556,
+  "dispatchToolChunk": "531095",
+  "stateAtDispatch": "original guardian identity checked and still waiting on its actual process handle",
+  "guardian": {
+    "pid": 468,
+    "expectedStartUtc": "2026-10-23T05:12:53.943417Z",
+    "executable": "C:/ProgramData/anaconda3/python.exe"
+  },
+  "readySha256": "2488802edf0efb4651024491be84140e0b1dbf4a02fbf08143a56b5056ffa1ef",
+  "processExitOnlySchedulesNextCommand": true,
+  "actualWaitReceiptsStillRequiredBySealedLauncher": true,
+  "postprocessingAttemptCreatedAtDispatch": false,
+  "automaticWholeGameRetries": false,
+  "newSeeds": 0,
+  "artifacts": {
+    "local/strength-goal-20261018/wait-v10-then-postprocess.ps1": {
+      "sha256": "1f68fd3733dbde3f710e82ef3eedcf3ca384e90014f04637d5dced0c5f78db25",
+      "bytes": 1951
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/ready.json": {
+      "sha256": "2488802edf0efb4651024491be84140e0b1dbf4a02fbf08143a56b5056ffa1ef",
+      "bytes": 2140
+    },
+    "local/strength-goal-20261018/run-v10-complete-postprocess.py": {
+      "sha256": "80cfe8d3dc9bbb3b2303d17c40fe8aa025c855f7561423326a9033d8a2d6fce4",
+      "bytes": 3920
+    }
+  },
+  "nextAction": "Observe original sessions 66556 and 99481. Do not start another postprocess command while the chain is waiting or running; exclusive attempts prevent overwrites.",
+  "limitation": "A live scheduled continuation of the current batch, not a completed audit or strength result."
+}
