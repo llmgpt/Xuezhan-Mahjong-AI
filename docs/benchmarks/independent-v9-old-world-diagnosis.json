@@ -1,0 +1,366 @@
+{
+  "kind": "old-development-v9-conditional-hindsight-diagnosis",
+  "date": "2026-10-23",
+  "complete": true,
+  "newIndependentStrengthSamples": 0,
+  "newSeeds": 0,
+  "newFormalEvaluation": false,
+  "currentV9PartialScoresRead": false,
+  "scope": "All 130 V8-versus-V7 first-difference occurrences / all 92 unique public contexts. All legal response choices, with exact already-dealt old hidden hands/wall/pending answers, then public-view teacher-v1 for all future choices. Compare those conditional deterministic paths with existing complete 8-generated-world V9 reports. No current V9 cohort result read or policy change.",
+  "data": {
+    "occurrences": 130,
+    "publicContexts": 92,
+    "distinctFullRootHashes": 92,
+    "branches": 326,
+    "transitions": 11939,
+    "states": 12265,
+    "teacherCalls": 6354,
+    "allHuValuesEqualExactCurrentIncome": true,
+    "elapsedMs": 42452.976599999995
+  },
+  "source": {
+    "implementationCommit": "68109056e3ada8826f3ea8f5d1e5f9658c24628d",
+    "frozenV9Source": "local/strength-goal-20261018/development-v9-source",
+    "buildInputs": 16,
+    "boundFiles": 131,
+    "nodeSha256": "923a41f268ab49ede2e3363fbdd9e790609e385c6f3ca880b4ee9a56a8133e5a",
+    "originalInputHashes": {
+      "ready-income-v8-diagnosis/all-130-cases.json": "ccc8a25b661f02d09210cd4ab76a9b3c0b45c5f4f27a5c105816a699cb52afa8",
+      "ready-income-v8-diagnosis/all-92-contexts.json": "1763cd921faee985aafd909ac347423683e22aa514a1f0f389d055763b074b25",
+      "ron-continuation-v9-fixed-plan/attempt-1/contexts.jsonl": "42bbf4101a1a2598f180a75adc03a79811633ebae5b686e96ec9c521e07a8d05",
+      "development-v8-combined/traces.jsonl": "75fe0f5e52efefbbdd5c4d8d787c6278977055b18b9d58328cb9b30fc283c3a9",
+      "development-v9-plan/freeze.json": "7c976e525713044f3f3a69b4404f8567e1bccb7894a1a2a3c2452b11f40fb2cf"
+    }
+  },
+  "results": {
+    "selectedHindsightOverHuByOccurrence": {
+      "count": 130,
+      "sum": -23,
+      "mean": -0.17692307692307693,
+      "minimum": -8,
+      "maximum": 5,
+      "positive": 8,
+      "negative": 14,
+      "zero": 108
+    },
+    "selectedHindsightOverHuByPublicContext": {
+      "count": 92,
+      "sum": -13,
+      "mean": -0.14130434782608695,
+      "minimum": -8,
+      "maximum": 5,
+      "positive": 5,
+      "negative": 9,
+      "zero": 78
+    },
+    "stratifications": {
+      "lineup": {
+        "ui-bots": {
+          "count": 43,
+          "sum": -3,
+          "mean": -0.06976744186046512,
+          "minimum": -5,
+          "maximum": 5,
+          "positive": 2,
+          "negative": 4,
+          "zero": 37
+        },
+        "ebony-advanced": {
+          "count": 43,
+          "sum": -26,
+          "mean": -0.6046511627906976,
+          "minimum": -8,
+          "maximum": 2,
+          "positive": 4,
+          "negative": 8,
+          "zero": 31
+        },
+        "fanfou-ba": {
+          "count": 44,
+          "sum": 6,
+          "mean": 0.13636363636363635,
+          "minimum": -1,
+          "maximum": 4,
+          "positive": 2,
+          "negative": 2,
+          "zero": 40
+        }
+      },
+      "opening": {
+        "composite": {
+          "count": 71,
+          "sum": -7,
+          "mean": -0.09859154929577464,
+          "minimum": -8,
+          "maximum": 5,
+          "positive": 4,
+          "negative": 6,
+          "zero": 61
+        },
+        "common": {
+          "count": 59,
+          "sum": -16,
+          "mean": -0.2711864406779661,
+          "minimum": -8,
+          "maximum": 4,
+          "positive": 4,
+          "negative": 8,
+          "zero": 47
+        }
+      },
+      "wallBand": {
+        "17-32": {
+          "count": 75,
+          "sum": -8,
+          "mean": -0.10666666666666667,
+          "minimum": -6,
+          "maximum": 4,
+          "positive": 5,
+          "negative": 8,
+          "zero": 62
+        },
+        "2-8": {
+          "count": 2,
+          "sum": -3,
+          "mean": -1.5,
+          "minimum": -3,
+          "maximum": 0,
+          "positive": 0,
+          "negative": 1,
+          "zero": 1
+        },
+        "33-55": {
+          "count": 43,
+          "sum": -14,
+          "mean": -0.32558139534883723,
+          "minimum": -8,
+          "maximum": 5,
+          "positive": 1,
+          "negative": 5,
+          "zero": 37
+        },
+        "9-16": {
+          "count": 10,
+          "sum": 2,
+          "mean": 0.2,
+          "minimum": 0,
+          "maximum": 1,
+          "positive": 2,
+          "negative": 0,
+          "zero": 8
+        }
+      },
+      "currentIncome": {
+        "1": {
+          "count": 53,
+          "sum": -9,
+          "mean": -0.16981132075471697,
+          "minimum": -8,
+          "maximum": 5,
+          "positive": 4,
+          "negative": 5,
+          "zero": 44
+        },
+        "2": {
+          "count": 37,
+          "sum": -12,
+          "mean": -0.32432432432432434,
+          "minimum": -6,
+          "maximum": 2,
+          "positive": 2,
+          "negative": 5,
+          "zero": 30
+        },
+        "4": {
+          "count": 27,
+          "sum": -2,
+          "mean": -0.07407407407407407,
+          "minimum": -5,
+          "maximum": 4,
+          "positive": 2,
+          "negative": 4,
+          "zero": 21
+        },
+        "8": {
+          "count": 13,
+          "sum": 0,
+          "mean": 0,
+          "minimum": 0,
+          "maximum": 0,
+          "positive": 0,
+          "negative": 0,
+          "zero": 13
+        }
+      },
+      "modelSelectedChoice": {
+        "hu": {
+          "count": 99,
+          "sum": 0,
+          "mean": 0,
+          "minimum": 0,
+          "maximum": 0,
+          "positive": 0,
+          "negative": 0,
+          "zero": 99
+        },
+        "pung": {
+          "count": 5,
+          "sum": 7,
+          "mean": 1.4,
+          "minimum": -3,
+          "maximum": 4,
+          "positive": 4,
+          "negative": 1,
+          "zero": 0
+        },
+        "pass": {
+          "count": 23,
+          "sum": -32,
+          "mean": -1.391304347826087,
+          "minimum": -8,
+          "maximum": 5,
+          "positive": 2,
+          "negative": 12,
+          "zero": 9
+        },
+        "kong": {
+          "count": 3,
+          "sum": 2,
+          "mean": 0.6666666666666666,
+          "minimum": -2,
+          "maximum": 2,
+          "positive": 2,
+          "negative": 1,
+          "zero": 0
+        }
+      }
+    },
+    "modelToHindsightDifferences": {
+      "pass": {
+        "count": 130,
+        "sum": 280.75,
+        "mean": 2.1596153846153845,
+        "minimum": -9.75,
+        "maximum": 17.625,
+        "positive": 90,
+        "negative": 40,
+        "zero": 0,
+        "rootMeanSquareDifference": 5.591266369561069
+      },
+      "pung": {
+        "count": 58,
+        "sum": 79.125,
+        "mean": 1.3642241379310345,
+        "minimum": -17,
+        "maximum": 15.875,
+        "positive": 36,
+        "negative": 19,
+        "zero": 3,
+        "rootMeanSquareDifference": 6.540058097126745
+      },
+      "kong": {
+        "count": 8,
+        "sum": -1,
+        "mean": -0.125,
+        "minimum": -8.125,
+        "maximum": 4.25,
+        "positive": 4,
+        "negative": 4,
+        "zero": 0,
+        "rootMeanSquareDifference": 4.92839350092908
+      }
+    }
+  },
+  "uniqueContextsWithModelDecliningHu": {
+    "total": 19,
+    "higherHindsightNet": 5,
+    "lowerHindsightNet": 9,
+    "sameHindsightNet": 5,
+    "sumHindsightGainOverHu": -13
+  },
+  "interpretation": "The fixed conservative model score can still choose a worse realized path on these old selected states. This does not identify the best expected-value action, establish population model bias, or determine the running full-cohort V9 result.",
+  "verification": {
+    "coreTests": {
+      "redChunk": "5c07f9",
+      "redExitCode": 1,
+      "greenChunk": "0536fa",
+      "greenExitCode": 0,
+      "groups": 4,
+      "oldCasesUsed": 1
+    },
+    "buildChunk": "8c8e32",
+    "buildExitCode": 0,
+    "executionSession": 21197,
+    "executionLaunchChunk": "cc19c7",
+    "actualTerminalChunk": "0356f0",
+    "actualExitCode": 0,
+    "independentPythonChunk": "c838b8",
+    "independentPythonExitCode": 0,
+    "allOriginalScoresAndFutureOnlyTransferLedgers": 326,
+    "allLegalModelArithmetic": 326,
+    "allSourceAndInputHashesBeforeAndAfter": true,
+    "allOutputsHashChecked": true
+  },
+  "artifacts": {
+    "local/strength-goal-20261018/v9-old-world-diagnosis/plan.json": {
+      "sha256": "67efa06e1eedce96c23d2787a39a03681678cc3e376012258034222c24945541",
+      "bytes": 1909
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/core.ts": {
+      "sha256": "beb9c0273855ce08bc55c4f5c37829cf22c02076c8c6a1ca7f3a72cdcbcf4d73",
+      "bytes": 6082
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/run.ts": {
+      "sha256": "f99ebad456b47c12fe69b378d7884860b757a3f6e357a86c9762a42278f24f78",
+      "bytes": 8801
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/test-core.ts": {
+      "sha256": "ceac2aae13990449f523aa449259da81d43ed8a801f940151b43ef0c87c5cc6f",
+      "bytes": 3230
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/build.json": {
+      "sha256": "8b1adf2a18a1217c39feaa6ba3695cf1de37828e5d8f63684e4237059be066f5",
+      "bytes": 25571
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/run.mjs": {
+      "sha256": "a4e023cb62dfae9009140ce0ddd98a8ffc81290f5a7b5617d26a90ad29f0f9dc",
+      "bytes": 105795
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/metafile.json": {
+      "sha256": "077b227397fc34d0e5b36106307d01dd25c94233c45976ac55d4f08ce914dd2b",
+      "bytes": 13489
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/audit.py": {
+      "sha256": "aac6ee9a32b933932561237ad9d412f522b67671328c36690656ff4990af707d",
+      "bytes": 6705
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/branches.jsonl": {
+      "sha256": "697130b04597d7536e57b9780bd1dfef21f279a3ae1a6334b57d953a25dc2fbc",
+      "bytes": 32522152
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/cases.jsonl": {
+      "sha256": "821103ac380de5201310cdc1444f9186b99dfa8d13bd67d4c746c8df87eb0055",
+      "bytes": 102594
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/summary.json": {
+      "sha256": "d2ac11503335d85adb7a2af5af1bdc15dd52e94b7254bb7b8edf509458f49ab3",
+      "bytes": 5971
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/receipt.json": {
+      "sha256": "3f8fb9efbc895dc33eb38ee4900e8cf450ab0454ff0074e2f62a4bea23e8409a",
+      "bytes": 884
+    },
+    "local/strength-goal-20261018/v9-old-world-diagnosis/independent-audit.json": {
+      "sha256": "76a24e257ea8badb0dded708cb236e273ee0953c05ea5122e678e6481e051aec",
+      "bytes": 1709
+    }
+  },
+  "limitations": [
+    "These selected old development nodes and hindsight paths do not estimate real conditional action value or overall playing strength.",
+    "One actual hidden realization is not an expected-value gold label. Future teacher-v1 differs from the actual original opponents.",
+    "Actual pending answers are preserved in hindsight, whereas public generated worlds regenerate unknown answer eligibility/actions; differences cannot be attributed solely to wall inference.",
+    "All 130 occurrences retained, including repeated public contexts; not 130 independent seeds. No selected favorable subset or tuning from incomplete V9 outcomes.",
+    "The 130 old occurrences reduce to 92 distinct full roots; duplicated configurations are not additional hidden-world observations.",
+    "No confidence intervals or significance claim are assigned to these selected hindsight paths. No product policy or formal criteria were changed."
+  ]
+}
