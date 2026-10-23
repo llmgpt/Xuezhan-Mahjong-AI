@@ -1,0 +1,99 @@
+{
+  "kind": "v10-frozen-snapshot-qualification-and-start",
+  "observedAtUtc": "2026-10-23T05:17:04.314795+00:00",
+  "statusAtRecording": "coordinator and first two shards live; no complete outcome yet",
+  "sourceFreezeSha256": "e4d98b53fb3855f16044d0affaedf24a3cc07c573774f9d925a8a6e87356a429",
+  "implementationCommit": "e1bc99cd93cc164dd24d689d03690d90662675a1",
+  "sourceFiles": 120,
+  "immutableFiles": 121,
+  "buildInputs": 32,
+  "standaloneBundleSha256": "237faad1700bf8a4ae9947668c3d648168c767a2eb3023a4cd1f0990998dcbbe",
+  "snapshotQualification": {
+    "toolChunk": "307ffc",
+    "actualExitCode": 0,
+    "snapshotSourceFingerprintMatched": true,
+    "actualDefaultWorkersFinished": 8,
+    "actualRequests": 12,
+    "cases": 4,
+    "pythonSourceCache": {
+      "policy": "empty-prefix-no-bytecode-v1",
+      "prefix": "C:\\1workspace\\xuezhan\\local\\strength-goal-20261018\\development-v10-source\\.source-only-pycache-v1"
+    },
+    "loadedModules": 219,
+    "numpyFiles": 830,
+    "wholeGames": 0
+  },
+  "readOnlyFixturePreparationFailure": {
+    "chunk": "65b8a7",
+    "exitCode": 1,
+    "reason": "A public input fixture was intentionally outside executable snapshot and initially resolved under it. Changed only private checker input path before any worker request; immutable snapshot unchanged."
+  },
+  "coordinatorPreflight": {
+    "toolChunk": "307ffc",
+    "actualExitCode": 0,
+    "immutableFiles": 121,
+    "wholeGames": 0,
+    "coordinatorBytesExactlyMatchCompletedV9Coordinator": true
+  },
+  "actualLaunch": {
+    "toolChunk": "50739c",
+    "rootSession": 99481,
+    "coordinatorPid": 15376,
+    "firstShardPids": [33624, 35268],
+    "lastRootPollChunk": "ed3ade",
+    "lastRootPollStillRunning": true,
+    "actualProcessInspectionChunk": "22495b",
+    "maxConcurrentShards": 2,
+    "expectedFreshGames": 2880
+  },
+  "newFormalSeeds": 0,
+  "candidatePromoted": false,
+  "artifacts": {
+    "local/strength-goal-20261018/development-v10-plan/freeze.json": {
+      "sha256": "e4d98b53fb3855f16044d0affaedf24a3cc07c573774f9d925a8a6e87356a429",
+      "bytes": 38995
+    },
+    "local/strength-goal-20261018/development-v10-plan/coordinator-launch-intent.json": {
+      "sha256": "bd9864f83ac12d1da9a27949873b29047bee21b1e9ec9efaf8fd2caa45fe2849",
+      "bytes": 635
+    },
+    "local/strength-goal-20261018/development-v10-plan/coordinator-started.json": {
+      "sha256": "18d0e2b09bf85aec2d39f921092113ae8434887e57c7c6ffd56d9d62c3d96feb",
+      "bytes": 705
+    },
+    "local/strength-goal-20261018/development-v10-plan/attempt-1/shard-1.started.json": {
+      "sha256": "1d6a3b0dca0c5e9f658da05135a3ec1cf3612527f829b095e8803ec266e2aec2",
+      "bytes": 834
+    },
+    "local/strength-goal-20261018/development-v10-plan/attempt-1/shard-2.started.json": {
+      "sha256": "dbe74c87b905be9b89690f69b2a592c33c2f10a096ba1e8f3f7f2d547b062c15",
+      "bytes": 834
+    },
+    "local/strength-goal-20261018/freeze-v10-development.ts": {
+      "sha256": "0615d8c3c7170f5c40b43f408d8bef4aafcf61c794314ad3aa8c8b2c840e4079",
+      "bytes": 9133
+    },
+    "local/strength-goal-20261018/launch-v10-development.py": {
+      "sha256": "afc2d801d278504a8faefbef22fa61242afb6d6d67ad8ff3cb7332df7373b24d",
+      "bytes": 2769
+    },
+    "local/strength-goal-20261018/coordinate-v10-development.py": {
+      "sha256": "66b5b3c0d519c249a382abfe9ca17d3650b6752310d68fbc9600b0f163ef4e23",
+      "bytes": 5104
+    },
+    "local/strength-goal-20261018/v10-snapshot-worker-smoke.ts": {
+      "sha256": "86dc09ed2d567b6daa04d18336be16a5a11389b7a2ec23c107c26e935250a796",
+      "bytes": 5565
+    },
+    "local/strength-goal-20261018/v10-implementation/snapshot-worker-smoke.json": {
+      "sha256": "d5a758b88163ffd92c476d890bf026d899ca80047880ac5a34056eacc4df2031",
+      "bytes": 172256
+    }
+  },
+  "limitations": [
+    "This records snapshot qualification and real startup, not completed games, full-data audit or playing-strength gain.",
+    "Active and copied snapshot qualification are distinguished; copied snapshot uses its own absent startup cache prefix.",
+    "All normal declared-grid runs must complete without seed substitution, followed by deterministic-action/state audit and independent arithmetic.",
+    "The old V9 cohort retains its own runtime identity and is secondary reference only; all fresh T/V8/V10 games still execute."
+  ]
+}
