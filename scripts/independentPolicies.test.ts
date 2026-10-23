@@ -29,6 +29,94 @@ function openingViews() {
 }
 
 describe("独立评测策略注册", () => {
+  it.each(ronBoundaries.cases)(
+    "V10 $name 普通点胡直接兑现，不创建worker或续局样本",
+    async (c) => {
+      const view = structuredClone(c.context.view) as PlayerView;
+      const before = structuredClone(view);
+      const session = createPolicySession("candidate-advanced-accept-ron-v10", {
+        workerFactory: () => {
+          throw new Error("直接点胡不需要worker");
+        },
+        onEvaluation: () => {
+          throw new Error("直接点胡没有续局样本");
+        },
+      });
+      try {
+        expect(await session.choose(view, "respond")).toEqual({
+          type: "respond",
+          choice: "hu",
+        });
+        expect(view).toEqual(before);
+        await session.finish();
+      } finally {
+        await session.close();
+      }
+    },
+  );
+
+  it("V10其他节点沿用V8老师开局、ready-income worker及其真实返回", async () => {
+    const views = openingViews();
+    const seen: string[] = [];
+    let finished = 0;
+    const session = createPolicySession("candidate-advanced-accept-ron-v10", {
+      workerFactory: (options) => {
+        expect(options.policy).toBe("ebony72-advanced-ready-income-v1");
+        return {
+          act: async (view, phase) => {
+            seen.push(phase);
+            return phase === "respond"
+              ? { type: "respond" as const, choice: "pass" as const }
+              : { type: "discard" as const, tile: view.legalDiscards[0] };
+          },
+          close: async () => {},
+          finish: async () => {
+            finished++;
+          },
+        };
+      },
+      onEvaluation: () => {
+        throw new Error("V10不采样");
+      },
+    });
+    try {
+      for (const [phase, view] of [
+        ["exchange", views.exchange],
+        ["choose-missing", views.missing],
+      ] as const)
+        expect(await session.choose(view, phase)).toEqual(
+          chooseTeacherAction(view, phase),
+        );
+      expect(seen).toEqual([]);
+      expect(await session.choose(views.self, "discard")).toEqual({
+        type: "discard",
+        tile: views.self.legalDiscards[0],
+      });
+      for (const [responseKind, choices] of [
+        ["discard", ["pass", "pung"]],
+        ["rob-kong", ["pass", "hu"]],
+      ] as const) {
+        const view = structuredClone(views.self);
+        view.decision = {
+          kind: "respond",
+          responseKind,
+          from: 1,
+          tile: 0,
+          choices: [...choices],
+        };
+        expect(await session.choose(view, "respond")).toEqual({
+          type: "respond",
+          choice: "pass",
+        });
+      }
+      await session.finish();
+      expect(seen).toEqual(["discard", "respond", "respond"]);
+      expect(finished).toBe(1);
+    } finally {
+      await session.close();
+    }
+  });
+
   it("V9普通点胡记录实际模型选择，观察者副本不能改变动作且不用Python重问该节点", async () => {
     const input = structuredClone(
       ronBoundaries.cases.find((c) => c.name === "last-wall-discard")!.context

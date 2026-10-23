@@ -2,6 +2,7 @@ import type { DecisionAction } from "../src/game/decision";
 import { chooseAdvancedComponentAction } from "../src/game/advancedComponents";
 import type { Phase } from "../src/game/game";
 import { immediateWinChoice } from "../src/game/immediateWin";
+import { acceptRonChoice } from "../src/game/acceptRonTeacher";
 import {
   evaluateRolloutDecision,
   type RolloutDecision,
@@ -30,6 +31,7 @@ export const INDEPENDENT_POLICY_IDS = [
   "candidate-advanced-income-v7",
   "candidate-advanced-ready-income-v8",
   "candidate-advanced-ron-continuation-v9",
+  "candidate-advanced-accept-ron-v10",
   "ebony-initial",
   "ebony72-advanced-public-v1",
   "fanfou-ba-composite-v1",
@@ -43,6 +45,7 @@ const ADVANCED_COMPONENTS = {
   "candidate-advanced-income-v7": "full",
   "candidate-advanced-ready-income-v8": "full",
   "candidate-advanced-ron-continuation-v9": "full",
+  "candidate-advanced-accept-ron-v10": "full",
 } as const;
 
 // Fixed seat vectors. Internal opponents are sensitivity controls, not additional
@@ -115,7 +118,8 @@ export function createPolicySession(
             : name === "candidate-advanced-income-v7"
               ? "ebony72-advanced-current-income-v1"
               : name === "candidate-advanced-ready-income-v8" ||
-                  name === "candidate-advanced-ron-continuation-v9"
+                  name === "candidate-advanced-ron-continuation-v9" ||
+                  name === "candidate-advanced-accept-ron-v10"
                 ? "ebony72-advanced-ready-income-v1"
                 : name === "ebony72-advanced-public-v1" ||
                     name === "candidate-advanced-hu-v4" ||
@@ -138,6 +142,10 @@ export function createPolicySession(
       if (name === "ui-greedy-v1")
         return chooseOpponentAction(view, phase, "greedy");
       if (name === "candidate-v2") return chooseStrongAction(view, phase);
+      if (name === "candidate-advanced-accept-ron-v10") {
+        const accepted = acceptRonChoice(view, phase);
+        if (accepted) return accepted.action;
+      }
       if (name === "candidate-rollout-v3") {
         const report = evaluateRolloutDecision(view, phase);
         options.onEvaluation?.(structuredClone(report));

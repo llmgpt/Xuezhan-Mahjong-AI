@@ -1,0 +1,112 @@
+{
+  "kind": "v10-accept-ordinary-ron-implementation-only",
+  "date": "2026-10-23",
+  "candidate": "candidate-advanced-accept-ron-v10",
+  "wholeBenchmarkGames": 0,
+  "newSeeds": 0,
+  "candidatePromoted": false,
+  "rule": "On every legal ordinary discard-HU response accept the known V1 current income. No generated worlds or future-value model. All other nodes use exactly the V8 full component and ready-income worker, including teacher opening, self draw and rob-kong handling.",
+  "basis": "Complete V9/V8 old-development first-difference diagnosis: accepting HU first in 115 cases has +43 total paired final association, other 71 have -27. This suggests a simple ablation, not an expected-optimality or strength claim.",
+  "codeHashes": {
+    "src/game/acceptRonTeacher.ts": "6eb8f84c96c1c8ce59c74625a16952cdfc21ee5a141115a332e73c9f736216d0",
+    "src/game/acceptRonTeacher.test.ts": "906d05b8d3a50da82a5f86d4f0583708573530593fb6442f01dcf6efd9760efd",
+    "scripts/independentPolicies.ts": "3b08f896d05d06dea89b6f61103f8660ceb6849f453de677bdaa094dfb6b6c5a",
+    "scripts/independentPolicies.test.ts": "b483f6141b7b4eebaa3340a0dc0c2c7c0d1ed2eab92ea859a9537804b60b1938",
+    "scripts/formalRuntime.ts": "c3fda5dedf44aad465ae4f193e64f4370dbb1af33326a749c88a7d534b128a8c",
+    "scripts/formalRuntime.test.ts": "42515d09b8a1134ebe4e719c979b40cc940180765ea12eaeb67004120e068f1e"
+  },
+  "sourceFingerprintFileCount": 120,
+  "tests": {
+    "representativeRed": {
+      "chunk": "d11fd5",
+      "exitCode": 1,
+      "failed": 11
+    },
+    "targetedGreen": {
+      "chunk": "9385d9",
+      "exitCode": 0,
+      "testFiles": 3,
+      "tests": 47
+    },
+    "fullCheck": {
+      "command": "npm run check",
+      "actualToolSession": 70260,
+      "actualTerminalChunk": "99b948",
+      "actualExitCode": 0,
+      "testFiles": 54,
+      "tests": 505,
+      "logSha256": "b897ae1217b0208331d9acea5c1fb042b6b035f00d8a3824b33b1b9515c8ea09"
+    }
+  },
+  "oldPublicNodeCoverage": {
+    "toolChunk": "29e683",
+    "actualExitCode": 0,
+    "ordinaryRonNodes": 548,
+    "distinctSerializedPublicContexts": 371,
+    "currentCashAndActionAndExplanationMatched": 548,
+    "modelSamples": 0,
+    "wholeStrengthGames": 0,
+    "nodeTimingsMs": {
+      "minimum": 0.15080000000034488,
+      "median": 0.29975000000035834,
+      "maximum": 2.3080999999999676
+    },
+    "browserLatencyMeasured": false
+  },
+  "realDefaultWorkerSmoke": {
+    "toolChunk": "a336bf",
+    "actualExitCode": 0,
+    "cases": 4,
+    "actualWorkersFinished": 8,
+    "actualRequests": 12,
+    "v8BeforeAfterAndV10Equal": true,
+    "pythonSourceCache": {
+      "policy": "empty-prefix-no-bytecode-v1",
+      "prefix": "C:\\1workspace\\xuezhan\\.source-only-pycache-v1"
+    },
+    "loadedModules": 219,
+    "numpyFiles": 830,
+    "fullGames": 0
+  },
+  "preparationFailure": {
+    "chunk": "9ef1df",
+    "actualExitCode": 1,
+    "reason": "Bundling a repository-relative fingerprint module into local/ resolved its import.meta root incorrectly; no advice nodes or strength games executed. Ran the unchanged source through installed vite-node, then succeeded."
+  },
+  "artifacts": {
+    "local/strength-goal-20261018/v10-implementation/engineering-check.json": {
+      "sha256": "02c601a55c593e012fb17219fd2791574f63b83200a3cdef77e2c7b46a677115",
+      "bytes": 239
+    },
+    "local/strength-goal-20261018/v10-implementation/npm-check.log": {
+      "sha256": "b897ae1217b0208331d9acea5c1fb042b6b035f00d8a3824b33b1b9515c8ea09",
+      "bytes": 13108
+    },
+    "local/strength-goal-20261018/v10-implementation/all-548-advice.jsonl": {
+      "sha256": "62a5de98a0b054437c065ccf0e181b3358b20ac49279d588b65e37121bd617a1",
+      "bytes": 2716141
+    },
+    "local/strength-goal-20261018/v10-implementation/all-ron-receipt.json": {
+      "sha256": "3cafb8cd2eb6592ae64f35db97b1db7977abd92d7f48c490be6a9edb0e276ce2",
+      "bytes": 14313
+    },
+    "local/strength-goal-20261018/v10-implementation/default-worker-smoke.json": {
+      "sha256": "4d6fbaec91c27337f61326c055d2c3086198a7d94b28a6b233bc1bc5f6c1e450",
+      "bytes": 171321
+    },
+    "local/strength-goal-20261018/check-v10-all-ron.ts": {
+      "sha256": "c56427ae93b46b633b88c4099972ff2d7181fffddbf523be775a2e7108c01aba",
+      "bytes": 4208
+    },
+    "local/strength-goal-20261018/v10-default-worker-smoke.ts": {
+      "sha256": "6bfb86ba08a0109bbee5cfd98c374e0d8cd5210d3b0278f841305c823d5ed5a0",
+      "bytes": 5371
+    }
+  },
+  "limitations": [
+    "Complete engineering and existing public-node coverage, not a whole-game improvement result.",
+    "Immediate certain income can forgo a larger future return; this is a deliberately simple development comparator, not optimal play proof.",
+    "No V10 browser integration or formal heldout candidate/criteria/seeds selected. Existing page default unchanged.",
+    "Actual runtime smoke is from the active source path; any copied benchmark snapshot must bind its own source/startup paths and preserve explicit native/runtime closure limits."
+  ]
+}
