@@ -4,6 +4,8 @@
 
 ## 当前状态
 
+- 2026-10-24已真实启动V10正式留出：最终`b7d62f4`、127源/45构建输入，seal/verify/复制资格三实际阶段wait0；复制14旧请求/2正常worker、219模块/830 NumPy文件。封存后核236导入和1514个含seed字段JSON，再抽取并整组预约400新seed；四片各100×48=4800、总19200局，最多2并行。原Root guardian **91347**（launch 0edd9d），协调器8220，首两Node17324/22008；保持原任务，勿超时重启。全部四片正常完成才自动finalize全量审计和三项同时门槛；未读部分成绩、未宣称通过/晋升/高手。详细科学配置、400seed、执行与SHA见[正式启动](benchmarks/formal-v10-start.json)和[正式入口](INDEPENDENT_FORMAL_PROTOCOL.md)。下一步观察同一guardian、核真实终端；全组后独立算术核对、完整面板/收入和报告，Goal仍active。
+
 - 2026-10-24完成V10内部浏览器组合：57文件526项完整check；741普通/4抢杠既存V10响应对齐，66项原A命名空间对象保留。实际生产App在既有80000完成一局，结算[1,5,3,-9]与Node相同，本家13次完整公开视图/阶段/动作逐项精确匹配，浏览器错误0；5个响应边界与依据弹窗通过，未验证声音听感。默认main仍老师，不新增强度样本。详见[资格与源/资产/截图SHA](benchmarks/browser-v10-qualification.json)。下一步使用最终源码构建、seal/verify所选400seed/19200局/三条件正式协议，完成新增历史排除核查后才预约未用seed；不得把暂定草案当作已封存。
 
 - 项目是面向学习的四川血战到底网页游戏，公开仓库为 [llmgpt/Xuezhan-Mahjong-AI](https://github.com/llmgpt/Xuezhan-Mahjong-AI)。
