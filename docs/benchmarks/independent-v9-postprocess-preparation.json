@@ -1,0 +1,127 @@
+{
+  "kind": "v9-complete-data-audit-preparation",
+  "date": "2026-10-23",
+  "developmentOnly": true,
+  "actualCompleteCohortAuditExecutedAtThisRecord": false,
+  "newPolicyGamesInPreparation": 0,
+  "newFormalSeeds": 0,
+  "implementation": "Stored-action replay using the frozen V9 host engine, per-kind four-copy/108/zero-sum checks, exact full public views and terminals; every legal V9 ron node must have a complete saved model appendix or explicit zero-sample fallback. No candidate rechoose or new particle sampling.",
+  "inputs": {
+    "frozenCohort": "independent-v9-development-protocol.json",
+    "freezeSha256": "7c976e525713044f3f3a69b4404f8567e1bccb7894a1a2a3c2452b11f40fb2cf",
+    "onlyFrozenExecutionSources": true,
+    "buildInputs": 31,
+    "boundFiles": 126
+  },
+  "validation": {
+    "coreInitialRed": {
+      "toolChunk": "718052",
+      "exitCode": 1,
+      "failedGroups": 4
+    },
+    "coreFirstGreen": {
+      "toolChunk": "1877e7",
+      "exitCode": 0,
+      "groups": 4
+    },
+    "hiddenMetadataRed": {
+      "toolChunk": "0c0416",
+      "exitCode": 1,
+      "failedGroups": 1
+    },
+    "strictGreen": {
+      "toolChunk": "5a90d8",
+      "exitCode": 0,
+      "groups": 5
+    },
+    "completedOldTrajectoryReplays": 2,
+    "allExistingModelContexts": 92,
+    "syntheticFractionIntegration": {
+      "toolChunk": "7882fb",
+      "actualExitCode": 0,
+      "fixtures": 3,
+      "syntheticRecordsPerFixture": 2880,
+      "closedFormChecks": 4,
+      "officialComparisons": 36,
+      "seatComparisons": 12,
+      "incomeIntervals": 336,
+      "reportSha256": "3d1d7509d34a5b4070b322d0a7c3c2d9e8cb5ddfa8fdbf3a4b12a614e391b012",
+      "actualPolicyGames": 0,
+      "newSeeds": 0
+    },
+    "liveIncompleteDataGate": {
+      "toolChunk": "e0addb",
+      "actualExitCode": 1,
+      "expected": "Actual coordinator wait is still missing; no game/score file read and no output directory created"
+    }
+  },
+  "requiredActualChecks": [
+    "Actual guardian wait and all four child wait0 receipts before game/score input",
+    "All 2880 fresh records and traces with complete grid/manifest/source binding",
+    "1920 fresh T/V8 controls match old full results and literal trace bytes",
+    "Every real state has 108 tiles, four of each kind and zero-sum scores",
+    "All saved V9 model arithmetic and actual chosen actions reconcile",
+    "All three pairs and every first same-prefix divergence; V9-V8 changes only inside its declared gate",
+    "Independent exact Fraction comparison of 36 official and 12 seat comparisons, seven signed income terms each and 336 diagnostic income intervals",
+    "Raw, source, binary and actual postprocess child wait identities retained before/after"
+  ],
+  "artifacts": {
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/ready.json": {
+      "sha256": "2dff1386e2da68f0a27d6cb0287ea90f3e638afa2d5a90ccebd0c9cdf5d2384a",
+      "bytes": 1692
+    },
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/build.json": {
+      "sha256": "39dcb47103418c0fffe65389208797781a15ab2bd2b7d0d4d5a14f64f985d310",
+      "bytes": 25071
+    },
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/metafile.json": {
+      "sha256": "f04d1789cc7217d42d0f938c1b1a10cf00735bdb5e94c3176cd0e90dc226d761",
+      "bytes": 23336
+    },
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/run.ts": {
+      "sha256": "ee89de99dbf0ead81e78f3a19f5044553bb630f88a34266d27c436ad261ee2cf",
+      "bytes": 17920
+    },
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/core.ts": {
+      "sha256": "d90e320845e2e98e1baa201c1ad39baf36d97571792dcb4b59d2af1a72d78230",
+      "bytes": 8214
+    },
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/test-core.ts": {
+      "sha256": "7e41271786474b9a94480b54fc3e94eee869bbebaa81c55a715cf61c0547e948",
+      "bytes": 4967
+    },
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/fraction_check.py": {
+      "sha256": "947cd60b21ddc93c2da7c16f041c97d70deae0b21698df6c73985ec784d429d1",
+      "bytes": 6782
+    },
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/fraction-source.py": {
+      "sha256": "4db762a3dbd37ba516f94173c3dcdea70e37b95064480a436ea21ec28d6a9518",
+      "bytes": 22467
+    },
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/run.mjs": {
+      "sha256": "27eebcc389f8062076544a8d81fa536ee56b249e84fe92292227b1708212807f",
+      "bytes": 127159
+    },
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/synthetic-math-integration/test-report.json": {
+      "sha256": "3d1d7509d34a5b4070b322d0a7c3c2d9e8cb5ddfa8fdbf3a4b12a614e391b012",
+      "bytes": 623
+    },
+    "local/strength-goal-20261018/build-v9-postprocess.ts": {
+      "sha256": "d4b4b35561a0fe344ac175208579ba09a7f0e71efc5abd7b2f2ae8690460dba7",
+      "bytes": 3168
+    },
+    "local/strength-goal-20261018/run-v9-complete-postprocess.py": {
+      "sha256": "2d743a79e5c8b9418d419a116dc9acc34ca91b1807cd4768d6e5073a9153cb4a",
+      "bytes": 3910
+    },
+    "local/strength-goal-20261018/test-v9-fraction-integration.ts": {
+      "sha256": "2956b6201e9c5a4b0cc0480a45b79da18e9aafc583ac5d2a904c2ce3de02cad3",
+      "bytes": 6156
+    }
+  },
+  "limitations": [
+    "Prepared and tested checker is not an actual whole-cohort success or playing-strength conclusion.",
+    "Synthetic receipt doubles and generated bookkeeping records stay in the owned synthetic test directory; they are never genuine game/authority evidence.",
+    "The pre-existing frozen V9 execution runtime limitations remain; no new formal or expert-level result."
+  ]
+}
