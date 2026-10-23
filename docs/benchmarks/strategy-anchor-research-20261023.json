@@ -1,0 +1,182 @@
+{
+  "kind": "bounded-primary-source-strength-anchor-research",
+  "date": "2026-10-23",
+  "strategyChanged": false,
+  "realPolicyGamesExecuted": 0,
+  "newSeeds": 0,
+  "newFormalCriteriaChosen": false,
+  "bloodyMahjongPaper": {
+    "doi": "10.1049/cit2.12031",
+    "publisher": "https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/cit2.12031",
+    "download": "https://pdfs.semanticscholar.org/965c/0f3a0ced40aa84fbf8e7116a1e13c33553d0.pdf",
+    "authors": ["Shijing Gao", "Shuqin Li"],
+    "pdfSha256": "51277059e1e38d47ab4f4831ed49adb66111f1dfbb460556d5c7c94fd03eb333",
+    "pages": 12,
+    "renderedPages": 12,
+    "visuallyInspectedCompletePages": [1, 2, 4, 6, 8, 9, 10, 11, 12],
+    "licenseObserved": "CC Attribution statement on complete page 1; no claim about a separate code or weight license",
+    "decisiveRuleDifference": {
+      "page": 12,
+      "observation": "Appendix Rule 3 explicitly allows the already-winning player to hu repeatedly and kong without changing the waiting shape.",
+      "v1Comparison": "V1 winner exits future play and payments; this is not an interchangeable complete V1 policy or scoring benchmark."
+    },
+    "evidenceBoundaries": [
+      "Page 4 describes public/self feature planes, not an inspected implementation of inference isolation.",
+      "Page 6 Algorithm 1 uses datatest error to decide save/retrain; it is not treated as the untouched new formal holdout required by this project.",
+      "Pages 8-9 are five illustrative action-matching situations, including a failure, rather than a longitudinal paired net-score study.",
+      "Page 10 table 8 reports action-label error rates; these are not Mahjong win rates. Its table and the early-training abstract accuracy describe different reported stages.",
+      "Page 10 transferred-tournament runner-up is an author statement and was not independently validated here as V1 performance.",
+      "This bounded review obtained the paper, not an author-linked callable checkpoint/code package."
+    ],
+    "classErrorTable": {
+      "pdfPage": 10,
+      "table": 8,
+      "discard": {
+        "total": 162332,
+        "errors": 7844,
+        "reportedErrorPercent": 4.83
+      },
+      "pung": {
+        "total": 34459,
+        "errors": 493,
+        "reportedErrorPercent": 1.43
+      },
+      "kong": {
+        "total": 1403,
+        "errors": 494,
+        "reportedErrorPercent": 35.21
+      },
+      "hu": {
+        "total": 13314,
+        "errors": 489,
+        "reportedErrorPercent": 3.67
+      }
+    },
+    "disposition": "Method/reference material only; exclude direct use as a complete V1 expert-strength anchor."
+  },
+  "analyzerRepository": {
+    "repository": "https://github.com/luxinghong/sichuan-mahjong-analyzer",
+    "commit": "1d205e67d2bbdb695821a97ba51e2608fac8ab9c",
+    "completeTree": true,
+    "treeBlobCount": 12,
+    "license": "Actual complete MIT LICENSE read at pinned commit",
+    "executedCode": false,
+    "staticFindings": [
+      "hand_analyzer.py:140 validates at most two suits, rather than receiving the predeclared V1 missing suit.",
+      "hand_analyzer.py:164-200 implements standard meld-plus-pair Hu without a dedicated seven-pairs branch.",
+      "hand_analyzer.py:284-317 waiting counts subtract own hand and own fixed groups; no public discard/meld stock argument is supplied.",
+      "main.py:200-204 sorts by waiting tile count; jinting_analyzer.py:74-76 groups all farther states as 2-or-more.",
+      "The complete 12-file tree is a local analysis CLI, not a full four-actor net-score-tested policy. No independently verified expert performance was obtained."
+    ],
+    "disposition": "Not selected as a new strong benchmark or production policy."
+  },
+  "delftThesis": {
+    "landing": "https://repository.tudelft.nl/record/uuid:45412144-6b33-4f18-913c-2a4c4845ec00",
+    "title": "Measuring the Game State of Sichuan Mahjong",
+    "author": "S. Jiang",
+    "year": 2024,
+    "verifiedScope": "University landing-page abstract describes two-player Markov/game-state winning probability and expected rounds.",
+    "fullPdfRead": false,
+    "reason": "Web fetch plus two direct public download transports did not obtain a usable PDF; preserve the actual failure receipts.",
+    "disposition": "Abstract-level locator only; no full four-player V1 policy, license or expert-strength claim."
+  },
+  "limitations": [
+    "No new callable same-V1 high-level external anchor confirmed in this bounded pass; this does not assert that none exists.",
+    "No author contact, remote decision request, training, external policy execution or release.",
+    "Running complete V9 development configuration and frozen source were not changed."
+  ],
+  "artifacts": {
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/downloads.json": {
+      "sha256": "b1cd33001310e80bb5341e63c1ba303505ca5032febcafa67f488b11c8d9bc0d",
+      "bytes": 699
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/analyzer-commit.json": {
+      "sha256": "e681c089a8442ed217e6e8d27bd184251e63e72c75fd47826b13155cd73ddb0b",
+      "bytes": 87883
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/pinned-source-downloads.json": {
+      "sha256": "7afd9ac4dc54246853d0fbf161b6383ab5d845fc1c848d40eeebb240b7b4fbb6",
+      "bytes": 1709
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/api-source-downloads.json": {
+      "sha256": "92f4533163b5c8eba6cb7dd29b23d130676e536db05b2484ef1609d492f453b7",
+      "bytes": 742
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/tree.json": {
+      "sha256": "57d01585684e3030698ad6a75abc0e37d15f4fcf3f4ce163ea7c225350ff7e46",
+      "bytes": 3082
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/LICENSE": {
+      "sha256": "a5b7642d50c73a1d6f7a5fb549694aca1ed72526027eaea0aa2cd63132c5fb86",
+      "bytes": 1066
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/README.md": {
+      "sha256": "3979e4ff47ab05238495182af460d97fb36c2d70dd25f3af78bbdc9b04f78ba8",
+      "bytes": 12977
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/main.py": {
+      "sha256": "dc68e6fc907ef681ad4492813e83639d0f9ba8d5f8be1d6d34d0211a3fb7dedf",
+      "bytes": 9091
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/hand_analyzer.py": {
+      "sha256": "5561ed6e389e792aa22ac97b99d59bafac726b17d27d866aeb68e3fb9dc63aba",
+      "bytes": 11477
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/jinting_analyzer.py": {
+      "sha256": "6756f31fb75cc2105bd3fa02decc5dda1514cb0abaeb338ee5a1b6a49b2e4a4f",
+      "bytes": 3825
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/delft-download-attempt-2.json": {
+      "sha256": "95d636813014ac76a140cfef681204277d35f614a6b2cc7bf6de9503d6c9c55b",
+      "bytes": 216
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-download.json": {
+      "sha256": "d0290a1b361965915bda65a2c5e24b2b4f19b559e35bf7acdc31d23aa9cc83c9",
+      "bytes": 390
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-bloody-mahjong.pdf": {
+      "sha256": "51277059e1e38d47ab4f4831ed49adb66111f1dfbb460556d5c7c94fd03eb333",
+      "bytes": 1591376
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-extracted.txt": {
+      "sha256": "f4a29f79e2eb263318e2e262cba61534940d1319d6be981fd82200962672c679",
+      "bytes": 44368
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-page-01.png": {
+      "sha256": "0568ea109ebbe530e7deded2474dfd0b3dfd8f78c7006824aaf772c9b5472466",
+      "bytes": 493872
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-page-02.png": {
+      "sha256": "681c6e76bc23da5db9bf46b95c167e1a446149fa3f28013f2189cfb8ea26ca88",
+      "bytes": 515672
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-page-04.png": {
+      "sha256": "7ad7d1d8adda9f0be61bf38248dca5007647545ed06d005f273d0b94dcf9686c",
+      "bytes": 399144
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-page-06.png": {
+      "sha256": "7c5f0fc27bcb4e9ed4dd1cab4086658bdab6c44078b615fc53cdf83a6d60b931",
+      "bytes": 508697
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-page-08.png": {
+      "sha256": "8d46768e7a6bf80dd6168fac6e2201b5f5e0831edc9ae0a3bb879c7b6adbfa63",
+      "bytes": 825854
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-page-09.png": {
+      "sha256": "1e4fedb7e1e6d8a461bdfb4d0be9eaf9db6c76e9bf7fdfe1f118b84bcf62f04b",
+      "bytes": 1042908
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-page-10.png": {
+      "sha256": "a8aa10d47cf77ace5b5e886185f237c19193f15771287abd41cb5766822f0505",
+      "bytes": 623596
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-page-11.png": {
+      "sha256": "8e859e57cb77a94d4c44fa1136fd4f41e70720e64f1284774e1b65011e8d2dd1",
+      "bytes": 484863
+    },
+    "local/strength-goal-20261018/sichuan-anchor-research-20261023/gao-li-page-12.png": {
+      "sha256": "ac9fa757a3add3cabf2351b7161dd3d107d8cc5499ad50aa71cbf9b353a5fcb1",
+      "bytes": 97789
+    }
+  }
+}

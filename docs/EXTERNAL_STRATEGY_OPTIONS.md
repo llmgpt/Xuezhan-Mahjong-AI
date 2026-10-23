@@ -124,3 +124,11 @@
 由此提出一个待验证的库存模型：只有公开信息已经证明某家在当前时点清缺时，才把该家的缺门牌排除出其未知手牌槽，按这些硬约束推导牌墙边际分布；定缺宣告本身不构成清缺证明，后续摸牌也会使先前证明失效。隔离的精确组合计数原型已通过14项纯数学测试，包含独立物理牌子集枚举和无约束时严格等于KB/K；尚未接真实公开账本或V8，不宣称均匀分配假设能代表真实对手策略或带来净分收益。
 
 原文、下载收据及所读完整页图在忽略的`local/strength-goal-20261018/sichuan-expert-public-evidence-20261022/`。论文原字节SHA为`93a30522b97401d16651a498298461858b3bd1700a7e59bbf189802970102128`，手册为`e3c37665448d5501e593a2b5de604ab691d3010d1aa4af65e998925229174c2b`；未把PDF原文纳入版本库。可调用同规则强标尺和独立实力证据仍待补齐。
+
+## 2026-10-23：相似名称不等于同一胡后规则
+
+已取得Gao、Li的[DenseNet/XGBoost论文](https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/cit2.12031)，12页PDF渲染后完整核图其中9页。附录第12页明确允许已胡者再次胡、继续杠，与V1胡后退出收付不同。第10页表8是弃/碰/杠/胡的分类错误率，其中杠为35.21%；第8–9页是五个动作示例，不能当长期净分验收。第6页伪代码又用测试集误差触发保存/再训练，故不将其分类成绩视为本项目要求的新留出。论文方法可参考，当前没有取得作者关联的可调用模型，也未把迁移后比赛自述计为V1高手证明。
+
+另静态核查MIT的[luxinghong分析器](https://github.com/luxinghong/sichuan-mahjong-analyzer/tree/1d205e67d2bbdb695821a97ba51e2608fac8ab9c)：完整树12文件；[胡牌/等待源码](https://github.com/luxinghong/sichuan-mahjong-analyzer/blob/1d205e67d2bbdb695821a97ba51e2608fac8ab9c/hand_analyzer.py)只检查最多两门、无七对专用分支，等待库存没有接全桌公开牌。[入口](https://github.com/luxinghong/sichuan-mahjong-analyzer/blob/1d205e67d2bbdb695821a97ba51e2608fac8ab9c/main.py)按叫口总张数排序；这是局部分析CLI，未运行，也未确认完整血战净分或高手成绩，不接为强标尺。
+
+[TU Delft论文页面](https://repository.tudelft.nl/record/uuid:45412144-6b33-4f18-913c-2a4c4845ec00)的摘要定位为两人残局Markov模型；本次全文下载未成功，只保留摘要级线索。CCDC 2022原入口仍未取得正文。本轮没有新增可调用同V1高水平标尺，不能据此断言不存在。所读源码、论文/页图SHA和实际下载失败收据见[机器记录](benchmarks/strategy-anchor-research-20261023.json)，原始材料在忽略的`sichuan-anchor-research-20261023/`，没有改变正在运行的V9。
