@@ -1,0 +1,139 @@
+{
+  "kind": "heldout-size-sensitivity-preparation-only",
+  "date": "2026-10-23",
+  "newFormalSampleSizeSelected": false,
+  "newFormalCriteriaSelected": false,
+  "newSeedsGenerated": 0,
+  "gamesExecuted": 0,
+  "v9PartialScoresRead": false,
+  "source": "Already completed V8 minus teacher; 40 old seed means. Twelve existing panels recomputed exactly plus three explicitly added external-pooled subsets.",
+  "sourceHashes": {
+    "games.jsonl": "4f7d5e3ea460b4dd60b0e27414b8a86795bcbb6648afcdc6000c743bda581ca7",
+    "statistics/fraction-exact.json": "3ac7517a9e86be0cb3ba31ebccc9a4ff32f194fa0cdc68768b0cfbffd38fdd15"
+  },
+  "sourceProtocolSha256": "6bc1b22c9e87c1f33c3bccddaa5f80263f8e0d7007e0dfdab3905cea5972e37f",
+  "method": "Nraw=ceil(((zCritical+PhiInverse(requiredPerCriterionPower))*sigmaProxy/margin)^2); eligible=max(30,Nraw). margin=true mean gain minus the criterion threshold.",
+  "jointPowerLogic": "If every one of m conditions has power >=1-(1-.80)/m under its assumed normal known-sigma model, union bound gives joint power >=.80 without requiring independence. This is conditional planning, not empirically guaranteed power.",
+  "scenarios": {
+    "familyAlpha": 0.05,
+    "criteriaCounts": [3, 5],
+    "margins": [0.25, 0.5, 1.0],
+    "standardDeviationMultipliers": [1.0, 1.25],
+    "fixedNDetectableMargin": [200, 400, 800]
+  },
+  "criticalValues": {
+    "3": {
+      "exactNormalBonferroni": 2.3939797998185104,
+      "validatorReadyRounded": 2.394
+    },
+    "5": {
+      "exactNormalBonferroni": 2.5758293035489,
+      "validatorReadyRounded": 2.5759
+    }
+  },
+  "rows": {
+    "varianceProxyPanels": 15,
+    "requiredNRows": 360,
+    "detectableMarginRows": 360
+  },
+  "illustrativeExamplesOnly": [
+    {
+      "panel": "overall",
+      "assumedSeedStandardDeviation": 1.5002077254077915,
+      "independentNByTrueMargin": {
+        "0.25": 547,
+        "0.5": 137,
+        "1.0": 35
+      }
+    },
+    {
+      "panel": "opening/composite/lineup/ui-bots",
+      "assumedSeedStandardDeviation": 2.1523596919636234,
+      "independentNByTrueMargin": {
+        "0.25": 1125,
+        "0.5": 282,
+        "1.0": 71
+      }
+    },
+    {
+      "panel": "external-pooled/composite",
+      "assumedSeedStandardDeviation": 1.7096744657525167,
+      "independentNByTrueMargin": {
+        "0.25": 710,
+        "0.5": 178,
+        "1.0": 45
+      }
+    }
+  ],
+  "verification": {
+    "calculationToolChunk": "528586",
+    "calculationExitCode": 0,
+    "literalCurrentParserToolChunk": "3c14aa",
+    "parserExitCode": 0,
+    "parserBoundaries": [
+      {
+        "criteriaCount": 3,
+        "acceptedCriticalValue": 2.394,
+        "rejectedJustBelow": 2.3939
+      },
+      {
+        "criteriaCount": 5,
+        "acceptedCriticalValue": 2.5759,
+        "rejectedJustBelow": 2.5758
+      }
+    ],
+    "selfChecks": [
+      "known normal quantiles",
+      "literal validator tail bound",
+      "power at N and just below N",
+      "larger margin/more criteria monotonicity",
+      "all twelve variances exactly reproduce prior Fraction output"
+    ],
+    "originalPreparationCapsuleUnchanged": true,
+    "noPlanSealedOrReserved": true
+  },
+  "references": [
+    "https://www.itl.nist.gov/div898/handbook/prc/section2/prc222.htm",
+    "https://www.itl.nist.gov/div898/handbook/prc/section4/prc473.htm"
+  ],
+  "artifacts": {
+    "local/strength-goal-20261018/formal-size-planning-20261023/planning.json": {
+      "sha256": "5e73d36330bae995fa419e2bbb26dc23099abf729c3a35fd2ecc7a447a12a3e1",
+      "bytes": 6349
+    },
+    "local/strength-goal-20261018/formal-size-planning-20261023/actual-parser-boundaries.json": {
+      "sha256": "b8daaf738847208c970ddc5ce0af508e6fd3f8a329e8681c9ea515c4ac2b68b5",
+      "bytes": 624
+    },
+    "local/strength-goal-20261018/formal-size-planning-20261023/required-independent-seeds.json": {
+      "sha256": "a98673535648c548d9bd9c479d347576d16269dbc79b911925e04da3f3f03936",
+      "bytes": 177366
+    },
+    "local/strength-goal-20261018/formal-size-planning-20261023/required-independent-seeds.csv": {
+      "sha256": "dacf3cfea32d17b800009531d35a154910dd2827a755f7688ebe9f5a2a633ac2",
+      "bytes": 36888
+    },
+    "local/strength-goal-20261018/formal-size-planning-20261023/detectable-margin.json": {
+      "sha256": "e9ac769af05d7a3350588a482dcb9e0c7381b7ec0c2c9e8d5461232f2e54f9cb",
+      "bytes": 113452
+    },
+    "local/strength-goal-20261018/formal-size-planning-20261023/detectable-margin.csv": {
+      "sha256": "d4db5282b1d88ce4aa462863fa4c84ede61299c9a0eecf479877971d3573f47c",
+      "bytes": 34754
+    },
+    "local/strength-goal-20261018/plan-holdout-size.py": {
+      "sha256": "8a9ad4f6d04c94fee1bfd7b670d2ffb22e0774ab2126c049ecf556c5697f0799",
+      "bytes": 9648
+    },
+    "local/strength-goal-20261018/check-power-critical-values.ts": {
+      "sha256": "8568712cd7a93ed9fd8003b278c6f1678bbbdfea45b89716a184c3dc47ab5adc",
+      "bytes": 2098
+    }
+  },
+  "limitations": [
+    "V8 variance is an uncertain old-development proxy, not the unknown V9/final-candidate population variance.",
+    "Normal planning with an assumed known sigma does not prove finite-sample normality or achieved power; NIST notes unknown-sigma adjustments.",
+    "Illustrative counts 3/5 and margins are not actual criteria or a formal pass promise; actual full V9 results and resource costs still determine the final predeclared design.",
+    "More games per seed do not become more independent seeds; a false or zero true improvement is not rescued by sample-size planning."
+  ]
+}
