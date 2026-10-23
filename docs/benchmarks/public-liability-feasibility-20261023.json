@@ -1,0 +1,2406 @@
+{
+  "kind": "old-development-public-base-hu-prediction-feasibility",
+  "complete": true,
+  "observedAtUtc": "2026-10-23T07:37:58.762740+00:00",
+  "artifactDirectory": "local/strength-goal-20261018/opponent-liability-prototype",
+  "sourceAndArtifactSha256": {
+    "plan.json": "4b9c822b9080d03b08250e47d2e5929e7e9ed0f8162e9dde55b23057330dfae0",
+    "features.ts": "966b394182d3aa49dde386bb5187c4f1c3128584a81c9f996a6d63954e0553e0",
+    "oracle.ts": "5e358f8b3893d48f338c8fd7fc933728d85cccf0a6b704d5e372c67f4925648b",
+    "test-features.ts": "23476f4eec62d57766f372a034da6f31b13175ef20a91810007045d017d40d99",
+    "extract.ts": "d3dfa3f2aa02c896a26026b3a07820a4927352c00569bdd4d7a6070d2cb449e8",
+    "dataset.csv": "7ef8c52a68363e1e1d513c703e2f147faadbcc2643edfe6114571f6cf9274c2a",
+    "extraction-receipt.json": "5076e8481cd46b4c0bbc31556d19508c2901cc110600ae9a32c891caf683eaf3",
+    "fit_core.py": "87bd7197b5521f0902ad75c3d357b755c48511ce2a206d2af374c936434cd2a0",
+    "test_fit_core.py": "1f0b33349ba945423a255fec6615b4d5c9d6caac6bc0890d4f34e802c2ef4138",
+    "fit.py": "ec50397c68d1347efbd996d673849af84649f1f16bc124804a7ec076903b6c88",
+    "fit-intent.json": "a1d09b3d5fed1ccbd90adc7ad8e6b551a9ff35a4b0936542007992d5c32c810a",
+    "cross-validation.json": "317b9205e72661e80ed0a7907155ec3476c9bc414b5768028be483bbf890dc1d",
+    "prototype-model.json": "33295678224892b8ccacc4bf1ae51c17db68dd14c4198e9ed7d110d56ebf4a73",
+    "inference-parity.json": "95ff91f1ce329c46d6ab8cefd7b87f001d38ec89c50822c384b8c1648ecacfff",
+    "fit-receipt.json": "c92398916586a7e4e4be459a15202df26b342bbd631bb531a99092a3a7840c7f",
+    "inference.ts": "c4db49a9717c3d52883d8a0a2a95a324221b1a04899f5d97f8fdacebc46f0255",
+    "test-inference.ts": "4a16308d247726ed304d64098a897a2ca8d39515f8c3a47ba2de0efee3dc95e6",
+    "public-inference.mjs": "55b64c42c30a9e6933826947122a0b3e10503ab4ac6b3b982596fc260676ccc1",
+    "public-inference-build.json": "030a4047cd48154ff1a0b3888c967d41287f5b6ea1e55d9f624f8f17066fe966",
+    "inference-check.stdout.json": "e52def4f4fc351b86fc729c1f8d968e62f1a79e765f41264d2fd3153c6376b50",
+    "report-study.py": "22dda1b693276932c5f8c27ee550a54e4f20be9a6c039ee53c734979b8327b06"
+  },
+  "scope": {
+    "originalStoredGames": 1920,
+    "originalSeedUnits": 40,
+    "seedIds": [
+      60000, 60001, 60002, 60003, 60004, 60005, 60006, 60007, 60008, 60009,
+      60010, 60011, 60012, 60013, 60014, 60015, 60016, 60017, 60018, 60019,
+      60020, 60021, 60022, 60023, 60024, 60025, 60026, 60027, 60028, 60029,
+      60030, 60031, 60032, 60033, 60034, 60035, 60036, 60037, 60038, 60039
+    ],
+    "rawLabelOccurrences": 1069319,
+    "aggregatedRows": 568162,
+    "statesReplayed": 207193,
+    "decisionsReplayed": 124897,
+    "commonOpeningTeacherChecks": 7680,
+    "candidateOrExternalRequeries": 0,
+    "newPolicyGames": 0,
+    "newSeedUnits": 0,
+    "policyIntegrated": false,
+    "currentV10OutcomesUsed": false
+  },
+  "target": {
+    "baseFeeClasses": [0, 1, 2, 4, 8],
+    "definition": "Host evaluateWin on actual opponent concealed hand plus offered tile, exposed melds, missing suit and fan cap3, with empty situational context. Zero means no legal HU. This labels potential base payment if legal HU accepted, not actual choice/payment or future net.",
+    "hiddenHandsUsedOnlyByOfflineOracle": true,
+    "noSituationalBonusInTarget": true
+  },
+  "fixedParameters": {
+    "family": "multinomial logistic regression",
+    "sklearn": "1.6.1",
+    "numpy": "2.1.3",
+    "C": 100.0,
+    "solver": "lbfgs",
+    "max_iter": 400,
+    "tol": 1e-8,
+    "class_weight": null,
+    "warm_start": false,
+    "random_state": 0,
+    "threads": 1
+  },
+  "featureNames": [
+    "wall_fraction",
+    "wall_late",
+    "active_others_fraction",
+    "visible_total_fraction",
+    "opponent_meld_0",
+    "opponent_meld_1",
+    "opponent_meld_2",
+    "opponent_meld_3",
+    "opponent_meld_4",
+    "opponent_kong_fraction",
+    "candidate_suit_meld_fraction",
+    "max_same_suit_meld_fraction",
+    "mixed_meld_suits",
+    "opponent_discard_count",
+    "opponent_missing_discards",
+    "opponent_candidate_suit_discards",
+    "opponent_exact_discards",
+    "recent_three_nonmissing",
+    "last_discard_missing",
+    "clear_proof_after_last_draw",
+    "known_candidate_copies",
+    "own_candidate_copies",
+    "known_neighbors",
+    "known_distance_two",
+    "known_candidate_suit",
+    "known_opponent_missing_suit",
+    "edge_distance_0",
+    "edge_distance_1",
+    "edge_distance_2",
+    "edge_distance_3",
+    "edge_distance_4",
+    "recent_six_candidate_suit"
+  ],
+  "validation": {
+    "split": "5 folds grouped by original seed, 32 train / 8 held out in each; all pre-fixed in plan",
+    "equalSeedMass": true,
+    "confidenceIntervals": null,
+    "reasonForNoCI": "Training folds overlap; rows, seats, lineups and counterfactual candidate labels are correlated, not independent samples.",
+    "oofVectorsAndFoldCoefficientsSaved": false,
+    "finalAll40SeedModelSaved": true,
+    "scope": "Metrics/seed partitions/iterations/calibration saved; original bound source+dataset support rerun. No independent reconstruction of every OOF probability was performed."
+  },
+  "overall": {
+    "constant": {
+      "mass": 39.999999999999986,
+      "logLoss": 0.14771272560891993,
+      "huBrier": 0.027251819913033968,
+      "basePaymentMse": 0.18902319041590426,
+      "actualHuFraction": 0.02846439911316064,
+      "predictedHuFraction": 0.02846622809244062,
+      "actualBasePayment": 0.05530856094885532,
+      "predictedBasePayment": 0.055317134966828135
+    },
+    "public-table": {
+      "mass": 39.999999999999986,
+      "logLoss": 0.1331895119624226,
+      "huBrier": 0.026410435794466544,
+      "basePaymentMse": 0.18216850046667588,
+      "actualHuFraction": 0.02846439911316064,
+      "predictedHuFraction": 0.0266404221337038,
+      "actualBasePayment": 0.05530856094885532,
+      "predictedBasePayment": 0.04914253865105763
+    },
+    "logistic": {
+      "mass": 39.999999999999986,
+      "logLoss": 0.12150648666209618,
+      "huBrier": 0.025340489301753553,
+      "basePaymentMse": 0.16891367027858853,
+      "actualHuFraction": 0.02846439911316064,
+      "predictedHuFraction": 0.028557177780795327,
+      "actualBasePayment": 0.05530856094885532,
+      "predictedBasePayment": 0.05538381848211812
+    }
+  },
+  "nonForcedZero": {
+    "constant": {
+      "mass": 26.69846313877009,
+      "logLoss": 0.22130521122681304,
+      "huBrier": 0.040829046632965625,
+      "basePaymentMse": 0.28319711053542207,
+      "actualHuFraction": 0.042645749255620834,
+      "predictedHuFraction": 0.042648489457212925,
+      "actualBasePayment": 0.0828640370217252,
+      "predictedBasePayment": 0.08287688273187452
+    },
+    "public-table": {
+      "mass": 26.69846313877009,
+      "logLoss": 0.1995463353379496,
+      "huBrier": 0.03956847352178065,
+      "basePaymentMse": 0.2729273209769747,
+      "actualHuFraction": 0.042645749255620834,
+      "predictedHuFraction": 0.039913042178098976,
+      "actualBasePayment": 0.0828640370217252,
+      "predictedBasePayment": 0.07362601868973563
+    },
+    "logistic": {
+      "mass": 26.69846313877009,
+      "logLoss": 0.18204266819486054,
+      "huBrier": 0.037965465158113054,
+      "basePaymentMse": 0.2530687544082655,
+      "actualHuFraction": 0.042645749255620834,
+      "predictedHuFraction": 0.042784751515267734,
+      "actualBasePayment": 0.0828640370217252,
+      "predictedBasePayment": 0.08297678887994518
+    }
+  },
+  "allStrata": {
+    "seed": {
+      "60000": {
+        "constant": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.18089151754198401,
+          "huBrier": 0.03094500768385341,
+          "basePaymentMse": 0.38760506603033246,
+          "actualHuFraction": 0.03253052437202036,
+          "predictedHuFraction": 0.02785464077197278,
+          "actualBasePayment": 0.09273531898452551,
+          "predictedBasePayment": 0.05474420651192977
+        },
+        "public-table": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.15728073126766334,
+          "huBrier": 0.02943439001626987,
+          "basePaymentMse": 0.371240286584174,
+          "actualHuFraction": 0.03253052437202036,
+          "predictedHuFraction": 0.030331863413085018,
+          "actualBasePayment": 0.09273531898452551,
+          "predictedBasePayment": 0.06395763468456984
+        },
+        "logistic": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.14796515710012517,
+          "huBrier": 0.028503896377117158,
+          "basePaymentMse": 0.35035535695154396,
+          "actualHuFraction": 0.03253052437202036,
+          "predictedHuFraction": 0.0364928758954437,
+          "actualBasePayment": 0.09273531898452551,
+          "predictedBasePayment": 0.07739437798025085
+        }
+      },
+      "60001": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.12899084073478423,
+          "huBrier": 0.02584942576958183,
+          "basePaymentMse": 0.05514236182792564,
+          "actualHuFraction": 0.027109986101828767,
+          "predictedHuFraction": 0.025134429461331258,
+          "actualBasePayment": 0.03438160257094607,
+          "predictedBasePayment": 0.048327870153897674
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.11467541428984256,
+          "huBrier": 0.024970461877825527,
+          "basePaymentMse": 0.053191629426296023,
+          "actualHuFraction": 0.027109986101828767,
+          "predictedHuFraction": 0.027088744626713648,
+          "actualBasePayment": 0.03438160257094607,
+          "predictedBasePayment": 0.04378795553074574
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.1078400336738651,
+          "huBrier": 0.024265233666968464,
+          "basePaymentMse": 0.05160227737742561,
+          "actualHuFraction": 0.027109986101828767,
+          "predictedHuFraction": 0.026287550748738602,
+          "actualBasePayment": 0.03438160257094607,
+          "predictedBasePayment": 0.04271391040969965
+        }
+      },
+      "60002": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.17234374877873715,
+          "huBrier": 0.03194442817333708,
+          "basePaymentMse": 0.37936680573853787,
+          "actualHuFraction": 0.03358493943394566,
+          "predictedHuFraction": 0.028994541287829544,
+          "actualBasePayment": 0.08035158347012183,
+          "predictedBasePayment": 0.05683166865813041
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.15647488187212794,
+          "huBrier": 0.03105680216335132,
+          "basePaymentMse": 0.3646897579574978,
+          "actualHuFraction": 0.03358493943394566,
+          "predictedHuFraction": 0.02737157265037819,
+          "actualBasePayment": 0.08035158347012183,
+          "predictedBasePayment": 0.05016957552165234
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.14079981632126612,
+          "huBrier": 0.02973004088887927,
+          "basePaymentMse": 0.33459373086735184,
+          "actualHuFraction": 0.03358493943394566,
+          "predictedHuFraction": 0.03168068182752581,
+          "actualBasePayment": 0.08035158347012183,
+          "predictedBasePayment": 0.062427959829083855
+        }
+      },
+      "60003": {
+        "constant": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.18796057978747244,
+          "huBrier": 0.03265239228873704,
+          "basePaymentMse": 0.4745563040693776,
+          "actualHuFraction": 0.034440741572342705,
+          "predictedHuFraction": 0.02652955387437463,
+          "actualBasePayment": 0.10280499164455033,
+          "predictedBasePayment": 0.05083073825949738
+        },
+        "public-table": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.16715805077948798,
+          "huBrier": 0.03167572338691051,
+          "basePaymentMse": 0.4547891344500058,
+          "actualHuFraction": 0.034440741572342705,
+          "predictedHuFraction": 0.029505088249197595,
+          "actualBasePayment": 0.10280499164455033,
+          "predictedBasePayment": 0.060232831049536355
+        },
+        "logistic": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.14906917486103127,
+          "huBrier": 0.029607545422663747,
+          "basePaymentMse": 0.4210695765846571,
+          "actualHuFraction": 0.034440741572342705,
+          "predictedHuFraction": 0.03294027448189885,
+          "actualBasePayment": 0.10280499164455033,
+          "predictedBasePayment": 0.06973792385712797
+        }
+      },
+      "60004": {
+        "constant": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.16302039026555157,
+          "huBrier": 0.03056767880258546,
+          "basePaymentMse": 0.26383706440782945,
+          "actualHuFraction": 0.03205462124785114,
+          "predictedHuFraction": 0.02877203840395636,
+          "actualBasePayment": 0.06596817952226444,
+          "predictedBasePayment": 0.05614617770366905
+        },
+        "public-table": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.14569892579221058,
+          "huBrier": 0.029627409541145833,
+          "basePaymentMse": 0.2542813748225609,
+          "actualHuFraction": 0.03205462124785114,
+          "predictedHuFraction": 0.02345160254203918,
+          "actualBasePayment": 0.06596817952226444,
+          "predictedBasePayment": 0.042049900442484724
+        },
+        "logistic": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.13276521977216682,
+          "huBrier": 0.02850179323338912,
+          "basePaymentMse": 0.23772216967077534,
+          "actualHuFraction": 0.03205462124785114,
+          "predictedHuFraction": 0.025450570346003686,
+          "actualBasePayment": 0.06596817952226444,
+          "predictedBasePayment": 0.04977673686791021
+        }
+      },
+      "60005": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.14360581720570637,
+          "huBrier": 0.02509076851895505,
+          "basePaymentMse": 0.19717956394432287,
+          "actualHuFraction": 0.026080555729223645,
+          "predictedHuFraction": 0.02893434442052714,
+          "actualBasePayment": 0.05770211212922917,
+          "predictedBasePayment": 0.056866205499172776
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.1324507539930983,
+          "huBrier": 0.02416735364575364,
+          "basePaymentMse": 0.19237256461102317,
+          "actualHuFraction": 0.026080555729223645,
+          "predictedHuFraction": 0.024689058668616794,
+          "actualBasePayment": 0.05770211212922917,
+          "predictedBasePayment": 0.041440797470456835
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.12632637463898666,
+          "huBrier": 0.02382637003013116,
+          "basePaymentMse": 0.18822844408363498,
+          "actualHuFraction": 0.026080555729223645,
+          "predictedHuFraction": 0.026422400255814618,
+          "actualBasePayment": 0.05770211212922917,
+          "predictedBasePayment": 0.04691992436322195
+        }
+      },
+      "60006": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.13470039314272045,
+          "huBrier": 0.02478575437281247,
+          "basePaymentMse": 0.15479235317848622,
+          "actualHuFraction": 0.025717107635951933,
+          "predictedHuFraction": 0.02994463286138792,
+          "actualBasePayment": 0.04667608657153009,
+          "predictedBasePayment": 0.057576812354452514
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.12155830924041436,
+          "huBrier": 0.02404794778844818,
+          "basePaymentMse": 0.15022572989192853,
+          "actualHuFraction": 0.025717107635951933,
+          "predictedHuFraction": 0.0319930848174636,
+          "actualBasePayment": 0.04667608657153009,
+          "predictedBasePayment": 0.06445710232546348
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.1087552564309096,
+          "huBrier": 0.02276311416618359,
+          "basePaymentMse": 0.13919772077934425,
+          "actualHuFraction": 0.025717107635951933,
+          "predictedHuFraction": 0.03305417185417522,
+          "actualBasePayment": 0.04667608657153009,
+          "predictedBasePayment": 0.07474942926416249
+        }
+      },
+      "60007": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.17856139282701433,
+          "huBrier": 0.030428037303086134,
+          "basePaymentMse": 0.5241208199596514,
+          "actualHuFraction": 0.03193994821018485,
+          "predictedHuFraction": 0.028697139279123526,
+          "actualBasePayment": 0.10335484603058624,
+          "predictedBasePayment": 0.05624873643481094
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.16652300802205683,
+          "huBrier": 0.02907361341562109,
+          "basePaymentMse": 0.5127690617632786,
+          "actualHuFraction": 0.03193994821018485,
+          "predictedHuFraction": 0.02578698007206678,
+          "actualBasePayment": 0.10335484603058624,
+          "predictedBasePayment": 0.05125405479460216
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.15581764309675153,
+          "huBrier": 0.028313122807640322,
+          "basePaymentMse": 0.49735891334639504,
+          "actualHuFraction": 0.03193994821018485,
+          "predictedHuFraction": 0.026136624666866573,
+          "actualBasePayment": 0.10335484603058624,
+          "predictedBasePayment": 0.05412179120119312
+        }
+      },
+      "60008": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.12025984923620439,
+          "huBrier": 0.023173048332924554,
+          "basePaymentMse": 0.04926950595408778,
+          "actualHuFraction": 0.024027302472927475,
+          "predictedHuFraction": 0.027824043026021678,
+          "actualBasePayment": 0.030149091485322996,
+          "predictedBasePayment": 0.05331098498956725
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.1086981888778977,
+          "huBrier": 0.02266269289555233,
+          "basePaymentMse": 0.04813075331415742,
+          "actualHuFraction": 0.024027302472927475,
+          "predictedHuFraction": 0.023686230224301042,
+          "actualBasePayment": 0.030149091485322996,
+          "predictedBasePayment": 0.037754492580652055
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.10213765643986927,
+          "huBrier": 0.02234122772928894,
+          "basePaymentMse": 0.049284115323584184,
+          "actualHuFraction": 0.024027302472927475,
+          "predictedHuFraction": 0.023893886237358847,
+          "actualBasePayment": 0.030149091485322996,
+          "predictedBasePayment": 0.03974470314018927
+        }
+      },
+      "60009": {
+        "constant": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.14188741746756686,
+          "huBrier": 0.02778930569033203,
+          "basePaymentMse": 0.09193529614811001,
+          "actualHuFraction": 0.02911626022793491,
+          "predictedHuFraction": 0.02669743080593853,
+          "actualBasePayment": 0.04192375739883745,
+          "predictedBasePayment": 0.05209775801131684
+        },
+        "public-table": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.13007572807338197,
+          "huBrier": 0.026957810455738127,
+          "basePaymentMse": 0.0878760209162289,
+          "actualHuFraction": 0.02911626022793491,
+          "predictedHuFraction": 0.026194729627793473,
+          "actualBasePayment": 0.04192375739883745,
+          "predictedBasePayment": 0.05135155118961016
+        },
+        "logistic": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.1190399179207939,
+          "huBrier": 0.025873993513294207,
+          "basePaymentMse": 0.08169957045051493,
+          "actualHuFraction": 0.02911626022793491,
+          "predictedHuFraction": 0.028523698942959492,
+          "actualBasePayment": 0.04192375739883745,
+          "predictedBasePayment": 0.05820544483287302
+        }
+      },
+      "60010": {
+        "constant": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.1555363643159038,
+          "huBrier": 0.027874783057862666,
+          "basePaymentMse": 0.1260959083577102,
+          "actualHuFraction": 0.02912617062814788,
+          "predictedHuFraction": 0.02888674906878274,
+          "actualBasePayment": 0.055105312938916344,
+          "predictedBasePayment": 0.05677266382379331
+        },
+        "public-table": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.1369887060234329,
+          "huBrier": 0.02679218884860445,
+          "basePaymentMse": 0.11772412917324701,
+          "actualHuFraction": 0.02912617062814788,
+          "predictedHuFraction": 0.028509095255148584,
+          "actualBasePayment": 0.055105312938916344,
+          "predictedBasePayment": 0.059753666938665545
+        },
+        "logistic": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.12019609935998647,
+          "huBrier": 0.02454883029776644,
+          "basePaymentMse": 0.10394394542230576,
+          "actualHuFraction": 0.02912617062814788,
+          "predictedHuFraction": 0.030144715740761746,
+          "actualBasePayment": 0.055105312938916344,
+          "predictedBasePayment": 0.060444528523706915
+        }
+      },
+      "60011": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.13433197308172445,
+          "huBrier": 0.026648791371299232,
+          "basePaymentMse": 0.04188744660759277,
+          "actualHuFraction": 0.027712066226135187,
+          "predictedHuFraction": 0.030890656785900077,
+          "actualBasePayment": 0.03180265656182355,
+          "predictedBasePayment": 0.059395804166327226
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.12489267128456555,
+          "huBrier": 0.025798304694780567,
+          "basePaymentMse": 0.04225281008539045,
+          "actualHuFraction": 0.027712066226135187,
+          "predictedHuFraction": 0.030830727199589698,
+          "actualBasePayment": 0.03180265656182355,
+          "predictedBasePayment": 0.056453023402712306
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.11650000991041458,
+          "huBrier": 0.025343627152257436,
+          "basePaymentMse": 0.04442293437181101,
+          "actualHuFraction": 0.027712066226135187,
+          "predictedHuFraction": 0.03608475783467186,
+          "actualBasePayment": 0.03180265656182355,
+          "predictedBasePayment": 0.06475959110157438
+        }
+      },
+      "60012": {
+        "constant": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.12188483948439231,
+          "huBrier": 0.022238684819003204,
+          "basePaymentMse": 0.10688081033916338,
+          "actualHuFraction": 0.023141313036119552,
+          "predictedHuFraction": 0.025278115024309412,
+          "actualBasePayment": 0.04185777344548161,
+          "predictedBasePayment": 0.049547169693168164
+        },
+        "public-table": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.10308754911882073,
+          "huBrier": 0.021111299619804947,
+          "basePaymentMse": 0.09951263879252811,
+          "actualHuFraction": 0.023141313036119552,
+          "predictedHuFraction": 0.01499294838829693,
+          "actualBasePayment": 0.04185777344548161,
+          "predictedBasePayment": 0.021538975572159155
+        },
+        "logistic": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.08992855891839228,
+          "huBrier": 0.019464991880930673,
+          "basePaymentMse": 0.08717397693434427,
+          "actualHuFraction": 0.023141313036119552,
+          "predictedHuFraction": 0.01889219694209077,
+          "actualBasePayment": 0.04185777344548161,
+          "predictedBasePayment": 0.028944452100663917
+        }
+      },
+      "60013": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.12518204345850653,
+          "huBrier": 0.022169854748128135,
+          "basePaymentMse": 0.2516838720327174,
+          "actualHuFraction": 0.022966978420583234,
+          "predictedHuFraction": 0.02705636636988984,
+          "actualBasePayment": 0.05411564098737266,
+          "predictedBasePayment": 0.051840113245528785
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.11282211879753765,
+          "huBrier": 0.021219567503026372,
+          "basePaymentMse": 0.24270130583161545,
+          "actualHuFraction": 0.022966978420583234,
+          "predictedHuFraction": 0.02403817139443097,
+          "actualBasePayment": 0.05411564098737266,
+          "predictedBasePayment": 0.03979681429432744
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.10140118800473905,
+          "huBrier": 0.02060905140077149,
+          "basePaymentMse": 0.23725383644086853,
+          "actualHuFraction": 0.022966978420583234,
+          "predictedHuFraction": 0.023156302716390017,
+          "actualBasePayment": 0.05411564098737266,
+          "predictedBasePayment": 0.04162249045230822
+        }
+      },
+      "60014": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.1608699589169133,
+          "huBrier": 0.032117641475946694,
+          "basePaymentMse": 0.06483376123664938,
+          "actualHuFraction": 0.033755337059772045,
+          "predictedHuFraction": 0.028590819978554192,
+          "actualBasePayment": 0.044036198723703665,
+          "predictedBasePayment": 0.05579254541064352
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.13579691392985435,
+          "huBrier": 0.03076328451812703,
+          "basePaymentMse": 0.06057295192148719,
+          "actualHuFraction": 0.033755337059772045,
+          "predictedHuFraction": 0.02372743738984681,
+          "actualBasePayment": 0.044036198723703665,
+          "predictedBasePayment": 0.04080322357087472
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.12092905381540386,
+          "huBrier": 0.02883940002418607,
+          "basePaymentMse": 0.055305224800014256,
+          "actualHuFraction": 0.033755337059772045,
+          "predictedHuFraction": 0.02619696203126111,
+          "actualBasePayment": 0.044036198723703665,
+          "predictedBasePayment": 0.04616637810997005
+        }
+      },
+      "60015": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.17965183812532454,
+          "huBrier": 0.03523245299376925,
+          "basePaymentMse": 0.15798699393501978,
+          "actualHuFraction": 0.037070498325640015,
+          "predictedHuFraction": 0.031008644277365455,
+          "actualBasePayment": 0.05896481652521385,
+          "predictedBasePayment": 0.060942937296219774
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.16683691896700437,
+          "huBrier": 0.03436371767175169,
+          "basePaymentMse": 0.1521429291818158,
+          "actualHuFraction": 0.037070498325640015,
+          "predictedHuFraction": 0.02595218583064921,
+          "actualBasePayment": 0.05896481652521385,
+          "predictedBasePayment": 0.0415839286112069
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.1518780823316027,
+          "huBrier": 0.03298419525945459,
+          "basePaymentMse": 0.13403586072675092,
+          "actualHuFraction": 0.037070498325640015,
+          "predictedHuFraction": 0.029113173904762778,
+          "actualBasePayment": 0.05896481652521385,
+          "predictedBasePayment": 0.05024325642353165
+        }
+      },
+      "60016": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.14046048159529056,
+          "huBrier": 0.023163843599805497,
+          "basePaymentMse": 0.38857888496770526,
+          "actualHuFraction": 0.023966254831060997,
+          "predictedHuFraction": 0.029418071624869306,
+          "actualBasePayment": 0.07368231441218145,
+          "predictedBasePayment": 0.056564353205312154
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.12766978796545242,
+          "huBrier": 0.022673380938189422,
+          "basePaymentMse": 0.38038248905173905,
+          "actualHuFraction": 0.023966254831060997,
+          "predictedHuFraction": 0.03134651006361222,
+          "actualBasePayment": 0.07368231441218145,
+          "predictedBasePayment": 0.06245353540343832
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.11034595724107833,
+          "huBrier": 0.021425872138327175,
+          "basePaymentMse": 0.31888377746695834,
+          "actualHuFraction": 0.023966254831060997,
+          "predictedHuFraction": 0.03544970759464114,
+          "actualBasePayment": 0.07368231441218145,
+          "predictedBasePayment": 0.08120469147920953
+        }
+      },
+      "60017": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.13532807480071457,
+          "huBrier": 0.02590937397284271,
+          "basePaymentMse": 0.11010968722168395,
+          "actualHuFraction": 0.026942162775832355,
+          "predictedHuFraction": 0.029850926848621576,
+          "actualBasePayment": 0.03994841149918391,
+          "predictedBasePayment": 0.058510254290901544
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.11892998413368903,
+          "huBrier": 0.024808390649450833,
+          "basePaymentMse": 0.10445481842527114,
+          "actualHuFraction": 0.026942162775832355,
+          "predictedHuFraction": 0.027955816425691477,
+          "actualBasePayment": 0.03994841149918391,
+          "predictedBasePayment": 0.052236359306465294
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.1063909133293481,
+          "huBrier": 0.023055003250859674,
+          "basePaymentMse": 0.07712317822023235,
+          "actualHuFraction": 0.026942162775832355,
+          "predictedHuFraction": 0.029722809980491323,
+          "actualBasePayment": 0.03994841149918391,
+          "predictedBasePayment": 0.05943302813340227
+        }
+      },
+      "60018": {
+        "constant": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.145359429088089,
+          "huBrier": 0.028165495363673985,
+          "basePaymentMse": 0.12777286352170603,
+          "actualHuFraction": 0.029432342650077378,
+          "predictedHuFraction": 0.028863036762087527,
+          "actualBasePayment": 0.04525427531649477,
+          "predictedBasePayment": 0.05530170141477759
+        },
+        "public-table": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.1363164451333428,
+          "huBrier": 0.027872283609882722,
+          "basePaymentMse": 0.1242362773270958,
+          "actualHuFraction": 0.029432342650077378,
+          "predictedHuFraction": 0.029154864491738024,
+          "actualBasePayment": 0.04525427531649477,
+          "predictedBasePayment": 0.05503760223091458
+        },
+        "logistic": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.12671898595132308,
+          "huBrier": 0.027265470601767018,
+          "basePaymentMse": 0.10793140537152292,
+          "actualHuFraction": 0.029432342650077378,
+          "predictedHuFraction": 0.030961243350338376,
+          "actualBasePayment": 0.04525427531649477,
+          "predictedBasePayment": 0.06319374539367983
+        }
+      },
+      "60019": {
+        "constant": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.1202549006604509,
+          "huBrier": 0.021521142979541667,
+          "basePaymentMse": 0.1329319544318803,
+          "actualHuFraction": 0.022239219260072152,
+          "predictedHuFraction": 0.027413347561621212,
+          "actualBasePayment": 0.04154277706202715,
+          "predictedBasePayment": 0.053494808467779
+        },
+        "public-table": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.108206897259486,
+          "huBrier": 0.021073008005975367,
+          "basePaymentMse": 0.1281039460160708,
+          "actualHuFraction": 0.022239219260072152,
+          "predictedHuFraction": 0.025331889494331072,
+          "actualBasePayment": 0.04154277706202715,
+          "predictedBasePayment": 0.04869315460502721
+        },
+        "logistic": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.09603514247192046,
+          "huBrier": 0.020274687214402416,
+          "basePaymentMse": 0.11510572542510196,
+          "actualHuFraction": 0.022239219260072152,
+          "predictedHuFraction": 0.02461378594765514,
+          "actualBasePayment": 0.04154277706202715,
+          "predictedBasePayment": 0.048063148300441325
+        }
+      },
+      "60020": {
+        "constant": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.15974776505572072,
+          "huBrier": 0.030168194901177545,
+          "basePaymentMse": 0.2087737493675036,
+          "actualHuFraction": 0.03156620640066975,
+          "predictedHuFraction": 0.030326081220001695,
+          "actualBasePayment": 0.05882019453876324,
+          "predictedBasePayment": 0.05960145982840285
+        },
+        "public-table": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.14917533927184223,
+          "huBrier": 0.02923045167293358,
+          "basePaymentMse": 0.20407660036666295,
+          "actualHuFraction": 0.03156620640066975,
+          "predictedHuFraction": 0.030170035153638246,
+          "actualBasePayment": 0.05882019453876324,
+          "predictedBasePayment": 0.05391082288368136
+        },
+        "logistic": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.13607264472950903,
+          "huBrier": 0.02802937610453019,
+          "basePaymentMse": 0.19500652890305756,
+          "actualHuFraction": 0.03156620640066975,
+          "predictedHuFraction": 0.030539731581173343,
+          "actualBasePayment": 0.05882019453876324,
+          "predictedBasePayment": 0.06003788626056898
+        }
+      },
+      "60021": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.15289503726520087,
+          "huBrier": 0.026210727168747165,
+          "basePaymentMse": 0.34090562853284756,
+          "actualHuFraction": 0.027214722514929873,
+          "predictedHuFraction": 0.0312637552905658,
+          "actualBasePayment": 0.07207172907953514,
+          "predictedBasePayment": 0.060113188904096546
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.13751325510048285,
+          "huBrier": 0.025376366796331006,
+          "basePaymentMse": 0.32738623525079225,
+          "actualHuFraction": 0.027214722514929873,
+          "predictedHuFraction": 0.030235561137536095,
+          "actualBasePayment": 0.07207172907953514,
+          "predictedBasePayment": 0.05605915004868249
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.11873308674760014,
+          "huBrier": 0.0242907417435408,
+          "basePaymentMse": 0.30358541981478177,
+          "actualHuFraction": 0.027214722514929873,
+          "predictedHuFraction": 0.028840685005880162,
+          "actualBasePayment": 0.07207172907953514,
+          "predictedBasePayment": 0.06032115762796807
+        }
+      },
+      "60022": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.14034654551148845,
+          "huBrier": 0.028147305233163555,
+          "basePaymentMse": 0.06722856217493556,
+          "actualHuFraction": 0.029488549183518183,
+          "predictedHuFraction": 0.027765827946978988,
+          "actualBasePayment": 0.03684580954893521,
+          "predictedBasePayment": 0.05442329017164771
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.1301823966269717,
+          "huBrier": 0.027679196471120694,
+          "basePaymentMse": 0.0645004158993142,
+          "actualHuFraction": 0.029488549183518183,
+          "predictedHuFraction": 0.023046988621900757,
+          "actualBasePayment": 0.03684580954893521,
+          "predictedBasePayment": 0.0395264222608054
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.12231749617568399,
+          "huBrier": 0.026946060307690253,
+          "basePaymentMse": 0.062436244268381985,
+          "actualHuFraction": 0.029488549183518183,
+          "predictedHuFraction": 0.024055333453491687,
+          "actualBasePayment": 0.03684580954893521,
+          "predictedBasePayment": 0.04167528560707841
+        }
+      },
+      "60023": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.14349397656747032,
+          "huBrier": 0.025984154431824537,
+          "basePaymentMse": 0.2686034621462844,
+          "actualHuFraction": 0.027126945412382593,
+          "predictedHuFraction": 0.02719016047687636,
+          "actualBasePayment": 0.06234156503040375,
+          "predictedBasePayment": 0.05209646332458021
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.13238620330584694,
+          "huBrier": 0.025028161293750698,
+          "basePaymentMse": 0.2587591479207082,
+          "actualHuFraction": 0.027126945412382593,
+          "predictedHuFraction": 0.025623622305903496,
+          "actualBasePayment": 0.06234156503040375,
+          "predictedBasePayment": 0.04520545971863381
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.11928962423730531,
+          "huBrier": 0.02420524349474735,
+          "basePaymentMse": 0.23871542562662182,
+          "actualHuFraction": 0.027126945412382593,
+          "predictedHuFraction": 0.030723692063953915,
+          "actualBasePayment": 0.06234156503040375,
+          "predictedBasePayment": 0.055303783025395445
+        }
+      },
+      "60024": {
+        "constant": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.14675416172436934,
+          "huBrier": 0.025866999894560493,
+          "basePaymentMse": 0.20656480562542662,
+          "actualHuFraction": 0.026858500603443313,
+          "predictedHuFraction": 0.030153975604612773,
+          "actualBasePayment": 0.058491232826812185,
+          "predictedBasePayment": 0.05884291022411141
+        },
+        "public-table": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.1266038619200339,
+          "huBrier": 0.024759805307713226,
+          "basePaymentMse": 0.19702571388908272,
+          "actualHuFraction": 0.026858500603443313,
+          "predictedHuFraction": 0.03245462371570682,
+          "actualBasePayment": 0.058491232826812185,
+          "predictedBasePayment": 0.0627218754858946
+        },
+        "logistic": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.11429511641090763,
+          "huBrier": 0.02307425806065292,
+          "basePaymentMse": 0.17866105167029844,
+          "actualHuFraction": 0.026858500603443313,
+          "predictedHuFraction": 0.035347049687256625,
+          "actualBasePayment": 0.058491232826812185,
+          "predictedBasePayment": 0.07343336543507901
+        }
+      },
+      "60025": {
+        "constant": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.08770978010451437,
+          "huBrier": 0.015322751699492638,
+          "basePaymentMse": 0.03295026937229285,
+          "actualHuFraction": 0.01543402351095122,
+          "predictedHuFraction": 0.028256895437174922,
+          "actualBasePayment": 0.019427241487423478,
+          "predictedBasePayment": 0.055534778992920836
+        },
+        "public-table": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.07844896599956283,
+          "huBrier": 0.015013608732331072,
+          "basePaymentMse": 0.03276443463181614,
+          "actualHuFraction": 0.01543402351095122,
+          "predictedHuFraction": 0.028082846097135825,
+          "actualBasePayment": 0.019427241487423478,
+          "predictedBasePayment": 0.047728140690712975
+        },
+        "logistic": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.07578037888331098,
+          "huBrier": 0.015084567345873405,
+          "basePaymentMse": 0.03444578631672553,
+          "actualHuFraction": 0.01543402351095122,
+          "predictedHuFraction": 0.03192512795564736,
+          "actualBasePayment": 0.019427241487423478,
+          "predictedBasePayment": 0.053727559772342545
+        }
+      },
+      "60026": {
+        "constant": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.1523416308550266,
+          "huBrier": 0.026082122459778645,
+          "basePaymentMse": 0.17315341594803,
+          "actualHuFraction": 0.027138650908916172,
+          "predictedHuFraction": 0.029899489364303915,
+          "actualBasePayment": 0.05851679850570523,
+          "predictedBasePayment": 0.057490011535332064
+        },
+        "public-table": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.1302997579808218,
+          "huBrier": 0.025145546482140367,
+          "basePaymentMse": 0.1645556270943605,
+          "actualHuFraction": 0.027138650908916172,
+          "predictedHuFraction": 0.030434727425685565,
+          "actualBasePayment": 0.05851679850570523,
+          "predictedBasePayment": 0.06435123078699502
+        },
+        "logistic": {
+          "mass": 1.0000000000000002,
+          "logLoss": 0.12382288825155005,
+          "huBrier": 0.024480390949737904,
+          "basePaymentMse": 0.1600277627387584,
+          "actualHuFraction": 0.027138650908916172,
+          "predictedHuFraction": 0.03336879580514042,
+          "actualBasePayment": 0.05851679850570523,
+          "predictedBasePayment": 0.07405531840150485
+        }
+      },
+      "60027": {
+        "constant": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.12066178562398534,
+          "huBrier": 0.023757509959748863,
+          "basePaymentMse": 0.07198576248719801,
+          "actualHuFraction": 0.02481796782923979,
+          "predictedHuFraction": 0.024958666974428452,
+          "actualBasePayment": 0.033329289398625374,
+          "predictedBasePayment": 0.04892102542883586
+        },
+        "public-table": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.1110996975376897,
+          "huBrier": 0.023196280300651174,
+          "basePaymentMse": 0.07001662964085102,
+          "actualHuFraction": 0.02481796782923979,
+          "predictedHuFraction": 0.02675554269384711,
+          "actualBasePayment": 0.033329289398625374,
+          "predictedBasePayment": 0.043086992189511994
+        },
+        "logistic": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.10299898842371553,
+          "huBrier": 0.02263057232922026,
+          "basePaymentMse": 0.06854135282908981,
+          "actualHuFraction": 0.02481796782923979,
+          "predictedHuFraction": 0.029989811029918684,
+          "actualBasePayment": 0.033329289398625374,
+          "predictedBasePayment": 0.04728572218768136
+        }
+      },
+      "60028": {
+        "constant": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.16242373254986242,
+          "huBrier": 0.0294364638028359,
+          "basePaymentMse": 0.23402717178225874,
+          "actualHuFraction": 0.03088217277776361,
+          "predictedHuFraction": 0.027526870352616733,
+          "actualBasePayment": 0.06711479651300208,
+          "predictedBasePayment": 0.05274160088114044
+        },
+        "public-table": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.14289309064567016,
+          "huBrier": 0.028472296367950938,
+          "basePaymentMse": 0.22553556883852977,
+          "actualHuFraction": 0.03088217277776361,
+          "predictedHuFraction": 0.02540907529932346,
+          "actualBasePayment": 0.06711479651300208,
+          "predictedBasePayment": 0.04350447270575688
+        },
+        "logistic": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.1316014924601064,
+          "huBrier": 0.027474869370170834,
+          "basePaymentMse": 0.21099469530972834,
+          "actualHuFraction": 0.03088217277776361,
+          "predictedHuFraction": 0.026102997638038986,
+          "actualBasePayment": 0.06711479651300208,
+          "predictedBasePayment": 0.05046782420991628
+        }
+      },
+      "60029": {
+        "constant": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.17286579463429236,
+          "huBrier": 0.03162541642508085,
+          "basePaymentMse": 0.24029023842014582,
+          "actualHuFraction": 0.03310078667580871,
+          "predictedHuFraction": 0.031139382594432195,
+          "actualBasePayment": 0.06924473705404978,
+          "predictedBasePayment": 0.060765847875731915
+        },
+        "public-table": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.1654670986089043,
+          "huBrier": 0.03107944909767422,
+          "basePaymentMse": 0.2329948042444733,
+          "actualHuFraction": 0.03310078667580871,
+          "predictedHuFraction": 0.025499653097728576,
+          "actualBasePayment": 0.06924473705404978,
+          "predictedBasePayment": 0.043855455216344104
+        },
+        "logistic": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.14358723805813717,
+          "huBrier": 0.02893088487626871,
+          "basePaymentMse": 0.21478452543099166,
+          "actualHuFraction": 0.03310078667580871,
+          "predictedHuFraction": 0.02608792484601537,
+          "actualBasePayment": 0.06924473705404978,
+          "predictedBasePayment": 0.048243769986879605
+        }
+      },
+      "60030": {
+        "constant": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.15810748401211477,
+          "huBrier": 0.03046670197919085,
+          "basePaymentMse": 0.09337509793165027,
+          "actualHuFraction": 0.03192010746330165,
+          "predictedHuFraction": 0.029733984576428948,
+          "actualBasePayment": 0.0474982293426768,
+          "predictedBasePayment": 0.05843778081361614
+        },
+        "public-table": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.14270111015986509,
+          "huBrier": 0.029795110850964715,
+          "basePaymentMse": 0.09195411392701731,
+          "actualHuFraction": 0.03192010746330165,
+          "predictedHuFraction": 0.030565707799233524,
+          "actualBasePayment": 0.0474982293426768,
+          "predictedBasePayment": 0.060137263696966904
+        },
+        "logistic": {
+          "mass": 0.9999999999999999,
+          "logLoss": 0.1286820587721066,
+          "huBrier": 0.02830775138579138,
+          "basePaymentMse": 0.08640031394470594,
+          "actualHuFraction": 0.03192010746330165,
+          "predictedHuFraction": 0.03188612654832305,
+          "actualBasePayment": 0.0474982293426768,
+          "predictedBasePayment": 0.06451687330430718
+        }
+      },
+      "60031": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.17428907866604823,
+          "huBrier": 0.03137088499299452,
+          "basePaymentMse": 0.1992687129283619,
+          "actualHuFraction": 0.03301342471031786,
+          "predictedHuFraction": 0.028127704150040397,
+          "actualBasePayment": 0.06905607253899597,
+          "predictedBasePayment": 0.05408326598309036
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.15720703676171174,
+          "huBrier": 0.030289019162369722,
+          "basePaymentMse": 0.19416967954007508,
+          "actualHuFraction": 0.03301342471031786,
+          "predictedHuFraction": 0.02771283810940431,
+          "actualBasePayment": 0.06905607253899597,
+          "predictedBasePayment": 0.05721980686781454
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.1433546180413478,
+          "huBrier": 0.02915663350632051,
+          "basePaymentMse": 0.18875509473158772,
+          "actualHuFraction": 0.03301342471031786,
+          "predictedHuFraction": 0.030769971854586277,
+          "actualBasePayment": 0.06905607253899597,
+          "predictedBasePayment": 0.06566421869706565
+        }
+      },
+      "60032": {
+        "constant": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.12806971422631788,
+          "huBrier": 0.023210742043560405,
+          "basePaymentMse": 0.06930400026375895,
+          "actualHuFraction": 0.023929497298034563,
+          "predictedHuFraction": 0.03113327918292703,
+          "actualBasePayment": 0.03639546654178839,
+          "predictedBasePayment": 0.06102376958478958
+        },
+        "public-table": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.11454641910388848,
+          "huBrier": 0.022463939572524353,
+          "basePaymentMse": 0.06808570852568056,
+          "actualHuFraction": 0.023929497298034563,
+          "predictedHuFraction": 0.030676117456288877,
+          "actualBasePayment": 0.03639546654178839,
+          "predictedBasePayment": 0.06205102261949874
+        },
+        "logistic": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.1047117387876475,
+          "huBrier": 0.02150018146475465,
+          "basePaymentMse": 0.06389031341477734,
+          "actualHuFraction": 0.023929497298034563,
+          "predictedHuFraction": 0.027958029039647458,
+          "actualBasePayment": 0.03639546654178839,
+          "predictedBasePayment": 0.05839483820449606
+        }
+      },
+      "60033": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.15590793560096078,
+          "huBrier": 0.02762762546259085,
+          "basePaymentMse": 0.2326357114732217,
+          "actualHuFraction": 0.028796171743586674,
+          "predictedHuFraction": 0.02991867263578471,
+          "actualBasePayment": 0.06470459056121272,
+          "predictedBasePayment": 0.05732430424659782
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.13400015758048528,
+          "huBrier": 0.02627297246392054,
+          "basePaymentMse": 0.2203950840701177,
+          "actualHuFraction": 0.028796171743586674,
+          "predictedHuFraction": 0.025724059247707695,
+          "actualBasePayment": 0.06470459056121272,
+          "predictedBasePayment": 0.04506376003613677
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.12474213344019487,
+          "huBrier": 0.02519103326615968,
+          "basePaymentMse": 0.20807718901400712,
+          "actualHuFraction": 0.028796171743586674,
+          "predictedHuFraction": 0.026927246056156512,
+          "actualBasePayment": 0.06470459056121272,
+          "predictedBasePayment": 0.04765853227659891
+        }
+      },
+      "60034": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.11415293601601367,
+          "huBrier": 0.022137842914093195,
+          "basePaymentMse": 0.057477580924968186,
+          "actualHuFraction": 0.02304821295099957,
+          "predictedHuFraction": 0.024461471640253783,
+          "actualBasePayment": 0.030534827116930625,
+          "predictedBasePayment": 0.04773447450348513
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.11000202781212941,
+          "huBrier": 0.02185399061043131,
+          "basePaymentMse": 0.05560331718559106,
+          "actualHuFraction": 0.02304821295099957,
+          "predictedHuFraction": 0.013482263353290658,
+          "actualBasePayment": 0.030534827116930625,
+          "predictedBasePayment": 0.021289981229095686
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.10039516158717733,
+          "huBrier": 0.0214988265614145,
+          "basePaymentMse": 0.05519967829721692,
+          "actualHuFraction": 0.02304821295099957,
+          "predictedHuFraction": 0.014423360486136565,
+          "actualBasePayment": 0.030534827116930625,
+          "predictedBasePayment": 0.025973109012213145
+        }
+      },
+      "60035": {
+        "constant": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.14094111141837948,
+          "huBrier": 0.027472534350332412,
+          "basePaymentMse": 0.07992471823729108,
+          "actualHuFraction": 0.028789674112518857,
+          "predictedHuFraction": 0.026670787177472486,
+          "actualBasePayment": 0.041364849529428364,
+          "predictedBasePayment": 0.05241751609837308
+        },
+        "public-table": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.1305113934057844,
+          "huBrier": 0.02696096727559374,
+          "basePaymentMse": 0.077896011409587,
+          "actualHuFraction": 0.028789674112518857,
+          "predictedHuFraction": 0.02032509743619329,
+          "actualBasePayment": 0.041364849529428364,
+          "predictedBasePayment": 0.03318543917708091
+        },
+        "logistic": {
+          "mass": 0.9999999999999998,
+          "logLoss": 0.12212245157111629,
+          "huBrier": 0.026033758770845166,
+          "basePaymentMse": 0.0762561537146668,
+          "actualHuFraction": 0.028789674112518857,
+          "predictedHuFraction": 0.023207550012321814,
+          "actualBasePayment": 0.041364849529428364,
+          "predictedBasePayment": 0.04053202360601033
+        }
+      },
+      "60036": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.13469901454389854,
+          "huBrier": 0.022938146357467302,
+          "basePaymentMse": 0.16130724837020324,
+          "actualHuFraction": 0.023718074821080893,
+          "predictedHuFraction": 0.02944046781394264,
+          "actualBasePayment": 0.051460748712307255,
+          "predictedBasePayment": 0.056607416053392465
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.11723655524115632,
+          "huBrier": 0.021886849782817987,
+          "basePaymentMse": 0.15279699130253768,
+          "actualHuFraction": 0.023718074821080893,
+          "predictedHuFraction": 0.028234914639797465,
+          "actualBasePayment": 0.051460748712307255,
+          "predictedBasePayment": 0.05675918583997945
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.10737739973702318,
+          "huBrier": 0.021156946501911394,
+          "basePaymentMse": 0.14343726433866025,
+          "actualHuFraction": 0.023718074821080893,
+          "predictedHuFraction": 0.030002251407569076,
+          "actualBasePayment": 0.051460748712307255,
+          "predictedBasePayment": 0.06430768788446767
+        }
+      },
+      "60037": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.12891453383166263,
+          "huBrier": 0.023588478173000516,
+          "basePaymentMse": 0.06341301535390198,
+          "actualHuFraction": 0.02438252673179893,
+          "predictedHuFraction": 0.030287233460188797,
+          "actualBasePayment": 0.036299943399321855,
+          "predictedBasePayment": 0.05936545087896924
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.10785832671745482,
+          "huBrier": 0.022551739563045056,
+          "basePaymentMse": 0.061630205672848666,
+          "actualHuFraction": 0.02438252673179893,
+          "predictedHuFraction": 0.0283675159073029,
+          "actualBasePayment": 0.036299943399321855,
+          "predictedBasePayment": 0.053961080034257744
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.09967741456557024,
+          "huBrier": 0.02172486460301616,
+          "basePaymentMse": 0.057244547437244137,
+          "actualHuFraction": 0.02438252673179893,
+          "predictedHuFraction": 0.028422150123922997,
+          "actualBasePayment": 0.036299943399321855,
+          "predictedBasePayment": 0.05202891202545971
+        }
+      },
+      "60038": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.1549247676869256,
+          "huBrier": 0.03155384388684619,
+          "basePaymentMse": 0.10314708918289284,
+          "actualHuFraction": 0.03331728551457816,
+          "predictedHuFraction": 0.024872508229295515,
+          "actualBasePayment": 0.04691879749350439,
+          "predictedBasePayment": 0.04765583174324365
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.13724919362668286,
+          "huBrier": 0.030765213133781905,
+          "basePaymentMse": 0.10024021287016135,
+          "actualHuFraction": 0.03331728551457816,
+          "predictedHuFraction": 0.027727335877578294,
+          "actualBasePayment": 0.04691879749350439,
+          "predictedBasePayment": 0.048753871338898795
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.1324861791982747,
+          "huBrier": 0.030053570095585264,
+          "basePaymentMse": 0.09438849372101457,
+          "actualHuFraction": 0.03331728551457816,
+          "predictedHuFraction": 0.03042606031154295,
+          "actualBasePayment": 0.04691879749350439,
+          "predictedBasePayment": 0.0572392617496606
+        }
+      },
+      "60039": {
+        "constant": {
+          "mass": 1.0,
+          "logLoss": 0.20818038794749136,
+          "huBrier": 0.038836439066793724,
+          "basePaymentMse": 0.570024052202503,
+          "actualHuFraction": 0.041078133144932326,
+          "predictedHuFraction": 0.02888238107483325,
+          "actualBasePayment": 0.10954777145447583,
+          "predictedBasePayment": 0.05636150200987111
+        },
+        "public-table": {
+          "mass": 1.0,
+          "logLoss": 0.2000566062685496,
+          "huBrier": 0.03844683559440512,
+          "basePaymentMse": 0.5447029068434139,
+          "actualHuFraction": 0.041078133144932326,
+          "predictedHuFraction": 0.02314975914795838,
+          "actualBasePayment": 0.10954777145447583,
+          "predictedBasePayment": 0.04252393368999138
+        },
+        "logistic": {
+          "mass": 1.0,
+          "logLoss": 0.17737111481558038,
+          "huBrier": 0.03631157427563135,
+          "basePaymentMse": 0.48340722900608346,
+          "actualHuFraction": 0.041078133144932326,
+          "predictedHuFraction": 0.02606482502524011,
+          "actualBasePayment": 0.10954777145447583,
+          "predictedBasePayment": 0.054618098245830554
+        }
+      }
+    },
+    "lineup": {
+      "ui-bots": {
+        "constant": {
+          "mass": 13.333333333333332,
+          "logLoss": 0.13674495446661977,
+          "huBrier": 0.025811297687846773,
+          "basePaymentMse": 0.10230921617569792,
+          "actualHuFraction": 0.026865045848561284,
+          "predictedHuFraction": 0.02899137640119428,
+          "actualBasePayment": 0.041692112083538006,
+          "predictedBasePayment": 0.05633769517767332
+        },
+        "public-table": {
+          "mass": 13.333333333333332,
+          "logLoss": 0.12271257948730818,
+          "huBrier": 0.02504603251303247,
+          "basePaymentMse": 0.09817018568282956,
+          "actualHuFraction": 0.026865045848561284,
+          "predictedHuFraction": 0.02519418117067627,
+          "actualBasePayment": 0.041692112083538006,
+          "predictedBasePayment": 0.04451262820343215
+        },
+        "logistic": {
+          "mass": 13.333333333333332,
+          "logLoss": 0.11200785260232089,
+          "huBrier": 0.024091666635052387,
+          "basePaymentMse": 0.09354654851868664,
+          "actualHuFraction": 0.026865045848561284,
+          "predictedHuFraction": 0.026414308112745578,
+          "actualBasePayment": 0.041692112083538006,
+          "predictedBasePayment": 0.0490770738987879
+        }
+      },
+      "ebony-advanced": {
+        "constant": {
+          "mass": 13.333333333333336,
+          "logLoss": 0.16315895485528167,
+          "huBrier": 0.02986897482769678,
+          "basePaymentMse": 0.3010276531645206,
+          "actualHuFraction": 0.031358031928243275,
+          "predictedHuFraction": 0.02777901415160747,
+          "actualBasePayment": 0.07203276118194071,
+          "predictedBasePayment": 0.053984410085974335
+        },
+        "public-table": {
+          "mass": 13.333333333333336,
+          "logLoss": 0.14731675873092384,
+          "huBrier": 0.02890314651715188,
+          "basePaymentMse": 0.29058645409750344,
+          "actualHuFraction": 0.031358031928243275,
+          "predictedHuFraction": 0.02754795401200453,
+          "actualBasePayment": 0.07203276118194071,
+          "predictedBasePayment": 0.05246199374367879
+        },
+        "logistic": {
+          "mass": 13.333333333333336,
+          "logLoss": 0.13385662578027174,
+          "huBrier": 0.027635875374519836,
+          "basePaymentMse": 0.26582576257109813,
+          "actualHuFraction": 0.031358031928243275,
+          "predictedHuFraction": 0.02917642835333607,
+          "actualBasePayment": 0.07203276118194071,
+          "predictedBasePayment": 0.058684075138483296
+        }
+      },
+      "fanfou-ba": {
+        "constant": {
+          "mass": 13.333333333333327,
+          "logLoss": 0.14323426750485815,
+          "huBrier": 0.02607518722355831,
+          "basePaymentMse": 0.1637327019074938,
+          "actualHuFraction": 0.027170119562677314,
+          "predictedHuFraction": 0.028628293724520068,
+          "actualBasePayment": 0.052200809581087075,
+          "predictedBasePayment": 0.0556292996368367
+        },
+        "public-table": {
+          "mass": 13.333333333333327,
+          "logLoss": 0.12953919766903566,
+          "huBrier": 0.025282128353215243,
+          "basePaymentMse": 0.15774886161969442,
+          "actualHuFraction": 0.027170119562677314,
+          "predictedHuFraction": 0.02717913121843058,
+          "actualBasePayment": 0.052200809581087075,
+          "predictedBasePayment": 0.050452994006061916
+        },
+        "logistic": {
+          "mass": 13.333333333333327,
+          "logLoss": 0.11865498160369528,
+          "huBrier": 0.024293925895688406,
+          "basePaymentMse": 0.1473686997459805,
+          "actualHuFraction": 0.027170119562677314,
+          "predictedHuFraction": 0.03008079687630434,
+          "actualBasePayment": 0.052200809581087075,
+          "predictedBasePayment": 0.05839030640908317
+        }
+      }
+    },
+    "opening": {
+      "common": {
+        "constant": {
+          "mass": 19.999999999999996,
+          "logLoss": 0.14884435153427164,
+          "huBrier": 0.02745163666777989,
+          "basePaymentMse": 0.18977924925932516,
+          "actualHuFraction": 0.028689436877079776,
+          "predictedHuFraction": 0.02831671526161739,
+          "actualBasePayment": 0.05598621980458807,
+          "predictedBasePayment": 0.05502600939699065
+        },
+        "public-table": {
+          "mass": 19.999999999999996,
+          "logLoss": 0.1341443434544868,
+          "huBrier": 0.02661269225184839,
+          "basePaymentMse": 0.18285320026130758,
+          "actualHuFraction": 0.028689436877079776,
+          "predictedHuFraction": 0.026439000009361047,
+          "actualBasePayment": 0.05598621980458807,
+          "predictedBasePayment": 0.049026697396736346
+        },
+        "logistic": {
+          "mass": 19.999999999999996,
+          "logLoss": 0.1224684922496416,
+          "huBrier": 0.025516543808610487,
+          "basePaymentMse": 0.16929077744807997,
+          "actualHuFraction": 0.028689436877079776,
+          "predictedHuFraction": 0.02838186002736944,
+          "actualBasePayment": 0.05598621980458807,
+          "predictedBasePayment": 0.05532426121012631
+        }
+      },
+      "composite": {
+        "constant": {
+          "mass": 20.000000000000007,
+          "logLoss": 0.1465810996835681,
+          "huBrier": 0.02705200315828801,
+          "basePaymentMse": 0.1882671315724831,
+          "actualHuFraction": 0.028239361349241467,
+          "predictedHuFraction": 0.028615740923263824,
+          "actualBasePayment": 0.05463090209312245,
+          "predictedBasePayment": 0.055608260536665545
+        },
+        "public-table": {
+          "mass": 20.000000000000007,
+          "logLoss": 0.13223468047035808,
+          "huBrier": 0.026208179337084667,
+          "basePaymentMse": 0.1814838006720438,
+          "actualHuFraction": 0.028239361349241467,
+          "predictedHuFraction": 0.02684184425804653,
+          "actualBasePayment": 0.05463090209312245,
+          "predictedBasePayment": 0.04925837990537886
+        },
+        "logistic": {
+          "mass": 20.000000000000007,
+          "logLoss": 0.12054448107455025,
+          "huBrier": 0.025164434794896585,
+          "basePaymentMse": 0.1685365631090967,
+          "actualHuFraction": 0.028239361349241467,
+          "predictedHuFraction": 0.02873249553422121,
+          "actualBasePayment": 0.05463090209312245,
+          "predictedBasePayment": 0.0554433757541099
+        }
+      }
+    },
+    "meldCount": {
+      "0": {
+        "constant": {
+          "mass": 18.623339268306978,
+          "logLoss": 0.08220430894428028,
+          "huBrier": 0.014176489752934658,
+          "basePaymentMse": 0.03223999113990102,
+          "actualHuFraction": 0.014160211713936534,
+          "predictedHuFraction": 0.028646408215723233,
+          "actualBasePayment": 0.016830671475256992,
+          "predictedBasePayment": 0.055686425865266814
+        },
+        "public-table": {
+          "mass": 18.623339268306978,
+          "logLoss": 0.0670498332624591,
+          "huBrier": 0.013509642513250162,
+          "basePaymentMse": 0.02936075311412383,
+          "actualHuFraction": 0.014160211713936534,
+          "predictedHuFraction": 0.013709588319851702,
+          "actualBasePayment": 0.016830671475256992,
+          "predictedBasePayment": 0.016878786492988674
+        },
+        "logistic": {
+          "mass": 18.623339268306978,
+          "logLoss": 0.0622825005270687,
+          "huBrier": 0.013225217550034864,
+          "basePaymentMse": 0.028724663585668064,
+          "actualHuFraction": 0.014160211713936534,
+          "predictedHuFraction": 0.01448902795131057,
+          "actualBasePayment": 0.016830671475256992,
+          "predictedBasePayment": 0.019042087767286654
+        }
+      },
+      "1": {
+        "constant": {
+          "mass": 12.675826348558859,
+          "logLoss": 0.1552059149287558,
+          "huBrier": 0.029931407167754283,
+          "basePaymentMse": 0.12424175038948108,
+          "actualHuFraction": 0.03138641477449831,
+          "predictedHuFraction": 0.02863071763184118,
+          "actualBasePayment": 0.049768747013394635,
+          "predictedBasePayment": 0.05565068805077995
+        },
+        "public-table": {
+          "mass": 12.675826348558859,
+          "logLoss": 0.14762196980560544,
+          "huBrier": 0.02923864342105666,
+          "basePaymentMse": 0.12198964232576938,
+          "actualHuFraction": 0.03138641477449831,
+          "predictedHuFraction": 0.030237697417670083,
+          "actualBasePayment": 0.049768747013394635,
+          "predictedBasePayment": 0.048258732377449855
+        },
+        "logistic": {
+          "mass": 12.675826348558859,
+          "logLoss": 0.13524640405712002,
+          "huBrier": 0.02824389642180521,
+          "basePaymentMse": 0.11883811385596559,
+          "actualHuFraction": 0.03138641477449831,
+          "predictedHuFraction": 0.03159903415174287,
+          "actualBasePayment": 0.049768747013394635,
+          "predictedBasePayment": 0.05320464526382847
+        }
+      },
+      "2": {
+        "constant": {
+          "mass": 6.42651650631972,
+          "logLoss": 0.23822113726251856,
+          "huBrier": 0.04577856706592357,
+          "basePaymentMse": 0.31944837482215893,
+          "actualHuFraction": 0.04872830074331409,
+          "predictedHuFraction": 0.0282764634480882,
+          "actualBasePayment": 0.10004414064314895,
+          "predictedBasePayment": 0.05489606594219575
+        },
+        "public-table": {
+          "mass": 6.42651650631972,
+          "logLoss": 0.2271872232407854,
+          "huBrier": 0.044906186158212416,
+          "basePaymentMse": 0.31398686052358643,
+          "actualHuFraction": 0.04872830074331409,
+          "predictedHuFraction": 0.04617271603147702,
+          "actualBasePayment": 0.10004414064314895,
+          "predictedBasePayment": 0.09401250118661274
+        },
+        "logistic": {
+          "mass": 6.42651650631972,
+          "logLoss": 0.2088467318238317,
+          "huBrier": 0.04335684332726001,
+          "basePaymentMse": 0.3046873788393747,
+          "actualHuFraction": 0.04872830074331409,
+          "predictedHuFraction": 0.04887604905662943,
+          "actualBasePayment": 0.10004414064314895,
+          "predictedBasePayment": 0.10332418529163735
+        }
+      },
+      "3": {
+        "constant": {
+          "mass": 1.9799226013761608,
+          "logLoss": 0.3931530244755107,
+          "huBrier": 0.06918014980484333,
+          "basePaymentMse": 1.3214834454272248,
+          "actualHuFraction": 0.07434367814700892,
+          "predictedHuFraction": 0.027696847268667613,
+          "actualBasePayment": 0.26305238203258313,
+          "predictedBasePayment": 0.053743249086384295
+        },
+        "public-table": {
+          "mass": 1.9799226013761608,
+          "logLoss": 0.3367738917768061,
+          "huBrier": 0.06587411672245917,
+          "basePaymentMse": 1.252880975251816,
+          "actualHuFraction": 0.07434367814700892,
+          "predictedHuFraction": 0.061746687462552144,
+          "actualBasePayment": 0.26305238203258313,
+          "predictedBasePayment": 0.20566716475324837
+        },
+        "logistic": {
+          "mass": 1.9799226013761608,
+          "logLoss": 0.2921445332029765,
+          "huBrier": 0.059420829682999006,
+          "basePaymentMse": 1.1017538583461948,
+          "actualHuFraction": 0.07434367814700892,
+          "predictedHuFraction": 0.07234453178208457,
+          "actualBasePayment": 0.26305238203258313,
+          "predictedBasePayment": 0.2357636633824206
+        }
+      },
+      "4": {
+        "constant": {
+          "mass": 0.2943952754382629,
+          "logLoss": 0.342676810231282,
+          "huBrier": 0.052602201306532,
+          "basePaymentMse": 2.433018922361454,
+          "actualHuFraction": 0.05662059818050862,
+          "predictedHuFraction": 0.019302506638089478,
+          "actualBasePayment": 0.3542192052463448,
+          "predictedBasePayment": 0.03737081640285361
+        },
+        "public-table": {
+          "mass": 0.2943952754382629,
+          "logLoss": 0.27462924156693946,
+          "huBrier": 0.05157287269438661,
+          "basePaymentMse": 2.3613698525322224,
+          "actualHuFraction": 0.05662059818050862,
+          "predictedHuFraction": 0.027267371716528516,
+          "actualBasePayment": 0.3542192052463448,
+          "predictedBasePayment": 0.09601006250447544
+        },
+        "logistic": {
+          "mass": 0.2943952754382629,
+          "logLoss": 0.22218720386538854,
+          "huBrier": 0.044243302761401884,
+          "basePaymentMse": 1.9557396954230724,
+          "actualHuFraction": 0.05662059818050862,
+          "predictedHuFraction": 0.04949076960478835,
+          "actualBasePayment": 0.3542192052463448,
+          "predictedBasePayment": 0.188536470367041
+        }
+      }
+    },
+    "wallBand": {
+      "0": {
+        "constant": {
+          "mass": 1.6055387860865686,
+          "logLoss": 0.4353559434983075,
+          "huBrier": 0.08498889992419295,
+          "basePaymentMse": 0.981175195047151,
+          "actualHuFraction": 0.09152163772025705,
+          "predictedHuFraction": 0.029903740428449514,
+          "actualBasePayment": 0.23033235957161835,
+          "predictedBasePayment": 0.05808078856392846
+        },
+        "public-table": {
+          "mass": 1.6055387860865686,
+          "logLoss": 0.3782395422284367,
+          "huBrier": 0.08042464178133768,
+          "basePaymentMse": 0.9339556841932508,
+          "actualHuFraction": 0.09152163772025705,
+          "predictedHuFraction": 0.07096363391903508,
+          "actualBasePayment": 0.23033235957161835,
+          "predictedBasePayment": 0.16369466197906374
+        },
+        "logistic": {
+          "mass": 1.6055387860865686,
+          "logLoss": 0.33103195465791796,
+          "huBrier": 0.07278358235565975,
+          "basePaymentMse": 0.7958767040045763,
+          "actualHuFraction": 0.09152163772025705,
+          "predictedHuFraction": 0.10210655034510617,
+          "actualBasePayment": 0.23033235957161835,
+          "predictedBasePayment": 0.2396302711847471
+        }
+      },
+      "1": {
+        "constant": {
+          "mass": 3.2552365337821536,
+          "logLoss": 0.33283142670909754,
+          "huBrier": 0.06548018077367224,
+          "basePaymentMse": 0.5747858904871167,
+          "actualHuFraction": 0.07025947901752407,
+          "predictedHuFraction": 0.028597586692331187,
+          "actualBasePayment": 0.15605476912701757,
+          "predictedBasePayment": 0.055579903773209996
+        },
+        "public-table": {
+          "mass": 3.2552365337821536,
+          "logLoss": 0.3005444850158195,
+          "huBrier": 0.06304521419091373,
+          "basePaymentMse": 0.5554967567723063,
+          "actualHuFraction": 0.07025947901752407,
+          "predictedHuFraction": 0.06207563417962063,
+          "actualBasePayment": 0.15605476912701757,
+          "predictedBasePayment": 0.13126867865839364
+        },
+        "logistic": {
+          "mass": 3.2552365337821536,
+          "logLoss": 0.2717183973420557,
+          "huBrier": 0.05928905468163974,
+          "basePaymentMse": 0.5108342055900734,
+          "actualHuFraction": 0.07025947901752407,
+          "predictedHuFraction": 0.06557903654263966,
+          "actualBasePayment": 0.15605476912701757,
+          "predictedBasePayment": 0.14468254541873063
+        }
+      },
+      "2": {
+        "constant": {
+          "mass": 12.265340714914572,
+          "logLoss": 0.2061524284120983,
+          "huBrier": 0.040340587221016,
+          "basePaymentMse": 0.2631009836217681,
+          "actualHuFraction": 0.04277542373387606,
+          "predictedHuFraction": 0.028375398526238587,
+          "actualBasePayment": 0.08048698996786972,
+          "predictedBasePayment": 0.05512656779798737
+        },
+        "public-table": {
+          "mass": 12.265340714914572,
+          "logLoss": 0.19631654624117728,
+          "huBrier": 0.03991857736460486,
+          "basePaymentMse": 0.2575435901454351,
+          "actualHuFraction": 0.04277542373387606,
+          "predictedHuFraction": 0.04143715970052464,
+          "actualBasePayment": 0.08048698996786972,
+          "predictedBasePayment": 0.07593346783660776
+        },
+        "logistic": {
+          "mass": 12.265340714914572,
+          "logLoss": 0.18177880476889471,
+          "huBrier": 0.038773558923108124,
+          "basePaymentMse": 0.24584671001234143,
+          "actualHuFraction": 0.04277542373387606,
+          "predictedHuFraction": 0.039936722564293835,
+          "actualBasePayment": 0.08048698996786972,
+          "predictedBasePayment": 0.07329829919455433
+        }
+      },
+      "3": {
+        "constant": {
+          "mass": 22.87388396521669,
+          "logLoss": 0.06984180650083587,
+          "huBrier": 0.01074042773327068,
+          "basePaymentMse": 0.038800824119997135,
+          "actualHuFraction": 0.010416598094994898,
+          "predictedHuFraction": 0.0283953380962187,
+          "actualBasePayment": 0.015184975174844935,
+          "predictedBasePayment": 0.05518794149843813
+        },
+        "public-table": {
+          "mass": 22.87388396521669,
+          "logLoss": 0.05832282395821455,
+          "huBrier": 0.010162266873834978,
+          "basePaymentMse": 0.03585332186423006,
+          "actualHuFraction": 0.010416598094994898,
+          "predictedHuFraction": 0.01055222037639406,
+          "actualBasePayment": 0.015184975174844935,
+          "predictedBasePayment": 0.015048732628525964
+        },
+        "logistic": {
+          "mass": 22.87388396521669,
+          "logLoss": 0.05310371411014402,
+          "huBrier": 0.009976088895964776,
+          "basePaymentMse": 0.03499432210350065,
+          "actualHuFraction": 0.010416598094994898,
+          "predictedHuFraction": 0.012024118853866991,
+          "actualBasePayment": 0.015184975174844935,
+          "predictedBasePayment": 0.02013704905493962
+        }
+      }
+    }
+  },
+  "calibration": {
+    "constant": [
+      {
+        "lower": 0.025,
+        "upper": 0.05,
+        "mass": 26.69846313877009,
+        "logLoss": 0.22130521122681304,
+        "huBrier": 0.040829046632965625,
+        "basePaymentMse": 0.28319711053542207,
+        "actualHuFraction": 0.042645749255620834,
+        "predictedHuFraction": 0.042648489457212925,
+        "actualBasePayment": 0.0828640370217252,
+        "predictedBasePayment": 0.08287688273187452
+      }
+    ],
+    "public-table": [
+      {
+        "lower": 0.0,
+        "upper": 0.01,
+        "mass": 7.892817060824323,
+        "logLoss": 0.060168328377035035,
+        "huBrier": 0.010476809008654641,
+        "basePaymentMse": 0.012174965350827648,
+        "actualHuFraction": 0.0105775780281083,
+        "predictedHuFraction": 0.009097836781620535,
+        "actualBasePayment": 0.010846544892552453,
+        "predictedBasePayment": 0.01017039229798145
+      },
+      {
+        "lower": 0.01,
+        "upper": 0.025,
+        "mass": 5.886510140167535,
+        "logLoss": 0.08234448109842006,
+        "huBrier": 0.013515090957196253,
+        "basePaymentMse": 0.04414281943559821,
+        "actualHuFraction": 0.013729411547602686,
+        "predictedHuFraction": 0.016724064513466405,
+        "actualBasePayment": 0.019630217430406903,
+        "predictedBasePayment": 0.02313398584269385
+      },
+      {
+        "lower": 0.025,
+        "upper": 0.05,
+        "mass": 2.195839463938457,
+        "logLoss": 0.23217064968362983,
+        "huBrier": 0.048046594870956756,
+        "basePaymentMse": 0.17050964709592542,
+        "actualHuFraction": 0.05056226137240843,
+        "predictedHuFraction": 0.04696795551569343,
+        "actualBasePayment": 0.07256922250342511,
+        "predictedBasePayment": 0.0691814426685236
+      },
+      {
+        "lower": 0.05,
+        "upper": 0.1,
+        "mass": 8.96487414208162,
+        "logLoss": 0.33453715423856567,
+        "huBrier": 0.06808526792670852,
+        "basePaymentMse": 0.5014135517428604,
+        "actualHuFraction": 0.0738613752605823,
+        "predictedHuFraction": 0.06793256007918168,
+        "actualBasePayment": 0.1490836459632528,
+        "predictedBasePayment": 0.12778167728584316
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "mass": 1.7584223317581353,
+        "logLoss": 0.48854491479718276,
+        "huBrier": 0.10139242700057839,
+        "basePaymentMse": 1.1722308437487696,
+        "actualHuFraction": 0.11435603961520126,
+        "predictedHuFraction": 0.104196815411191,
+        "actualBasePayment": 0.29305399207407473,
+        "predictedBasePayment": 0.2569303478902472
+      }
+    ],
+    "logistic": [
+      {
+        "lower": 0.0,
+        "upper": 0.01,
+        "mass": 6.632491698749789,
+        "logLoss": 0.016174634885136693,
+        "huBrier": 0.0018723351394727597,
+        "basePaymentMse": 0.0023525829437247973,
+        "actualHuFraction": 0.0018534453227624474,
+        "predictedHuFraction": 0.006683130666959133,
+        "actualBasePayment": 0.001978507782647359,
+        "predictedBasePayment": 0.009830177837983895
+      },
+      {
+        "lower": 0.01,
+        "upper": 0.025,
+        "mass": 6.767064357677466,
+        "logLoss": 0.0705904428193701,
+        "huBrier": 0.011948818967972211,
+        "basePaymentMse": 0.04593081430199242,
+        "actualHuFraction": 0.012117228598936382,
+        "predictedHuFraction": 0.016211338602565437,
+        "actualBasePayment": 0.017110300723019493,
+        "predictedBasePayment": 0.025648481489636762
+      },
+      {
+        "lower": 0.025,
+        "upper": 0.05,
+        "mass": 5.60469673136199,
+        "logLoss": 0.17483565448648836,
+        "huBrier": 0.03461629213734956,
+        "basePaymentMse": 0.11782905213849312,
+        "actualHuFraction": 0.03598157771619481,
+        "predictedHuFraction": 0.03610581450214397,
+        "actualBasePayment": 0.05234899318195543,
+        "predictedBasePayment": 0.06229785589708401
+      },
+      {
+        "lower": 0.05,
+        "upper": 0.1,
+        "mass": 4.87288312433218,
+        "logLoss": 0.33865781619115903,
+        "huBrier": 0.07347965487786874,
+        "basePaymentMse": 0.3803821796099241,
+        "actualHuFraction": 0.07987046587386418,
+        "predictedHuFraction": 0.07046565976653932,
+        "actualBasePayment": 0.1375543865268404,
+        "predictedBasePayment": 0.13273502745740626
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "mass": 2.326238613317417,
+        "logLoss": 0.5153044232041738,
+        "huBrier": 0.11588225927846141,
+        "basePaymentMse": 0.881083411628335,
+        "actualHuFraction": 0.1347407567387443,
+        "predictedHuFraction": 0.13472343401183737,
+        "actualBasePayment": 0.2794770569109178,
+        "predictedBasePayment": 0.2787082053083733
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.4,
+        "mass": 0.47703566744863296,
+        "logLoss": 0.8821361280002021,
+        "huBrier": 0.19724053631949226,
+        "basePaymentMse": 3.4189038376538154,
+        "actualHuFraction": 0.27239269736017746,
+        "predictedHuFraction": 0.25376082796242005,
+        "actualBasePayment": 0.8670638498458808,
+        "predictedBasePayment": 0.6397534452996864
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.6,
+        "mass": 0.01805294588259733,
+        "logLoss": 1.419105962531421,
+        "huBrier": 0.25540159608762414,
+        "basePaymentMse": 13.05178747168013,
+        "actualHuFraction": 0.5561130298392729,
+        "predictedHuFraction": 0.447198250375771,
+        "actualBasePayment": 3.1017714386537096,
+        "predictedBasePayment": 1.5011054814089575
+      }
+    ]
+  },
+  "allFolds": [
+    {
+      "fold": 0,
+      "trainSeeds": [
+        60001, 60002, 60003, 60004, 60006, 60007, 60008, 60009, 60011, 60012,
+        60013, 60014, 60016, 60017, 60018, 60019, 60021, 60022, 60023, 60024,
+        60026, 60027, 60028, 60029, 60031, 60032, 60033, 60034, 60036, 60037,
+        60038, 60039
+      ],
+      "validationSeeds": [
+        60000, 60005, 60010, 60015, 60020, 60025, 60030, 60035
+      ],
+      "iterations": [187],
+      "warnings": [],
+      "metrics": {
+        "constant": {
+          "mass": 8.0,
+          "logLoss": 0.15077395972245597,
+          "huBrier": 0.027821649398079226,
+          "basePaymentMse": 0.16048642089701537,
+          "actualHuFraction": 0.029064720067809174,
+          "predictedHuFraction": 0.028959015868715767,
+          "actualBasePayment": 0.05395225943452209,
+          "predictedBasePayment": 0.056914693608053575
+        },
+        "public-table": {
+          "mass": 8.0,
+          "logLoss": 0.13679923988603163,
+          "huBrier": 0.02696972358927534,
+          "basePaymentMse": 0.15502138373566796,
+          "actualHuFraction": 0.029064720067809174,
+          "predictedHuFraction": 0.02732823620671256,
+          "actualBasePayment": 0.05395225943452209,
+          "predictedBasePayment": 0.05021221176916765
+        },
+        "logistic": {
+          "mass": 8.0,
+          "logLoss": 0.12612790592334297,
+          "huBrier": 0.025914843196438688,
+          "basePaymentMse": 0.14608404875792394,
+          "actualHuFraction": 0.029064720067809174,
+          "predictedHuFraction": 0.029966462736781045,
+          "actualBasePayment": 0.05395225943452209,
+          "predictedBasePayment": 0.05672705377924254
+        }
+      }
+    },
+    {
+      "fold": 1,
+      "trainSeeds": [
+        60000, 60002, 60003, 60004, 60005, 60007, 60008, 60009, 60010, 60012,
+        60013, 60014, 60015, 60017, 60018, 60019, 60020, 60022, 60023, 60024,
+        60025, 60027, 60028, 60029, 60030, 60032, 60033, 60034, 60035, 60037,
+        60038, 60039
+      ],
+      "validationSeeds": [
+        60001, 60006, 60011, 60016, 60021, 60026, 60031, 60036
+      ],
+      "iterations": [185],
+      "warnings": [],
+      "metrics": {
+        "constant": {
+          "mass": 8.000000000000002,
+          "logLoss": 0.1440885562355867,
+          "huBrier": 0.02588121201156083,
+          "basePaymentMse": 0.18937950654514396,
+          "actualHuFraction": 0.026948785968777703,
+          "predictedHuFraction": 0.02926490091904266,
+          "actualBasePayment": 0.054706001119128086,
+          "predictedBasePayment": 0.05626984029448761
+        },
+        "public-table": {
+          "mass": 8.000000000000002,
+          "logLoss": 0.1288815984830559,
+          "huBrier": 0.025023484690362845,
+          "basePaymentMse": 0.18312014895538997,
+          "actualHuFraction": 0.026948785968777703,
+          "predictedHuFraction": 0.02973463850247532,
+          "actualBasePayment": 0.054706001119128086,
+          "predictedBasePayment": 0.0576926237757289
+        },
+        "logistic": {
+          "mass": 8.000000000000002,
+          "logLoss": 0.11709115625422357,
+          "huBrier": 0.024110319978155905,
+          "basePaymentMse": 0.1687390314524159,
+          "actualHuFraction": 0.026948785968777703,
+          "predictedHuFraction": 0.031732236513175346,
+          "actualBasePayment": 0.054706001119128086,
+          "predictedBasePayment": 0.06597200060820652
+        }
+      }
+    },
+    {
+      "fold": 2,
+      "trainSeeds": [
+        60000, 60001, 60003, 60004, 60005, 60006, 60008, 60009, 60010, 60011,
+        60013, 60014, 60015, 60016, 60018, 60019, 60020, 60021, 60023, 60024,
+        60025, 60026, 60028, 60029, 60030, 60031, 60033, 60034, 60035, 60036,
+        60038, 60039
+      ],
+      "validationSeeds": [
+        60002, 60007, 60012, 60017, 60022, 60027, 60032, 60037
+      ],
+      "iterations": [197],
+      "warnings": [],
+      "metrics": {
+        "constant": {
+          "mass": 7.999999999999998,
+          "logLoss": 0.14076382938553916,
+          "huBrier": 0.026153069959717813,
+          "basePaymentMse": 0.17405118294235397,
+          "actualHuFraction": 0.027278363062334242,
+          "predictedHuFraction": 0.02837071625055092,
+          "actualBasePayment": 0.05104789041675557,
+          "predictedBasePayment": 0.055608920642656705
+        },
+        "public-table": {
+          "mass": 7.999999999999998,
+          "logLoss": 0.12608778289158745,
+          "huBrier": 0.02524265771944619,
+          "basePaymentMse": 0.16820740458465874,
+          "actualHuFraction": 0.027278363062334242,
+          "predictedHuFraction": 0.025619185276971632,
+          "actualBasePayment": 0.05104789041675557,
+          "predictedBasePayment": 0.046728060287369096
+        },
+        "logistic": {
+          "mass": 7.999999999999998,
+          "logLoss": 0.11533032120229693,
+          "huBrier": 0.024170604691623913,
+          "basePaymentMse": 0.15604528216472707,
+          "actualHuFraction": 0.027278363062334242,
+          "predictedHuFraction": 0.02710720463299442,
+          "actualBasePayment": 0.05104789041675557,
+          "predictedBasePayment": 0.050538998661132345
+        }
+      }
+    },
+    {
+      "fold": 3,
+      "trainSeeds": [
+        60000, 60001, 60002, 60004, 60005, 60006, 60007, 60009, 60010, 60011,
+        60012, 60014, 60015, 60016, 60017, 60019, 60020, 60021, 60022, 60024,
+        60025, 60026, 60027, 60029, 60030, 60031, 60032, 60034, 60035, 60036,
+        60037, 60039
+      ],
+      "validationSeeds": [
+        60003, 60008, 60013, 60018, 60023, 60028, 60033, 60038
+      ],
+      "iterations": [205],
+      "warnings": [],
+      "metrics": {
+        "constant": {
+          "mass": 7.999999999999998,
+          "logLoss": 0.14943903924693647,
+          "huBrier": 0.027595359789695156,
+          "basePaymentMse": 0.2177119975203183,
+          "actualHuFraction": 0.02887374257053023,
+          "predictedHuFraction": 0.027472651465868383,
+          "actualBasePayment": 0.05917546862898298,
+          "predictedBasePayment": 0.05263771726311665
+        },
+        "public-table": {
+          "mass": 7.999999999999998,
+          "logLoss": 0.13394043109336895,
+          "huBrier": 0.026746113831847006,
+          "basePaymentMse": 0.209348435577799,
+          "actualHuFraction": 0.02887374257053023,
+          "predictedHuFraction": 0.02635855588627258,
+          "actualBasePayment": 0.05917546862898298,
+          "predictedBasePayment": 0.046918662994357097
+        },
+        "logistic": {
+          "mass": 7.999999999999998,
+          "logLoss": 0.12343080432410546,
+          "huBrier": 0.025843501422644296,
+          "basePaymentMse": 0.1959643421740006,
+          "actualHuFraction": 0.02887374257053023,
+          "predictedHuFraction": 0.02814146285695981,
+          "actualBasePayment": 0.05917546862898298,
+          "predictedBasePayment": 0.05312103301310958
+        }
+      }
+    },
+    {
+      "fold": 4,
+      "trainSeeds": [
+        60000, 60001, 60002, 60003, 60005, 60006, 60007, 60008, 60010, 60011,
+        60012, 60013, 60015, 60016, 60017, 60018, 60020, 60021, 60022, 60023,
+        60025, 60026, 60027, 60028, 60030, 60031, 60032, 60033, 60035, 60036,
+        60037, 60038
+      ],
+      "validationSeeds": [
+        60004, 60009, 60014, 60019, 60024, 60029, 60034, 60039
+      ],
+      "iterations": [171],
+      "warnings": [],
+      "metrics": {
+        "constant": {
+          "mass": 7.999999999999999,
+          "logLoss": 0.15349824345408114,
+          "huBrier": 0.028807808406116762,
+          "basePaymentMse": 0.20348684417468918,
+          "actualHuFraction": 0.030156383896351776,
+          "predictedHuFraction": 0.028263855958025292,
+          "actualBasePayment": 0.057661185144887654,
+          "predictedBasePayment": 0.055154503025826
+        },
+        "public-table": {
+          "mass": 7.999999999999999,
+          "logLoss": 0.14023850745806876,
+          "huBrier": 0.02807019914140128,
+          "basePaymentMse": 0.19514512947986362,
+          "actualHuFraction": 0.030156383896351776,
+          "predictedHuFraction": 0.024161494796086876,
+          "actualBasePayment": 0.057661185144887654,
+          "predictedBasePayment": 0.04416113442866533
+        },
+        "logistic": {
+          "mass": 7.999999999999999,
+          "logLoss": 0.125552245606511,
+          "huBrier": 0.026663177219904917,
+          "basePaymentMse": 0.17773564684387466,
+          "actualHuFraction": 0.030156383896351776,
+          "predictedHuFraction": 0.025838522164066017,
+          "actualBasePayment": 0.057661185144887654,
+          "predictedBasePayment": 0.050560006348899615
+        }
+      }
+    }
+  ],
+  "relativeReductionVsPublicTable": {
+    "logLoss": 0.08771730692745994,
+    "huBrier": 0.04051226193462376,
+    "basePaymentMse": 0.07276137287254036
+  },
+  "worseSeedUnitsVsPublicTable": {
+    "logLoss": [],
+    "huBrier": [60025],
+    "basePaymentMse": [60008, 60011, 60025]
+  },
+  "actualExecutions": {
+    "featureOracleRed": {
+      "toolChunk": "516bf7",
+      "exitCode": 1,
+      "groupsFailed": 6
+    },
+    "featureOracleGreen": {
+      "toolChunk": "95d59d",
+      "exitCode": 0,
+      "groupsPassed": 7,
+      "syntheticPhysicalWorldsNotStrengthGames": true
+    },
+    "extract": {
+      "launchChunk": "e82670",
+      "session": 3978,
+      "terminalChunk": "487dcb",
+      "actualExitCode": 0
+    },
+    "fitCoreRed": {
+      "toolChunk": "dee39e",
+      "exitCode": 1,
+      "testsFailed": 4
+    },
+    "fitCoreSerializationRed": {
+      "toolChunk": "17e3a6",
+      "exitCode": 1,
+      "testsFailed": 1
+    },
+    "fitCoreGreen": {
+      "toolChunk": "d1ca71",
+      "exitCode": 0,
+      "testsPassed": 5
+    },
+    "fit": {
+      "launchChunk": "d48622",
+      "session": 35222,
+      "terminalChunk": "5354c3",
+      "actualExitCode": 0
+    },
+    "inferenceRed": {
+      "toolChunk": "452bbd",
+      "exitCode": 1,
+      "reason": "not implemented"
+    },
+    "inferenceGreen": {
+      "toolChunk": "28caa6",
+      "actualExitCode": 0,
+      "complete": true,
+      "fixedEvenlySpacedRows": 256,
+      "maximumProbabilityDifference": 3.3306690738754696e-16,
+      "extraMalformedAndStableSoftmaxChecks": 6,
+      "newPolicyGames": 0
+    },
+    "privateTypeScript": {
+      "toolChunk": "6356c7",
+      "actualExitCode": 0,
+      "roots": 5,
+      "diagnostics": 0
+    }
+  },
+  "informationBoundary": {
+    "inferenceRuntimeSourceClosure": [
+      "local/strength-goal-20261018/development-v10-source/src/game/tiles.ts",
+      "local/strength-goal-20261018/opponent-liability-prototype/features.ts",
+      "local/strength-goal-20261018/opponent-liability-prototype/inference.ts"
+    ],
+    "noExternalImports": true,
+    "offlineOracleUsesActualConcealedHandForTargetOnly": true,
+    "featuresExcludeHiddenHandsWallSeedAndConfigIds": true,
+    "hiddenSwapInvariantFeatureTests": true,
+    "rawHistoryAndKnownStockNotClaimedAsCalibratedPosterior": true
+  },
+  "limitations": [
+    "Forecast task only: no new gameplay or win-rate/net-score improvement proof, no reinforcement learning, no human expert labels.",
+    "All original seeds are old development data; final exported model fits all forty. They cannot be reused as untouched playing-strength holdout for this model.",
+    "Host rule engine labels and replay checks share rule implementation, not independent proof that those rules are correct.",
+    "Target is potential base liability if opponent takes a legal HU, excluding situational bonuses, opponent claim choice, changed-state continuations and future net score.",
+    "Simulated policy selection and state distribution may shift under a new player; aggregate calibration does not establish calibration in every state or stratum.",
+    "Low predicted HU bins overestimate; high-risk tail underestimates frequency and payment. Tail mass is small; retain all calibration and worse seeds.",
+    "New fresh development comparisons of complete games are required before any promotion; final formal untouched seeds and protocol still pending."
+  ],
+  "officialMethodReferences": [
+    "https://scikit-learn.org/1.6/modules/generated/sklearn.linear_model.LogisticRegression.html",
+    "https://scikit-learn.org/1.6/modules/cross_validation.html#cross-validation-iterators-for-grouped-data"
+  ]
+}
