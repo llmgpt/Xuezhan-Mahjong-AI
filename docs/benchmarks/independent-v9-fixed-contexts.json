@@ -1,0 +1,166 @@
+{
+  "kind": "v9-complete-fixed-public-context-qualification",
+  "date": "2026-10-23",
+  "candidate": "candidate-advanced-ron-continuation-v9",
+  "implementationCommit": "68109056e3ada8826f3ea8f5d1e5f9658c24628d",
+  "developmentOnly": true,
+  "newFormalSeeds": 0,
+  "wholeV9BenchmarkGames": 0,
+  "snapshot": {
+    "sourceFiles": 118,
+    "immutableFiles": 120,
+    "buildInputs": 16,
+    "freezeSha256": "9b26000dae4982f3f368c5a39e5cc9ddeeba6c9f67b734b69dd3d683020fdb9a",
+    "publicInputSha256": "cb9adc8b023ea2d3c85cdfef92474ada22107110f4789c876a403aa3400954b6"
+  },
+  "summary": {
+    "kind": "v9-complete-fixed-public-node-study",
+    "complete": true,
+    "startedAtUtc": "2026-10-23T00:18:21.280Z",
+    "completedAtUtc": "2026-10-23T00:20:59.249Z",
+    "contexts": 92,
+    "sampled": 92,
+    "fallback": 0,
+    "acceptsHu": 73,
+    "rejectsHu": 19,
+    "simulatedContinuations": 1120,
+    "simulatedTransitions": 57417,
+    "wholeBenchmarkGames": 0,
+    "newSeeds": 0,
+    "elapsedMs": 157966.92539999998,
+    "contextTimeMs": {
+      "min": 37.22119999999995,
+      "median": 1223.6546500000004,
+      "max": 8912.075199999992
+    },
+    "planSha256": "9b26000dae4982f3f368c5a39e5cc9ddeeba6c9f67b734b69dd3d683020fdb9a",
+    "outputSha256": "42bbf4101a1a2598f180a75adc03a79811633ebae5b686e96ec9c521e07a8d05",
+    "node": {
+      "version": "v22.22.1",
+      "executable": "C:\\nvm4w\\nodejs\\node.exe",
+      "sha256": "923a41f268ab49ede2e3363fbdd9e790609e385c6f3ca880b4ee9a56a8133e5a"
+    },
+    "limitation": "Fixed generated-world diagnostic; no actual-world action value, whole-game strength or new independent sample evidence."
+  },
+  "independentArithmetic": {
+    "kind": "independent-arithmetic-check-of-all-v9-fixed-contexts",
+    "contexts": 92,
+    "reportedAlternativesChecked": 232,
+    "counts": {
+      "sampled": 92,
+      "choose:pung": 3,
+      "choose:hu": 73,
+      "choose:pass": 14,
+      "choose:kong": 2
+    },
+    "nodeTerminalSha256": "6a7519d16e01a8400f422fee9c5bc8eb4d7455e86ba9c639a15be2b37651637e",
+    "planSha256": "9b26000dae4982f3f368c5a39e5cc9ddeeba6c9f67b734b69dd3d683020fdb9a",
+    "complete": true,
+    "wholeBenchmarkGames": 0,
+    "newSeeds": 0,
+    "preparationFailure": "Prior inline checker used the Windows default text codec for UTF-8 JSON and stopped on a Chinese vendor path before arithmetic. Explicit UTF-8 throughout this checker; no model rerun or original output modification."
+  },
+  "actualTerminals": {
+    "study": {
+      "sessionId": 87328,
+      "terminalChunk": "dbfafa",
+      "exitCode": 0
+    },
+    "arithmetic": {
+      "chunk": "7e2eca",
+      "exitCode": 0
+    },
+    "developmentPreflight": {
+      "chunk": "ce10ce",
+      "exitCode": 0,
+      "policyCalls": 0
+    },
+    "coordinatorSyntheticChecks": {
+      "chunk": "f792b7",
+      "exitCode": 0,
+      "tests": 4,
+      "wholeBenchmarkGames": 0
+    }
+  },
+  "nextWholeDevelopment": {
+    "frozen": true,
+    "protocol": "independent-v9-development-protocol.json",
+    "freezeSha256": "7c976e525713044f3f3a69b4404f8567e1bccb7894a1a2a3c2452b11f40fb2cf",
+    "games": 2880,
+    "allControlsRerun": 1920,
+    "candidateGames": 960,
+    "independentOldSeedUnits": 40,
+    "wholeGamesExecutedAtThisRecord": 0
+  },
+  "artifacts": {
+    "local/strength-goal-20261018/ron-continuation-v9-fixed-plan/freeze.json": {
+      "sha256": "9b26000dae4982f3f368c5a39e5cc9ddeeba6c9f67b734b69dd3d683020fdb9a",
+      "bytes": 15138
+    },
+    "local/strength-goal-20261018/ron-continuation-v9-fixed-plan/public-contexts.json": {
+      "sha256": "cb9adc8b023ea2d3c85cdfef92474ada22107110f4789c876a403aa3400954b6",
+      "bytes": 1124182
+    },
+    "local/strength-goal-20261018/ron-continuation-v9-fixed-plan/proposal.json": {
+      "sha256": "6089738059af95814bdc3b67a0be4e15a5a438fa5ad88f3ffd265c64789709a4",
+      "bytes": 1947
+    },
+    "local/strength-goal-20261018/ron-continuation-v9-fixed-plan/build-metafile.json": {
+      "sha256": "5ad5fd51d4bfbbed3568ea94f2bf2ee6a84ca8c8db94ddf5bcfdc2ad321c1f05",
+      "bytes": 9334
+    },
+    "local/strength-goal-20261018/ron-continuation-v9-fixed-plan/attempt-1/launch.json": {
+      "sha256": "9833fcc25cb61bcf450c6bd24ea1f6f9836698b20e54a7c68e754e4d3e02b15b",
+      "bytes": 723
+    },
+    "local/strength-goal-20261018/ron-continuation-v9-fixed-plan/attempt-1/terminal.json": {
+      "sha256": "6a7519d16e01a8400f422fee9c5bc8eb4d7455e86ba9c639a15be2b37651637e",
+      "bytes": 647
+    },
+    "local/strength-goal-20261018/ron-continuation-v9-fixed-plan/attempt-1/summary.json": {
+      "sha256": "79566e6a9001ce0f1cbf5d6dcae3d66ebb2ce1ca722b76d26045b446fe36134f",
+      "bytes": 1005
+    },
+    "local/strength-goal-20261018/ron-continuation-v9-fixed-plan/attempt-1/contexts.jsonl": {
+      "sha256": "42bbf4101a1a2598f180a75adc03a79811633ebae5b686e96ec9c521e07a8d05",
+      "bytes": 726174
+    },
+    "local/strength-goal-20261018/ron-continuation-v9-fixed-plan/attempt-1/root-arithmetic-check.json": {
+      "sha256": "cefcb418ad86bb24426cae0b7afe65f3e1813712f0ef310190f31dc10a0487f6",
+      "bytes": 735
+    },
+    "local/strength-goal-20261018/freeze-ron-v9-fixed.ts": {
+      "sha256": "54732004ca2191648db13b026bf45b359fad0dfefa6d959f2908a0296d717eda",
+      "bytes": 4466
+    },
+    "local/strength-goal-20261018/analyze-ron-v9-fixed.ts": {
+      "sha256": "f76da7a0050d98e857abc1a8915833c68f8a988e55218e6a5b0536f99d3288fc",
+      "bytes": 6468
+    },
+    "local/strength-goal-20261018/run-ron-v9-fixed.py": {
+      "sha256": "9a5376de57d5e61532b523e542d538f95d1c73e231df481c70079abc3ce7f41a",
+      "bytes": 1816
+    },
+    "local/strength-goal-20261018/check-ron-v9-fixed.py": {
+      "sha256": "cedd87dffc462adabc2614e73d4dc39fd2b0744899865464c9feb8e2f037546e",
+      "bytes": 3546
+    },
+    "local/strength-goal-20261018/freeze-v9-development.ts": {
+      "sha256": "c96c54ace1a8c24f1353fd41089ec7bd990dafe8b2ad5d0aae2b5d56c24e2285",
+      "bytes": 7961
+    },
+    "local/strength-goal-20261018/coordinate-v9-development.py": {
+      "sha256": "66b5b3c0d519c249a382abfe9ca17d3650b6752310d68fbc9600b0f163ef4e23",
+      "bytes": 5104
+    },
+    "local/strength-goal-20261018/test-v9-development-coordinator.py": {
+      "sha256": "d7ffcb9c70a2d204a6f5586675cec910a8e44451181c0fda33e0fc0aacf49e8b",
+      "bytes": 4643
+    }
+  },
+  "limitations": [
+    "The 92 nodes and 1120 generated continuations are development diagnostic computations, not independent real strength samples.",
+    "The joint generator and future teacher-v1 model are biased; two model standard errors are not a calibrated confidence guarantee.",
+    "No new formal holdout, expert anchor or V9 browser validation. Pre-existing Python cache binding gap still pending before formal freeze."
+  ]
+}
