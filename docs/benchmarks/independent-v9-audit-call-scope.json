@@ -1,0 +1,27 @@
+{
+  "kind": "v9-audit-policy-call-scope-clarification",
+  "basis": "Bound executed core control flow and all complete raw traces, not an added runtime instrumentation or policy rerun.",
+  "successfulWholeDataReplayGames": 2880,
+  "commonOpeningGames": 1440,
+  "deterministicTeacherOpeningChecks": 11520,
+  "checksByPolicy": {
+    "teacher-v1": 3840,
+    "candidate-advanced-ready-income-v8": 3840,
+    "candidate-advanced-ron-continuation-v9": 3840
+  },
+  "candidatePolicyRequeries": 0,
+  "externalWorkerRequests": 0,
+  "particleSamplingOrContinuationCalls": 0,
+  "newStrengthGames": 0,
+  "newSeeds": 0,
+  "correction": "The private checker build phrase no strategy invocation and the unqualified test output realPolicyCalls=0 were too broad. Zero refers to candidate/external/model decision re-query; fixed teacher opening decisions were recomputed as validations. The separate earlier fixed-node preflight zero-call statement is unaffected.",
+  "originalFrozenFilesPreserved": true,
+  "changesToScoresOrIntervals": false,
+  "inputHashes": {
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/core.ts": "d90e320845e2e98e1baa201c1ad39baf36d97571792dcb4b59d2af1a72d78230",
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/build.json": "39dcb47103418c0fffe65389208797781a15ab2bd2b7d0d4d5a14f64f985d310",
+    "local/strength-goal-20261018/ready-ron-v9-postprocess/run.mjs": "27eebcc389f8062076544a8d81fa536ee56b249e84fe92292227b1708212807f",
+    "local/strength-goal-20261018/development-v9-combined/receipt.json": "90757e3fe0f3aec49a44279b4124583cc4031c12a4eb93e95f63be22fd2e23a5",
+    "local/strength-goal-20261018/development-v9-combined/traces.jsonl": "78008053a96f52563c553ca4bb7a7a958d09192d255990ce2e6bad84c5c51965"
+  }
+}

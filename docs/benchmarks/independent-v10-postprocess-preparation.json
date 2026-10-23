@@ -1,0 +1,111 @@
+{
+  "kind": "v10-complete-data-postprocess-ready",
+  "declaredAtUtc": "2026-10-23T05:51:01.663027+00:00",
+  "node": "C:/nvm4w/nodejs/node.exe",
+  "freezeSha256": "e4d98b53fb3855f16044d0affaedf24a3cc07c573774f9d925a8a6e87356a429",
+  "buildSha256": "4e47c11d1ff9ddf4e5373749a53f94651e854312d37d00764bb380b01ca40081",
+  "launcherSha256": "80cfe8d3dc9bbb3b2303d17c40fe8aa025c855f7561423326a9033d8a2d6fce4",
+  "allBoundFiles": 1075,
+  "qualifiedRuntimeFileCount": 966,
+  "frozenBuildInputs": 33,
+  "coreTests": {
+    "redChunk": "a28e1e",
+    "redExitCode": 1,
+    "greenChunk": "a4160e",
+    "greenExitCode": 0,
+    "groups": 6,
+    "actualOldTrajectoriesReplayedSuccessfully": 2,
+    "commonOpeningChecksInThoseTwoReplays": 16,
+    "existingPublicContexts": 186,
+    "terminalFixturesSynthetic": true,
+    "candidateOrExternalPolicyCalls": 0,
+    "newPolicyGames": 0
+  },
+  "staticChecks": {
+    "typescriptChunk": "af06e9",
+    "actualExitCode": 0,
+    "diagnostics": 0,
+    "typescriptRoots": 4,
+    "pythonCompileChunk": "3c70ff",
+    "pythonCompileExitCode": 0,
+    "pythonSources": 3,
+    "bytecodeWritten": false
+  },
+  "gateCheck": {
+    "toolChunk": "954b4e",
+    "actualExitCode": 1,
+    "expected": "Actual coordinator wait is missing; current game files are not read and no combined output created."
+  },
+  "arithmetic": "Reviewed Fraction source byte-identical to V9; prior three synthetic math fixtures are inherited validation of that same arithmetic, not claimed as newly executed tests.",
+  "callScope": "Actual completion audit recomputes and counts all 11520 common-opening teacher decisions; no candidate/external policy re-query, particle or future model.",
+  "wholeCohortResultsReadBeforeReady": false,
+  "newFormalSeeds": 0,
+  "limitations": [
+    "Prepared verifier only; both actual stages and full real cohort must exit normally before reporting strength.",
+    "Probe-declared runtime files pinned before/after, not complete OS/native/zip/sourceless or unimported dependency closure.",
+    "Cash terminal tests use real old public contexts and explicitly synthetic terminal components, not new strength games."
+  ],
+  "artifacts": {
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/core.ts": {
+      "sha256": "f992f3eea821bfd035e857a8c9a4f130e7bab363651eae77ec3a40b1a6f3645e",
+      "bytes": 7420
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/run.ts": {
+      "sha256": "dfcf596488039aaeaec65d95e9fb852b3f5e204d8e069d3258648807f993e2f6",
+      "bytes": 18940
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/test-core.ts": {
+      "sha256": "b57768822bfab7e173606c010f999426ded5da0d5d63e192afbeb6fd3889f458",
+      "bytes": 5936
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/fraction_check.py": {
+      "sha256": "6675efba4b318c70cbc4258a459c865deb78ee9422f38626ac27ecc50356c53f",
+      "bytes": 6786
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/fraction-source.py": {
+      "sha256": "4db762a3dbd37ba516f94173c3dcdea70e37b95064480a436ea21ec28d6a9518",
+      "bytes": 22467
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/run.mjs": {
+      "sha256": "9bede63cf627a104dc097c40a220177b82f981f36ddc9c28150600b966521645",
+      "bytes": 127292
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/metafile.json": {
+      "sha256": "7b48f24a67400202ee0ece1ce3162d473b51b1fe3323bdd5bcaa5954581957ad",
+      "bytes": 24695
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/build.json": {
+      "sha256": "4e47c11d1ff9ddf4e5373749a53f94651e854312d37d00764bb380b01ca40081",
+      "bytes": 175920
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/ready.json": {
+      "sha256": "2488802edf0efb4651024491be84140e0b1dbf4a02fbf08143a56b5056ffa1ef",
+      "bytes": 2140
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/test-red.mjs": {
+      "sha256": "ec2b3cef5c915f1a5ce2b0b19f984e2d7750e956ac6aaa1bb3287b5978cbc5ec",
+      "bytes": 77578
+    },
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/test-green.mjs": {
+      "sha256": "49ed502e4d6b5893b2e43d736c825b0be6bf098e0fa19a57b1b0da1628b53dc7",
+      "bytes": 101767
+    },
+    "local/strength-goal-20261018/run-v10-complete-postprocess.py": {
+      "sha256": "80cfe8d3dc9bbb3b2303d17c40fe8aa025c855f7561423326a9033d8a2d6fce4",
+      "bytes": 3920
+    },
+    "local/strength-goal-20261018/build-v10-postprocess.ts": {
+      "sha256": "2d8ff81e5da5b9d3fd0eb2d81d3aa7116efad21152f88b22970b46e414f64dd8",
+      "bytes": 5156
+    },
+    "local/strength-goal-20261018/v9-complete-results/all-186-first-differences.json": {
+      "sha256": "7d1de6e2539da919d6c8b56ccd58277b5ba814b6c34a94119f069ba041e0f1ef",
+      "bytes": 3807422
+    }
+  },
+  "contextCountScope": {
+    "oldPublicInputOccurrences": 186,
+    "uniquePublicContexts": 121,
+    "definition": "The raw test/ready field existingPublicContexts counts input row occurrences, not independent or unique public contexts."
+  }
+}
