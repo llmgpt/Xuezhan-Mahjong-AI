@@ -1,0 +1,61 @@
+{
+  "kind": "V10-formal-independent-arithmetic-preparation",
+  "version": 1,
+  "observedAtUtc": "2026-10-23T16:36:02.247661+00:00",
+  "formalPlanHash": "d9ad899f1b98903f80415de277403f40f7d624037a6abbc54afd055ede4a91be",
+  "state": "prepared-and-waiting-not-executed-on-formal-outcomes",
+  "actualQualification": {
+    "syntheticCases": 4,
+    "actualPid": 25120,
+    "actualWaitExitCode": 0,
+    "redChunk": "57396b",
+    "greenChunk": "80e75b",
+    "postGateGreenChunk": "b40dd6",
+    "actualEarlyGateRejection": "a8c5cc",
+    "actualInputManifestOnlyCheck": "240a47"
+  },
+  "actualWholeRunGateRejectedBeforeCompletion": true,
+  "actualFirstLineInputManifestMatched": true,
+  "noFormalScoreRowsRead": true,
+  "newGameExecutions": 0,
+  "newIndependentSeeds": 0,
+  "method": "Reuse original pinned4db762 Fraction implementation; seed means and variance exact, formal3 conditions use2.394, twelve/seat/income exploratory intervals use1.96. Compare actual complete final report values and preserve all panels.",
+  "expectedFormalCriteria": 3,
+  "expectedDiagnosticPanels": 12,
+  "expectedSeatPanels": 4,
+  "expectedIncomeIntervals": 112,
+  "sourceBindings": {
+    "local/strength-goal-20261018/formal-v10-fraction.py": "14ea3936efd509907534ad25e8e1eb347a5fcb37efd181ad7d0554841fa25b18",
+    "local/strength-goal-20261018/test-formal-v10-fraction.py": "f88569e00bebdc667267b1cdd0f803a3059b494f90c6f864531400152ca50f0c",
+    "local/strength-goal-20261018/wait-v10-formal-then-fraction.py": "9f2d1eafe0db3e6e15a256246f90f8c262304db304ba63cfc2e89519c3140583",
+    "local/strength-goal-20261018/prepare-v10-formal-fraction.py": "f5d901f76a57f10b5e1f033eabef241f7d6a892fd42bf90831edc9e852a6ae26",
+    "local/strength-goal-20261018/check-v10-formal-manifest-contract.py": "3ec3ab66beab42709190334dee35b1fb97e485e69801a96924740dc90d652a51",
+    "local/strength-goal-20261018/ready-accept-ron-v10-postprocess/fraction-source.py": "4db762a3dbd37ba516f94173c3dcdea70e37b95064480a436ea21ec28d6a9518",
+    "local/strength-goal-20261018/formal-v10-v1-operations/actual-manifest-contract.json": "1cf2dbf9e8b63d24ceab6193f080e2a77146d076121cfa7603c0ba960efb907f",
+    "local/strength-goal-20261018/formal-v10-v1-operations/fraction-synthetic-tests.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local/strength-goal-20261018/formal-v10-v1-operations/fraction-synthetic-tests.stderr.log": "45c56c84c667a13dc702a2f3e94c5b52ee763cafe2d869ae97709ee0628d9362",
+    "local/strength-goal-20261018/formal-v10-v1/science.json": "971d046202ca8e8d81c59d33f161795cbac720777e35221b277698a1d69d1b45",
+    "local/strength-goal-20261018/formal-v10-v1/build.json": "b37b20bb2585f7838083ffcb320020de9fb071fc885a5dda0ada74b6014b4fee",
+    "local/strength-goal-20261018/formal-v10-v1/seal.json": "b9564273ded04df19d8191e5b1efeadcfa0a288378113ec8534e6e8bbbbd1e1b",
+    "local/strength-goal-20261018/formal-v10-v1/run.json": "8c761e37abbd5a47ba988efc056e8712ba7eb53ec040d37a950ea67d6bd37660",
+    "local/strength-goal-20261018/formal-v10-v1/run-commit.json": "528f95ad03de3e4f8118c81819210023590fb29014f04868cccf421c1306f939"
+  },
+  "fractionPlanSha256": "de53466e2ba520aad203e5c2df3b01b043ae21c43b50d3299b7a383c0ffddcb6",
+  "automaticContinuation": {
+    "rootSession": 48669,
+    "launchChunk": "66056d",
+    "waiter": {
+      "pid": 17692,
+      "startedAtUtc": "2026-10-23T16:34:02.225862+00:00",
+      "planSha256": "de53466e2ba520aad203e5c2df3b01b043ae21c43b50d3299b7a383c0ffddcb6",
+      "state": "waiting-for-original-guardian-and-complete-final-audit",
+      "scoreRowsRead": 0
+    },
+    "existingFormalGuardianSession": 91347,
+    "doNotDuplicate": true,
+    "action": "Wait for original guardian actual terminal0 and complete final audit, then execute source-bound exact arithmetic once. Preserve any failure; no policy or seed replacements."
+  },
+  "fullFormalArithmeticExecutionComplete": false,
+  "formalStatisticalPassClaimed": false,
+  "limits": "Four new clearly synthetic arithmetic tests and input-manifest shape verification qualify the adapter so far; it has not run against a completed400-seed formal grid. This is additional arithmetic verification, not another game engine or expert anchor."
+}
