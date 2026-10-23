@@ -1,6 +1,12 @@
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
+import {
+  assertPythonSourceCacheAbsent,
+  pythonSourceArguments,
+  pythonSourceCachePrefix,
+} from "./pythonSourceRuntime";
 import type { DecisionAction } from "../src/game/decision";
 import type { Phase } from "../src/game/game";
 import type { PlayerView } from "../src/game/view";
@@ -167,6 +173,7 @@ export class ExternalMahjongWorker {
   private finishTask?: Promise<void>;
   private stderr = "";
   private readonly policy: ExternalMahjongOptions["policy"];
+  private readonly sourceCachePrefix?: string;
 
   constructor(options: ExternalMahjongOptions = {}) {
     if (
@@ -183,17 +190,26 @@ export class ExternalMahjongWorker {
     this.timeoutMs = options.timeoutMs ?? 10_000;
     if (!Number.isFinite(this.timeoutMs) || this.timeoutMs <= 0)
       throw new Error("外部策略超时必须是正数");
+    const workerFile = fileURLToPath(
+      new URL("./external/worker.py", import.meta.url),
+    );
+    const workerDirectory = dirname(workerFile);
+    this.sourceCachePrefix =
+      options.args === undefined
+        ? pythonSourceCachePrefix(workerDirectory)
+        : undefined;
     this.child = spawn(
       options.executable ?? process.env.STRENGTH_PYTHON ?? "python",
       options.args ?? [
-        "-B",
+        ...pythonSourceArguments(workerDirectory),
         "-u",
-        fileURLToPath(new URL("./external/worker.py", import.meta.url)),
+        workerFile,
       ],
       { windowsHide: true, stdio: "pipe" },
     );
     this.stopped = new Promise((resolve) => {
       this.child.once("close", (code, signal) => {
+        this.checkSourceCache();
         if (
           !this.aborted &&
           (!this.finishing ||
@@ -227,6 +243,7 @@ export class ExternalMahjongWorker {
   act(view: PlayerView, phase: Phase): Promise<DecisionAction> {
     if (this.terminated || this.finishing)
       return Promise.reject(new Error("外部策略会话已终止或关闭"));
+    if (!this.checkSourceCache()) return Promise.reject(this.failure);
     assertPublicView(view);
     if (
       (this.policy === "ebony72-advanced-public-v1" ||
@@ -259,6 +276,7 @@ export class ExternalMahjongWorker {
 
   private receive(line: string): void {
     if (this.terminated) return;
+    if (!this.checkSourceCache()) return;
     let response: { id?: unknown; action?: unknown; error?: unknown };
     try {
       response = JSON.parse(line);
@@ -289,6 +307,17 @@ export class ExternalMahjongWorker {
     } else {
       request.reject(new Error("外部策略返回不合法动作"));
       this.fail(new Error("外部策略返回不合法动作，会话终止"));
+    }
+  }
+
+  private checkSourceCache(): boolean {
+    if (!this.sourceCachePrefix || this.aborted) return true;
+    try {
+      assertPythonSourceCacheAbsent(this.sourceCachePrefix);
+      return true;
+    } catch (error) {
+      this.fail(error as Error);
+      return false;
     }
   }
 
@@ -325,6 +354,7 @@ export class ExternalMahjongWorker {
     });
     try {
       await Promise.race([this.stopped, deadline]);
+      this.checkSourceCache();
       if (this.failure) throw this.failure;
       if (this.aborted) throw new Error("外部策略会话已主动关闭");
     } finally {

@@ -2,8 +2,15 @@ import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { createReadStream, realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { basename, isAbsolute } from "node:path";
 import type { IndependentConfig } from "./independentBenchmark";
 import { INDEPENDENT_POLICY_IDS, resolveLineup } from "./independentPolicies";
+import {
+  assertPythonSourceCacheAbsent,
+  PYTHON_SOURCE_CACHE_DIRECTORY,
+  pythonSourceArguments,
+  pythonSourceCachePrefix,
+} from "./pythonSourceRuntime";
 
 interface PythonRuntime {
   executable: string;
@@ -14,6 +21,7 @@ interface PythonRuntime {
   platform: string;
   machine: string;
   cacheTag: string;
+  sourceCache: { policy: "empty-prefix-no-bytecode-v1"; prefix: string };
   flags: Record<string, number>;
 }
 interface NumpyRuntime {
@@ -66,6 +74,11 @@ def digest(path):
 
 worker_directory = pathlib.Path(sys.argv[1]).resolve()
 policy_root = worker_directory.parents[1]
+cache_prefix = policy_root / ${JSON.stringify(PYTHON_SOURCE_CACHE_DIRECTORY)}
+if sys.flags.dont_write_bytecode != 1 or sys.pycache_prefix is None or pathlib.Path(sys.pycache_prefix).resolve() != cache_prefix:
+    raise RuntimeError('Python源码缓存启动合同无效: require -B and controlled pycache_prefix')
+if cache_prefix.exists() or cache_prefix.is_symlink():
+    raise RuntimeError('Python源码缓存位置必须不存在')
 sys.path.insert(0, str(worker_directory))
 import worker
 if pathlib.Path(worker.__file__).resolve() != worker_directory / 'worker.py':
@@ -139,7 +152,9 @@ for name in core_names:
                 break
         else:
             raise RuntimeError('Interpreter library has an untracked origin')
-result = {'python': {'executable': sys.executable, 'realPath': str(pathlib.Path(sys.executable).resolve()), 'sha256': digest(sys.executable), 'version': platform.python_version(), 'implementation': platform.python_implementation(), 'platform': sys.platform, 'machine': platform.machine(), 'cacheTag': sys.implementation.cache_tag, 'flags': {'debug': sys.flags.debug, 'optimize': sys.flags.optimize, 'noSite': sys.flags.no_site, 'noUserSite': sys.flags.no_user_site, 'isolated': sys.flags.isolated, 'ignoreEnvironment': sys.flags.ignore_environment, 'utf8Mode': sys.flags.utf8_mode, 'dontWriteBytecode': sys.flags.dont_write_bytecode}}, 'loadedModules': modules${numpy ? ", 'numpy': numpy_info" : ""}}
+if cache_prefix.exists() or cache_prefix.is_symlink():
+    raise RuntimeError('Python源码缓存位置在探针期间改变')
+result = {'python': {'executable': sys.executable, 'realPath': str(pathlib.Path(sys.executable).resolve()), 'sha256': digest(sys.executable), 'version': platform.python_version(), 'implementation': platform.python_implementation(), 'platform': sys.platform, 'machine': platform.machine(), 'cacheTag': sys.implementation.cache_tag, 'sourceCache': {'policy': 'empty-prefix-no-bytecode-v1', 'prefix': str(cache_prefix)}, 'flags': {'debug': sys.flags.debug, 'optimize': sys.flags.optimize, 'noSite': sys.flags.no_site, 'noUserSite': sys.flags.no_user_site, 'isolated': sys.flags.isolated, 'ignoreEnvironment': sys.flags.ignore_environment, 'utf8Mode': sys.flags.utf8_mode, 'dontWriteBytecode': sys.flags.dont_write_bytecode}}, 'loadedModules': modules${numpy ? ", 'numpy': numpy_info" : ""}}
 print(json.dumps(result, sort_keys=True, allow_nan=False))
 `;
 }
@@ -181,22 +196,21 @@ async function hashFile(path: string): Promise<string> {
 /** Read-only capture. The optional query is a unit-test seam, never a CLI flag. */
 export async function captureFormalRuntime(
   config: Pick<IndependentConfig, "policies" | "lineups">,
-  queryPython: (source: string) => string = (source) =>
-    execFileSync(
+  queryPython: (source: string) => string = (source) => {
+    const directory = fileURLToPath(new URL("./external/", import.meta.url));
+    const result = execFileSync(
       process.env.STRENGTH_PYTHON ?? "python",
-      [
-        "-B",
-        "-c",
-        source,
-        fileURLToPath(new URL("./external/", import.meta.url)),
-      ],
+      [...pythonSourceArguments(directory), "-c", source, directory],
       {
         encoding: "utf8",
         timeout: 30000,
         maxBuffer: 8 * 1024 * 1024,
         windowsHide: true,
       },
-    ),
+    );
+    assertPythonSourceCacheAbsent(pythonSourceCachePrefix(directory));
+    return result;
+  },
 ): Promise<FormalRuntime> {
   if (
     !config.policies.length ||
@@ -256,6 +270,7 @@ export async function captureFormalRuntime(
       "platform",
       "machine",
       "cacheTag",
+      "sourceCache",
       "flags",
     ]) ||
     [
@@ -279,9 +294,16 @@ export async function captureFormalRuntime(
       "dontWriteBytecode",
     ]) ||
     Object.values(python.flags).some((value) => !Number.isSafeInteger(value)) ||
+    python.flags.dontWriteBytecode !== 1 ||
+    !exactFields(python.sourceCache, ["policy", "prefix"]) ||
+    python.sourceCache.policy !== "empty-prefix-no-bytecode-v1" ||
+    typeof python.sourceCache.prefix !== "string" ||
+    !isAbsolute(python.sourceCache.prefix) ||
+    basename(python.sourceCache.prefix) !== PYTHON_SOURCE_CACHE_DIRECTORY ||
     !hashMap(raw.loadedModules, ["policy/", "python-base/", "python-env/"])
   )
     throw new Error("Python运行时路径或摘要无效");
+  assertPythonSourceCacheAbsent(python.sourceCache.prefix);
   let numpyInfo: NumpyRuntime | undefined;
   if (numpy) {
     if (!object(raw.numpy)) throw new Error("缺少NumPy运行时闭包");
@@ -305,6 +327,8 @@ export async function captureFormalRuntime(
       throw new Error("NumPy运行时版本、路径或摘要无效");
   }
   const realPath = realpathSync(process.execPath);
+  const nodeSha256 = await hashFile(realPath);
+  assertPythonSourceCacheAbsent(python.sourceCache.prefix);
   return {
     versions: {
       node: process.version,
@@ -314,7 +338,7 @@ export async function captureFormalRuntime(
     node: {
       executable: process.execPath,
       realPath,
-      sha256: await hashFile(realPath),
+      sha256: nodeSha256,
       version: process.version,
       platform: process.platform,
       arch: process.arch,
@@ -327,6 +351,6 @@ export async function captureFormalRuntime(
       ENVIRONMENT.map((name) => [name, process.env[name] ?? null]),
     ),
     limitation:
-      "Pins executables, discoverable interpreter libraries, probe-loaded Python modules and NumPy-owned files; operating-system libraries and unimported dependencies are outside this closure.",
+      "Source-tree bytecode caches are bypassed with -B and an absent controlled startup prefix. Pins executables, discoverable interpreter libraries, probe-loaded Python modules and NumPy-owned files; operating-system libraries, zip/sourceless imports and unimported dependencies are outside this closure.",
   };
 }

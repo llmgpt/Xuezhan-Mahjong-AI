@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { captureFormalRuntime } from "./formalRuntime";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { PYTHON_SOURCE_CACHE_DIRECTORY } from "./pythonSourceRuntime";
 
 function pythonInfo(numpy = false) {
   return {
@@ -12,6 +15,14 @@ function pythonInfo(numpy = false) {
       platform: "win32",
       machine: "AMD64",
       cacheTag: "cpython-313",
+      sourceCache: {
+        policy: "empty-prefix-no-bytecode-v1",
+        prefix: join(
+          tmpdir(),
+          "xuezhan-mock-formal-runtime",
+          PYTHON_SOURCE_CACHE_DIRECTORY,
+        ),
+      },
       flags: {
         debug: 0,
         optimize: 0,
@@ -45,6 +56,47 @@ function pythonInfo(numpy = false) {
 }
 
 describe("正式运行环境的实际文件闭包", () => {
+  it("没有受控源码缓存合同的旧报告不能用于新正式冻结", async () => {
+    const report = pythonInfo();
+    Reflect.deleteProperty(report.python, "sourceCache");
+    await expect(
+      captureFormalRuntime(
+        { policies: ["teacher-v1"], lineups: ["ebony-initial"] },
+        () => JSON.stringify(report),
+      ),
+    ).rejects.toThrow(/源码|缓存|运行时/);
+  });
+
+  it("Python探针在导入worker之前验证启动时的缓存读取合同", async () => {
+    await captureFormalRuntime(
+      { policies: ["teacher-v1"], lineups: ["ebony-initial"] },
+      (source) => {
+        const check = source.indexOf("sys.pycache_prefix");
+        expect(check).toBeGreaterThanOrEqual(0);
+        expect(check).toBeLessThan(source.indexOf("import worker"));
+        return JSON.stringify(pythonInfo());
+      },
+    );
+  });
+
+  it("缓存模式、绝对位置和禁止写入标记均必须有效", async () => {
+    const wrongPolicy = pythonInfo();
+    wrongPolicy.python.sourceCache.policy = "uncontrolled";
+    const relative = pythonInfo();
+    relative.python.sourceCache.prefix = PYTHON_SOURCE_CACHE_DIRECTORY;
+    const wrongDirectory = pythonInfo();
+    wrongDirectory.python.sourceCache.prefix = join(tmpdir(), "other-cache");
+    const writable = pythonInfo();
+    writable.python.flags.dontWriteBytecode = 0;
+    for (const report of [wrongPolicy, relative, wrongDirectory, writable])
+      await expect(
+        captureFormalRuntime(
+          { policies: ["teacher-v1"], lineups: ["ebony-initial"] },
+          () => JSON.stringify(report),
+        ),
+      ).rejects.toThrow(/运行时|缓存/);
+  });
+
   it("旧参考不加载NumPy，捕获实际Node二进制和所选环境值且不改环境", async () => {
     const before = process.env.PYTHONNOUSERSITE;
     const report = await captureFormalRuntime(

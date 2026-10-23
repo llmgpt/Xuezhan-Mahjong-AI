@@ -1,0 +1,137 @@
+{
+  "kind": "source-tree-bytecode-cache-contract-fix",
+  "date": "2026-10-23",
+  "scope": "New actual default external worker and formal probe startup; original sources/caches and frozen V9 development capsule untouched",
+  "contract": {
+    "policy": "empty-prefix-no-bytecode-v1",
+    "startup": [
+      "-B",
+      "-X",
+      "pycache_prefix=<absolute policy-root>/.source-only-pycache-v1"
+    ],
+    "prefixMustNotExist": true,
+    "writesForbidden": true,
+    "workerChecks": [
+      "before spawn",
+      "before request",
+      "before accepting reply",
+      "EOF and finish"
+    ],
+    "collectorChecks": [
+      "before spawn",
+      "before importing worker",
+      "after module collection",
+      "after child exit",
+      "after asynchronous Node hash"
+    ],
+    "customArgs": "Private/test argument overrides are not this default startup contract; the formal CLI has no custom worker-args switch"
+  },
+  "behaviorRed": {
+    "chunk": "10acc6",
+    "actualExitCode": 1,
+    "failingCases": 5
+  },
+  "realStaleCacheRed": {
+    "chunk": "d722d8",
+    "actualExitCode": 1,
+    "visibleSourceValue": 1,
+    "executedCacheValue": 2
+  },
+  "firstFocusedGreen": {
+    "chunk": "d88076",
+    "actualExitCode": 0,
+    "tests": 36
+  },
+  "realStaleCacheGreen": {
+    "chunk": "bb868d",
+    "actualExitCode": 0,
+    "uncontrolledProbeRejected": true,
+    "controlledExecutedValue": 1
+  },
+  "finalActualProbe": {
+    "chunk": "9f5b12",
+    "actualExitCode": 0,
+    "usesSharedStartupHelper": true,
+    "staleBytecodePreserved": true,
+    "occupiedPrefixRejectedBeforeSpawn": true
+  },
+  "defaultWorkerProbe": {
+    "chunk": "0b7649",
+    "actualExitCode": 0,
+    "fixedPublicCases": 4,
+    "actualRequests": 12,
+    "actualWorkersFinished": 8,
+    "v8BeforeAfterAndV9Equal": true,
+    "pythonModulesAndLibraries": 219,
+    "numpyOwnedFiles": 830,
+    "newRealGameSamples": 0,
+    "newSeeds": 0
+  },
+  "fullProjectCheck": {
+    "command": "npm run check",
+    "sessionId": 89524,
+    "actualExitCode": 0,
+    "terminalToolChunk": "9f354d",
+    "files": 53,
+    "tests": 493,
+    "logSha256": "72b822b35e1d6e72f7d9013aa5be4b7be687fc5d1b4844529897f8eae0852f8c"
+  },
+  "sourceHashes": {
+    "scripts/formalRuntime.ts": "1990b777448a0dea562d69ae0e0c6048620e412941321ea11b6ca8b5e61d0996",
+    "scripts/formalRuntime.test.ts": "4614650ef4db4b36e87dde756e724462683d7645b7e1bca7f4e0ba89766e4fb8",
+    "scripts/pythonSourceRuntime.ts": "f6eccd8c509714f1efe7f26b7f7222cf052250d3d3c29e456adc24743869cf38",
+    "scripts/pythonSourceRuntime.test.ts": "baa0574157e2a340f4fe66ecfc5186bff98c06fed1afb1412fc4cbe8a0370146",
+    "scripts/externalMahjong.ts": "f8302d6c800060e8949a9b1b40e7acb2b77802a5394ec06c16f7ebf31e22e30b"
+  },
+  "sourceFileCount": 119,
+  "artifacts": {
+    "local/strength-goal-20261018/formal-source-cache-fix/red.json": {
+      "sha256": "33e5a08099a28eae511a091aa4ab997f9c2c2a608cf8147c9df85b0abadc07d1",
+      "bytes": 1049
+    },
+    "local/strength-goal-20261018/formal-source-cache-fix/green.json": {
+      "sha256": "0b6fb0a6da5e4c9119cb478481596e912a2f165d238ccc925bd83fd89dc92df4",
+      "bytes": 1353
+    },
+    "local/strength-goal-20261018/formal-source-cache-fix/final-probe.json": {
+      "sha256": "8cd1c565cdcad0634e7addb59c1388f449e0031862dddb84fab2d492475b4907",
+      "bytes": 1149
+    },
+    "local/strength-goal-20261018/formal-source-cache-fix/default-worker-smoke.json": {
+      "sha256": "c69fc6a2c1a9155c33c1eccc8896920c1acefb4e7561682641ffcfe630c03ac1",
+      "bytes": 171213
+    },
+    "local/strength-goal-20261018/formal-source-cache-fix/npm-check.log": {
+      "sha256": "72b822b35e1d6e72f7d9013aa5be4b7be687fc5d1b4844529897f8eae0852f8c",
+      "bytes": 13316
+    },
+    "local/strength-goal-20261018/formal-source-cache-fix/npm-check-terminal.json": {
+      "sha256": "3984cde9bc8676de5a2f204468f64e5225a2749bdd6be6f7d827ce63c7456cf7",
+      "bytes": 225
+    },
+    "local/strength-goal-20261018/formal-source-cache-regression.ts": {
+      "sha256": "8b27b3d1e9d1f15f3dbf9795fce1edb8c8d7f306fd899537fcc79b9837cecd7b",
+      "bytes": 3926
+    },
+    "local/strength-goal-20261018/formal-source-cache-final-probe.ts": {
+      "sha256": "85235638460a6fa617745fecf4f43bf5c85d896b5548292fd03cd86e699de444",
+      "bytes": 2874
+    },
+    "local/strength-goal-20261018/formal-source-cache-default-smoke.ts": {
+      "sha256": "1cff39ab84f7206b4624bb35db1056e44bfe18baa1f5f283cd7bf4975e739832",
+      "bytes": 5385
+    }
+  },
+  "frozenV9DevelopmentUnchanged": {
+    "freezeSha256": "7c976e525713044f3f3a69b4404f8567e1bccb7894a1a2a3c2452b11f40fb2cf",
+    "sourceFiles": 118,
+    "note": "Actual whole-game development was frozen and started before this fix; its known runtime limitation remains part of that evidence. This fix cannot supply missing historical identities."
+  },
+  "limitations": [
+    "Bypasses source-tree timestamp/checked caches under the declared startup flags; not a sandbox against active malicious concurrent filesystem mutation.",
+    "Zip/sourceless imports, complete OS/native library closure and not-yet-imported dependencies are outside the declared source-tree closure.",
+    "Requires a new final-source standalone build, seal and verify before any true formal execution. No new formal seed/candidate/pass threshold or strength claim.",
+    "V9 browser integration and complete whole-game development analysis remain pending."
+  ],
+  "primaryReference": "https://docs.python.org/3.13/library/sys.html#sys.pycache_prefix"
+}

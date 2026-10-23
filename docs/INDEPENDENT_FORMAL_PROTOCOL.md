@@ -1,6 +1,6 @@
 # 正式评测入口准备
 
-> 更新于 2026-10-22。已实现科学协议/种子登记、原始动作重放、运行时文件采集、持久化前缀、真实单seed事务和正式外层控制器。V9加入后的完整`npm run check`为52文件487项通过，含格式、lint、类型和构建；V9非点胡节点仍用V8，其runtime也须加载ready-income模块，见[V9实现记录](benchmarks/independent-v9-implementation.json)。V7/V8早期真实探针见[准备证据](benchmarks/formal-income-runtime-preparation.json)。没有创建真实正式种子预约，没有选定实际正式候选、门槛或新留出。开发CLI仍拒绝 `formal` 模式；下述历史准备探针和正式执行另行区分。
+> 更新于 2026-10-23。已实现科学协议/种子登记、原始动作重放、运行时文件采集、持久化前缀、真实单seed事务和正式外层控制器。最新源码缓存合同修复后的完整`npm run check`为53文件493项通过，含格式、lint、类型和构建；[修复证据](benchmarks/formal-source-cache-fix.json)另含真实陈旧字节码回归与默认worker检查。V9实现时的52文件487项见[原实现记录](benchmarks/independent-v9-implementation.json)。没有创建真实正式种子预约，没有选定实际正式候选、门槛或新留出；仍需从最终选定源码重新构建、seal与verify。开发CLI仍拒绝 `formal` 模式；下述历史准备探针和正式执行另行区分。
 
 [formalProtocol.ts](../scripts/formalProtocol.ts) 明确区分外层 `purpose=formal` 与复用引擎的 `innerEngineMode=development`。科学配置必须先指定样本数、完整对手映射、源码指纹、V1 规则、相关运行时、全部通过条件、统计与失败恢复合同；这一步不含种子。四座位、共同/组合两开局及至少两个不同作者的外部来源是必要条件，初级与高级 ebony 阵容只算同一来源。主提升条件必须相对当前老师、阈值非负，且覆盖两外部来源；统计方法不能在见到结果后更换。
 
@@ -55,3 +55,9 @@
 2026-10-22补查发现：选中V7/V8时，原Python探针只加载基础高级模块，没有加载相应金额候选的实际facade。两项回归先真实失败，再按所选policy补齐load。只读真实探针核V7/UI的92个模块/库、V8/UI及两外部阵容的219个模块/库和830个NumPy文件，新增金额模块SHA均与当前115项源码对应；V7探针没有额外加载V8。探针未执行choose、牌局或种子，未封存新的正式capsule，也不补造历史二进制身份。当前运行中的V8开发快照未改；正式执行前仍需用最终选定源码重新构建、seal与verify。原始收据与完整检查见[金额候选运行时准备](benchmarks/formal-income-runtime-preparation.json)。
 
 独立补查另复现一个既有边界：`-B`只禁止写入cache，仍可能读取有效timestamp `.pyc`；只记录`module.__file__`源码SHA不能单独证明实际执行了这些源码。隔离的常量worker合成探针实际执行值2/3，完整runtime报告却相同，未涉及真实策略或牌局。该材料在`local/strength-goal-20261018/ready-income-v8-source-review/formal-runtime-income-review/`。新正式冻结前须让探针与真实worker采用一致的源码/cache合同；本次模块补加载不冒称已经解决这个问题，合成缺口也不证明旧V8运行曾用了错误cache。
+
+2026-10-23已补一致合同：[pythonSourceRuntime.ts](../scripts/pythonSourceRuntime.ts)让默认真实worker与正式探针均从启动时使用`-B -X pycache_prefix=<策略根目录>/.source-only-pycache-v1`。该绝对位置必须始终不存在；已有文件、目录或符号链接拒绝，不删除或清理它。探针在导入worker前校验实际`sys.pycache_prefix`和禁止写入标记，收集后及异步Node哈希后再核不存在，并把合同和实际位置纳入runtime身份。默认worker在请求、收回复与EOF/finish时也复核。旧报告缺少合同不能用于新封存，旧capsule不会被自动改写。
+
+这依据[Python 3.13的缓存前缀规则](https://docs.python.org/3.13/library/sys.html#sys.pycache_prefix)，并有实际RED→GREEN：同一常量源码1/旧cache2，修复前执行2且报告有效，修复后旧启动被拒绝、受控启动执行1，原`.py`/`.pyc`字节不变；被占用的位置在spawn前拒绝。四类既有公开view另经真实默认8worker/12请求，V8前后及V9动作一致、正常收尾；实际新探针核219模块/库和830个NumPy自有文件，没有新seed或完整强度样本。完整检查53文件493项真实exit0。原始收据、源码及产物SHA见[源码缓存修复记录](benchmarks/formal-source-cache-fix.json)。
+
+该合同覆盖所声明的源码树缓存路径，不是对主动恶意并发篡改的隔离沙箱，也不认证zip/无源码导入、全部操作系统/原生库或尚未导入依赖。V9完整开发组在修复前已冻结并启动，其118源与已声明runtime局限保持，不把后续修复倒填为历史执行证明。新正式候选仍需最终构建、seal/verify、预先门槛和未用留出；此修复不代表正式通过或牌力改善。
