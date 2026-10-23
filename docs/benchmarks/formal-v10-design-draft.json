@@ -1,0 +1,575 @@
+{
+  "kind": "formal-v10-design-draft",
+  "completePlanningOnly": true,
+  "observedAtUtc": "2026-10-23T15:41:24.146798+00:00",
+  "candidate": "candidate-advanced-accept-ron-v10",
+  "baseline": "teacher-v1",
+  "chosenDraftSampleSize": 400,
+  "wholeGamesForTwoPolicies": 19200,
+  "criteria": [
+    {
+      "candidate": "candidate-advanced-accept-ron-v10",
+      "baseline": "teacher-v1",
+      "id": "overall-meaningful",
+      "kind": "improvement",
+      "lineups": ["ui-bots", "ebony-advanced", "fanfou-ba"],
+      "openings": ["common", "composite"],
+      "minimumDifference": 0.1
+    },
+    {
+      "candidate": "candidate-advanced-accept-ron-v10",
+      "baseline": "teacher-v1",
+      "id": "external-positive",
+      "kind": "guardrail",
+      "lineups": ["ebony-advanced", "fanfou-ba"],
+      "openings": ["common", "composite"],
+      "minimumDifference": 0
+    },
+    {
+      "candidate": "candidate-advanced-accept-ron-v10",
+      "baseline": "teacher-v1",
+      "id": "composite-positive",
+      "kind": "guardrail",
+      "lineups": ["ui-bots", "ebony-advanced", "fanfou-ba"],
+      "openings": ["composite"],
+      "minimumDifference": 0
+    }
+  ],
+  "statistics": {
+    "method": "seed-cluster-normal",
+    "weighting": "equal-within-seed-over-selected-grid",
+    "familyWiseAlpha": 0.05,
+    "criticalValue": 2.394
+  },
+  "lineups": ["ui-bots", "ebony-advanced", "fanfou-ba"],
+  "seats": [0, 1, 2, 3],
+  "openings": ["common", "composite"],
+  "allDevelopmentVarianceProxies": [
+    {
+      "source": "old40",
+      "panel": "overall",
+      "seedCount": 40,
+      "meanForContextOnly": 0.4479166666666667,
+      "varianceExact": "83815/44928",
+      "standardDeviation": 1.3658478759466297
+    },
+    {
+      "source": "old40",
+      "panel": "composite-all",
+      "seedCount": 40,
+      "meanForContextOnly": 0.13333333333333333,
+      "varianceExact": "5711/3510",
+      "standardDeviation": 1.2755647874825986
+    },
+    {
+      "source": "old40",
+      "panel": "external-both",
+      "seedCount": 40,
+      "meanForContextOnly": 0.2078125,
+      "varianceExact": "1110991/399360",
+      "standardDeviation": 1.667911444213145
+    },
+    {
+      "source": "new20",
+      "panel": "overall",
+      "seedCount": 20,
+      "meanForContextOnly": 0.81875,
+      "varianceExact": "287371/218880",
+      "standardDeviation": 1.145825358823925
+    },
+    {
+      "source": "new20",
+      "panel": "composite-all",
+      "seedCount": 20,
+      "meanForContextOnly": 1.1375,
+      "varianceExact": "58771/54720",
+      "standardDeviation": 1.0363548778041902
+    },
+    {
+      "source": "new20",
+      "panel": "external-both",
+      "seedCount": 20,
+      "meanForContextOnly": 0.834375,
+      "varianceExact": "165251/97280",
+      "standardDeviation": 1.303347631808991
+    },
+    {
+      "source": "pooled60",
+      "panel": "overall",
+      "seedCount": 60,
+      "meanForContextOnly": 0.5715277777777777,
+      "varianceExact": "3439931/2039040",
+      "standardDeviation": 1.2988589549688216
+    },
+    {
+      "source": "pooled60",
+      "panel": "composite-all",
+      "seedCount": 60,
+      "meanForContextOnly": 0.46805555555555556,
+      "varianceExact": "840731/509760",
+      "standardDeviation": 1.284238405870819
+    },
+    {
+      "source": "pooled60",
+      "panel": "external-both",
+      "seedCount": 60,
+      "meanForContextOnly": 0.4166666666666667,
+      "varianceExact": "28033/11328",
+      "standardDeviation": 1.573106655005502
+    }
+  ],
+  "allFixedNSensitivity": [
+    {
+      "seeds": 200,
+      "gamesForTwoPolicies": 9600,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.25,
+      "powersByCriterion": {
+        "overall": 0.5771183147302237,
+        "composite-all": 0.6402099041413444,
+        "external-both": 0.39194132843879614
+      },
+      "conditionalJointPowerLowerBound": 0
+    },
+    {
+      "seeds": 200,
+      "gamesForTwoPolicies": 9600,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.9597370648583141,
+        "composite-all": 0.9778283903150767,
+        "external-both": 0.8407583452788582
+      },
+      "conditionalJointPowerLowerBound": 0.778323800452249
+    },
+    {
+      "seeds": 200,
+      "gamesForTwoPolicies": 9600,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.5,
+      "powersByCriterion": {
+        "overall": 0.9973075054504188,
+        "composite-all": 0.9990710028486081,
+        "external-both": 0.9675157179454716
+      },
+      "conditionalJointPowerLowerBound": 0.9638942262444985
+    },
+    {
+      "seeds": 200,
+      "gamesForTwoPolicies": 9600,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.25,
+      "powersByCriterion": {
+        "overall": 0.37328002501988494,
+        "composite-all": 0.4240340113600535,
+        "external-both": 0.242522857449531
+      },
+      "conditionalJointPowerLowerBound": 0
+    },
+    {
+      "seeds": 200,
+      "gamesForTwoPolicies": 9600,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.8210344191147423,
+        "composite-all": 0.8707335463276265,
+        "external-both": 0.6252366815037128
+      },
+      "conditionalJointPowerLowerBound": 0.31700464694608155
+    },
+    {
+      "seeds": 200,
+      "gamesForTwoPolicies": 9600,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.5,
+      "powersByCriterion": {
+        "overall": 0.9597370648583141,
+        "composite-all": 0.9778283903150767,
+        "external-both": 0.8407583452788583
+      },
+      "conditionalJointPowerLowerBound": 0.7783238004522491
+    },
+    {
+      "seeds": 300,
+      "gamesForTwoPolicies": 14400,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.25,
+      "powersByCriterion": {
+        "overall": 0.7812096329998814,
+        "composite-all": 0.8359002701652436,
+        "external-both": 0.5800952836027558
+      },
+      "conditionalJointPowerLowerBound": 0.1972051867678808
+    },
+    {
+      "seeds": 300,
+      "gamesForTwoPolicies": 14400,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.9963018773622812,
+        "composite-all": 0.9986536221202809,
+        "external-both": 0.9607807997258065
+      },
+      "conditionalJointPowerLowerBound": 0.9557362992083686
+    },
+    {
+      "seeds": 300,
+      "gamesForTwoPolicies": 14400,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.5,
+      "powersByCriterion": {
+        "overall": 0.9999603606209593,
+        "composite-all": 0.9999931774004411,
+        "external-both": 0.9974311784116942
+      },
+      "conditionalJointPowerLowerBound": 0.9973847164330946
+    },
+    {
+      "seeds": 300,
+      "gamesForTwoPolicies": 14400,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.25,
+      "powersByCriterion": {
+        "overall": 0.556550038750702,
+        "composite-all": 0.6192065690940203,
+        "external-both": 0.37558757835999695
+      },
+      "conditionalJointPowerLowerBound": 0
+    },
+    {
+      "seeds": 300,
+      "gamesForTwoPolicies": 14400,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.951940266665648,
+        "composite-all": 0.9726868132801553,
+        "external-both": 0.8235698821272093
+      },
+      "conditionalJointPowerLowerBound": 0.7481969620730126
+    },
+    {
+      "seeds": 300,
+      "gamesForTwoPolicies": 14400,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.5,
+      "powersByCriterion": {
+        "overall": 0.9963018773622812,
+        "composite-all": 0.9986536221202809,
+        "external-both": 0.9607807997258065
+      },
+      "conditionalJointPowerLowerBound": 0.9557362992083686
+    },
+    {
+      "seeds": 400,
+      "gamesForTwoPolicies": 19200,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.25,
+      "powersByCriterion": {
+        "overall": 0.8973740367971665,
+        "composite-all": 0.9331096213722911,
+        "external-both": 0.726998748180341
+      },
+      "conditionalJointPowerLowerBound": 0.5574824063497987
+    },
+    {
+      "seeds": 400,
+      "gamesForTwoPolicies": 19200,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.9997330721778399,
+        "composite-all": 0.9999373130509622,
+        "external-both": 0.9918564508592507
+      },
+      "conditionalJointPowerLowerBound": 0.9915268360880528
+    },
+    {
+      "seeds": 400,
+      "gamesForTwoPolicies": 19200,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.5,
+      "powersByCriterion": {
+        "overall": 0.9999995834717259,
+        "composite-all": 0.9999999652997407,
+        "external-both": 0.9998418202658037
+      },
+      "conditionalJointPowerLowerBound": 0.9998413690372703
+    },
+    {
+      "seeds": 400,
+      "gamesForTwoPolicies": 19200,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.25,
+      "powersByCriterion": {
+        "overall": 0.7035311653054569,
+        "composite-all": 0.7644487837514724,
+        "external-both": 0.5016790864817717
+      },
+      "conditionalJointPowerLowerBound": 0
+    },
+    {
+      "seeds": 400,
+      "gamesForTwoPolicies": 19200,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.9890395049663518,
+        "composite-all": 0.9951942060805532,
+        "external-both": 0.9255086607502824
+      },
+      "conditionalJointPowerLowerBound": 0.9097423717971874
+    },
+    {
+      "seeds": 400,
+      "gamesForTwoPolicies": 19200,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.5,
+      "powersByCriterion": {
+        "overall": 0.9997330721778399,
+        "composite-all": 0.9999373130509622,
+        "external-both": 0.9918564508592507
+      },
+      "conditionalJointPowerLowerBound": 0.9915268360880528
+    },
+    {
+      "seeds": 500,
+      "gamesForTwoPolicies": 24000,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.25,
+      "powersByCriterion": {
+        "overall": 0.9553234783369211,
+        "composite-all": 0.9749381420725745,
+        "external-both": 0.8308674400055794
+      },
+      "conditionalJointPowerLowerBound": 0.761129060415075
+    },
+    {
+      "seeds": 500,
+      "gamesForTwoPolicies": 24000,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.9999837009112318,
+        "composite-all": 0.9999975689393408,
+        "external-both": 0.9985039969978429
+      },
+      "conditionalJointPowerLowerBound": 0.9984852668484154
+    },
+    {
+      "seeds": 500,
+      "gamesForTwoPolicies": 24000,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.5,
+      "powersByCriterion": {
+        "overall": 0.9999999965148922,
+        "composite-all": 0.9999999998621076,
+        "external-both": 0.9999918076013998
+      },
+      "conditionalJointPowerLowerBound": 0.9999918039783997
+    },
+    {
+      "seeds": 500,
+      "gamesForTwoPolicies": 24000,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.25,
+      "powersByCriterion": {
+        "overall": 0.8106397483980349,
+        "composite-all": 0.8617742481445576,
+        "external-both": 0.6130506554929464
+      },
+      "conditionalJointPowerLowerBound": 0.28546465203553884
+    },
+    {
+      "seeds": 500,
+      "gamesForTwoPolicies": 24000,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.9977781040253653,
+        "composite-all": 0.9992578112963519,
+        "external-both": 0.9710230470125625
+      },
+      "conditionalJointPowerLowerBound": 0.9680589623342797
+    },
+    {
+      "seeds": 500,
+      "gamesForTwoPolicies": 24000,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.5,
+      "powersByCriterion": {
+        "overall": 0.9999837009112318,
+        "composite-all": 0.9999975689393408,
+        "external-both": 0.9985039969978429
+      },
+      "conditionalJointPowerLowerBound": 0.9984852668484154
+    },
+    {
+      "seeds": 600,
+      "gamesForTwoPolicies": 28800,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.25,
+      "powersByCriterion": {
+        "overall": 0.9816668337669048,
+        "composite-all": 0.9912105461027201,
+        "external-both": 0.8992857865831922
+      },
+      "conditionalJointPowerLowerBound": 0.8721631664528171
+    },
+    {
+      "seeds": 600,
+      "gamesForTwoPolicies": 28800,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.9999991214991446,
+        "composite-all": 0.9999999176827256,
+        "external-both": 0.9997496559422779
+      },
+      "conditionalJointPowerLowerBound": 0.9997486951241481
+    },
+    {
+      "seeds": 600,
+      "gamesForTwoPolicies": 28800,
+      "sigmaMultiplier": 1.0,
+      "trueMarginAboveCriterion": 0.5,
+      "powersByCriterion": {
+        "overall": 0.9999999999753311,
+        "composite-all": 0.9999999999995426,
+        "external-both": 0.9999996269925202
+      },
+      "conditionalJointPowerLowerBound": 0.9999996269673939
+    },
+    {
+      "seeds": 600,
+      "gamesForTwoPolicies": 28800,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.25,
+      "powersByCriterion": {
+        "overall": 0.8835198815948575,
+        "composite-all": 0.9222974645876005,
+        "external-both": 0.7065018811880965
+      },
+      "conditionalJointPowerLowerBound": 0.5123192273705546
+    },
+    {
+      "seeds": 600,
+      "gamesForTwoPolicies": 28800,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.9995883331798333,
+        "composite-all": 0.9998961712903185,
+        "external-both": 0.989430997488834
+      },
+      "conditionalJointPowerLowerBound": 0.9889155019589858
+    },
+    {
+      "seeds": 600,
+      "gamesForTwoPolicies": 28800,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.5,
+      "powersByCriterion": {
+        "overall": 0.9999991214991446,
+        "composite-all": 0.9999999176827256,
+        "external-both": 0.9997496559422779
+      },
+      "conditionalJointPowerLowerBound": 0.9997486951241481
+    }
+  ],
+  "planningAssumptions": {
+    "marginsAboveThreshold": [0.25, 0.4, 0.5],
+    "sigmaMultipliers": [1, 1.25],
+    "worstSigmaAcrossOldNewAndPooled": {
+      "overall": 1.3658478759466297,
+      "composite-all": 1.284238405870819,
+      "external-both": 1.667911444213145
+    },
+    "jointPower": "Conditional normal approximation; actual per-criterion power combined by union bound, not independent-criteria multiplication.",
+    "N400Margin04Sigma125": {
+      "seeds": 400,
+      "gamesForTwoPolicies": 19200,
+      "sigmaMultiplier": 1.25,
+      "trueMarginAboveCriterion": 0.4,
+      "powersByCriterion": {
+        "overall": 0.9890395049663518,
+        "composite-all": 0.9951942060805532,
+        "external-both": 0.9255086607502824
+      },
+      "conditionalJointPowerLowerBound": 0.9097423717971874
+    }
+  },
+  "actualChecks": {
+    "planningChunk": "84f215",
+    "planningExitCode": 0,
+    "auditAndParserChunk": "c2fdd3",
+    "actualExitCode": 0,
+    "seedMeansAndVariancesExactlyMatchIndependentFraction": 9,
+    "seedMeansCompared": 360,
+    "distinctOriginalDevelopmentSeedUnits": 60,
+    "actualDraftParserAccepted": true,
+    "sealingToolCalled": false,
+    "formalReservationToolCalled": false,
+    "newSeedsGenerated": 0,
+    "newGamesExecuted": 0
+  },
+  "sourceFingerprintInDraftIsProvisional": true,
+  "formalSealCreated": false,
+  "newFormalSeeds": 0,
+  "next": "Complete V10 browser/runtime and faithful explanation, then regenerate final source/runtime fingerprint under unchanged intended criteria and N400, seal/verify before generating and reserving previously unused formal seeds.",
+  "artifacts": {
+    "local/strength-goal-20261018/v10-formal-size-planning/planning.json": {
+      "sha256": "9557967a3e584df155a4845ff0bdc592cc563af62da2195bb146b0c076c56a4b",
+      "bytes": 15097
+    },
+    "local/strength-goal-20261018/v10-formal-size-planning/source-proxies.json": {
+      "sha256": "270f73ee5cc2675448eb7a1a5959e23be9eb1af63b047109e405899765ec7bd9",
+      "bytes": 10326
+    },
+    "local/strength-goal-20261018/v10-formal-size-planning/required-n.json": {
+      "sha256": "7d7af2d6aa86de71236e79d9c8ed76c85074f4203b500f1ee6a05dfbb51252bd",
+      "bytes": 19898
+    },
+    "local/strength-goal-20261018/v10-formal-size-planning/fixed-n-sensitivity.json": {
+      "sha256": "a513745725513babf44b4af78938271d0ae04d77cdea68764bc1ddbced8a04f6",
+      "bytes": 10152
+    },
+    "local/strength-goal-20261018/v10-formal-size-planning/arithmetic-audit.json": {
+      "sha256": "7ec1065a6dfde094d976c867462c909e01c14e31072da8d16e0b9147f09d7d63",
+      "bytes": 582
+    },
+    "local/strength-goal-20261018/v10-formal-size-planning/scientific-plan-draft.json": {
+      "sha256": "f153eb6df065026cfb3ea36246dd42f4d9c12690b71de64eb48373e9d4f5ec99",
+      "bytes": 16983
+    },
+    "local/strength-goal-20261018/v10-formal-size-planning/design-decision.json": {
+      "sha256": "eccd71d1de2a5fa125410b67c6044da14613e69a59a69828707b05e25b57df8e",
+      "bytes": 1911
+    },
+    "local/strength-goal-20261018/plan-v10-formal-size.py": {
+      "sha256": "0da8543a837751b761716f3da4971681046066b68474e38e82cb35ec47abfc12",
+      "bytes": 7444
+    },
+    "local/strength-goal-20261018/audit-v10-formal-size.py": {
+      "sha256": "625eb45d413f837bde7b9a08581c10b84aca09ecf3500d8ed92edd0a1958c188",
+      "bytes": 2514
+    },
+    "local/strength-goal-20261018/prepare-v10-formal-draft.ts": {
+      "sha256": "515bc0b5cb8b9865ebd51c0bced101ae35c5eb480e53bb94cde9d74649c6ab0c",
+      "bytes": 3111
+    },
+    "local/strength-goal-20261018/report-v10-formal-design.py": {
+      "sha256": "045d7a3d19715a5d520bda4ef01518d3c8716dff2be224d7ede8d3f46ae86979",
+      "bytes": 4128
+    }
+  },
+  "limitations": [
+    "Adaptive development estimates do not guarantee actual population variance, true effect, finite-sample normality or formal power.",
+    "Margin .4 is hypothetical excess above each criterion threshold, not an asserted expected gain. Zero true improvement cannot be rescued by sample size.",
+    "External gate pools both sources. Individual advanced/BA and all12 panels/four seats must remain visible; advanced shares inherited code with candidate, neither is an established expert anchor.",
+    "This is an actual design choice and parser validation only, not final sealed source, an execution receipt, successful formal result or browser qualification."
+  ]
+}
