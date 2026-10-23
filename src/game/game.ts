@@ -286,6 +286,21 @@ function discardOptions(
 ): ResponseChoice[] {
   if (seat === from || state.players[seat].won) return [];
   const player = state.players[seat];
+  return discardClaimOptions(
+    { hand: player.hand, melds: player.melds, missing: player.missing! },
+    tile,
+    state.wall.length,
+    state.rules.fanCap,
+  );
+}
+
+/** Hand-level V1 claim options; the caller filters source seat and winners. */
+export function discardClaimOptions(
+  player: { hand: readonly Tile[]; melds: readonly Meld[]; missing: Suit },
+  tile: Tile,
+  wallRemaining: number,
+  fanCap: number,
+): ResponseChoice[] {
   const options: ResponseChoice[] = [];
   if (
     evaluateWin(
@@ -293,7 +308,7 @@ function discardOptions(
       player.melds,
       player.missing!,
       {},
-      state.rules.fanCap,
+      fanCap,
     )
   ) {
     options.push("hu");
@@ -301,7 +316,7 @@ function discardOptions(
   if (suitOf(tile) !== player.missing) {
     const copies = player.hand.filter((item) => item === tile).length;
     if (copies >= 2) options.push("pung");
-    if (copies >= 3 && state.wall.length > 0) options.push("kong");
+    if (copies >= 3 && wallRemaining > 0) options.push("kong");
   }
   return options;
 }

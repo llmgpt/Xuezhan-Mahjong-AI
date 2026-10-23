@@ -3,14 +3,20 @@ import {
   countTiles,
   createGame,
   draw,
+  discardClaimOptions,
   legalDiscards,
+  legalResponses,
   legalSelfActions,
   type GameState,
   type Phase,
   type ScoreTransfer,
 } from "./game";
 import { chooseTeacherAction } from "./teacher";
-import { assertPublicParticle } from "./publicSampler";
+import {
+  assertPublicParticle,
+  assertPublicRonParticle,
+  publicRonContext,
+} from "./publicSampler";
 import { suitOf, type Tile } from "./tiles";
 import { playerView, type PlayerView } from "./view";
 
@@ -34,13 +40,15 @@ function materialize(
   view: PlayerView,
   particle: ContinuationParticle,
 ): GameState {
-  if (view.decision?.kind !== "self" || !view.missing)
-    throw new Error("续局只支持已定缺的self摸打阶段");
+  const response = view.decision?.kind === "respond";
+  if ((!response && view.decision?.kind !== "self") || !view.missing)
+    throw new Error("续局只支持已定缺的self摸打或普通合法点胡响应");
   if (!Array.isArray(view.publicActions))
     throw new Error("续局缺少真实公开历史publicActions");
   if (!Array.isArray(view.publicTiles))
     throw new Error("续局缺少当前公开库存publicTiles");
-  assertPublicParticle(view, particle);
+  if (response) assertPublicRonParticle(view, particle);
+  else assertPublicParticle(view, particle);
   if (
     particle.hands.length !== 4 ||
     particle.wall.length !== view.wallRemaining
@@ -111,12 +119,49 @@ function materialize(
         last: view.wallRemaining === 0,
       }
     : undefined;
+  if (response) {
+    const context = publicRonContext(view);
+    // Recompute eligibility from generated hands. Actual hidden answers and
+    // another player's unknown last-draw tile are never reconstructed.
+    state.phase = "respond";
+    state.turn = context.from;
+    state.pending = {
+      kind: "discard",
+      from: context.from,
+      tile: context.tile,
+      eligible: state.players.flatMap((player, seat) =>
+        seat !== context.from &&
+        !player.won &&
+        discardClaimOptions(
+          { hand: player.hand, melds: player.melds, missing: player.missing! },
+          context.tile,
+          state.wall.length,
+          state.rules.fanCap,
+        ).length
+          ? [seat]
+          : [],
+      ),
+      answers: {},
+      kongShot: context.winContext.kongShot,
+      seaBottom: context.winContext.seaBottom,
+    };
+    assertState(state);
+    if (
+      JSON.stringify(legalResponses(state, view.seat)) !==
+      JSON.stringify(
+        view.decision!.kind === "respond" && view.decision!.choices,
+      )
+    )
+      throw new Error("合成响应窗口与本家合法选择不一致");
+    return state;
+  }
   assertState(state);
   const self = legalSelfActions(state, view.seat);
   const sameTiles = (a: readonly Tile[], b: readonly Tile[]) =>
     [...a].sort((x, y) => x - y).join(",") ===
     [...b].sort((x, y) => x - y).join(",");
   if (
+    view.decision?.kind !== "self" ||
     self.canWin !== view.decision.canWin ||
     !sameTiles(self.concealedKongs, view.decision.concealedKongs) ||
     !sameTiles(self.addedKongs, view.decision.addedKongs) ||

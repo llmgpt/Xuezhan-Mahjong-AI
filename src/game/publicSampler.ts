@@ -1,4 +1,9 @@
-import type { PublicAction, PublicTile } from "./game";
+import {
+  DEFAULT_RULES,
+  discardClaimOptions,
+  type PublicAction,
+  type PublicTile,
+} from "./game";
 import { evaluateWin, type Meld, type WinContext } from "./scoring";
 import { suitOf, type Suit, type Tile } from "./tiles";
 import type { PlayerView } from "./view";
@@ -49,7 +54,17 @@ interface Constraints {
   points: number[][];
   remaining: number[];
   canonical: string;
+  ron?: PublicRonContext;
 }
+
+export interface PublicRonContext {
+  from: number;
+  tile: Tile;
+  winContext: WinContext;
+  currentIncome: number;
+}
+
+type SamplingKind = "self" | "ron";
 
 export const PUBLIC_SAMPLING_LIMITS = {
   maxParticles: 64,
@@ -96,7 +111,7 @@ const publicKeys = (tiles: readonly PublicTile[]) =>
 const equal = (a: unknown, b: unknown) =>
   JSON.stringify(a) === JSON.stringify(b);
 
-function validateView(view: PlayerView): SeatInfo[] {
+function validateView(view: PlayerView, kind: SamplingKind): SeatInfo[] {
   fields(view, [
     "seat",
     "hand",
@@ -111,9 +126,25 @@ function validateView(view: PlayerView): SeatInfo[] {
     "decision",
   ]);
   seatNumber(view.seat);
-  if (view.decision?.kind !== "self" || !view.legalDiscards.length)
-    fail("unsupported", "采样只支持本家self弃牌决策");
-  fields(view.decision, ["kind", "canWin", "concealedKongs", "addedKongs"]);
+  if (kind === "self") {
+    if (view.decision?.kind !== "self" || !view.legalDiscards.length)
+      fail("unsupported", "采样只支持本家self弃牌决策");
+    fields(view.decision, ["kind", "canWin", "concealedKongs", "addedKongs"]);
+  } else {
+    const decision = view.decision;
+    if (
+      decision?.kind !== "respond" ||
+      decision.responseKind !== "discard" ||
+      !Array.isArray(decision.choices) ||
+      !decision.choices.includes("hu") ||
+      view.legalDiscards.length
+    )
+      fail("unsupported", "采样只支持本家普通合法点胡响应");
+    fields(decision, ["kind", "responseKind", "from", "tile", "choices"]);
+    seatNumber(decision.from);
+    tileNumber(decision.tile);
+    if (decision.from === view.seat) fail("history", "响应来张不能来自本家");
+  }
   if (!Array.isArray(view.publicActions))
     fail("unsupported", "缺少完整公开历史publicActions");
   if (!Array.isArray(view.publicTiles))
@@ -180,11 +211,11 @@ function validateView(view: PlayerView): SeatInfo[] {
   }
   view.hand.forEach(tileNumber);
   view.legalDiscards.forEach(tileNumber);
-  if (view.hand.length !== 14 - 3 * view.melds.length)
-    fail("inventory", "本家self弃牌手牌数不符");
+  if (view.hand.length !== (kind === "self" ? 14 : 13) - 3 * view.melds.length)
+    fail("inventory", "本家摸打或普通响应手牌数不符");
   const missing = view.hand.filter((tile) => suitOf(tile) === view.missing);
   const legal = [...new Set(missing.length ? missing : view.hand)];
-  if (!equal(sorted(legal), sorted(view.legalDiscards)))
+  if (kind === "self" && !equal(sorted(legal), sorted(view.legalDiscards)))
     fail("history", "本家合法弃牌与公开手牌不符");
   return seats;
 }
@@ -205,7 +236,11 @@ function actionFields(action: PublicAction) {
   if ("from" in action && action.from !== null) seatNumber(action.from);
 }
 
-function replayHistory(view: PlayerView, seats: SeatInfo[]) {
+function replayHistory(
+  view: PlayerView,
+  seats: SeatInfo[],
+  kind: SamplingKind,
+) {
   const handCounts = [14, 13, 13, 13];
   const melds: Meld[][] = [[], [], [], []];
   const discards: Tile[][] = [[], [], [], []];
@@ -425,45 +460,85 @@ function replayHistory(view: PlayerView, seats: SeatInfo[]) {
   }
   if (draws !== 55 - view.wallRemaining)
     fail("history", "公开draw摸牌数与牌墙余量不符");
-  if (mode !== "discard" || turn !== view.seat || won[view.seat])
-    fail("history", "公开历史不是当前本家self弃牌阶段");
-  const self = view.decision!;
-  if (self.kind !== "self") fail("unsupported", "缺少self弃牌上下文");
-  const canAct =
-    lastDraw?.seat === view.seat ||
-    (view.publicActions!.length === 0 && view.seat === 0);
-  const own = seats[view.seat];
-  const canWin =
-    canAct &&
-    evaluateWin(view.hand, own.melds, own.missing, {
-      kongFlower: lastDraw?.seat === view.seat && lastDraw.fromKong,
-      seaBottom: lastDraw?.seat === view.seat && lastDraw.last,
-    }) !== null;
-  const concealed =
-    canAct && view.wallRemaining > 0
-      ? [...new Set(view.hand)].filter(
-          (tile) =>
-            suitOf(tile) !== own.missing &&
-            view.hand.filter((held) => held === tile).length === 4,
-        )
-      : [];
-  const added =
-    canAct && view.wallRemaining > 0
-      ? own.melds
-          .filter(
-            (meld) =>
-              meld.type === "pung" &&
-              suitOf(meld.tile) !== own.missing &&
-              view.hand.includes(meld.tile),
+  let ron: PublicRonContext | undefined;
+  if (kind === "ron") {
+    const decision = view.decision;
+    if (
+      decision?.kind !== "respond" ||
+      mode !== "response" ||
+      !window ||
+      window.won ||
+      won[view.seat] ||
+      decision.from !== window.seat ||
+      decision.tile !== window.tile
+    )
+      fail("history", "公开历史与当前普通点胡响应窗口不符");
+    const own = seats[view.seat];
+    const choices = [
+      "pass",
+      ...discardClaimOptions(
+        { hand: view.hand, melds: own.melds, missing: own.missing },
+        decision.tile,
+        view.wallRemaining,
+        DEFAULT_RULES.fanCap,
+      ),
+    ];
+    if (!equal(decision.choices, choices))
+      fail("history", "本家合法响应集与公开手牌不符");
+    const evaluation = evaluateWin(
+      [...view.hand, decision.tile],
+      own.melds,
+      own.missing,
+      window.context,
+    );
+    if (!evaluation) fail("history", "当前响应不是V1合法胡牌");
+    ron = {
+      from: decision.from,
+      tile: decision.tile,
+      winContext: { ...window.context },
+      currentIncome: evaluation.points,
+    };
+  } else {
+    if (mode !== "discard" || turn !== view.seat || won[view.seat])
+      fail("history", "公开历史不是当前本家self弃牌阶段");
+    const self = view.decision!;
+    if (self.kind !== "self") fail("unsupported", "缺少self弃牌上下文");
+    const canAct =
+      lastDraw?.seat === view.seat ||
+      (view.publicActions!.length === 0 && view.seat === 0);
+    const own = seats[view.seat];
+    const canWin =
+      canAct &&
+      evaluateWin(view.hand, own.melds, own.missing, {
+        kongFlower: lastDraw?.seat === view.seat && lastDraw.fromKong,
+        seaBottom: lastDraw?.seat === view.seat && lastDraw.last,
+      }) !== null;
+    const concealed =
+      canAct && view.wallRemaining > 0
+        ? [...new Set(view.hand)].filter(
+            (tile) =>
+              suitOf(tile) !== own.missing &&
+              view.hand.filter((held) => held === tile).length === 4,
           )
-          .map((meld) => meld.tile)
-      : [];
-  if (
-    self.canWin !== canWin ||
-    !equal(sorted(self.concealedKongs), sorted(concealed)) ||
-    !equal(sorted(self.addedKongs), sorted(added))
-  )
-    fail("history", "本家合法胡牌或杠牌上下文与公开历史不符");
+        : [];
+    const added =
+      canAct && view.wallRemaining > 0
+        ? own.melds
+            .filter(
+              (meld) =>
+                meld.type === "pung" &&
+                suitOf(meld.tile) !== own.missing &&
+                view.hand.includes(meld.tile),
+            )
+            .map((meld) => meld.tile)
+        : [];
+    if (
+      self.canWin !== canWin ||
+      !equal(sorted(self.concealedKongs), sorted(concealed)) ||
+      !equal(sorted(self.addedKongs), sorted(added))
+    )
+      fail("history", "本家合法胡牌或杠牌上下文与公开历史不符");
+  }
   for (const info of seats) {
     if (
       handCounts[info.seat] !== info.handCount ||
@@ -502,12 +577,15 @@ function replayHistory(view: PlayerView, seats: SeatInfo[]) {
   };
   search(0, cash);
   if (!points.length) fail("history", "V1默认积分结算无法解释公开score");
-  return { cleared, wins, points };
+  return { cleared, wins, points, ...(ron && { ron }) };
 }
 
-function constraintsFor(view: PlayerView): Constraints {
-  const seats = validateView(view);
-  const history = replayHistory(view, seats);
+function constraintsFor(
+  view: PlayerView,
+  kind: SamplingKind = "self",
+): Constraints {
+  const seats = validateView(view, kind);
+  const history = replayHistory(view, seats, kind);
   const remaining = Array<number>(27).fill(4);
   const take = (tile: Tile) => {
     if (--remaining[tile] < 0) fail("inventory", "公开库存超过每种牌四张");
@@ -551,10 +629,18 @@ function constraintsFor(view: PlayerView): Constraints {
         return [a.kind, a.seat, a.tile, a.from, a.kongKind];
       return [a.kind, a.seat, a.tile, a.from, a.winKind];
     }),
-    decision: [
-      view.decision!.kind,
-      view.decision!.kind === "self" && view.decision!.canWin,
-    ],
+    decision:
+      kind === "ron" && view.decision?.kind === "respond"
+        ? [
+            "ordinary-ron-v1",
+            view.decision.from,
+            view.decision.tile,
+            view.decision.choices,
+          ]
+        : [
+            view.decision!.kind,
+            view.decision!.kind === "self" && view.decision!.canWin,
+          ],
   });
   return { ...history, seats, remaining, canonical };
 }
@@ -903,9 +989,10 @@ function makeParticle(
   );
 }
 
-export function samplePublicParticles(
+function sampleFor(
   view: PlayerView,
   count: number,
+  kind: SamplingKind,
 ): { particles: PublicParticle[]; assumptions: string[] } {
   if (
     !Number.isSafeInteger(count) ||
@@ -916,11 +1003,36 @@ export function samplePublicParticles(
       "unsupported",
       `采样数量须为0到${PUBLIC_SAMPLING_LIMITS.maxParticles}的整数`,
     );
-  const constraints = constraintsFor(view);
+  const constraints = constraintsFor(view, kind);
   return {
     particles: Array.from({ length: count }, (_, index) =>
       makeParticle(view, constraints, index),
     ),
-    assumptions: [...assumptions],
+    assumptions:
+      kind === "self"
+        ? [...assumptions]
+        : [
+            "只支持V1普通合法点胡响应；完整公开历史、13−3m暗手及来张库存已核对；其他人的未公开响应只能在合成粒子中建模，不能还原真实队列。",
+            ...assumptions.slice(1),
+          ],
   };
+}
+
+export function samplePublicParticles(view: PlayerView, count: number) {
+  return sampleFor(view, count, "self");
+}
+
+export function samplePublicRonParticles(view: PlayerView, count: number) {
+  return sampleFor(view, count, "ron");
+}
+
+export function assertPublicRonParticle(
+  view: PlayerView,
+  particle: PublicParticleInput,
+): void {
+  assertParticleWithConstraints(view, particle, constraintsFor(view, "ron"));
+}
+
+export function publicRonContext(view: PlayerView): PublicRonContext {
+  return structuredClone(constraintsFor(view, "ron").ron!);
 }
