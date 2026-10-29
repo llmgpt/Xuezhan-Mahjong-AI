@@ -1,0 +1,384 @@
+{
+  "version": 1,
+  "source": "Two public frames from already qualified browser/Node80000, selected only by forced-missing vs ordinary discard. No new game/seed or formal outcome.",
+  "sourceSha256": "413fd7caad856203e59942577f511a322c28d5bfc95c8b6ff07992e5abf002ed",
+  "cases": [
+    {
+      "name": "normal-comparison",
+      "phase": "discard",
+      "view": {
+        "seat": 0,
+        "hand": [20, 3, 18, 5, 23, 7, 0, 4, 3, 19, 4, 7, 6, 1],
+        "melds": [],
+        "missing": "tiao",
+        "legalDiscards": [0, 1, 3, 4, 5, 6, 7, 18, 19, 20, 23],
+        "ownDiscards": [],
+        "opponents": [
+          {
+            "seat": 1,
+            "handCount": 13,
+            "melds": [],
+            "discards": [],
+            "missing": "wan",
+            "won": false,
+            "score": 0
+          },
+          {
+            "seat": 2,
+            "handCount": 13,
+            "melds": [],
+            "discards": [],
+            "missing": "tong",
+            "won": false,
+            "score": 0
+          },
+          {
+            "seat": 3,
+            "handCount": 13,
+            "melds": [],
+            "discards": [],
+            "missing": "tiao",
+            "won": false,
+            "score": 0
+          }
+        ],
+        "wallRemaining": 55,
+        "publicTiles": [],
+        "publicActions": [],
+        "decision": {
+          "kind": "self",
+          "canWin": false,
+          "concealedKongs": [],
+          "addedKongs": []
+        }
+      },
+      "expectedAction": {
+        "type": "discard",
+        "tile": 23
+      }
+    },
+    {
+      "name": "missing-suit",
+      "phase": "discard",
+      "view": {
+        "seat": 0,
+        "hand": [20, 3, 5, 7, 4, 3, 19, 4, 7, 1, 21, 5, 20, 10],
+        "melds": [],
+        "missing": "tiao",
+        "legalDiscards": [10],
+        "ownDiscards": [23, 18, 6],
+        "opponents": [
+          {
+            "seat": 1,
+            "handCount": 10,
+            "melds": [
+              {
+                "type": "kong",
+                "tile": 12,
+                "from": 3,
+                "kongKind": "direct"
+              }
+            ],
+            "discards": [6, 9, 19, 9],
+            "missing": "wan",
+            "won": false,
+            "score": 2
+          },
+          {
+            "seat": 2,
+            "handCount": 10,
+            "melds": [
+              {
+                "type": "pung",
+                "tile": 0,
+                "from": 0
+              }
+            ],
+            "discards": [20, 22, 13, 1],
+            "missing": "tong",
+            "won": false,
+            "score": 0
+          },
+          {
+            "seat": 3,
+            "handCount": 10,
+            "melds": [
+              {
+                "type": "pung",
+                "tile": 25,
+                "from": 2
+              }
+            ],
+            "discards": [11, 13, 15, 14],
+            "missing": "tiao",
+            "won": false,
+            "score": -2
+          }
+        ],
+        "wallRemaining": 39,
+        "publicTiles": [
+          {
+            "seat": 0,
+            "tile": 23,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 6,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 20,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 11,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 18,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 9,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 22,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 19,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 13,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 13,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 15,
+            "kind": "discard"
+          },
+          {
+            "seat": 0,
+            "tile": 6,
+            "kind": "discard"
+          },
+          {
+            "seat": 1,
+            "tile": 9,
+            "kind": "discard"
+          },
+          {
+            "seat": 2,
+            "tile": 1,
+            "kind": "discard"
+          },
+          {
+            "seat": 3,
+            "tile": 14,
+            "kind": "discard"
+          }
+        ],
+        "publicActions": [
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 23
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 6
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 20
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 11
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 18
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 9
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 22
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 12
+          },
+          {
+            "seat": 1,
+            "kind": "kong",
+            "tile": 12,
+            "kongKind": "direct",
+            "from": 3
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 19
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 25
+          },
+          {
+            "seat": 3,
+            "kind": "pung",
+            "tile": 25,
+            "from": 2
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 13
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 0
+          },
+          {
+            "seat": 2,
+            "kind": "pung",
+            "tile": 0,
+            "from": 0
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 13
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 15
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          },
+          {
+            "seat": 0,
+            "kind": "discard",
+            "tile": 6
+          },
+          {
+            "seat": 1,
+            "kind": "draw"
+          },
+          {
+            "seat": 1,
+            "kind": "discard",
+            "tile": 9
+          },
+          {
+            "seat": 2,
+            "kind": "draw"
+          },
+          {
+            "seat": 2,
+            "kind": "discard",
+            "tile": 1
+          },
+          {
+            "seat": 3,
+            "kind": "draw"
+          },
+          {
+            "seat": 3,
+            "kind": "discard",
+            "tile": 14
+          },
+          {
+            "seat": 0,
+            "kind": "draw"
+          }
+        ],
+        "decision": {
+          "kind": "self",
+          "canWin": false,
+          "concealedKongs": [],
+          "addedKongs": []
+        }
+      },
+      "expectedAction": {
+        "type": "discard",
+        "tile": 10
+      }
+    }
+  ]
+}

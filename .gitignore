@@ -7,6 +7,6 @@ dist/
 .env
 .env.local
 *.pem
-/.serena/
 /local/
 /.idea/
+/.workbuddy/
