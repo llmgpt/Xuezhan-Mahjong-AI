@@ -32,7 +32,7 @@ npm run dev
 
 打开 Vite 打印的本地地址，按页面提示换牌、定缺、打牌；每次随机开局会更新本局种子，在牌局设置中输入同一个整数种子和重复相同选择，可以重现发牌及电脑决策。使用 `npm run check` 一次运行格式、ESLint、TypeScript、固定牌例测试与生产构建；单独命令为 `npm run format:check`、`npm run lint`、`npm run typecheck`、`npm test`、`npm run build`。本地格式化可运行 `npm run format`。`npm run evaluate:advice` 单独运行 100 个固定种子的出牌策略对照，不纳入日常检查；详情见[建议效果评估](docs/ADVICE_EVALUATION.md)。
 
-本地开发环境已准备 `git-workflow-and-versioning`、`test-driven-development` 和 Serena MCP。它们用于辅助开发，不是游戏运行依赖；其他贡献者无需安装这些工具即可参与项目。
+本地开发环境已准备 `git-workflow-and-versioning` 和 `test-driven-development`。它们用于辅助开发，不是游戏运行依赖；其他贡献者无需安装这些工具即可参与项目。
 
 ## 项目文档
 
