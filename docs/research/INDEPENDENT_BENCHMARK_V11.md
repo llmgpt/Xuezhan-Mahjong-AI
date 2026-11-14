@@ -1,5 +1,7 @@
 # V11：受约束的进攻收入与点炮赔付比较
 
+> 状态：rejected（V11 公开赔付弃牌实验：相对 V10 退步，未晋升或接入）
+
 **新20seed、1440局已完整执行并审计；V11相对V10退步，不晋升。** 策略ID为`candidate-advanced-liability-v11`；默认页面仍用原老师。本轮使用[公开基础赔付预测原型](PUBLIC_LIABILITY_MODEL.md)已经固定的系数，没有重新训练或按牌局成绩调参。源码、RED→GREEN及工具退出见[实现记录](benchmarks/independent-v11-implementation.json)，完整正负结果见[机器报告](benchmarks/independent-v11-complete.json)。
 
 ## 实际改动

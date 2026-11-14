@@ -108,7 +108,7 @@ describe("合理老师候选", () => {
   });
 
   it("公开六搭牌例保留四个并列候选，不讲成唯一正确", () => {
-    // 公开来源与适用边界见 docs/ADVICE_CASE_AUDIT.md 的五搭牌原理。
+    // 公开来源与适用边界见 docs/research/ADVICE_CASE_AUDIT.md 的五搭牌原理。
     const advised = recommendTeacherDiscards(viewFor("w1245589 s1244589"));
     expect(advised.slice(0, 4).map((item) => item.tile)).toEqual(
       hand("w12 s12"),

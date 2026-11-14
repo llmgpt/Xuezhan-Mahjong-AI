@@ -68,7 +68,7 @@ python -B scripts/external/worker.py
 
 高级策略可能拒绝点胡。原引擎会在拒胡后再询问碰杠；V1 一次收集响应，因此适配器依次询问高级胡牌、再询问仍合法的杠或碰。这是显式保留原流程语义，不是返回初级策略。高级暗杠和补杠候选也只采用宿主已经允许的牌，避免原候选方法包含缺门牌；最终输出仍检查合法性。
 
-`cap8_policy.py` 是独立标识的实验候选，只为 `select_a_card_to_discard → discard` 创建函数和 globals 的私有副本，给两处 `compute_handScore` 注入 `min(原值,8)` 代理。其他函数保留原对象和原 globals，不对原模块或共享计分器做临时全局替换，因此原拒胡、碰杠、抢杠及其阈值保留。每次加载重新校验固定 vendor 闭包，异常直接返回。它仍有上游金钩钓、自摸和其他收益假设，不等于完整 V1 计分模型，更没有强度结论。对应宿主 ID 为 `candidate-advanced-cap8-v6`；[诊断记录](../../docs/INDEPENDENT_BENCHMARK_V6.md)说明范围。
+`cap8_policy.py` 是独立标识的实验候选，只为 `select_a_card_to_discard → discard` 创建函数和 globals 的私有副本，给两处 `compute_handScore` 注入 `min(原值,8)` 代理。其他函数保留原对象和原 globals，不对原模块或共享计分器做临时全局替换，因此原拒胡、碰杠、抢杠及其阈值保留。每次加载重新校验固定 vendor 闭包，异常直接返回。它仍有上游金钩钓、自摸和其他收益假设，不等于完整 V1 计分模型，更没有强度结论。对应宿主 ID 为 `candidate-advanced-cap8-v6`；[诊断记录](../../docs/research/INDEPENDENT_BENCHMARK_V6.md)说明范围。
 
 ## 必需的公开投影
 

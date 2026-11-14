@@ -1,5 +1,7 @@
 # 独立策略诊断 V6：只限制弃牌效用的封顶
 
+> 状态：superseded（独立策略评测 V6 诊断记录，已被后续版本取代）
+
 > 更新于 2026-10-19。opt-in 实验 ID 的工程检查与全量既有节点诊断已完成；仅一处弃牌改变，随后只实际复现该配置的 A/C 两局，不构成整体强度成绩。V5 从其既有 82 项快照继续运行，页面仍用旧老师。
 
 ## 假设及实际调用
@@ -14,7 +16,7 @@ V4 的统一收胡未证实优于原高级，不能由计分差异推断所有�
 
 宿主 ID 为 `candidate-advanced-cap8-v6`，wire ID 为 `ebony72-advanced-cap8-discard-v1`。开局与原高级完全相同：共用老师换三张，定缺交给原高级。
 
-[cap8_policy.py](../scripts/external/cap8_policy.py)复制原 `discard` 的 globals，仅替换它使用的 score 代理；再复制 `select_a_card_to_discard` 的 globals，使其调用该私有 `discard`。两个函数保留原代码对象，代理只返回 `min(原分数,8)`。其他函数保留原对象和原 globals，不临时改写共享模块。因此拒胡、抢杠、碰杠和原有排序辅助函数继续使用原估值。
+[cap8_policy.py](../../scripts/external/cap8_policy.py)复制原 `discard` 的 globals，仅替换它使用的 score 代理；再复制 `select_a_card_to_discard` 的 globals，使其调用该私有 `discard`。两个函数保留原代码对象，代理只返回 `min(原分数,8)`。其他函数保留原对象和原 globals，不临时改写共享模块。因此拒胡、抢杠、碰杠和原有排序辅助函数继续使用原估值。
 
 每次加载校验原固定闭包。沿用完整真实公开历史、本家手牌和公开库存门面，禁止对手暗牌与真实墙读取；动作必须合法，异常明确失败。这个候选仍保留金钩钓、自摸比例、支付人数等其他差异，不是完整 V1 净收益模型。
 
@@ -26,7 +28,7 @@ V4 的统一收胡未证实优于原高级，不能由计分差异推断所有�
 - 18 个已有真实公开帧交替调用原→候选→原→候选；普通近听路径实际 14 次代理评分，其中 11 次封顶、3 次保持。临墙理论路径 417 本次没有既有帧命中，另由明确标注的固定手牌和受控库存直接函数回归覆盖。
 - Root 另行重放这 18 帧：**最终动作改变 0**，所有原版动作仍精确匹配。不能把数值更接近规则说成策略已改善。
 
-原始只读调查、真实评分参数与宿主分数对照在忽略的 `local/strength-goal-20261018/advanced-v1-value-audit/`；Root 重放在 `advanced-cap8-v6-review/frames-report.json`。最少公开输入和来源哈希也保留在 [模块回归](../scripts/external/test_cap8_policy.py)，没有依赖本机 local 目录。
+原始只读调查、真实评分参数与宿主分数对照在忽略的 `local/strength-goal-20261018/advanced-v1-value-audit/`；Root 重放在 `advanced-cap8-v6-review/frames-report.json`。最少公开输入和来源哈希也保留在 [模块回归](../../scripts/external/test_cap8_policy.py)，没有依赖本机 local 目录。
 
 ## 完整既有节点诊断及唯一变化局
 

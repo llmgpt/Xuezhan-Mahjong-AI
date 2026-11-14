@@ -1,14 +1,10 @@
 # 架构草图
 
-> 本文记录模块边界。当前已有本地可试玩 V1；运行命令见 [README](README.md)。
+> 本文记录技术选择与模块边界。当前已有本地可试玩 V1；运行命令见 [README](README.md)。
 
 ## 第一阶段技术选择
 
-采用 **TypeScript + React + Vite** 构建浏览器游戏。`src/game/tiles.ts` 与 `rules.ts` 处理牌和胡牌结构，`scoring.ts` 处理番型，`game.ts` 管理牌局状态与合法动作，`view.ts` 投影本家可见信息，`advice.ts` 给出启发式建议，`session.ts` 驱动电脑对手；`src/App.tsx` 展示牌桌并提交玩家动作。第一阶段不要求账号、服务端或 PostgreSQL；后续可将静态网页部署到公共地址。
-
-`actionAdvice.ts` 为玩家比较碰、三种杠、胡、过及继续出牌；它仅接收 `PlayerView` 中的本家合法动作、当前公开弃牌/补杠牌和公开牌面，不接收其他人的响应资格、响应选择、暗牌或牌墙顺序。碰后比较合法弃牌的最佳效率；杠仅比较未知补牌前的结构并说明成立后的杠钱，不模拟真实补牌。优先现成胡牌，保护未改善效率时的七对潜力。电脑的碰杠选择暂沿用原有规则，动作建议只用于玩家提示。
-
-选择依据：当前核心交互是持续更新的牌桌，规则和建议需要共享同一份牌局状态。纯浏览器实现可以先验证规则正确性、建议质量和教学体验，并可作为静态站点发布。技术栈对比及新增服务端的条件见下文。
+采用 **TypeScript + React + Vite** 构建浏览器游戏。规则、状态、受限视图和建议共享同一份牌局定义，纯浏览器端即可验证规则正确性、解释质量和教学交互，也可直接静态部署。
 
 | 方案                                    | 对本项目的适用情况                                                                                         |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
@@ -18,33 +14,37 @@
 
 ## 模块边界
 
-`src/components/MahjongTile.tsx` 统一绘制 27 种牌面与牌背，`PlayerAvatar.tsx` 绘制座位头像；它们只接收展示数据，不参与规则与建议计算。图形在仓库内以 SVG 生成，不依赖远程字体或图片服务。
+`src/components/MahjongTile.tsx` 按常见实体牌面排布以本地 SVG 绘制 27 种万/条/筒牌面与牌背，`PlayerAvatar.tsx` 绘制座位头像；它们只接收展示数据，不参与规则与建议计算。图形在仓库内生成，不依赖远程字体或图片服务。
 
 ```mermaid
 flowchart LR
-    UI[React 牌桌与说明] --> Flow[对局流程]
-    Flow --> Rules[规则判定]
-    Flow --> State[牌局状态与事件]
-    State --> View[本家与公开信息视图]
-    View --> Advice[建议与电脑策略]
-    View --> Live[当前建议与依据]
+    UI["React 牌桌与说明"] --> Flow["对局流程"]
+    Flow --> Rules["规则判定"]
+    Flow --> State["牌局状态与事件"]
+    State --> View["本家与公开信息视图"]
+    View --> Advice["建议与电脑策略"]
+    View --> Live["当前建议与依据"]
 ```
 
-- **规则判定**只回答动作是否合法、胡牌和计分结果，不依赖页面组件。
-- **对局流程**管理换三张、定缺、摸打、碰杠胡及血战继续；用固定随机种子复现牌局。
-- **建议与电脑策略**通过受限视图读取状态。玩家建议只能看到自己的手牌及公开信息。
-- **当前建议**用当步可见信息展示候选、理由与局限；两摸比较按需计算。
-- **界面**展示状态并提交动作，合法性由规则与流程层判定。
+- **规则判定**：只回答动作是否合法、胡牌和计分结果，不依赖页面组件。
+- **对局流程**：管理换三张、定缺、摸打、碰杠胡及血战继续；用固定随机种子复现牌局。
+- **建议与电脑策略**：通过 `PlayerView` 读取状态，只能看到本家手牌及公开信息。
+- **界面**：展示状态并提交动作，合法性由规则与流程层判定。
 
-图中的规则、状态、受限视图和建议已接入玩家对局。电脑按同样的受限视图作决策；玩家页面展示对手的公开弃牌、碰杠与得分，不显示其暗牌。
+引擎另外维护可核查公开元数据：`publicTiles` 保留未被认领弃牌与公开自摸胡张的实际时序；`publicActions` 保留发牌后的完整公开动作（摸牌只记座位不带牌面）；`transfers` 记录每笔实际积分支付与原因。三者均不包含对手暗牌或牌墙顺序。
 
-引擎另外维护可核查元数据：`publicTiles` 保留未被认领弃牌与公开自摸胡张的实际时序；`publicActions` 保留从发牌后的完整公开动作，摸牌只记座位、不带牌面，已认领弃牌也保留；二者由 `PlayerView` 逐项复制给策略。`transfers` 记录每笔实际积分支付与原因，供离线评测核对收益分类。元数据不新增实体牌，也不包含对手其余暗牌；原有牌数和积分规则保持一致。独立策略评测及其信息边界见 [V3 开发记录](docs/INDEPENDENT_BENCHMARK_V3.md)。
+`decision.ts` 从本家 `PlayerView` 选择托管动作并生成简短解释；`advanceToHuman` 连续推进三名电脑行动至本家决策或结算。`sound.ts` 读取公开动作日志生成中文报牌与分级播报，声音配置存于当前浏览器；牌局状态和最近公开动作日志暂存在页面内存中。详情见 [自动托管与实时建议](docs/AUTOPLAY.md)。
 
-离线实验另有 `publicSampler.ts` 从公开约束生成合成暗手与牌墙，`sampledContinuation.ts` 用真实 V1 引擎打到结算，`rolloutTeacher.ts` 比较同一组世界下的自杠和原选择。它们不接收真实原局种子或暗牌，赢家合法胡型、公开支付和实体库存都必须满足；采样有偏、续局对手近似且计算较重，目前未接入页面。
+## `src/game/` 内运行时与离线研究模块划分
 
-`decision.ts` 从本家 `PlayerView` 选择托管动作，并在需要语音时生成当步简短解释。托管只对本家决策计时，原三名电脑由 `session.ts` 的策略驱动；`advanceToHuman` 连续推进对手行动至本家决策或结算。界面不保存整局决策快照；牌局状态与最近的公开动作日志仍在页面内存中。具体玩法和策略边界见 [自动托管与实时建议](docs/AUTOPLAY.md)。
+`src/game/` 目前同时存放浏览器运行时代码和已暂停的离线强度实验模块（由于 `scripts/` 评测脚本会扫描 `src/game/` 计算源码指纹，暂保留在同一目录下，通过下表区分边界）：
 
-`sound.ts` 读取公开动作日志生成中文报牌，并使用行动时算出的简短解释分级播报本家选择：常规步骤只报结果，其余步骤读简短结论；完整依据由当前建议弹窗按需朗读。浏览器语音与 Web Audio 负责播放，静音与声音选择存于当前浏览器；自动选音优先本机普通话，手动选择可试听。声效层不参与规则判定、发牌或建议计算。
+| 类别               | 文件                                                                                                                                                                                                                  | 说明                                                                    |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **规则与牌局核心** | `tiles.ts`、`rules.ts`、`scoring.ts`、`game.ts`、`view.ts`、`demo.ts`、`session.ts`、`bot.ts`                                                                                                                         | 牌桌状态、规则、流局与电脑对手；页面直接运行                            |
+| **教学建议与托管** | `advice.ts`、`actionAdvice.ts`、`lookahead.ts`、`openingAdvice.ts`、`teacher.ts`、`teacherEvaluation.ts`、`decision.ts`                                                                                               | 本家实时建议、两摸对比与托管；页面直接运行                              |
+| **V10 生产策略桥** | `advancedComponents.ts`、`v10Response.ts`、`acceptRonTeacher.ts`（以及 `publicSampler.ts` 中的 `publicRonContext`）                                                                                                   | 配合 `src/strategy/`（Worker + Pyodide）运行当前默认 V10 策略           |
+| **仅离线研究模块** | `candidateEvaluation.ts`、`immediateWin.ts`、`strongTeacher.ts`、`rolloutTeacher.ts`、`sampledContinuation.ts`、`publicRonContinuation.ts`、`ronContinuationTeacher.ts`、`publicLiability*.ts`、`liabilityDiscard.ts` | 仅用于 `scripts/` 历史对照与实验（含已否定的 V11 原型），**未接入页面** |
 
 ## 何时增加服务端
 
@@ -54,11 +54,8 @@ flowchart LR
 | 浏览器内策略计算经测量无法满足响应时间，或需要模型训练、批量模拟 | Python 计算模块；需要在线调用时再加 FastAPI |
 | 需要服务端渲染、服务端路由或其他 Next.js 服务端能力              | Next.js                                     |
 
-引入 Python 时应明确与 TypeScript 规则引擎之间的数据契约和一致性测试，避免两套规则对同一牌局给出不同结果。上述条件是后续决策门槛，不代表现在已经采用这些组件。
-
 ## 相关文档
 
-- [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md)：功能和规则范围。
-- [docs/ENGINEERING.md](docs/ENGINEERING.md)：实现与验证流程。
-
-技术选择参考：[Vite 静态部署](https://vite.dev/guide/static-deploy)、[Next.js 静态导出](https://nextjs.org/docs/app/guides/static-exports)、[FastAPI 数据库指南](https://fastapi.tiangolo.com/tutorial/sql-databases/)。
+- [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md)：产品方向与功能优先级。
+- [docs/ENGINEERING.md](docs/ENGINEERING.md)：实现、文档维护与验证流程。
+- [docs/research/README.md](docs/research/README.md)：V1–V11 策略强度研究归档。

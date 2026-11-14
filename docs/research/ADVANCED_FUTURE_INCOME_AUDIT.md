@@ -1,19 +1,21 @@
 # 高级策略未来收益量纲审计
 
+> 状态：diagnostic（V7 未来收益量纲与算术审计）
+
 2026-10-21。仅审计固定源码及纯计分算术，不构成策略改进或强度结论。本文形成时 V7 完整网格仍在运行；没有读取部分成绩，不决定下一候选。
 
 ## 固定来源与准确行号
 
 下列仓库文件与本次使用的 V7 冻结副本逐字节一致；后文 `S:861` 等引用采用这些固定版本的行号，读者无需访问本地审计目录。
 
-| 别名 | 仓库文件                                                                                        | SHA-256                                                            |
-| ---- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| S    | [strategyz0614.py](../vendor/ebony72-advanced/derived/ebony72_advanced_public/strategyz0614.py) | `12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2` |
-| X    | [xzscore.py](../vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzscore.py)       | `0eb1ce9a03eef24e2893966a9a5e57b191cf5b3dac2664b59c79f73a6a9be9c5` |
-| I    | [v1_income.py](../scripts/external/v1_income.py)                                                | `9666989c49e3ab7b4336fb942b016a374ed4c76989ff87c892e8d30227d98b0c` |
-| P    | [v1_income_policy.py](../scripts/external/v1_income_policy.py)                                  | `d1154d77fc5f3c859cf4a25104b40ab0ded354aa277b5754a6640dbd4806e4c3` |
-| H    | [scoring.ts](../src/game/scoring.ts)                                                            | `c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e` |
-| F    | [v1-income-host495.json](../scripts/external/fixtures/v1-income-host495.json)                   | `39aa4d7042607f2920bbc338d0c8ff3b82fd7ad9fd7fa4d94a8ac0593fa944ba` |
+| 别名 | 仓库文件                                                                                           | SHA-256                                                            |
+| ---- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| S    | [strategyz0614.py](../../vendor/ebony72-advanced/derived/ebony72_advanced_public/strategyz0614.py) | `12fc6958cc0466292fc2352578a34ac89eb7e73b9938f885fd17852497932fd2` |
+| X    | [xzscore.py](../../vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/xzscore.py)       | `0eb1ce9a03eef24e2893966a9a5e57b191cf5b3dac2664b59c79f73a6a9be9c5` |
+| I    | [v1_income.py](../../scripts/external/v1_income.py)                                                | `9666989c49e3ab7b4336fb942b016a374ed4c76989ff87c892e8d30227d98b0c` |
+| P    | [v1_income_policy.py](../../scripts/external/v1_income_policy.py)                                  | `d1154d77fc5f3c859cf4a25104b40ab0ded354aa277b5754a6640dbd4806e4c3` |
+| H    | [scoring.ts](../../src/game/scoring.ts)                                                            | `c579f573293ae35b3365e30edb640ce790c2bb1e50045c7dfe644866d4052e0e` |
+| F    | [v1-income-host495.json](../../scripts/external/fixtures/v1-income-host495.json)                   | `39aa4d7042607f2920bbc338d0c8ff3b82fd7ad9fd7fa4d94a8ac0593fa944ba` |
 
 | 函数或规则                           | 准确位置与作用                                                                             |
 | ------------------------------------ | ------------------------------------------------------------------------------------------ |
@@ -25,7 +27,7 @@
 
 ## 统一付款单位
 
-按 [V1 规则](RULES_V1.md) 第 30–32 行，设当前确定点炮/抢杠收入为 `C0`、当前基础分为 `B0`、当前未胡对手数为 `N0=3-n_hu`。一个条件明确的未来情形以 `Bω∈{1,2,4,8}` 表示基础分、`eω` 表示合法事件数、`Nω` 表示届时未胡对手数：
+按 [V1 规则](../RULES_V1.md) 第 30–32 行，设当前确定点炮/抢杠收入为 `C0`、当前基础分为 `B0`、当前未胡对手数为 `N0=3-n_hu`。一个条件明确的未来情形以 `Bω∈{1,2,4,8}` 表示基础分、`eω` 表示合法事件数、`Nω` 表示届时未胡对手数：
 
 ```text
 Qω = min(8, Bω × 2^eω)
@@ -46,7 +48,7 @@ A=numS×D×G/K
 普通 zimo_factor=2×N0×A
 ```
 
-`numS` 是可补成牌种的 `ΣKB[x]`，见 [hysolx.py](../vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/hysolx.py):36–57。KB 是未见牌计数，不是已知牌墙；`A` 是原折扣机会权重，尚未证明为真实胡牌概率。平均轮数 `r` 也不是保证可摸次数。
+`numS` 是可补成牌种的 `ΣKB[x]`，见 [hysolx.py](../../vendor/ebony72-advanced/derived/ebony72_advanced_public/utils/hysolx.py):36–57。KB 是未见牌计数，不是已知牌墙；`A` 是原折扣机会权重，尚未证明为真实胡牌概率。平均轮数 `r` 也不是保证可摸次数。
 
 ## 普通自摸、不同等待牌与人数变化
 

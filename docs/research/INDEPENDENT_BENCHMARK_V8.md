@@ -1,5 +1,7 @@
 # V8：按当前等待牌比较收胡金额
 
+> 状态：superseded（独立策略评测 V8 开发记录，已被后续版本取代）
+
 **完整开发组及全部动作重放已完成，未证明V8有稳定净分提升。** V8−T总体+0.416667，95%近似区间[-0.048253,0.881586]；V8−V7仅+0.001042，区间[-0.180054,0.182137]，页面实际组合开局也跨零。未升级默认策略或开始新正式留出。全部来源、72项比较与四座位统计见[完整机器记录](benchmarks/independent-v8-complete.json)。
 
 `candidate-advanced-ready-income-v8`继承V7的老师开局和高级行牌，只替换合法点胡的`check_hu`。它按本桌实际付款逐牌计价，同时删除原函数中推测碰后金钩、清一色、多步伪等待及未来杠钱的比较项；不是只改一个倍率，也不是完整续局期望净分。
@@ -29,7 +31,7 @@ U = Σ合法完成牌 KB[x] × (Qx+1)
 
 ## 实现和已验证范围
 
-实现位于[ready_income_policy.py](../scripts/external/ready_income_policy.py)，固定依赖既有V1收入helper与V7私有派生；原vendor、helper和V7源码保留。新ID通过独立注册器、严格公开JSONL和真实Python接入，当前`includeDiagnostics=true`对V8明确拒绝，不能把新模型挂在旧A的分支摘要上。39源浏览器载荷不包含该新模块。
+实现位于[ready_income_policy.py](../../scripts/external/ready_income_policy.py)，固定依赖既有V1收入helper与V7私有派生；原vendor、helper和V7源码保留。新ID通过独立注册器、严格公开JSONL和真实Python接入，当前`includeDiagnostics=true`对V8明确拒绝，不能把新模型挂在旧A的分支摘要上。39源浏览器载荷不包含该新模块。
 
 - 行为RED先用透明V7委派stub运行两项不变测试，真实出现混合根番等待金额不符、封顶短手`stand≠hu`两个失败；不是把缺模块当行为失败。实现后17项模块测试通过，另有原机会因子浮点次序的RED→GREEN记录。
 - 固定牌例覆盖1/2/4/8分、自摸加底、1/2/3付款家数、不同等待根番、当前事件分母只除一次、四副露/已有杠、KB耗尽、当前第四张、墙0/1张和海底碰后清除。完整263既有公开帧检查A→V7→V8→V7→A隔离、V8确定性及输入不变；不增加独立强度样本。

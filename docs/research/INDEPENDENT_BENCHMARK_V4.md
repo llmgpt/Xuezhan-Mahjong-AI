@@ -1,5 +1,7 @@
 # 独立策略评测 V4：高级参考的接受胡牌对照
 
+> 状态：superseded（独立策略评测 V4 开发记录，已被后续版本取代）
+
 > 更新于 2026-10-19。首轮 8 种子 576 局、扩大 40 旧开发种子 2,880 局均已完成；扩大组中统一收胡相对原高级 -0.0552 分/局，95% 近似区间 [-0.3673, 0.2569]，没有显示改进。页面仍用 `teacher-v1`，Goal 进行中。前轮完整结果见 [V3](INDEPENDENT_BENCHMARK_V3.md)。
 
 ## 改动依据与边界
@@ -8,7 +10,7 @@ V3 高级参考在受评者的 218 次合法胡牌机会中接受全部 57 次�
 
 该参考保留上游的自摸翻倍、金钩钓和未来收益估值，而 V1 自摸为牌型分加一，且不计金钩钓、封顶 3 番。公开条件选出的代表重放已定位实际拒胡分支；这些差异可以形成改进假设，不能直接证明每次拒胡错误。原始公开节点、全量分类、代表重放和源码指纹保存在 `local/strength-goal-20261018/advanced-win-diagnosis-v3/`，未使用后续结局选择好坏动作标签。
 
-新 ID `candidate-advanced-hu-v4` 仅在宿主 `PlayerView.decision` 已明确允许胡牌时返回合法自摸或 `respond:hu`；其余决策委派原 `ebony72-advanced-public-v1` worker，换三张仍共用旧老师，定缺仍由高级参考决定。原高级 ID、供应商源码和 worker 均不改。实现为 [immediateWin.ts](../src/game/immediateWin.ts) 与[策略注册](../scripts/independentPolicies.ts)，解释明确收取当前收益、退出后续血战及放弃更大未来收益的可能，未声称始终最优。
+新 ID `candidate-advanced-hu-v4` 仅在宿主 `PlayerView.decision` 已明确允许胡牌时返回合法自摸或 `respond:hu`；其余决策委派原 `ebony72-advanced-public-v1` worker，换三张仍共用旧老师，定缺仍由高级参考决定。原高级 ID、供应商源码和 worker 均不改。实现为 [immediateWin.ts](../../src/game/immediateWin.ts) 与[策略注册](../../scripts/independentPolicies.ts)，解释明确收取当前收益、退出后续血战及放弃更大未来收益的可能，未声称始终最优。
 
 该候选仍继承高级参考的其他估值假设，且依赖离线 Python worker；尚未移植到页面或验证实时体验。合法动作拦截由宿主投影判定，不读取暗手、真实墙或原始种子。
 
