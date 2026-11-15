@@ -9,7 +9,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { basename, dirname, join, resolve } from "node:path";
+import { basename, dirname, join, resolve, sep } from "node:path";
 import { DEFAULT_RULES } from "../src/game/game";
 import {
   createFormalController,
@@ -398,7 +398,7 @@ describe("正式外层控制器的整组消费、attempt与最终门禁", () => 
     await f.controller.runShard(1);
     const path = resolve(f.root, "results", "100", "attempt-0001");
     if (
-      !path.startsWith(resolve(f.root) + "\\") ||
+      !path.startsWith(resolve(f.root) + sep) ||
       basename(path) !== "attempt-0001"
     )
       throw new Error("Unsafe synthetic attempt deletion");
