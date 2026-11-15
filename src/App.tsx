@@ -10,6 +10,10 @@ import { AdviceCoach } from "./components/AdviceCoach";
 import { GameDialog } from "./components/GameDialog";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
+import {
+  TurnReviewDialog,
+  type TurnReview,
+} from "./components/TurnReviewDialog";
 import { actionKey } from "./game/actionAdvice";
 import { completeExchange, completeMissing } from "./game/demo";
 import {
@@ -24,7 +28,7 @@ import {
 import { advanceToHuman, type PlayerAction } from "./game/session";
 import { applyDecisionAction, type DecisionAction } from "./game/decision";
 import { labelOf, suitOf, type Suit, type Tile } from "./game/tiles";
-import { playerView } from "./game/view";
+import { playerView, type PlayerView } from "./game/view";
 import {
   announceAdvice,
   announceAutoplayStart,
@@ -119,6 +123,47 @@ function Score({ value }: { value: number }) {
     </b>
   );
 }
+export interface DisplayTile {
+  tile: Tile;
+  index: number;
+  drawn: boolean;
+}
+
+export function orderHandForDisplay(
+  hand: readonly Tile[],
+  phase: Phase,
+  turn: number,
+  lastDraw?: { seat: number; tile: Tile },
+): DisplayTile[] {
+  const hasDrawn =
+    phase === "discard" &&
+    turn === 0 &&
+    lastDraw?.seat === 0 &&
+    hand.length > 0 &&
+    hand[hand.length - 1] === lastDraw.tile;
+  const bodyCount = hasDrawn ? hand.length - 1 : hand.length;
+  const body = hand
+    .slice(0, bodyCount)
+    .map((tile, index) => ({ tile, index, drawn: false }))
+    .sort((a, b) => a.tile - b.tile || a.index - b.index);
+  if (!hasDrawn) return body;
+  return [
+    ...body,
+    {
+      tile: hand[hand.length - 1],
+      index: hand.length - 1,
+      drawn: true,
+    },
+  ];
+}
+
+export function formatLogEntry(entry: string): string {
+  return entry.replace(
+    /([0-3])\s*号玩家/g,
+    (_, seatIndex: string) => names[Number(seatIndex)] ?? `${seatIndex} 号玩家`,
+  );
+}
+
 function Melds({ player }: { player: PlayerState }) {
   return (
     <div className="melds">
@@ -172,32 +217,73 @@ function Opponent({
           </span>
         </div>
       </div>
-      <div
-        className="opponentHand"
-        aria-label={`手牌 ${player.hand.length} 张`}
-      >
-        {Array.from(
-          { length: Math.min(player.hand.length, 14) },
-          (_, index) => (
-            <TileBack key={index} />
-          ),
-        )}
-        <span className="handCount">{player.hand.length}</span>
+      <div className="opponentTiles">
+        <div
+          className="opponentHand"
+          aria-label={`手牌 ${player.hand.length} 张`}
+        >
+          {Array.from(
+            { length: Math.min(player.hand.length, 14) },
+            (_, index) => (
+              <TileBack key={index} />
+            ),
+          )}
+          <span className="handCount">{player.hand.length}</span>
+        </div>
+        <Melds player={player} />
       </div>
-      <Melds player={player} />
     </div>
   );
+}
+
+function formatChosenLabel(action: DecisionAction, view: PlayerView): string {
+  switch (action.type) {
+    case "exchange":
+      return `换出 ${action.tiles.map(labelOf).join("、")}`;
+    case "missing":
+      return `定缺 ${suitLabel(action.suit)}`;
+    case "discard":
+      return `打出 ${labelOf(action.tile)}`;
+    case "win":
+      return "自摸胡";
+    case "kong":
+      return `${action.kind === "concealed" ? "暗杠" : "补杠"} ${labelOf(action.tile)}`;
+    case "respond": {
+      if (
+        action.choice === "hu" &&
+        view.decision?.kind === "respond" &&
+        view.decision.responseKind === "rob-kong"
+      ) {
+        return `抢杠胡 ${labelOf(view.decision.tile)}`;
+      }
+      const verb = { pass: "过", pung: "碰", kong: "直杠", hu: "点胡" }[
+        action.choice
+      ];
+      return action.choice === "pass" || view.decision?.kind !== "respond"
+        ? verb
+        : `${verb} ${labelOf(view.decision.tile)}`;
+    }
+  }
 }
 
 export interface AppProps {
   strategyMode?: ProductionStrategyMode;
   strategyAssets?: AdvancedAssets;
   initialSeed?: number;
+  thinkFirst?: boolean;
+}
+function readThinkFirstPreference(): boolean {
+  try {
+    return window.localStorage.getItem("xuezhan.thinkFirst") !== "false";
+  } catch {
+    return true;
+  }
 }
 function App({
   strategyMode = "teacher",
   strategyAssets,
   initialSeed,
+  thinkFirst: initialThinkFirst,
 }: AppProps = {}) {
   const [startingSeed] = useState(() => initialSeed ?? newGameSeed());
   const [seedText, setSeedText] = useState(String(startingSeed));
@@ -206,6 +292,11 @@ function App({
   const [notice, setNotice] = useState("选择同一花色的三张牌，顺时针交换。");
   const [autoPlay, setAutoPlay] = useState(false);
   const autoEnabled = useRef(false);
+  const [thinkFirst, setThinkFirst] = useState(
+    () => initialThinkFirst ?? readThinkFirstPreference(),
+  );
+  const [revealed, setRevealed] = useState(false);
+  const [lastReview, setLastReview] = useState<TurnReview | null>(null);
   const [position, setPosition] = useState<Position>({
     session: 0,
     revision: 0,
@@ -236,9 +327,12 @@ function App({
   const [voiceOptions, setVoiceOptions] = useState(availableChineseVoices);
   const narration = useRef<Promise<void>>(Promise.resolve());
   const hand = game.players[0].hand;
-  const sortedHand = hand
-    .map((tile, index) => ({ tile, index }))
-    .sort((a, b) => a.tile - b.tile || a.index - b.index);
+  const sortedHand = orderHandForDisplay(
+    hand,
+    game.phase,
+    game.turn,
+    game.lastDraw,
+  );
   const view = useMemo(() => playerView(game, 0), [game]);
   const strategy = useProductionAdvice(
     view,
@@ -253,7 +347,10 @@ function App({
     strategy.current.status === "ready"
       ? strategy.current.presentation
       : undefined;
-  const suggestedAction = recommendation?.action;
+  const showRecommendation = !(thinkFirst && !autoPlay) || revealed;
+  const suggestedAction = showRecommendation
+    ? recommendation?.action
+    : undefined;
   const suggestedKey =
     suggestedAction &&
     suggestedAction.type !== "exchange" &&
@@ -283,14 +380,12 @@ function App({
         return;
       try {
         const immediate = applyDecisionAction(game, 0, action);
+        const currentRecommendation = strategy.isCurrent(strategy.current.key)
+          ? recommendation
+          : undefined;
+        const topChoice = currentRecommendation?.choices[0];
         const explanation = soundEnabled
-          ? explainProductionAction(
-              view,
-              action,
-              strategy.isCurrent(strategy.current.key)
-                ? recommendation
-                : undefined,
-            )
+          ? explainProductionAction(view, action, currentRecommendation)
           : undefined;
         const next =
           action.type === "exchange"
@@ -308,6 +403,18 @@ function App({
         setPosition(nextPosition);
         setGame(next);
         setSelected([]);
+        setRevealed(false);
+        setLastReview({
+          view,
+          phase: game.phase,
+          chosenAction: action,
+          chosenLabel: formatChosenLabel(action, view),
+          recommendedLabel: topChoice?.label,
+          recommendedAction: currentRecommendation?.action,
+          recommendationSummary: topChoice?.summary,
+          recommendationReason: topChoice?.reason,
+          recommendationLimit: topChoice?.limit,
+        });
         if (next.phase === "ended") pauseAuto();
         if (soundEnabled) {
           playCue(cueForAction(action, next.phase === "ended"));
@@ -426,6 +533,8 @@ function App({
     setGame(next);
     setSeedText(String(seed));
     setSelected([]);
+    setRevealed(false);
+    setLastReview(null);
     pauseAuto();
     stopAnnouncements();
     setNotice("选择同一花色的三张牌，顺时针交换。");
@@ -516,7 +625,7 @@ function App({
                 <option value={1000}>快速 · 本家每次选择前 1 秒</option>
               </select>
               <p>
-                只托管你的操作；三名对手照常行牌。打开设置或建议依据会暂停托管。
+                只托管你的操作；三名对手照常行牌。打开设置、复盘或朗读时会暂停托管。
               </p>
               <button
                 className="soundToggle"
@@ -744,6 +853,8 @@ function App({
             advice={[]}
             view={view}
             current={strategy.current}
+            hidden={!showRecommendation}
+            onReveal={() => setRevealed(true)}
             onSpeak={soundEnabled ? announceAdvice : undefined}
             onOpen={() => {
               pauseAuto();
@@ -769,7 +880,7 @@ function App({
             <div className="handContent">
               <Melds player={game.players[0]} />
               <div className="hand" role="group" aria-label="你的手牌">
-                {sortedHand.map(({ tile, index }) => {
+                {sortedHand.map(({ tile, index, drawn }) => {
                   const canPlay =
                     game.phase === "discard" &&
                     game.turn === 0 &&
@@ -777,11 +888,11 @@ function App({
                   const recommended = suggestedDiscard === tile && canPlay;
                   return (
                     <button
-                      className={`tile mahjongTile ${selected.includes(index) ? "selected" : ""} ${canPlay ? "playable" : ""} ${recommended ? "recommended" : ""} ${game.phase === "discard" && !canPlay ? "unavailable" : ""}`}
+                      className={`tile mahjongTile ${selected.includes(index) ? "selected" : ""} ${canPlay ? "playable" : ""} ${recommended ? "recommended" : ""} ${drawn ? "tile-drawn" : ""} ${game.phase === "discard" && !canPlay ? "unavailable" : ""}`}
                       key={index}
                       type="button"
                       disabled={game.phase !== "exchange" && !canPlay}
-                      aria-label={`${labelOf(tile)}${recommended ? "，推荐" : ""}`}
+                      aria-label={`${labelOf(tile)}${drawn ? "，新摸" : ""}${recommended ? "，推荐" : ""}`}
                       aria-pressed={
                         game.phase === "exchange"
                           ? selected.includes(index)
@@ -794,6 +905,7 @@ function App({
                       }
                     >
                       <MahjongFace tile={tile} />
+                      {drawn && <span className="drawnMark">摸</span>}
                       {recommended && <span className="recommendMark">荐</span>}
                     </button>
                   );
@@ -872,6 +984,30 @@ function App({
           >
             {autoPlay ? "暂停托管" : "自动托管"}
           </button>
+          <button
+            className={`textButton thinkToggle ${thinkFirst ? "active" : ""}`}
+            type="button"
+            aria-pressed={thinkFirst}
+            onClick={() => {
+              const next = !thinkFirst;
+              setThinkFirst(next);
+              setRevealed(false);
+              try {
+                window.localStorage.setItem("xuezhan.thinkFirst", String(next));
+              } catch {
+                // 忽略本地存储不可用
+              }
+            }}
+          >
+            {thinkFirst ? "先想后看：开" : "先想后看：关"}
+          </button>
+          <TurnReviewDialog
+            review={lastReview}
+            onOpen={() => {
+              pauseAuto();
+              stopAnnouncements();
+            }}
+          />
         </div>
         <div>
           <GameDialog title="玩法提示">
@@ -898,10 +1034,12 @@ function App({
             </p>
           </GameDialog>
           <GameDialog title="对局记录">
-            <p className="dialogIntro">最近 30 条公开动作</p>
+            <p className="dialogIntro">
+              共 {game.log.length} 条公开动作（按时间顺序）
+            </p>
             <ol className="historyList">
-              {game.log.slice(-30).map((entry, index) => (
-                <li key={`${game.log.length}-${index}`}>{entry}</li>
+              {game.log.map((entry, index) => (
+                <li key={`${index}-${entry}`}>{formatLogEntry(entry)}</li>
               ))}
             </ol>
           </GameDialog>

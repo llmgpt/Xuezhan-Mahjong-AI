@@ -5,31 +5,38 @@
   font-synthesis: none;
   font-synthesis-weight: none;
 }
+
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   min-width: 320px;
   background: radial-gradient(ellipse at 50% 0, #fff9ed, #efe9dd 75%);
 }
+
 button,
 input,
 summary {
   font: inherit;
 }
+
 button {
   cursor: pointer;
 }
+
 button:disabled {
   cursor: default;
 }
+
 button:focus-visible,
 summary:focus-visible,
 input:focus-visible {
   outline: 3px solid #e8a934;
   outline-offset: 4px;
 }
+
 .shell {
   height: 100vh;
   height: 100dvh;
@@ -39,6 +46,7 @@ input:focus-visible {
   margin: 0 auto;
   padding: 12px 20px 0;
 }
+
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -47,11 +55,13 @@ input:focus-visible {
   flex: none;
   margin-bottom: 12px;
 }
+
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
 }
+
 .brandTile {
   display: grid;
   place-items: center;
@@ -66,10 +76,12 @@ input:focus-visible {
     0 3px 0 #adbfaf,
     0 4px 8px #2947361a;
 }
+
 .brandTile svg {
   width: 100%;
   height: 100%;
 }
+
 .brand h1 {
   margin: 0;
   font-family: "KaiTi", "STKaiti", "Microsoft YaHei", serif;
@@ -78,16 +90,19 @@ input:focus-visible {
   color: #214e46;
   letter-spacing: 3px;
 }
-.brand div > span {
+
+.brand div>span {
   font-size: 11px;
   color: #8d9487;
   letter-spacing: 2px;
 }
+
 .topbarTools {
   display: flex;
   align-items: center;
   gap: 19px;
 }
+
 .roomTag {
   display: flex;
   align-items: center;
@@ -95,6 +110,7 @@ input:focus-visible {
   color: #77887c;
   font-size: 12px;
 }
+
 .roomTag i {
   width: 6px;
   height: 6px;
@@ -102,6 +118,7 @@ input:focus-visible {
   background: #54a47b;
   box-shadow: 0 0 0 4px #54a47b12;
 }
+
 .settingsButton {
   padding: 8px 0;
   border: 0;
@@ -109,15 +126,18 @@ input:focus-visible {
   color: #708079;
   font-size: 13px;
 }
+
 .settingsPopover {
   max-width: 360px;
   margin: 0 auto;
 }
+
 .settingsPopover label {
   display: block;
   font-weight: 700;
   margin-bottom: 8px;
 }
+
 .settingsPopover input,
 .settingsPopover select {
   width: 100%;
@@ -127,12 +147,14 @@ input:focus-visible {
   border-radius: 7px;
   padding: 8px 10px;
 }
+
 .settingsPopover p,
 .settingsPopover small {
   font-size: 11px;
   color: #7a877a;
   line-height: 1.7;
 }
+
 .settingsPopover button {
   margin-top: 14px;
   width: 100%;
@@ -143,25 +165,30 @@ input:focus-visible {
   color: white;
   font-size: 12px;
 }
+
 .settingsPopover .soundToggle {
   margin-top: 4px;
   border: 1px solid #d2c5a9;
   background: #fffaf0;
   color: #37594d;
 }
+
 .settingsPopover .soundToggle[aria-pressed="true"] {
   border-color: #387664;
 }
+
 .settingsPopover .voicePreview {
   margin-top: 8px;
   border: 1px solid #d2c5a9;
   background: #fffaf0;
   color: #37594d;
 }
+
 .settingsPopover .voicePreview:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 .newGameButton {
   border: 1px solid #d2c5a9;
   border-radius: 22px;
@@ -172,10 +199,12 @@ input:focus-visible {
   font-size: 13px;
   font-weight: 700;
 }
+
 .newGameButton span {
   font-size: 18px;
   margin-right: 4px;
 }
+
 .newGameButton:hover {
   background: #fff4d9;
 }
@@ -186,7 +215,7 @@ input:focus-visible {
   isolation: isolate;
   display: grid;
   grid-template-columns: 175px minmax(0, 1fr) 175px;
-  grid-template-rows: clamp(80px, 12vh, 110px) minmax(0, 1fr) auto;
+  grid-template-rows: minmax(90px, auto) minmax(0, 1fr) auto;
   gap: 6px;
   padding: 12px 20px 15px;
   min-height: 0;
@@ -198,6 +227,7 @@ input:focus-visible {
     0 18px 44px #78664226,
     inset 0 1px 0 #fffbe9;
 }
+
 .scenery {
   position: absolute;
   inset: 0;
@@ -205,6 +235,7 @@ input:focus-visible {
   overflow: hidden;
   background: radial-gradient(ellipse at 50% -30%, #fff7d7, transparent 65%);
 }
+
 .scenery::before {
   content: "";
   position: absolute;
@@ -218,16 +249,16 @@ input:focus-visible {
     0 0 0 50px #ffffff0a,
     0 0 0 105px #ffffff0a;
 }
+
 .scenery::after {
   content: "";
   position: absolute;
   inset: 65% 0 0;
-  background: repeating-linear-gradient(
-    0deg,
-    #6651310a 0 2px,
-    transparent 2px 35px
-  );
+  background: repeating-linear-gradient(0deg,
+      #6651310a 0 2px,
+      transparent 2px 35px);
 }
+
 .mountain {
   position: absolute;
   width: 750px;
@@ -236,16 +267,19 @@ input:focus-visible {
   border-radius: 60% 70% 0 0;
   transform: rotate(-13deg);
 }
+
 .mountain-one {
   left: -280px;
   top: 100px;
 }
+
 .mountain-two {
   right: -220px;
   top: 130px;
   transform: rotate(15deg);
   background: #657b681a;
 }
+
 .lantern {
   position: absolute;
   top: 32px;
@@ -258,6 +292,7 @@ input:focus-visible {
   box-shadow: inset 0 0 0 2px #bc6a4420;
   opacity: 0.5;
 }
+
 .lantern::before {
   content: "";
   position: absolute;
@@ -267,27 +302,29 @@ input:focus-visible {
   bottom: 100%;
   left: 50%;
 }
+
 .lantern::after {
   content: "";
   position: absolute;
   width: 10px;
   height: 26px;
-  background: repeating-linear-gradient(
-    90deg,
-    #bc7556 0 1px,
-    transparent 1px 3px
-  );
+  background: repeating-linear-gradient(90deg,
+      #bc7556 0 1px,
+      transparent 1px 3px);
   top: 100%;
   left: calc(50% - 5px);
 }
+
 .lantern-left {
   left: 6%;
   transform: rotate(8deg);
 }
+
 .lantern-right {
   right: 6%;
   transform: rotate(-8deg);
 }
+
 .tableSurface {
   position: absolute;
   z-index: -1;
@@ -301,6 +338,7 @@ input:focus-visible {
     0 21px 24px #4d45394d,
     inset 0 2px 0 #e3c59b;
 }
+
 .tableInner {
   width: 100%;
   height: 100%;
@@ -312,18 +350,18 @@ input:focus-visible {
     inset 0 0 45px #12382b80,
     inset 0 0 0 3px #265e4b;
 }
+
 .tableInner::after {
   content: "";
   position: absolute;
   inset: 16px;
   border-radius: inherit;
-  background: repeating-radial-gradient(
-    circle at 20% 40%,
-    #ffffff05 0 1px,
-    transparent 1px 4px
-  );
+  background: repeating-radial-gradient(circle at 20% 40%,
+      #ffffff05 0 1px,
+      transparent 1px 4px);
   opacity: 0.4;
 }
+
 .roomPlaque {
   position: absolute;
   top: 25px;
@@ -334,6 +372,7 @@ input:focus-visible {
   font-weight: 700;
   letter-spacing: 4px;
 }
+
 .roomPlaque span {
   display: block;
   font:
@@ -351,25 +390,30 @@ input:focus-visible {
   color: #f5eee0;
   min-width: 0;
 }
+
 .seat-2 {
   grid-column: 2;
   grid-row: 1;
   justify-self: center;
   align-self: start;
 }
+
 .seat-3 {
   grid-column: 1;
   grid-row: 2;
 }
+
 .seat-1 {
   grid-column: 3;
   grid-row: 2;
 }
+
 .opponentIdentity {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 .avatarFrame {
   position: relative;
   flex: none;
@@ -382,23 +426,27 @@ input:focus-visible {
     0 4px 0 #123c3140,
     0 6px 12px #183e3a22;
 }
+
 .avatarPortrait {
   display: block;
   width: 100%;
   height: 100%;
   border-radius: 16px;
 }
+
 .opponent.active .avatarFrame {
   border-color: #ffe090;
   box-shadow:
     0 0 0 4px #f8d47730,
     0 4px 0 #123c3140;
 }
+
 .opponentInfo strong {
   font-size: 14px;
   text-shadow: 0 1px 2px #153d38;
   white-space: nowrap;
 }
+
 .opponentInfo strong small {
   display: block;
   margin-top: 1px;
@@ -406,6 +454,7 @@ input:focus-visible {
   font-size: 9px;
   font-weight: 400;
 }
+
 .scoreLine {
   display: flex;
   align-items: center;
@@ -413,17 +462,21 @@ input:focus-visible {
   font-size: 13px;
   margin: 5px 0;
 }
+
 .coinIcon {
   color: #f8d170;
   font-size: 10px;
   font-style: normal;
 }
+
 .positive {
   color: #f9d990;
 }
+
 .negative {
   color: #edafa0;
 }
+
 .missingBadge {
   display: inline-block;
   border-radius: 4px;
@@ -434,6 +487,7 @@ input:focus-visible {
   line-height: 1.15;
   font-weight: 500;
 }
+
 .opponentHand {
   display: flex;
   align-items: center;
@@ -441,6 +495,7 @@ input:focus-visible {
   min-height: 32px;
   padding-left: 2px;
 }
+
 .tileBack {
   flex: none;
   position: relative;
@@ -453,6 +508,7 @@ input:focus-visible {
   margin-left: -3px;
   box-shadow: 0 2px 0 #98b59e;
 }
+
 .tileBack i {
   display: block;
   position: absolute;
@@ -463,6 +519,7 @@ input:focus-visible {
     repeating-linear-gradient(45deg, #ffffff0c 0 1px, transparent 1px 4px),
     #4d9675;
 }
+
 .handCount {
   display: inline-grid;
   place-items: center;
@@ -475,43 +532,73 @@ input:focus-visible {
   border-radius: 6px;
   font-size: 11px;
 }
+
 .seat-2 .avatarFrame {
-  width: 61px;
-  height: 61px;
+  width: 54px;
+  height: 54px;
 }
+
 .seat-2 .opponentInfo strong small {
   display: inline;
   margin-left: 5px;
 }
+
 .seat-2 .opponentIdentity {
   justify-content: center;
 }
+
+.opponentTiles {
+  display: flex;
+  flex-direction: column;
+}
+
+.seat-2 .opponentTiles {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
+}
+
 .seat-2 .opponentHand {
-  margin-top: 7px;
+  margin-top: 0;
   justify-content: center;
 }
+
+.seat-2 .melds {
+  margin-top: 0;
+}
+
 .seat-2 .opponentInfo {
   color: #335a49;
 }
+
 .seat-2 .opponentInfo strong {
   text-shadow: none;
 }
+
 .seat-2 .opponentInfo strong small {
   color: #778970;
 }
+
 .seat-2 .positive {
   color: #826025;
 }
+
 .seat-2 .negative {
   color: #a8594b;
 }
+
 .seat-2 .missingBadge {
   color: #5a715d;
   background: #fff6db80;
 }
+
 .seat-2 .scoreLine {
   margin: 3px 0;
 }
+
 .wonBadge,
 .dealerBadge {
   position: absolute;
@@ -529,27 +616,33 @@ input:focus-visible {
   font-weight: 900;
   box-shadow: 0 2px 4px #2d3e342b;
 }
+
 .wonBadge {
   background: linear-gradient(#f99368, #df5548);
   color: #fff6d6;
 }
+
 .melds {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
 }
+
 .melds:empty {
   display: none;
 }
+
 .opponent .melds {
   margin-top: 9px;
 }
+
 .meldGroup {
   position: relative;
   display: flex;
   gap: 1px;
   padding-top: 3px;
 }
+
 .meldLabel {
   position: absolute;
   top: -4px;
@@ -570,12 +663,13 @@ input:focus-visible {
   align-self: stretch;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 130px minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr) minmax(70px, 1.4fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
   gap: 4px 14px;
   max-width: 750px;
   width: 100%;
   margin: 0 auto;
 }
+
 .discardZone {
   min-height: 0;
   min-width: 0;
@@ -583,26 +677,32 @@ input:focus-visible {
   scrollbar-width: thin;
   scrollbar-color: #a1c9ac55 transparent;
 }
+
 .discard-seat-2 {
   grid-column: 1 / 4;
   grid-row: 1;
   text-align: center;
+  padding-top: 4px;
 }
+
 .discard-seat-3 {
   grid-column: 1;
   grid-row: 2;
   align-self: center;
 }
+
 .discard-seat-1 {
   grid-column: 3;
   grid-row: 2;
   align-self: center;
 }
+
 .discard-seat-0 {
   grid-column: 1 / 4;
   grid-row: 3;
   text-align: center;
 }
+
 .discardName {
   display: block;
   line-height: 1.3;
@@ -610,6 +710,7 @@ input:focus-visible {
   color: #d2dfcc94;
   letter-spacing: 1px;
 }
+
 .discardTiles {
   display: flex;
   flex-wrap: wrap;
@@ -618,10 +719,16 @@ input:focus-visible {
   padding: 7px 2px 4px;
   justify-content: center;
 }
+
+.discardTiles:empty {
+  padding: 0;
+}
+
 .discard-seat-3,
 .discard-seat-1 {
   max-height: 115px;
 }
+
 .tableCenter {
   grid-column: 2;
   grid-row: 2;
@@ -630,59 +737,68 @@ input:focus-visible {
   align-items: center;
   justify-content: center;
 }
+
 .tableEmblem {
   text-align: center;
   color: #d9d8aa82;
   font-family: "KaiTi", "STKaiti", serif;
 }
-.tableEmblem > span {
+
+.tableEmblem>span {
   display: block;
   font-size: 12px;
   letter-spacing: 10px;
   padding-left: 10px;
 }
+
 .tableEmblem strong {
   display: block;
-  font-size: 25px;
+  font-size: 21px;
   font-weight: 700;
-  margin-top: 5px;
+  margin-top: 2px;
   letter-spacing: 2px;
   white-space: nowrap;
 }
+
 .tableEmblem i {
   display: block;
   font-size: 11px;
   font-style: normal;
   letter-spacing: 3px;
-  margin-top: 7px;
+  margin-top: 3px;
   opacity: 0.6;
 }
+
 .latestDiscard {
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 7px;
+  gap: 3px;
   animation: tileDrop 0.25s ease-out;
 }
-.latestDiscard > span {
+
+.latestDiscard>span {
   font-size: 11px;
   color: #efecd5;
   white-space: nowrap;
 }
+
 .wallCounter {
   display: flex;
   gap: 5px;
   align-items: baseline;
   font-size: 10px;
   color: #cadac78f;
-  margin-top: 13px;
+  margin-top: 6px;
   white-space: nowrap;
 }
+
 .wallCounter b {
   color: #e1e7c5;
   font-size: 12px;
 }
-.wallCounter > span {
+
+.wallCounter>span {
   margin: 0 3px;
 }
 
@@ -705,12 +821,14 @@ input:focus-visible {
     inset 0 1px 0 #ffffff;
   vertical-align: middle;
 }
+
 .tileFace {
   display: block;
   width: 100%;
   height: 100%;
   filter: drop-shadow(0 0.3px 0.2px #13362925);
 }
+
 .tile-discard {
   --tile-w: 23px;
   border-radius: 3px;
@@ -719,30 +837,35 @@ input:focus-visible {
     0 2px 0 #a3bbab,
     0 3px 2px #183d3933;
 }
+
 .tile-meld {
   --tile-w: 23px;
   border-radius: 3px;
   padding: 1px;
   box-shadow: 0 2px 0 #adc0a7;
 }
+
 .tile-latest {
-  --tile-w: 43px;
+  --tile-w: 36px;
   box-shadow:
     0 4px 0 #a9c5ac,
     0 7px 10px #0d342a55;
 }
+
 .tile-choice {
   --tile-w: 29px;
   border-radius: 4px;
   padding: 2px;
   box-shadow: 0 2px 0 #b5c7ac;
 }
+
 .tile-button {
   --tile-w: 24px;
   border-radius: 3px;
   padding: 1px;
   box-shadow: 0 2px 0 #c4b483;
 }
+
 .tile-advice {
   --tile-w: 43px;
   border-radius: 5px;
@@ -755,18 +878,21 @@ input:focus-visible {
   z-index: 2;
   min-width: 0;
 }
+
 .actionBar {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 23px;
-  min-height: 55px;
-  padding: 4px 0 10px;
+  min-height: 36px;
+  padding: 2px 0 4px;
   color: #ffefd0;
 }
+
 .actionMessage {
   text-align: center;
 }
+
 .roundBadge {
   display: inline-block;
   color: #ffeab1;
@@ -774,12 +900,14 @@ input:focus-visible {
   font-size: 15px;
   letter-spacing: 2px;
 }
+
 .actionMessage p {
   color: #d9e5d0;
   font-size: 11px;
   line-height: 1.5;
-  margin: 7px 0 0;
+  margin: 2px 0 0;
 }
+
 .actionChoices {
   display: flex;
   justify-content: center;
@@ -787,9 +915,11 @@ input:focus-visible {
   flex-wrap: wrap;
   gap: 11px;
 }
+
 .actionChoices:empty {
   display: none;
 }
+
 .gameButton {
   position: relative;
   display: inline-flex;
@@ -815,14 +945,17 @@ input:focus-visible {
     filter 0.15s;
   white-space: nowrap;
 }
+
 .gameButton small {
   font-size: 12px;
   letter-spacing: 0;
 }
+
 .gameButton.suggestedAction {
   outline: 2px solid #ffebaa;
   outline-offset: 3px;
 }
+
 .actionRecommendMark {
   position: absolute;
   top: -10px;
@@ -836,6 +969,7 @@ input:focus-visible {
   line-height: 16px;
   letter-spacing: 0;
 }
+
 .actionCoachIcon {
   flex: none;
   display: grid;
@@ -849,18 +983,22 @@ input:focus-visible {
   font-size: 19px;
   font-weight: 700;
 }
+
 .gameButton:hover:not(:disabled) {
   filter: brightness(1.07);
   transform: translateY(-2px);
 }
+
 .gameButton:active:not(:disabled) {
   transform: translateY(2px);
   box-shadow: 0 2px 0 #a77432;
 }
+
 .gameButton:disabled {
   filter: saturate(0.45);
   opacity: 0.55;
 }
+
 .gameButton.secondary {
   border-color: #bfe0d8;
   color: #f1fff2;
@@ -869,6 +1007,7 @@ input:focus-visible {
     0 4px 0 #245e50,
     0 7px 12px #0e3a3230;
 }
+
 .missingChoice {
   display: flex;
   align-items: center;
@@ -882,10 +1021,12 @@ input:focus-visible {
   font-size: 17px;
   box-shadow: 0 4px 0 #a87e3f;
 }
+
 .missingChoice:hover {
   transform: translateY(-3px);
   background: #fff1bd;
 }
+
 .handTray {
   display: flex;
   gap: 19px;
@@ -895,6 +1036,7 @@ input:focus-visible {
   border-radius: 15px;
   background: linear-gradient(#144f4420, #144b3d68);
 }
+
 .playerIdentity {
   display: flex;
   flex-direction: column;
@@ -905,35 +1047,44 @@ input:focus-visible {
   color: #f4efdc;
   text-align: center;
 }
+
 .playerIdentity .avatarFrame {
   width: 46px;
   height: 46px;
 }
+
 .playerIdentity strong {
   display: block;
   font-size: 13px;
 }
+
 .playerIdentity strong b {
   margin-left: 6px;
 }
+
 .playerIdentity .missingBadge {
   margin-top: 5px;
 }
+
 .handContent {
   flex: 1;
   min-width: 0;
   padding-bottom: 9px;
 }
+
 .handContent .melds {
   margin: 0 0 6px;
   justify-content: center;
 }
+
 .handContent .melds:empty {
   display: none;
 }
+
 .handContent .tile-meld {
   --tile-w: 30px;
 }
+
 .hand {
   display: flex;
   align-items: end;
@@ -941,18 +1092,22 @@ input:focus-visible {
   gap: 4px;
   padding: 10px 0 0;
 }
+
 .tile {
   --tile-w: clamp(32px, min(4.15vw, 7.2vh), 58px);
   transition:
     transform 0.16s ease-out,
     box-shadow 0.16s;
 }
+
 .tile:disabled {
   color: inherit;
 }
+
 .tile.unavailable {
   filter: brightness(0.68) saturate(0.8);
 }
+
 .tile.playable:hover,
 .tile.selected {
   transform: translateY(-15px);
@@ -963,12 +1118,33 @@ input:focus-visible {
     0 0 0 2px #ffe69988,
     0 9px 12px #12382b55;
 }
+
 .tile.recommended {
   border-color: #f6cf71;
   box-shadow:
     0 5px 0 #c5aa60,
     0 0 0 1px #ffe28b70;
 }
+
+.tile-drawn {
+  margin-left: 12px;
+}
+
+.drawnMark {
+  position: absolute;
+  left: -2px;
+  top: -9px;
+  border: 1px solid #d5eadc;
+  background: #2f6c58;
+  color: #f4fbf6;
+  border-radius: 4px;
+  font-size: 9px;
+  line-height: 15px;
+  width: 17px;
+  box-shadow: 0 2px 3px #173b2c2b;
+  font-weight: 900;
+}
+
 .recommendMark {
   position: absolute;
   right: -2px;
@@ -995,6 +1171,7 @@ input:focus-visible {
   box-shadow: 0 5px 16px #153d3426;
   overflow: hidden;
 }
+
 .coachSummary {
   flex: 1;
   min-width: 0;
@@ -1003,21 +1180,25 @@ input:focus-visible {
   gap: 13px;
   padding: 8px 12px;
 }
+
 .tile-coach {
   --tile-w: 31px;
   border-radius: 4px;
   box-shadow: 0 3px 0 #c5b77f;
 }
+
 .coachSummary strong {
   color: #526d53;
   font-size: 13px;
 }
+
 .coachSummary p {
   margin: 5px 0 0;
   color: #60765f;
   font-size: 12px;
   line-height: 1.65;
 }
+
 .adviceDetailsButton {
   flex: none;
   align-self: stretch;
@@ -1028,9 +1209,11 @@ input:focus-visible {
   color: #9a7b45;
   font-size: 12px;
 }
+
 .adviceDetailsButton:hover {
   background: #f5eaca;
 }
+
 .speakAdviceButton {
   margin: 4px 0 0;
   padding: 8px 12px;
@@ -1040,14 +1223,17 @@ input:focus-visible {
   color: #5b5138;
   font-weight: 700;
 }
+
 .speakAdviceButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 .adviceReason .choiceReason {
   font-weight: 700;
   color: #49674e;
 }
+
 .advicePanel {
   margin-top: 22px;
   background: #fffcf4;
@@ -1055,6 +1241,7 @@ input:focus-visible {
   border-radius: 17px;
   padding: 18px 22px 21px;
 }
+
 .adviceHeading {
   display: flex;
   align-items: center;
@@ -1062,39 +1249,47 @@ input:focus-visible {
   gap: 14px;
   margin-bottom: 16px;
 }
-.adviceHeading > div {
+
+.adviceHeading>div {
   display: flex;
   gap: 9px;
   align-items: center;
 }
+
 .adviceHeading h2 {
   margin: 0;
   font-size: 16px;
   color: #3d665a;
 }
+
 .coachIcon {
   color: #c39649;
   font-size: 22px;
 }
-.adviceHeading > span {
+
+.adviceHeading>span {
   font-size: 11px;
   color: #91a08f;
 }
+
 .adviceCards {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 22px;
   align-items: start;
 }
+
 .adviceCard {
   display: flex;
   gap: 16px;
   align-items: center;
 }
-.adviceCard + .adviceCard {
+
+.adviceCard+.adviceCard {
   border-left: 1px solid #e7e4d7;
   padding-left: 22px;
 }
+
 .adviceTile {
   flex: none;
   display: flex;
@@ -1102,32 +1297,38 @@ input:focus-visible {
   align-items: center;
   gap: 10px;
 }
-.adviceTile > span:last-child {
+
+.adviceTile>span:last-child {
   color: #9a7841;
   font-size: 10px;
   white-space: nowrap;
 }
+
 .adviceCard:first-child .tile-advice {
   box-shadow:
     0 4px 0 #d0b876,
     0 0 0 1px #e0c584;
 }
+
 .adviceReason p {
   font-size: 12px;
   color: #5f766b;
   line-height: 1.8;
   margin: 0 0 7px;
 }
+
 .adviceReason small {
   font-size: 10px;
   color: #9aab9b;
   line-height: 1.65;
   display: block;
 }
+
 .singleChoice {
   font-size: 12px;
   color: #8b9e90;
 }
+
 .tableToolbar {
   flex: none;
   display: flex;
@@ -1137,10 +1338,12 @@ input:focus-visible {
   color: #909c8d;
   font-size: 10px;
 }
-.tableToolbar > div {
+
+.tableToolbar>div {
   display: flex;
   gap: 12px;
 }
+
 .textButton {
   padding: 8px 4px;
   border: 0;
@@ -1148,6 +1351,7 @@ input:focus-visible {
   background: transparent;
   font-size: 12px;
 }
+
 .gameDialog {
   width: min(740px, calc(100% - 32px));
   max-height: calc(100dvh - 32px);
@@ -1159,14 +1363,17 @@ input:focus-visible {
   box-shadow: 0 18px 60px #163b3666;
   overflow: hidden;
 }
+
 .gameDialog[open] {
   display: flex;
   flex-direction: column;
 }
+
 .gameDialog::backdrop {
   background: #123c3977;
   backdrop-filter: blur(3px);
 }
+
 .dialogHeading {
   flex: none;
   display: flex;
@@ -1175,10 +1382,12 @@ input:focus-visible {
   padding: 10px 16px;
   border-bottom: 1px solid #e8dfc9;
 }
+
 .dialogHeading h2 {
   margin: 0;
   font-size: 16px;
 }
+
 .dialogClose {
   width: 36px;
   height: 36px;
@@ -1188,21 +1397,25 @@ input:focus-visible {
   color: #70806a;
   font-size: 23px;
 }
+
 .dialogContent {
   min-height: 0;
   padding: 18px;
   overflow: auto;
   overscroll-behavior: contain;
 }
+
 .dialogIntro {
   margin: 0 0 14px;
   font-size: 12px;
   color: #8b987b;
   line-height: 1.7;
 }
+
 .dialogContent .advicePanel {
   margin: 0;
 }
+
 .lookaheadPanel {
   margin-top: 14px;
   padding: 14px;
@@ -1212,6 +1425,7 @@ input:focus-visible {
   font-size: 12px;
   line-height: 1.6;
 }
+
 .lookaheadPanel button {
   border: 1px solid #9bb29c;
   border-radius: 8px;
@@ -1220,24 +1434,29 @@ input:focus-visible {
   color: #315b4b;
   font-weight: 700;
 }
+
 .lookaheadPanel p {
   margin: 9px 0 0;
 }
+
 .lookaheadPanel small {
   display: block;
   margin-top: 9px;
   color: #6f7e70;
 }
+
 .lookaheadResults {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 10px;
 }
+
 .lookaheadResults p {
   padding: 9px;
   border-radius: 8px;
   background: #fffdf5;
 }
+
 .historyList,
 .rulesHelp {
   margin: 0;
@@ -1245,9 +1464,11 @@ input:focus-visible {
   font-size: 13px;
   line-height: 1.9;
 }
+
 .rulesHelp li {
   margin-bottom: 15px;
 }
+
 .rulesHelp strong {
   display: block;
 }
@@ -1262,6 +1483,7 @@ input:focus-visible {
   backdrop-filter: blur(4px);
   padding: 24px;
 }
+
 .resultPanel {
   position: relative;
   width: min(510px, 100%);
@@ -1276,11 +1498,13 @@ input:focus-visible {
     0 16px 65px #12332e80,
     inset 0 0 0 5px #fffdf255;
 }
+
 .resultSeal {
   font-size: 11px;
   color: #b39255;
   letter-spacing: 6px;
 }
+
 .resultPanel h2 {
   color: #906932;
   font-family: "KaiTi", "STKaiti", serif;
@@ -1288,17 +1512,20 @@ input:focus-visible {
   letter-spacing: 7px;
   margin: 10px 0 6px;
 }
+
 .resultSubtitle {
   color: #aa9d7d;
   font-size: 12px;
   margin: 0 0 21px;
 }
+
 .resultScores {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
-.resultScores > div {
+
+.resultScores>div {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -1306,21 +1533,26 @@ input:focus-visible {
   font-size: 12px;
   color: #79866d;
 }
+
 .resultScores svg {
   width: 57px;
   height: 57px;
   border: 3px solid #dcd5b7;
   border-radius: 17px;
 }
+
 .resultScores b {
   font-size: 24px;
 }
+
 .resultScores .positive {
   color: #b68835;
 }
+
 .resultScores .negative {
   color: #bc7064;
 }
+
 .winRecords {
   margin: 22px 0;
   padding: 10px 0;
@@ -1328,6 +1560,7 @@ input:focus-visible {
   border-bottom: 1px solid #e4ddc8;
   text-align: left;
 }
+
 .winRecords p {
   display: flex;
   align-items: center;
@@ -1337,6 +1570,7 @@ input:focus-visible {
   font-size: 11px;
   margin: 8px 0;
 }
+
 .winRecords b {
   color: #b0955c;
   font-weight: 500;
@@ -1347,109 +1581,137 @@ input:focus-visible {
     transform: translateY(-10px) scale(0.9);
     opacity: 0.5;
   }
+
   to {
     transform: none;
     opacity: 1;
   }
 }
+
 @media (max-width: 1100px) {
   .shell {
     padding: 10px 14px 0;
   }
+
   .gameStage {
     grid-template-columns: 140px minmax(0, 1fr) 140px;
     padding: 10px 14px 14px;
   }
+
   .avatarFrame {
     width: 54px;
     height: 54px;
     border-radius: 16px;
   }
+
   .avatarPortrait {
     border-radius: 12px;
   }
+
   .opponentIdentity {
     gap: 7px;
   }
+
   .opponentInfo strong {
     font-size: 12px;
   }
+
   .tileBack {
     width: 12px;
     height: 24px;
   }
+
   .publicArea {
     grid-template-columns: minmax(0, 1fr) 100px minmax(0, 1fr);
     gap: 4px 9px;
   }
+
   .discard-seat-3,
   .discard-seat-1 {
     max-height: 135px;
   }
+
   .tile-discard {
     --tile-w: 21px;
   }
+
   .handTray {
     gap: 9px;
     padding-inline: 0;
   }
+
   .playerIdentity {
     min-width: 72px;
   }
+
   .hand {
     gap: 3px;
   }
 }
+
 @media (max-width: 760px) {
   .shell {
     padding: 8px 8px 0;
   }
+
   .topbar {
     margin-bottom: 8px;
     gap: 10px;
   }
+
   .brand {
     gap: 8px;
   }
+
   .brandTile {
     width: 28px;
     height: 38px;
     border-radius: 5px;
   }
+
   .brand h1 {
     font-size: 23px;
     letter-spacing: 1px;
   }
-  .brand div > span {
+
+  .brand div>span {
     font-size: 9px;
     letter-spacing: 0;
   }
+
   .topbarTools {
     gap: 10px;
   }
+
   .roomTag {
     display: none;
   }
+
   .newGameButton {
     padding: 7px 10px;
     font-size: 11px;
   }
+
   .newGameButton span {
     display: none;
   }
+
   .settingsButton {
     font-size: 11px;
   }
+
   .gameStage {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: 86px minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
     gap: 5px;
     padding: 9px 10px 12px;
     border-radius: 20px;
   }
+
   .roomPlaque {
     display: none;
   }
+
   .tableSurface {
     inset: 40px 5px 10px;
     padding: 7px;
@@ -1458,124 +1720,161 @@ input:focus-visible {
       0 7px 0 #674c36,
       0 13px 20px #4d45394d;
   }
+
   .tableInner {
     border-width: 1px;
   }
+
   .tableInner::after {
     inset: 9px;
   }
+
   .lantern-left {
     left: 9%;
     top: 23px;
   }
+
   .lantern-right {
     right: 9%;
     top: 23px;
   }
+
   .lantern {
     width: 23px;
     height: 33px;
   }
+
   .seat-2 {
     grid-column: 2;
     grid-row: 1;
   }
+
   .seat-3 {
     grid-column: 1;
     grid-row: 1;
     align-self: start;
   }
+
   .seat-1 {
     grid-column: 3;
     grid-row: 1;
     align-self: start;
     justify-self: end;
   }
+
   .avatarFrame {
     width: 32px;
     height: 32px;
     border-radius: 13px;
     border-width: 2px;
   }
+
   .avatarPortrait {
     border-radius: 10px;
   }
+
   .seat-2 .avatarFrame {
     width: 32px;
     height: 32px;
   }
+
   .opponent {
     width: 100%;
-    max-height: 86px;
     align-self: start;
-    overflow: auto;
-    scrollbar-width: thin;
+    overflow: visible;
   }
+
   .opponentIdentity,
   .seat-2 .opponentIdentity {
     gap: 5px;
     justify-content: center;
   }
+
   .opponentInfo,
   .seat-2 .opponentInfo {
     color: #34574b;
     font-size: 0;
     line-height: 1.1;
   }
+
   .opponentInfo strong {
     display: block;
     font-size: 11px;
     line-height: 1.2;
     text-shadow: none;
   }
+
   .opponentInfo strong small,
   .seat-2 .opponentInfo strong small {
     display: none;
   }
+
   .opponent .positive {
     color: #826025;
   }
+
   .opponent .negative {
     color: #a8594b;
   }
+
   .opponent .missingBadge {
     color: #47624f;
     background: #fff6dbb0;
   }
+
   .scoreLine {
     font-size: 11px;
     margin: 3px 0;
   }
+
   .missingBadge {
     font-size: 9px;
     padding: 2px 4px;
   }
+
+  .seat-2 .opponentTiles {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin-top: 4px;
+  }
+
   .opponentHand {
     justify-content: center;
     margin-top: 4px;
     min-height: 15px;
   }
+
+  .seat-2 .opponentHand {
+    margin-top: 0;
+  }
+
   .tileBack {
     width: 7px;
     height: 14px;
     margin-left: -2px;
   }
+
   .handCount {
     height: 17px;
     min-width: 18px;
     font-size: 9px;
     margin-left: 4px;
   }
+
   .opponent .melds {
     position: static;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 4px;
-    margin-top: 5px;
+    gap: 3px;
+    margin-top: 4px;
   }
+
   .opponent .tile-meld {
-    --tile-w: 15px;
+    --tile-w: 13px;
     border-radius: 2px;
   }
+
   .wonBadge,
   .dealerBadge {
     width: 20px;
@@ -1584,6 +1883,7 @@ input:focus-visible {
     right: -5px;
     bottom: -5px;
   }
+
   .publicArea {
     grid-column: 1 / 4;
     grid-row: 2;
@@ -1591,90 +1891,113 @@ input:focus-visible {
     grid-template-rows: repeat(2, minmax(0, 1fr));
     gap: 2px 5px;
   }
+
   .discard-seat-2 {
     grid-column: 1;
     grid-row: 1;
   }
+
   .discard-seat-3 {
     grid-column: 1;
     grid-row: 2;
     align-self: stretch;
   }
+
   .discard-seat-1 {
     grid-column: 3;
     grid-row: 1;
     align-self: stretch;
   }
+
   .discard-seat-0 {
     grid-column: 3;
     grid-row: 2;
   }
+
   .tableCenter {
     grid-row: 1 / 3;
   }
+
   .discardName {
     font-size: 8px;
     letter-spacing: 0;
   }
+
   .discardTiles {
     gap: 2px;
     padding-top: 5px;
   }
+
   .tile-discard {
     --tile-w: 18px;
     border-radius: 2px;
   }
+
   .discard-seat-3,
   .discard-seat-1 {
     max-height: 104px;
   }
+
   .tableEmblem strong {
     font-size: 18px;
     letter-spacing: 1px;
   }
-  .tableEmblem > span {
+
+  .tableEmblem>span {
     font-size: 10px;
   }
+
   .tableEmblem i {
     font-size: 9px;
   }
+
   .wallCounter {
     font-size: 8px;
     gap: 3px;
     margin-top: 10px;
   }
+
   .wallCounter b {
     font-size: 10px;
   }
-  .wallCounter > span {
+
+  .wallCounter>span {
     margin: 0;
   }
+
   .tile-latest {
     --tile-w: 34px;
   }
-  .latestDiscard > span {
+
+  .latestDiscard>span {
     font-size: 9px;
   }
+
   .playerArea {
     grid-column: 1 / 4;
     grid-row: 3;
   }
+
   .actionBar {
     flex-direction: column;
     gap: 8px;
     min-height: 48px;
     padding: 5px 0 9px;
   }
+
   .roundBadge {
     font-size: 14px;
   }
+
   .actionMessage p {
     font-size: 10px;
     margin-top: 5px;
   }
+
   .playerArea:has(.inlineAdvice) .actionMessage p {
     display: none;
   }
+
   .gameButton {
     min-height: 40px;
     min-width: 58px;
@@ -1683,25 +2006,31 @@ input:focus-visible {
     gap: 5px;
     letter-spacing: 1px;
   }
+
   .actionChoices {
     gap: 8px;
   }
+
   .actionChoices .tile-button {
     --tile-w: 20px;
   }
+
   .missingChoice {
     padding: 6px 11px;
     font-size: 14px;
     gap: 7px;
     border-radius: 11px;
   }
+
   .tile-choice {
     --tile-w: 22px;
   }
+
   .handTray {
     display: block;
     padding: 6px 0 0;
   }
+
   .playerIdentity {
     flex-direction: row;
     justify-content: center;
@@ -1709,20 +2038,25 @@ input:focus-visible {
     padding: 0 0 6px;
     text-align: left;
   }
+
   .playerIdentity .avatarFrame {
     width: 33px;
     height: 33px;
     border-radius: 10px;
   }
+
   .playerIdentity .avatarPortrait {
     border-radius: 7px;
   }
+
   .playerIdentity .missingBadge {
     margin-top: 3px;
   }
+
   .playerIdentity strong {
     font-size: 11px;
   }
+
   .hand {
     display: grid;
     grid-template-columns: repeat(7, max-content);
@@ -1730,284 +2064,364 @@ input:focus-visible {
     justify-content: center;
     padding-top: 7px;
   }
+
   .tile {
     --tile-w: clamp(32px, min(calc((100vw - 70px) / 7), 6.5vh), 51px);
     border-radius: 5px;
     padding: 2px;
   }
+
+  .tile-drawn {
+    margin-left: 0;
+  }
+
   .tile.playable:hover,
   .tile.selected {
     transform: translateY(-8px);
   }
+
   .handContent {
     padding-bottom: 2px;
   }
+
   .handContent .tile-meld {
     --tile-w: 23px;
   }
+
   .advicePanel {
     margin-top: 16px;
     padding: 15px;
     border-radius: 13px;
   }
+
   .coachSummary {
     gap: 8px;
     padding: 7px 9px;
   }
+
   .coachSummary strong {
     font-size: 12px;
   }
+
   .coachSummary p {
     font-size: 10.5px;
     line-height: 1.5;
   }
+
   .tile-coach {
     --tile-w: 26px;
   }
+
   .adviceDetailsButton {
     max-width: 40px;
     padding: 7px;
     font-size: 10px;
   }
+
   .adviceHeading {
     align-items: start;
     flex-direction: column;
     gap: 3px;
     margin-bottom: 17px;
   }
+
   .adviceHeading h2 {
     font-size: 15px;
   }
-  .adviceHeading > span {
+
+  .adviceHeading>span {
     font-size: 10px;
     padding-left: 28px;
   }
+
   .adviceCards {
     grid-template-columns: 1fr;
     gap: 17px;
   }
+
   .adviceCard {
     gap: 15px;
   }
-  .adviceCard + .adviceCard {
+
+  .adviceCard+.adviceCard {
     border-left: 0;
     border-top: 1px solid #e7e4d7;
     padding: 17px 0 0;
   }
+
   .adviceReason p {
     font-size: 11px;
   }
+
   .adviceReason small {
     font-size: 9px;
   }
+
   .tile-advice {
     --tile-w: 37px;
   }
+
   .resultBackdrop {
     padding: 18px;
   }
+
   .resultPanel {
     padding: 25px 17px;
   }
+
   .resultPanel h2 {
     font-size: 33px;
   }
+
   .resultScores {
     gap: 7px;
   }
+
   .resultScores svg {
     width: 48px;
     height: 48px;
   }
+
   .resultScores b {
     font-size: 21px;
   }
+
   .winRecords p {
     font-size: 10px;
     gap: 7px;
   }
 }
+
 @media (max-height: 500px) and (min-width: 600px) {
   .shell {
     padding: 4px 10px 0;
   }
+
   .topbar {
     margin-bottom: 6px;
   }
+
   .brandTile {
     width: 28px;
     height: 36px;
   }
+
   .brand h1 {
     font-size: 22px;
   }
-  .brand div > span {
+
+  .brand div>span {
     display: none;
   }
+
   .newGameButton {
     padding: 5px 12px;
     font-size: 11px;
   }
+
   .gameStage {
     grid-template-columns: 115px minmax(0, 1fr) 115px;
     grid-template-rows: 60px minmax(0, 1fr) auto;
     padding: 8px 12px 10px;
     gap: 4px;
   }
+
   .roomPlaque {
     display: none;
   }
+
   .tableSurface {
     inset: 35px 10px 10px;
     padding: 7px;
   }
+
   .seat-1,
   .seat-3 {
     grid-row: 1;
   }
+
   .opponent {
     max-height: 60px;
     align-self: start;
     overflow: auto;
     scrollbar-width: thin;
   }
+
   .opponent .avatarFrame {
     width: 32px;
     height: 32px;
     border-radius: 10px;
   }
+
   .opponentInfo strong {
     display: block;
     font-size: 11px;
     line-height: 1.2;
     text-shadow: none;
   }
+
   .opponentInfo,
   .seat-2 .opponentInfo {
     color: #34574b;
     font-size: 0;
     line-height: 1.1;
   }
+
   .opponentInfo strong small,
   .seat-2 .opponentInfo strong small {
     display: none;
   }
+
   .opponent .positive {
     color: #826025;
   }
+
   .opponent .negative {
     color: #a8594b;
   }
+
   .scoreLine,
   .seat-2 .scoreLine {
     margin: 0;
     font-size: 10px;
   }
+
   .missingBadge {
     padding: 2px 4px;
     font-size: 9px;
   }
+
   .opponent .missingBadge {
     background: #fff6dbb0;
     color: #47624f;
   }
+
   .opponentHand,
   .seat-2 .opponentHand {
-    margin-top: 3px;
+    margin-top: 0;
     min-height: 14px;
   }
+
+  .seat-2 .opponentTiles {
+    gap: 6px;
+    margin-top: 3px;
+  }
+
   .tileBack {
     width: 8px;
     height: 14px;
   }
+
   .handCount {
     height: 16px;
     min-width: 18px;
     font-size: 9px;
   }
+
   .publicArea {
     grid-column: 1 / 4;
     grid-template-rows: repeat(2, minmax(0, 1fr));
     grid-template-columns: minmax(0, 1fr) 115px minmax(0, 1fr);
   }
+
   .discard-seat-2 {
     grid-column: 1;
     grid-row: 1;
   }
+
   .discard-seat-3 {
     grid-column: 1;
     grid-row: 2;
     align-self: stretch;
   }
+
   .discard-seat-1 {
     grid-column: 3;
     grid-row: 1;
     align-self: stretch;
   }
+
   .discard-seat-0 {
     grid-column: 3;
     grid-row: 2;
   }
+
   .tableCenter {
     grid-row: 1 / 3;
   }
-  .tableEmblem > span,
+
+  .tableEmblem>span,
   .tableEmblem i {
     display: none;
   }
+
   .tableEmblem strong {
     font-size: 20px;
   }
+
   .wallCounter {
     margin-top: 5px;
   }
+
   .latestDiscard {
     gap: 3px;
   }
+
   .tile-latest {
     --tile-w: 28px;
   }
+
   .actionBar {
     min-height: 34px;
     padding: 3px 0 6px;
     flex-direction: row;
   }
+
   .roundBadge {
     font-size: 12px;
   }
+
   .actionMessage p {
     margin-top: 3px;
     font-size: 10px;
   }
+
   .playerArea:has(.inlineAdvice) .actionMessage p {
     display: none;
   }
+
   .gameButton {
     min-height: 32px;
     min-width: 70px;
     padding: 5px 12px;
     font-size: 15px;
   }
+
   .missingChoice {
     padding: 4px 12px;
     font-size: 13px;
   }
+
   .playerArea:has(.inlineAdvice) {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     gap: 6px 8px;
   }
+
   .playerArea:has(.inlineAdvice) .actionMessage {
     display: none;
   }
+
   .playerArea:has(.inlineAdvice) .actionBar {
     grid-column: 1;
     grid-row: 1;
     padding: 4px;
   }
+
   .playerArea:has(.inlineAdvice) .actionChoices {
     flex-wrap: nowrap;
   }
+
   .playerArea:has(.inlineAdvice) .gameButton {
     min-width: 54px;
     padding: 5px 8px;
@@ -2015,80 +2429,100 @@ input:focus-visible {
     font-size: 14px;
     letter-spacing: 1px;
   }
+
   .playerArea:has(.inlineAdvice) .inlineAdvice {
     grid-column: 2;
     grid-row: 1;
     margin: 0;
   }
+
   .playerArea:has(.actionChoices:empty) .actionBar {
     display: none;
   }
+
   .playerArea:has(.actionChoices:empty) .inlineAdvice {
     grid-column: 1 / 3;
   }
+
   .playerArea:has(.inlineAdvice) .handTray {
     grid-column: 1 / 3;
     grid-row: 2;
   }
+
   .tile-choice,
   .tile-button {
     --tile-w: 20px;
   }
+
   .coachSummary {
     padding: 5px 10px;
   }
+
   .coachSummary strong {
     font-size: 12px;
   }
+
   .coachSummary p {
     margin-top: 2px;
     font-size: 11px;
   }
+
   .tile-coach {
     --tile-w: 25px;
   }
+
   .handTray {
     display: flex;
     padding: 4px 0;
   }
+
   .playerIdentity {
     flex-direction: row;
     min-width: 90px;
     gap: 8px;
   }
+
   .playerIdentity .avatarFrame {
     width: 32px;
     height: 32px;
     border-radius: 10px;
   }
+
   .playerIdentity strong {
     font-size: 11px;
   }
+
   .handContent {
     display: flex;
     align-items: end;
     gap: 8px;
     padding-bottom: 4px;
   }
+
   .handContent .melds {
     flex: none;
     flex-wrap: nowrap;
     margin: 0;
   }
+
   .hand {
     flex: 1;
     display: flex;
     gap: 3px;
     padding-top: 8px;
   }
+
   .tile {
     --tile-w: clamp(32px, 4.2vw, 42px);
   }
+
   .handContent .tile-meld {
     --tile-w: 19px;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -2103,23 +2537,573 @@ input:focus-visible {
   align-items: center;
   gap: 12px;
 }
+
 .learningTools button:disabled {
   opacity: 0.45;
 }
+
 @media (max-width: 800px) {
   .learningTools {
     gap: 7px;
   }
+
   .learningTools .textButton {
     font-size: 11px;
   }
 }
+
 @media (max-width: 420px) {
-  .tableToolbar > div {
+  .tableToolbar>div {
     gap: 4px;
   }
+
   .tableToolbar .textButton {
     font-size: 10px;
     padding-inline: 2px;
+  }
+}
+
+.thinkFirstPrompt {
+  border-color: #c9dbca;
+  background: #f4f8f2;
+}
+
+.revealAdviceButton {
+  flex: none;
+  align-self: stretch;
+  padding: 8px 14px;
+  border: 0;
+  border-left: 1px solid #d4e3d4;
+  background: #e9f3e8;
+  color: #2f5b46;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.revealAdviceButton:hover {
+  background: #dcecd9;
+}
+
+.thinkToggle.active {
+  color: #3a6a50;
+  font-weight: 800;
+}
+
+.reviewTrigger {
+  color: #7c5620;
+  font-weight: 800;
+}
+
+.turnReviewSummary {
+  margin-bottom: 14px;
+}
+
+.reviewCompareRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.reviewChoiceCard {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #dfd3b5;
+  background: #fbf7eb;
+}
+
+.reviewChoiceCard.chosen {
+  border-color: #9dc0a8;
+  background: #f2f8f3;
+}
+
+.reviewChoiceCard.recommended {
+  border-color: #e4c67d;
+  background: #fdf6e3;
+}
+
+.reviewChoiceBadge {
+  display: inline-block;
+  font-size: 11px;
+  color: #6b7665;
+  margin-bottom: 4px;
+}
+
+.reviewChoiceCard strong {
+  display: block;
+  font-size: 14px;
+  color: #2b4a3d;
+}
+
+.reviewMatchLine {
+  margin: 10px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #46634f;
+}
+
+.reviewReasonBox {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f9f3e2;
+  border: 1px solid #e7d9b6;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #4b5d4e;
+}
+
+.reviewReasonBox p {
+  margin: 0 0 4px;
+}
+
+.reviewReasonBox small {
+  color: #7a735e;
+}
+
+.tileBreakdown {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #dfd3b3;
+  background: #fcfaf1;
+}
+
+.breakdownHeader h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #365647;
+}
+
+.breakdownScope,
+.breakdownNote,
+.breakdownDivergeNote {
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #667360;
+}
+
+.breakdownDivergeNote {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #fbf0d3;
+  color: #755320;
+}
+
+.breakdownMissingRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.breakdownMetricLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4a6250;
+}
+
+.breakdownTileStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.breakdownRows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.breakdownRow {
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1px solid #e6dcc0;
+  background: #ffffff;
+}
+
+.breakdownRow.is-chosen {
+  border-color: #8bb598;
+  background: #f5faf6;
+}
+
+.breakdownRow.is-recommended {
+  border-color: #e2be69;
+}
+
+.breakdownRowHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.breakdownRowTitle {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.breakdownRowTitle strong {
+  font-size: 13px;
+  color: #2f4d3f;
+}
+
+.breakdownTags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.breakdownTag {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+
+.breakdownTag.chosen {
+  background: #d8eee0;
+  color: #24573e;
+}
+
+.breakdownTag.recommended {
+  background: #f8e3ab;
+  color: #784c14;
+}
+
+.breakdownTag.topEfficiency {
+  background: #ebe7dc;
+  color: #4b5d4e;
+}
+
+.breakdownStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.breakdownStatPill {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #496652;
+  background: #eff4ef;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+.breakdownWaits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.breakdownWaitChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 7px;
+  border: 1px solid #e6dec6;
+  background: #fbf8ee;
+  font-size: 11.5px;
+  color: #3d5647;
+}
+
+.tileBreakdown .tile-discard {
+  --tile-w: 22px;
+}
+
+.breakdownWaitChip small {
+  color: #7c5c26;
+  font-size: 10.5px;
+}
+
+.breakdownMore,
+.breakdownExhausted,
+.breakdownRowNote {
+  margin: 6px 0 0;
+  font-size: 11.5px;
+  color: #6c7767;
+  line-height: 1.5;
+}
+
+.breakdownExhausted {
+  color: #8f6448;
+}
+
+@media (max-width: 600px) {
+  .reviewCompareRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inlineAdviceExpanded {
+  flex-direction: column;
+  align-items: stretch;
+  max-height: clamp(165px, 31vh, 250px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.inlineAdviceExpanded .coachSummary {
+  gap: 9px;
+  padding: 5px 10px;
+}
+
+.inlineAdviceExpanded .coachSummary p {
+  margin: 2px 0 0;
+  line-height: 1.35;
+}
+
+.inlineAdviceExpanded .tile-coach {
+  --tile-w: 24px;
+}
+
+.coachHeaderBar {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eadbb6;
+}
+
+.speakInlineButton {
+  flex: none;
+  align-self: stretch;
+  padding: 4px 10px;
+  border: 0;
+  border-left: 1px solid #e3d8b9;
+  background: transparent;
+  color: #8c6d38;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.speakInlineButton:hover {
+  background: #f5eaca;
+}
+
+.coachDetailsInline {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px 10px 8px;
+  background: #fffdf6;
+}
+
+.coachChoicesInline {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.coachChoiceLine {
+  padding: 5px 9px;
+  border-radius: 8px;
+  border: 1px solid #eadfc2;
+  background: #ffffff;
+  font-size: 11.5px;
+  line-height: 1.38;
+  color: #495d4c;
+}
+
+.coachChoiceLine.is-primary {
+  border-color: #e4c372;
+  background: #fdf8ea;
+}
+
+.coachChoiceLineTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.coachChoiceBadge {
+  font-weight: 800;
+  color: #365647;
+}
+
+.coachChoiceSubSummary {
+  font-size: 11px;
+  color: #6b7665;
+}
+
+.coachChoiceLine p,
+.coachProvenanceFooter p,
+.coachSingleNote {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  line-height: 1.38;
+  color: #4e6050;
+}
+
+.coachChoiceLine small,
+.coachProvenanceFooter small {
+  display: block;
+  margin-top: 2px;
+  font-size: 10.5px;
+  line-height: 1.3;
+  color: #867d65;
+}
+
+.coachProvenanceFooter {
+  padding-top: 6px;
+  border-top: 1px dashed #e6dac0;
+}
+
+.coachTwoDrawDetails {
+  padding-top: 4px;
+  border-top: 1px dashed #e6dac0;
+  font-size: 12px;
+  color: #6c6248;
+}
+
+.coachTwoDrawDetails summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #7c5e2c;
+}
+
+.tileBreakdown.variant-inline {
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.tileBreakdown.variant-inline .breakdownHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tileBreakdown.variant-inline .breakdownHeader h4 {
+  font-size: 12px;
+  margin: 0;
+}
+
+.tileBreakdown.variant-inline .breakdownScope {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.tileBreakdown.variant-inline .breakdownDivergeNote {
+  margin: 3px 0 0;
+  padding: 4px 8px;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.tileBreakdown.variant-inline .breakdownRows {
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.tileBreakdown.variant-inline .breakdownRow {
+  padding: 4px 8px;
+  border-radius: 7px;
+}
+
+.tileBreakdown.variant-inline .breakdownWaits {
+  gap: 3px;
+  margin-top: 3px;
+}
+
+.tileBreakdown.variant-inline .breakdownWaitChip {
+  padding: 1px 4px;
+  font-size: 11px;
+}
+
+.tileBreakdown.variant-inline .breakdownExhausted {
+  margin-top: 3px;
+  font-size: 11px;
+}
+
+.tileBreakdown.variant-inline .tile-discard {
+  --tile-w: 17px;
+}
+
+.gameStage:has(.inlineAdviceExpanded) .tableEmblem > span,
+.gameStage:has(.inlineAdviceExpanded) .tableEmblem i {
+  display: none;
+}
+.gameStage:has(.inlineAdviceExpanded) .tableEmblem strong {
+  font-size: 19px;
+  margin-top: 0;
+}
+.gameStage:has(.inlineAdviceExpanded) .wallCounter {
+  margin-top: 3px;
+}
+@media (max-height: 760px) and (min-width: 761px) {
+  .shell {
+    padding: 6px 16px 0;
+  }
+  .topbar {
+    margin-bottom: 6px;
+  }
+  .gameStage {
+    grid-template-rows: minmax(76px, auto) minmax(0, 1fr) auto;
+    padding: 8px 16px 10px;
+    gap: 4px;
+  }
+  .tableSurface {
+    inset: 68px 20px 18px;
+  }
+  .seat-2 .avatarFrame {
+    width: 44px;
+    height: 44px;
+  }
+  .gameButton {
+    min-height: 36px;
+    padding: 6px 16px;
+    font-size: 16px;
+  }
+  .handTray {
+    padding: 6px 10px 4px;
+  }
+  .hand .mahjongTile {
+    --tile-w: 48px;
+  }
+  .inlineAdviceExpanded {
+    max-height: clamp(140px, 27dvh, 215px);
+  }
+}
+@media (max-width: 760px) {
+  .inlineAdviceExpanded {
+    max-height: 185px;
+  }
+
+  .inlineAdviceExpanded .coachSummary {
+    gap: 7px;
+    padding: 4px 8px;
+  }
+
+  .inlineAdviceExpanded .coachSummary p {
+    font-size: 10.5px;
+    margin-top: 1px;
+    line-height: 1.3;
+  }
+
+  .coachDetailsInline {
+    gap: 4px;
+    padding: 5px 8px 6px;
+  }
+
+  .tileBreakdown.variant-inline .breakdownScope {
+    display: none;
+  }
+
+  .coachChoiceLine p,
+  .coachProvenanceFooter p {
+    font-size: 11px;
+    line-height: 1.35;
   }
 }

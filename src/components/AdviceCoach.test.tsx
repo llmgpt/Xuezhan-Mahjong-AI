@@ -108,15 +108,16 @@ describe("老师建议的展示契约", () => {
     expect(markup).not.toContain("两摸");
     expect(markup).toContain("仅展示当前策略首选");
   });
-  it("换三张展示老师推荐、理由、局限和查看依据入口", () => {
+  it("换三张直接就地展示老师推荐、理由、局限，不再需要点查看依据弹窗", () => {
     const view = viewFor("w123456 s269 d12345", true);
     const openingChoices = teacherChoices(view, "exchange");
     const markup = renderCoach({ advice: [], view, openingChoices });
     expect(markup).toContain(`建议${openingChoices[0].label}`);
     expect(markup).toContain(openingChoices[0].summary);
-    expect(markup).toContain("查看依据");
     expect(markup).toContain(openingChoices[0].reason);
     expect(markup).toContain(openingChoices[0].limit);
+    expect(markup).not.toContain("查看依据");
+    expect(markup).not.toContain("<dialog");
   });
 
   it("定缺展示老师推荐及另两门备选，采用老师计算的说明", () => {
@@ -158,7 +159,7 @@ describe("老师建议的展示契约", () => {
     expect(renderCoach({ advice: [], actions: [], view })).toBe("");
   });
 
-  it("原有出牌建议仍展示推荐、详细依据和局限", () => {
+  it("原有出牌建议仍直接就地展示推荐、详细依据和局限", () => {
     const view = viewFor("w11123429 s345678");
     const advice = recommendDiscards(view);
     const markup = renderCoach({ advice, view });
@@ -166,10 +167,11 @@ describe("老师建议的展示契约", () => {
     expect(markup).toContain(advice[0].summary);
     expect(markup).toContain(advice[0].reason);
     expect(markup).toContain(advice[0].limit);
-    expect(markup).toContain("查看依据");
+    expect(markup).not.toContain("查看依据");
+    expect(markup).not.toContain("<dialog");
   });
 
-  it("原有响应建议仍展示碰与过的推荐和备选说明", () => {
+  it("原有响应建议仍直接就地展示碰与过的推荐和备选说明", () => {
     const view = viewFor("w1122589 s123679");
     view.legalDiscards = [];
     view.decision = {
@@ -187,6 +189,84 @@ describe("老师建议的展示契约", () => {
       expect(markup).toContain(choice.reason);
       expect(markup).toContain(choice.limit);
     }
-    expect(markup).toContain("查看依据");
+    expect(markup).not.toContain("查看依据");
+    expect(markup).not.toContain("<dialog");
+  });
+
+  it("先想后看隐藏模式下不泄露具体建议与依据，但保留揭晓按钮与报错", () => {
+    const view = viewFor("w11123429 s345678");
+    const choice = {
+      action: { type: "discard" as const, tile: 0 },
+      label: "打出 1万",
+      summary: "当前公开信息策略选择。",
+      reason: "本步实际出处：高级策略。",
+      limit: "当前只提供动作出处和规则事实。",
+    };
+    const hiddenReady = renderCoach({
+      view,
+      advice: [],
+      hidden: true,
+      current: {
+        status: "ready",
+        presentation: {
+          action: choice.action,
+          choices: [choice],
+          origin: "advanced-public",
+          legalActionCount: 7,
+        },
+      },
+    });
+    expect(hiddenReady).toContain("先自己想一想");
+    expect(hiddenReady).toContain("揭晓本步建议");
+    expect(hiddenReady).not.toContain("建议打出 1万");
+    expect(hiddenReady).not.toContain("查看依据");
+    expect(hiddenReady).not.toContain(choice.reason);
+
+    const hiddenLoading = renderCoach({
+      view,
+      advice: [],
+      hidden: true,
+      current: { status: "loading" },
+    });
+    expect(hiddenLoading).toContain("先自己想一想");
+    expect(hiddenLoading).not.toContain("正在计算当前建议");
+
+    const hiddenError = renderCoach({
+      view,
+      advice: [],
+      hidden: true,
+      current: { status: "error", error: "策略读取失败" },
+    });
+    expect(hiddenError).toContain("策略读取失败");
+  });
+
+  it("高级策略揭晓后直接就地附带客观测算的手牌向听与有效进张明细（不冒充两摸、不弹遮罩）", () => {
+    const view = viewFor("w11123429 s345678");
+    const choice = {
+      action: { type: "discard" as const, tile: 0 },
+      label: "打出 1万",
+      summary: "当前公开信息策略选择。",
+      reason: "本步实际出处：高级策略。",
+      limit: "当前只提供动作出处和规则事实。",
+    };
+    const markup = renderCoach({
+      view,
+      advice: [],
+      current: {
+        status: "ready",
+        presentation: {
+          action: choice.action,
+          choices: [choice],
+          origin: "advanced-public",
+          legalActionCount: 7,
+        },
+      },
+    });
+    expect(markup).toContain("客观测算：手牌向听与有效进张");
+    expect(markup).toContain("已听牌");
+    expect(markup).toContain("纯牌效最优");
+    expect(markup).not.toContain("查看依据");
+    expect(markup).not.toContain("<dialog");
+    expect(markup).not.toContain("两摸");
   });
 });
