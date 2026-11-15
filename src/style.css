@@ -91,7 +91,7 @@ input:focus-visible {
   letter-spacing: 3px;
 }
 
-.brand div>span {
+.brand div > span {
   font-size: 11px;
   color: #8d9487;
   letter-spacing: 2px;
@@ -254,9 +254,11 @@ input:focus-visible {
   content: "";
   position: absolute;
   inset: 65% 0 0;
-  background: repeating-linear-gradient(0deg,
-      #6651310a 0 2px,
-      transparent 2px 35px);
+  background: repeating-linear-gradient(
+    0deg,
+    #6651310a 0 2px,
+    transparent 2px 35px
+  );
 }
 
 .mountain {
@@ -308,9 +310,11 @@ input:focus-visible {
   position: absolute;
   width: 10px;
   height: 26px;
-  background: repeating-linear-gradient(90deg,
-      #bc7556 0 1px,
-      transparent 1px 3px);
+  background: repeating-linear-gradient(
+    90deg,
+    #bc7556 0 1px,
+    transparent 1px 3px
+  );
   top: 100%;
   left: calc(50% - 5px);
 }
@@ -356,9 +360,11 @@ input:focus-visible {
   position: absolute;
   inset: 16px;
   border-radius: inherit;
-  background: repeating-radial-gradient(circle at 20% 40%,
-      #ffffff05 0 1px,
-      transparent 1px 4px);
+  background: repeating-radial-gradient(
+    circle at 20% 40%,
+    #ffffff05 0 1px,
+    transparent 1px 4px
+  );
   opacity: 0.4;
 }
 
@@ -744,7 +750,7 @@ input:focus-visible {
   font-family: "KaiTi", "STKaiti", serif;
 }
 
-.tableEmblem>span {
+.tableEmblem > span {
   display: block;
   font-size: 12px;
   letter-spacing: 10px;
@@ -777,7 +783,7 @@ input:focus-visible {
   animation: tileDrop 0.25s ease-out;
 }
 
-.latestDiscard>span {
+.latestDiscard > span {
   font-size: 11px;
   color: #efecd5;
   white-space: nowrap;
@@ -798,7 +804,7 @@ input:focus-visible {
   font-size: 12px;
 }
 
-.wallCounter>span {
+.wallCounter > span {
   margin: 0 3px;
 }
 
@@ -1250,7 +1256,7 @@ input:focus-visible {
   margin-bottom: 16px;
 }
 
-.adviceHeading>div {
+.adviceHeading > div {
   display: flex;
   gap: 9px;
   align-items: center;
@@ -1267,7 +1273,7 @@ input:focus-visible {
   font-size: 22px;
 }
 
-.adviceHeading>span {
+.adviceHeading > span {
   font-size: 11px;
   color: #91a08f;
 }
@@ -1285,7 +1291,7 @@ input:focus-visible {
   align-items: center;
 }
 
-.adviceCard+.adviceCard {
+.adviceCard + .adviceCard {
   border-left: 1px solid #e7e4d7;
   padding-left: 22px;
 }
@@ -1298,7 +1304,7 @@ input:focus-visible {
   gap: 10px;
 }
 
-.adviceTile>span:last-child {
+.adviceTile > span:last-child {
   color: #9a7841;
   font-size: 10px;
   white-space: nowrap;
@@ -1339,7 +1345,7 @@ input:focus-visible {
   font-size: 10px;
 }
 
-.tableToolbar>div {
+.tableToolbar > div {
   display: flex;
   gap: 12px;
 }
@@ -1525,7 +1531,7 @@ input:focus-visible {
   gap: 12px;
 }
 
-.resultScores>div {
+.resultScores > div {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -1674,7 +1680,7 @@ input:focus-visible {
     letter-spacing: 1px;
   }
 
-  .brand div>span {
+  .brand div > span {
     font-size: 9px;
     letter-spacing: 0;
   }
@@ -1943,7 +1949,7 @@ input:focus-visible {
     letter-spacing: 1px;
   }
 
-  .tableEmblem>span {
+  .tableEmblem > span {
     font-size: 10px;
   }
 
@@ -1961,7 +1967,7 @@ input:focus-visible {
     font-size: 10px;
   }
 
-  .wallCounter>span {
+  .wallCounter > span {
     margin: 0;
   }
 
@@ -1969,7 +1975,7 @@ input:focus-visible {
     --tile-w: 34px;
   }
 
-  .latestDiscard>span {
+  .latestDiscard > span {
     font-size: 9px;
   }
 
@@ -2129,7 +2135,7 @@ input:focus-visible {
     font-size: 15px;
   }
 
-  .adviceHeading>span {
+  .adviceHeading > span {
     font-size: 10px;
     padding-left: 28px;
   }
@@ -2143,7 +2149,7 @@ input:focus-visible {
     gap: 15px;
   }
 
-  .adviceCard+.adviceCard {
+  .adviceCard + .adviceCard {
     border-left: 0;
     border-top: 1px solid #e7e4d7;
     padding: 17px 0 0;
@@ -2210,7 +2216,7 @@ input:focus-visible {
     font-size: 22px;
   }
 
-  .brand div>span {
+  .brand div > span {
     display: none;
   }
 
@@ -2350,7 +2356,7 @@ input:focus-visible {
     grid-row: 1 / 3;
   }
 
-  .tableEmblem>span,
+  .tableEmblem > span,
   .tableEmblem i {
     display: none;
   }
@@ -2522,7 +2528,6 @@ input:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
@@ -2553,7 +2558,7 @@ input:focus-visible {
 }
 
 @media (max-width: 420px) {
-  .tableToolbar>div {
+  .tableToolbar > div {
     gap: 4px;
   }
 
