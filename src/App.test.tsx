@@ -2,12 +2,24 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { chooseBotExchange, chooseBotMissing } from "./game/bot";
 import { completeExchange, completeMissing } from "./game/demo";
-import { createGame } from "./game/game";
+import {
+  createGame,
+  declareKong,
+  discard,
+  finishWall,
+  respond,
+} from "./game/game";
 import { hand } from "./game/testHelpers";
 import { tile } from "./game/tiles";
 import { teacherChoices } from "./game/teacher";
 import { playerView } from "./game/view";
-import App, { formatLogEntry, orderHandForDisplay } from "./App";
+import App, {
+  Melds,
+  activeTableDiscard,
+  formatLogEntry,
+  orderHandForDisplay,
+} from "./App";
+import { buildSettlementDetails } from "./components/settlementDetails";
 import { TurnReviewDialog } from "./components/TurnReviewDialog";
 import { newGameSeed } from "./newGameSeed";
 
@@ -128,5 +140,114 @@ describe("App 牌桌与先想后看教学流", () => {
     expect(markup).toContain("打出 1万");
     expect(markup).toContain("示例策略原因");
     expect(markup).toContain("客观测算：手牌向听与有效进张");
+  });
+
+  it("换三张后按张数标记刚换入的三张牌，不重复多标同名旧牌", () => {
+    // 手里原有 1张 2万，又换入 1张 2万、3万、9万
+    const afterExchange = [0, 0, 1, 2, 8, 9, 10];
+    const items = orderHandForDisplay(
+      afterExchange,
+      "choose-missing",
+      0,
+      undefined,
+      [0, 2, 8],
+    );
+    expect(items.filter((item) => item.received)).toHaveLength(3);
+    expect(
+      items.filter((item) => item.tile === 0 && item.received),
+    ).toHaveLength(1);
+    expect(
+      items.filter((item) => item.tile === 2 && item.received),
+    ).toHaveLength(1);
+    expect(
+      items.filter((item) => item.tile === 8 && item.received),
+    ).toHaveLength(1);
+  });
+
+  it("弃牌被碰走后桌心不再残留刚打出提示，而过牌后仍保留上家刚打出的牌", () => {
+    let state = createGame(42);
+    state = completeExchange(state, chooseBotExchange(state.players[0].hand));
+    state = completeMissing(state, "wan");
+    state.phase = "discard";
+    state.turn = 3;
+    state.players.forEach((player, index) => {
+      player.missing = index === 3 ? "tong" : "wan";
+      player.hand =
+        index === 0
+          ? hand("s661234567 d1234")
+          : index === 3
+            ? hand("s612345789 w12345")
+            : hand("s12345789 d12345");
+    });
+    const discarded = discard(state, 3, tile("tiao", 6));
+    expect(activeTableDiscard(discarded)).toEqual({
+      seat: 3,
+      tile: tile("tiao", 6),
+    });
+
+    const passed = respond(discarded, 0, "pass");
+    expect(activeTableDiscard(passed)).toEqual({
+      seat: 3,
+      tile: tile("tiao", 6),
+    });
+
+    const ponged = respond(discarded, 0, "pung");
+    expect(activeTableDiscard(ponged)).toBeUndefined();
+  });
+
+  it("暗杠在桌面展示与直杠区分（含暗杠标识与盖牌），不再四张全亮混同明杠", () => {
+    let state = createGame(42);
+    state = completeExchange(state, chooseBotExchange(state.players[0].hand));
+    state = completeMissing(state, "wan");
+    state.phase = "discard";
+    state.turn = 0;
+    state.players[0].hand = hand("s5555123467 d1234");
+    state = declareKong(state, 0, "concealed", tile("tiao", 5));
+    expect(state.players[0].melds[0].kongKind).toBe("concealed");
+    const meldsMarkup = renderToStaticMarkup(
+      <Melds player={state.players[0]} />,
+    );
+    expect(meldsMarkup).toContain("暗杠");
+    expect(meldsMarkup).toContain("meldTileBack");
+    const appMarkup = renderToStaticMarkup(<App initialSeed={42} />);
+    expect(appMarkup).toContain("逆时针");
+    expect(appMarkup).not.toContain("建议弹窗");
+  });
+
+  it("结算与对局明细能算清点炮/自摸实收、杠钱与流局查花猪/查叫", () => {
+    let state = createGame(42);
+    state = completeExchange(state, chooseBotExchange(state.players[0].hand));
+    state = completeMissing(state, "wan");
+    state.phase = "discard";
+    state.turn = 0;
+    state.wall = [];
+    // 0号未清缺成花猪；1号已听牌；2号无叫；3号已胡退出
+    state.players[0].hand = hand("w1 s123456 d123456");
+    state.players[1].hand = hand("s111234567 d2345");
+    state.players[2].hand = hand("s13579 d13579 s246");
+    state.players[3].won = true;
+    state.players[3].hand = hand("s1122334455667");
+    state.players.forEach((player, index) => {
+      if (index > 0) player.missing = "wan";
+    });
+    const ended = finishWall(state);
+    const details = buildSettlementDetails(ended, [
+      "你",
+      "阿川",
+      "小满",
+      "老茶客",
+    ]);
+    expect(details.kongLines).toEqual([]);
+    expect(details.flowLines.some((line) => line.includes("花猪"))).toBe(true);
+    expect(details.flowLines.some((line) => line.includes("查叫"))).toBe(true);
+    expect(details.playerStatuses.find((item) => item.seat === 0)?.status).toBe(
+      "花猪",
+    );
+    expect(details.playerStatuses.find((item) => item.seat === 1)?.status).toBe(
+      "已听牌",
+    );
+    expect(details.playerStatuses.find((item) => item.seat === 2)?.status).toBe(
+      "未听牌",
+    );
   });
 });

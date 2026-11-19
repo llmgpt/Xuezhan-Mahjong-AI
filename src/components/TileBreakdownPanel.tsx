@@ -75,12 +75,13 @@ export function TileBreakdownPanel({
 
       {breakdown.note && <p className="breakdownNote">{breakdown.note}</p>}
 
-      {breakdown.divergesFromEfficiency && breakdown.topEfficiencyLabel && (
-        <p className="breakdownDivergeNote">
-          注：当前策略推荐未取纯牌效最高的“{breakdown.topEfficiencyLabel}
-          ”，可能同时考虑了点炮安全或高番路线。
-        </p>
-      )}
+      {breakdown.divergesFromEfficiency &&
+        (breakdown.divergenceNote || breakdown.topEfficiencyLabel) && (
+          <p className="breakdownDivergeNote">
+            {breakdown.divergenceNote ??
+              `注：当前策略推荐未取纯牌效最高的“${breakdown.topEfficiencyLabel}”，请结合牌面自主判断。`}
+          </p>
+        )}
 
       <div className="breakdownRows">
         {breakdown.rows.map((row) => {

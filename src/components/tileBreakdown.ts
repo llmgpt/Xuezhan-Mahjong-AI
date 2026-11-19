@@ -40,6 +40,7 @@ export interface TileBreakdown {
   rows: ActionBreakdownRow[];
   divergesFromEfficiency: boolean;
   topEfficiencyLabel?: string;
+  divergenceNote?: string;
   note?: string;
 }
 
@@ -96,9 +97,11 @@ function isBetterEfficiency(
 ): boolean {
   const cs = candidate.shanten ?? 99;
   const bs = best.shanten ?? 99;
-  return (
-    bs > cs || (bs === cs && best.effectiveTotal < candidate.effectiveTotal)
-  );
+  if (bs !== cs) return bs > cs;
+  if (best.effectiveTotal !== candidate.effectiveTotal) {
+    return best.effectiveTotal < candidate.effectiveTotal;
+  }
+  return (best.maxWinPoints ?? 0) < (candidate.maxWinPoints ?? 0);
 }
 
 interface HandEfficiency {
@@ -171,6 +174,38 @@ function evaluateHandEfficiency(
   };
 }
 
+function buildDivergenceNote(
+  topCandidate: ActionBreakdownRow,
+  recRow: ActionBreakdownRow | undefined,
+  winExists: boolean,
+): string | undefined {
+  if (!recRow) return undefined;
+  if (winExists && recRow.shanten !== -1) {
+    return `注：当前可和牌（${topCandidate.label}），策略暂未直接兑现，可能基于未来更大番型或续局收益评估。`;
+  }
+  const recPoints = recRow.maxWinPoints ?? 0;
+  const topPoints = topCandidate.maxWinPoints ?? 0;
+  if (recPoints > topPoints) {
+    return `注：当前策略推荐未取纯牌效最高的“${topCandidate.label}”，改走更高底算（${recPoints} 分）路线。`;
+  }
+  if (recRow.action?.type === "kong") {
+    const shantenText =
+      recRow.shanten === undefined
+        ? ""
+        : recRow.shanten === 0
+          ? "保持听牌但进张变化"
+          : `退回 ${recRow.shanten} 向听`;
+    return `注：当前策略选择了${recRow.label}（直接记杠钱并补摸 1 张），客观上比“${topCandidate.label}”${shantenText || "进张更少"}，请权衡即时杠钱与听牌损失。`;
+  }
+  if (
+    (recRow.shanten ?? 99) > (topCandidate.shanten ?? 99) ||
+    recPoints < topPoints
+  ) {
+    return `注：当前策略推荐未取纯牌效最高的“${topCandidate.label}”（策略可能基于对局评估选择此步，但客观向听或底算更低，请结合牌面自主判断）。`;
+  }
+  return `注：当前策略推荐未取纯牌效最高的“${topCandidate.label}”，可能同时考虑了点炮安全或后续路线（客观有效进张较少，请对照明细取舍）。`;
+}
+
 function markAndSummarizeRows(
   rows: ActionBreakdownRow[],
   recommendedKey?: string,
@@ -178,6 +213,7 @@ function markAndSummarizeRows(
 ): {
   divergesFromEfficiency: boolean;
   topEfficiencyLabel?: string;
+  divergenceNote?: string;
 } {
   for (const row of rows) {
     row.isRecommended = Boolean(recommendedKey && row.key === recommendedKey);
@@ -185,8 +221,9 @@ function markAndSummarizeRows(
   }
 
   const efficiencyRows = rows.filter((row) => row.shanten !== undefined);
-  const nonWinRows = efficiencyRows.filter((row) => row.shanten! >= 0);
-  const topCandidate = (nonWinRows.length > 0 ? nonWinRows : efficiencyRows)
+  const winRows = efficiencyRows.filter((row) => row.shanten === -1);
+  const winExists = winRows.length > 0;
+  const topCandidate = (winExists ? winRows : efficiencyRows)
     .slice()
     .sort(compareEfficiency)[0];
 
@@ -194,30 +231,36 @@ function markAndSummarizeRows(
     return { divergesFromEfficiency: false };
   }
 
-  for (const row of rows) {
-    if (
-      row.shanten === topCandidate.shanten &&
-      row.effectiveTotal === topCandidate.effectiveTotal
-    ) {
-      row.isTopEfficiency = true;
+  if (!winExists) {
+    const topPoints = topCandidate.maxWinPoints ?? 0;
+    for (const row of rows) {
+      if (
+        row.shanten === topCandidate.shanten &&
+        row.effectiveTotal === topCandidate.effectiveTotal &&
+        (row.maxWinPoints ?? 0) === topPoints
+      ) {
+        row.isTopEfficiency = true;
+      }
     }
   }
 
   const recRow = recommendedKey
     ? rows.find((row) => row.key === recommendedKey)
     : undefined;
-  const winExists = efficiencyRows.some((row) => row.shanten === -1);
   const divergesFromEfficiency = Boolean(
     recRow &&
     ((winExists && recRow.shanten !== -1) ||
-      (recRow.shanten !== undefined &&
-        recRow.shanten >= 0 &&
+      (!winExists &&
+        recRow.shanten !== undefined &&
         isBetterEfficiency(topCandidate, recRow))),
   );
 
   return {
     divergesFromEfficiency,
     topEfficiencyLabel: topCandidate.label,
+    divergenceNote: divergesFromEfficiency
+      ? buildDivergenceNote(topCandidate, recRow, winExists)
+      : undefined,
   };
 }
 
@@ -397,6 +440,8 @@ export function buildTileBreakdown(
     const uniqueLegal = [...new Set(view.legalDiscards)].sort((a, b) => a - b);
     const rows: ActionBreakdownRow[] = uniqueLegal.map((tileValue) => {
       const action: DecisionAction = { type: "discard", tile: tileValue };
+      const rank = (tileValue % 9) + 1;
+      const edgeKind = rank === 1 || rank === 9 ? "边张幺九" : "中张";
       return {
         key: actionKey(action),
         action,
@@ -407,7 +452,7 @@ export function buildTileBreakdown(
         note:
           missingInHand.length === 1
             ? "打出后即清完缺门，下巡起进入向听与听牌阶段"
-            : `先清理定缺牌（手牌尚余 ${missingInHand.length} 张）`,
+            : `先清理定缺牌（手牌尚余 ${missingInHand.length} 张；${edgeKind}）`,
       };
     });
     markAndSummarizeRows(rows, recommendedKey, chosenKey);
@@ -511,6 +556,29 @@ export function buildTileBreakdown(
     });
 
   const allRows = [...specialRows, ...discardRows].sort(compareEfficiency);
+  const topDiscard = discardRows.slice().sort(compareEfficiency)[0];
+  const widestSlower =
+    topDiscard?.shanten === 1 && topDiscard.effectiveTotal <= 4
+      ? discardRows
+          .filter(
+            (row) =>
+              (row.shanten ?? 99) > 1 &&
+              row.effectiveTotal > topDiscard.effectiveTotal,
+          )
+          .sort((a, b) => b.effectiveTotal - a.effectiveTotal)[0]
+      : undefined;
+  if (widestSlower) {
+    for (const row of allRows) {
+      if (
+        row.shanten === 1 &&
+        row.effectiveTotal > 0 &&
+        row.effectiveTotal <= 4 &&
+        !row.note
+      ) {
+        row.note = `仅 ${row.effectiveTotal} 张进张（窄门假快听），建议对比下方 ${widestSlower.shanten} 向听的 ${widestSlower.effectiveTotal} 张宽进张打法。`;
+      }
+    }
+  }
   const summary = markAndSummarizeRows(allRows, recommendedKey, chosenKey);
 
   const visibleKeys = new Set<string>();
@@ -521,9 +589,15 @@ export function buildTileBreakdown(
       picked.length < 4 ||
       row.isTopEfficiency ||
       row.isRecommended ||
-      row.isChosen
+      row.isChosen ||
+      row === widestSlower
     ) {
-      if (picked.length < 6 || row.isRecommended || row.isChosen) {
+      if (
+        picked.length < 6 ||
+        row.isRecommended ||
+        row.isChosen ||
+        row === widestSlower
+      ) {
         if (!visibleKeys.has(row.key)) {
           visibleKeys.add(row.key);
           picked.push(row);

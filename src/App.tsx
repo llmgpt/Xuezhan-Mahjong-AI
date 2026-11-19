@@ -10,6 +10,7 @@ import { AdviceCoach } from "./components/AdviceCoach";
 import { GameDialog } from "./components/GameDialog";
 import { MahjongFace, TileBack, TilePiece } from "./components/MahjongTile";
 import { PlayerAvatar } from "./components/PlayerAvatar";
+import { buildSettlementDetails } from "./components/settlementDetails";
 import {
   TurnReviewDialog,
   type TurnReview,
@@ -21,6 +22,7 @@ import {
   createGame,
   legalResponses,
   legalSelfActions,
+  type GameState,
   type Phase,
   type PlayerState,
   type ResponseChoice,
@@ -127,6 +129,7 @@ export interface DisplayTile {
   tile: Tile;
   index: number;
   drawn: boolean;
+  received?: boolean;
 }
 
 export function orderHandForDisplay(
@@ -134,6 +137,7 @@ export function orderHandForDisplay(
   phase: Phase,
   turn: number,
   lastDraw?: { seat: number; tile: Tile },
+  receivedTiles?: readonly Tile[],
 ): DisplayTile[] {
   const hasDrawn =
     phase === "discard" &&
@@ -142,10 +146,23 @@ export function orderHandForDisplay(
     hand.length > 0 &&
     hand[hand.length - 1] === lastDraw.tile;
   const bodyCount = hasDrawn ? hand.length - 1 : hand.length;
-  const body = hand
+  const body: DisplayTile[] = hand
     .slice(0, bodyCount)
     .map((tile, index) => ({ tile, index, drawn: false }))
     .sort((a, b) => a.tile - b.tile || a.index - b.index);
+  if (!hasDrawn && phase !== "exchange" && receivedTiles?.length) {
+    const remaining = new Map<Tile, number>();
+    for (const tile of receivedTiles) {
+      remaining.set(tile, (remaining.get(tile) ?? 0) + 1);
+    }
+    for (let index = body.length - 1; index >= 0; index -= 1) {
+      const count = remaining.get(body[index].tile) ?? 0;
+      if (count > 0) {
+        body[index].received = true;
+        remaining.set(body[index].tile, count - 1);
+      }
+    }
+  }
   if (!hasDrawn) return body;
   return [
     ...body,
@@ -157,6 +174,19 @@ export function orderHandForDisplay(
   ];
 }
 
+export function activeTableDiscard(
+  game: GameState,
+): { seat: number; tile: Tile } | undefined {
+  if (game.pending) return { seat: game.pending.from, tile: game.pending.tile };
+  if (!game.lastDiscard) return undefined;
+  for (let index = game.publicActions.length - 1; index >= 0; index -= 1) {
+    const action = game.publicActions[index];
+    if (action.kind === "draw") continue;
+    return action.kind === "discard" ? game.lastDiscard : undefined;
+  }
+  return game.lastDiscard;
+}
+
 export function formatLogEntry(entry: string): string {
   return entry.replace(
     /([0-3])\s*号玩家/g,
@@ -164,23 +194,40 @@ export function formatLogEntry(entry: string): string {
   );
 }
 
-function Melds({ player }: { player: PlayerState }) {
+export function Melds({ player }: { player: PlayerState }) {
   return (
     <div className="melds">
-      {player.melds.map((meld, index) => (
-        <div
-          className="meldGroup"
-          key={index}
-          aria-label={`${meld.type === "kong" ? "杠" : "碰"}${labelOf(meld.tile)}`}
-        >
-          <span className="meldLabel">
-            {meld.type === "kong" ? "杠" : "碰"}
-          </span>
-          {Array.from({ length: meld.type === "kong" ? 4 : 3 }, (_, copy) => (
-            <TilePiece tile={meld.tile} className="tile-meld" key={copy} />
-          ))}
-        </div>
-      ))}
+      {player.melds.map((meld, index) => {
+        const isConcealed =
+          meld.type === "kong" && meld.kongKind === "concealed";
+        const kindText = isConcealed
+          ? "暗杠"
+          : meld.type === "kong"
+            ? "杠"
+            : "碰";
+        return (
+          <div
+            className={`meldGroup ${isConcealed ? "is-concealed" : ""}`}
+            key={index}
+            aria-label={`${kindText}${labelOf(meld.tile)}`}
+          >
+            <span className="meldLabel">{kindText}</span>
+            {Array.from({ length: meld.type === "kong" ? 4 : 3 }, (_, copy) =>
+              isConcealed && (copy === 0 || copy === 3) ? (
+                <span
+                  className="mahjongTile tile-meld meldTileBack"
+                  key={copy}
+                  aria-hidden="true"
+                >
+                  <i />
+                </span>
+              ) : (
+                <TilePiece tile={meld.tile} className="tile-meld" key={copy} />
+              ),
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -289,7 +336,13 @@ function App({
   const [seedText, setSeedText] = useState(String(startingSeed));
   const [game, setGame] = useState(() => createGame(startingSeed));
   const [selected, setSelected] = useState<number[]>([]);
-  const [notice, setNotice] = useState("选择同一花色的三张牌，顺时针交换。");
+  const [exchangeSummary, setExchangeSummary] = useState<{
+    out: Tile[];
+    in: Tile[];
+  } | null>(null);
+  const [notice, setNotice] = useState(
+    "选择同一花色的三张牌，传给下家（逆时针交换）。",
+  );
   const [autoPlay, setAutoPlay] = useState(false);
   const autoEnabled = useRef(false);
   const [thinkFirst, setThinkFirst] = useState(
@@ -332,6 +385,7 @@ function App({
     game.phase,
     game.turn,
     game.lastDraw,
+    exchangeSummary?.in,
   );
   const view = useMemo(() => playerView(game, 0), [game]);
   const strategy = useProductionAdvice(
@@ -366,9 +420,14 @@ function App({
     exchangeTiles.every((item) => suitOf(item) === suitOf(exchangeTiles[0]));
   const currentLabel =
     game.pending?.kind === "rob-kong" ? "抢杠响应" : phaseLabels[game.phase];
-  const displayedTile = game.pending
-    ? { seat: game.pending.from, tile: game.pending.tile }
-    : game.lastDiscard;
+  const displayedTile = activeTableDiscard(game);
+  const settlement = useMemo(
+    () =>
+      game.phase === "ended" || game.transfers.length > 0
+        ? buildSettlementDetails(game, names)
+        : null,
+    [game],
+  );
 
   const commitHuman = useCallback(
     (action: DecisionAction, expectedKey?: string) => {
@@ -404,6 +463,18 @@ function App({
         setGame(next);
         setSelected([]);
         setRevealed(false);
+        const receivedExchange =
+          action.type === "exchange"
+            ? next.players[0].hand.slice(-3)
+            : undefined;
+        if (action.type === "exchange") {
+          setExchangeSummary({
+            out: [...action.tiles],
+            in: receivedExchange!,
+          });
+        } else if (action.type !== "missing") {
+          setExchangeSummary(null);
+        }
         setLastReview({
           view,
           phase: game.phase,
@@ -427,7 +498,7 @@ function App({
           next.phase === "ended"
             ? "本局已结算，可查看得分与胡牌记录。"
             : next.phase === "choose-missing"
-              ? "选择本局不要的花色，之后先打完这门牌。"
+              ? `${receivedExchange ? `已换出 ${action.type === "exchange" ? action.tiles.map(labelOf).join("、") : ""}，换入 ${receivedExchange.map(labelOf).join("、")}。` : ""}选择本局不要的花色，之后先打完这门牌。`
               : next.phase === "respond"
                 ? "选择胡、碰、杠，或点击过。"
                 : "点选亮起的手牌直接出牌。",
@@ -533,11 +604,12 @@ function App({
     setGame(next);
     setSeedText(String(seed));
     setSelected([]);
+    setExchangeSummary(null);
     setRevealed(false);
     setLastReview(null);
     pauseAuto();
     stopAnnouncements();
-    setNotice("选择同一花色的三张牌，顺时针交换。");
+    setNotice("选择同一花色的三张牌，传给下家（逆时针交换）。");
   }
   function restartWithSeed() {
     const seed = Number(seedText);
@@ -643,7 +715,7 @@ function App({
                 声效与中文报牌：{soundEnabled ? "开" : "关"}
               </button>
               <p>
-                换三张、定缺和清缺门只报结果；其他选择播报简短结论。详细依据可在建议弹窗朗读。碰、杠、胡与结算也有语音或提示音。
+                换三张、定缺和清缺门只报结果；其他选择播报简短结论。详细依据可在展开建议后点击“朗读”。碰、杠、胡与结算也有语音或提示音。
               </p>
               <label htmlFor="voice-choice">中文朗读声音</label>
               <select
@@ -880,7 +952,7 @@ function App({
             <div className="handContent">
               <Melds player={game.players[0]} />
               <div className="hand" role="group" aria-label="你的手牌">
-                {sortedHand.map(({ tile, index, drawn }) => {
+                {sortedHand.map(({ tile, index, drawn, received }) => {
                   const canPlay =
                     game.phase === "discard" &&
                     game.turn === 0 &&
@@ -888,11 +960,11 @@ function App({
                   const recommended = suggestedDiscard === tile && canPlay;
                   return (
                     <button
-                      className={`tile mahjongTile ${selected.includes(index) ? "selected" : ""} ${canPlay ? "playable" : ""} ${recommended ? "recommended" : ""} ${drawn ? "tile-drawn" : ""} ${game.phase === "discard" && !canPlay ? "unavailable" : ""}`}
+                      className={`tile mahjongTile ${selected.includes(index) ? "selected" : ""} ${canPlay ? "playable" : ""} ${recommended ? "recommended" : ""} ${drawn ? "tile-drawn" : ""} ${received && !drawn ? "tile-received" : ""} ${game.phase === "discard" && !canPlay ? "unavailable" : ""}`}
                       key={index}
                       type="button"
                       disabled={game.phase !== "exchange" && !canPlay}
-                      aria-label={`${labelOf(tile)}${drawn ? "，新摸" : ""}${recommended ? "，推荐" : ""}`}
+                      aria-label={`${labelOf(tile)}${drawn ? "，新摸" : received ? "，刚换入" : ""}${recommended ? "，推荐" : ""}`}
                       aria-pressed={
                         game.phase === "exchange"
                           ? selected.includes(index)
@@ -906,6 +978,9 @@ function App({
                     >
                       <MahjongFace tile={tile} />
                       {drawn && <span className="drawnMark">摸</span>}
+                      {!drawn && received && (
+                        <span className="receivedMark">入</span>
+                      )}
                       {recommended && <span className="recommendMark">荐</span>}
                     </button>
                   );
@@ -937,17 +1012,48 @@ function App({
                 ))}
               </div>
               <div className="winRecords">
-                {game.wins.length ? (
-                  game.wins.map((win) => (
-                    <p key={win.winner}>
-                      <span>
-                        {names[win.winner]} · {win.selfDraw ? "自摸" : "点胡"}
-                      </span>
-                      <b>{win.evaluation.patterns.join(" · ")}</b>
+                {settlement?.winLines.length ? (
+                  settlement.winLines.map((win) => (
+                    <p key={win.key}>
+                      <span>{win.headline}</span>
+                      <b>
+                        {win.patterns} · +{win.netPoints} 分
+                      </b>
                     </p>
                   ))
                 ) : (
                   <p>本局无人胡牌</p>
+                )}
+                {settlement?.kongLines.map((line) => (
+                  <p className="settlementSubLine" key={line}>
+                    <span>{line}</span>
+                  </p>
+                ))}
+                {game.endReason === "wall" && settlement && (
+                  <div className="settlementFlowBox">
+                    <div className="settlementStatusRow">
+                      {settlement.playerStatuses.map((item) => (
+                        <span
+                          className={`statusPill status-${item.status}`}
+                          key={item.seat}
+                        >
+                          {item.name}：{item.status}
+                          {item.detail ? `（${item.detail}）` : ""}
+                        </span>
+                      ))}
+                    </div>
+                    {settlement.flowLines.length > 0 ? (
+                      settlement.flowLines.map((line, index) => (
+                        <p className="settlementSubLine" key={index}>
+                          <span>{line}</span>
+                        </p>
+                      ))
+                    ) : (
+                      <p className="settlementSubLine">
+                        <span>未胡各家无需赔付花猪或查叫。</span>
+                      </p>
+                    )}
+                  </div>
                 )}
               </div>
               <div className="resultLearningActions">
@@ -1013,7 +1119,9 @@ function App({
           <GameDialog title="玩法提示">
             <ol className="rulesHelp">
               <li>
-                <strong>换三张</strong>选择同一花色的三张牌，与下家顺时针交换。
+                <strong>换三张</strong>
+                选择同一花色的三张牌，逆时针传给下家（你 → 阿川 → 小满 →
+                老茶客）。
               </li>
               <li>
                 <strong>定缺</strong>
@@ -1028,6 +1136,28 @@ function App({
                 胡牌者退出，其余玩家继续，直到三家胡牌或牌墙摸尽。
               </li>
             </ol>
+            <div className="rulesScoringBox">
+              <h3>番型与算分速查（V1 默认规则）</h3>
+              <ul>
+                <li>
+                  基础番型：平胡 0 番（1 分）、对对胡 +1 番、清一色 +2 番、七对
+                  +2 番、每个根 +1 番。
+                </li>
+                <li>
+                  加番与封顶：杠上花 / 杠后炮 / 抢杠胡 / 海底胡各 +1
+                  番；累计封顶 3 番（8 分）。
+                </li>
+                <li>
+                  自摸与杠钱：点胡由放铳者独付；自摸由当时每位未胡对手各付「牌型分
+                  + 1」。直杠收放杠者 2 分，暗杠收未胡各家 2 分，补杠收未胡各家
+                  1 分。
+                </li>
+                <li>
+                  流局结算：未清缺为花猪，向其余未胡非花猪各赔 8
+                  分；非花猪未听牌者向听牌者按其最高理论分查叫。
+                </li>
+              </ul>
+            </div>
             <p className="dialogIntro">
               本桌采用项目 V1
               规则。出牌建议只用你的手牌与公开信息，详细依据会说明估算的局限。
@@ -1042,6 +1172,16 @@ function App({
                 <li key={`${index}-${entry}`}>{formatLogEntry(entry)}</li>
               ))}
             </ol>
+            {settlement && settlement.transferLines.length > 0 && (
+              <div className="ledgerSection">
+                <h3>收支流水（共 {settlement.transferLines.length} 笔）</h3>
+                <ol className="historyList">
+                  {settlement.transferLines.map((line, index) => (
+                    <li key={`${index}-${line}`}>{line}</li>
+                  ))}
+                </ol>
+              </div>
+            )}
           </GameDialog>
         </div>
       </footer>

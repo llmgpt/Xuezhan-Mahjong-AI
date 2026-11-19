@@ -148,13 +148,125 @@ describe("客观牌效与听牌算账明细", () => {
         ["pass", "hu"],
         "rob-kong",
       ),
+      { recommendedAction: { type: "respond", choice: "hu" } },
     );
     const huRow = robKongResult.rows.find(
       (row) => row.action?.type === "respond" && row.action.choice === "hu",
     );
+    const robPassRow = robKongResult.rows.find(
+      (row) => row.action?.type === "respond" && row.action.choice === "pass",
+    );
     expect(huRow?.shanten).toBe(-1);
     expect(huRow?.maxWinPoints).toBeGreaterThanOrEqual(2);
     expect(huRow?.note).toContain("抢杠");
+    expect(robPassRow?.isTopEfficiency).not.toBe(true);
+    expect(robKongResult.divergesFromEfficiency).toBe(false);
+  });
+
+  it("可点胡时绝不把过标成纯牌效最优；若策略暂不点胡，顶格比较对象应是胡牌本身", () => {
+    const view = respondView("w45667899 s12345", tile("wan", 3), [
+      "pass",
+      "hu",
+    ]);
+    const accept = buildTileBreakdown(view, {
+      recommendedAction: { type: "respond", choice: "hu" },
+    });
+    const passRow = accept.rows.find(
+      (row) => row.action?.type === "respond" && row.action.choice === "pass",
+    );
+    expect(passRow?.isTopEfficiency).not.toBe(true);
+    expect(accept.divergesFromEfficiency).toBe(false);
+
+    const refuse = buildTileBreakdown(view, {
+      recommendedAction: { type: "respond", choice: "pass" },
+    });
+    expect(refuse.divergesFromEfficiency).toBe(true);
+    expect(refuse.topEfficiencyLabel).toContain("点胡");
+    expect(refuse.divergenceNote).toContain("当前可和牌");
+  });
+
+  it("同向听同进张时低番打法不与高番打法并列纯牌效最优", () => {
+    // 种子 42 第 15 手原型：碰 6条、碰 1筒，手牌 345条 + 12346筒
+    const view = discardView("s345 d12346", "wan", [
+      { type: "pung", tile: tile("tiao", 6), from: 3 },
+      { type: "pung", tile: tile("tong", 1), from: 2 },
+    ]);
+    view.decision = {
+      kind: "self",
+      canWin: false,
+      concealedKongs: [],
+      addedKongs: [tile("tong", 1)],
+    };
+    const result = buildTileBreakdown(view, {
+      recommendedAction: {
+        type: "kong",
+        kind: "added",
+        tile: tile("tong", 1),
+      },
+    });
+    const discard1Tong = result.rows.find(
+      (row) =>
+        row.action?.type === "discard" && row.action.tile === tile("tong", 1),
+    );
+    const discard4Tong = result.rows.find(
+      (row) =>
+        row.action?.type === "discard" && row.action.tile === tile("tong", 4),
+    );
+    expect(discard4Tong?.maxWinPoints).toBe(2);
+    expect(discard1Tong?.maxWinPoints).toBe(1);
+    expect(discard4Tong?.isTopEfficiency).toBe(true);
+    expect(discard1Tong?.isTopEfficiency).not.toBe(true);
+  });
+
+  it("策略推荐退向听或补杠拆听时，如实说明退向听损失，不误导为高番路线", () => {
+    // 种子 42 第 13 手原型：碰 6条、碰 1筒，手牌 3455条 + 1236筒（公开已见完部分 2条/5条）
+    const tiao2 = tile("tiao", 2);
+    const tiao5 = tile("tiao", 5);
+    const view = discardView(
+      "s3455 d1236",
+      "wan",
+      [
+        { type: "pung", tile: tile("tiao", 6), from: 3 },
+        { type: "pung", tile: tile("tong", 1), from: 2 },
+      ],
+      [tiao2, tiao2, tiao2, tiao5, tiao5],
+    );
+    view.decision = {
+      kind: "self",
+      canWin: false,
+      concealedKongs: [],
+      addedKongs: [tile("tong", 1)],
+    };
+    const result = buildTileBreakdown(view, {
+      recommendedAction: {
+        type: "kong",
+        kind: "added",
+        tile: tile("tong", 1),
+      },
+    });
+    expect(result.divergesFromEfficiency).toBe(true);
+    expect(result.topEfficiencyLabel).toBe("打 5条");
+    expect(result.divergenceNote).toContain("退回 1 向听");
+    expect(result.divergenceNote).not.toContain("高番路线");
+  });
+
+  it("1向听仅有极窄进张时标出窄门提醒，并保留更宽的2向听候选项对照", () => {
+    // 种子 777 第 6 手原型：3456889万 + 2336789筒，外已见两张 7万
+    const wan7 = tile("wan", 7);
+    const view = discardView("w3456889 d2336789", "tiao", [], [wan7, wan7]);
+    const result = buildTileBreakdown(view, {
+      recommendedAction: { type: "discard", tile: tile("tong", 9) },
+    });
+    const d9Tong = result.rows.find(
+      (row) =>
+        row.action?.type === "discard" && row.action.tile === tile("tong", 9),
+    );
+    expect(d9Tong?.shanten).toBe(1);
+    expect(d9Tong?.effectiveTotal).toBe(2);
+    expect(d9Tong?.note).toContain("窄门");
+    expect(
+      result.rows.some((row) => row.shanten === 2 && row.effectiveTotal > 10),
+    ).toBe(true);
   });
 
   it("有自摸胡或暗杠机会时展示自摸番型及杠前后向听对照", () => {
