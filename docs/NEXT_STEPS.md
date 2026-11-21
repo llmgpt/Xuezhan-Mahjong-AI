@@ -2,16 +2,14 @@
 
 ## 当前状态
 
-- 已合入默认开启的“先想后看”教学流程（[src/App.tsx](../src/App.tsx)、[src/components/AdviceCoach.tsx](../src/components/AdviceCoach.tsx)）：轮到玩家时先隐藏建议条与`荐`字角标；点击`揭晓本步建议`（或切换底栏`先想后看：开/关`）后**直接就地展开理由、备选与客观测算**，去掉`查看依据`二次点击与遮罩弹窗；未看提示直接出牌/响应后可通过底栏`刚这手复盘`（[src/components/TurnReviewDialog.tsx](../src/components/TurnReviewDialog.tsx)）回看当手建议。
-- 已新增独立于`src/game/`算分指纹的客观测算明细（[src/components/tileBreakdown.ts](../src/components/tileBreakdown.ts)、[src/components/TileBreakdownPanel.tsx](../src/components/TileBreakdownPanel.tsx)）：按当前手牌与全桌已见公开牌扣减余张，展示定缺未清提醒、候选向听数、有效进张/听牌余张与基础番型，并在`V10`推荐偏离纯牌效时标出分歧说明。
-- 已完成牌桌排版与实机自适应修复（[src/style.css](../src/style.css)）：对家`小满`桌面横排、窄屏多碰展开不裁剪；自家新摸牌放最右加`摸`角标；`对局记录`映射玩家昵称；展开就地建议时自适应桌心高度，消除`换三张`与`行牌`阶段桌心`余牌`重叠。
-
-- 已完成桌面可读性与客观测算纠错修复（[src/components/tileBreakdown.ts](../src/components/tileBreakdown.ts)、[src/components/settlementDetails.ts](../src/components/settlementDetails.ts)、[src/App.tsx](../src/App.tsx)）：修复可胡窗口错标`过`为`纯牌效最优`、同进张漏比底算与失实分歧说明，增加`1向听`窄门提醒、换入三张`入`角标、暗杠背牌、`碰`后清除桌心残留、完整结算/流局查叫与收支流水、逆时针与番型速查说明，以及`390×844`排版微调。
+- 已合入默认开启的“先想后看”教学流程（[src/App.tsx](../src/App.tsx)、[src/components/AdviceCoach.tsx](../src/components/AdviceCoach.tsx)）：轮到玩家时先隐藏建议条与`荐`字角标；点击`揭晓本步建议`（或切换底栏`先想后看：开/关`）后**直接就地展开理由、备选与客观测算**；未看提示直接出牌/响应后可通过底栏`刚这手复盘`（[src/components/TurnReviewDialog.tsx](../src/components/TurnReviewDialog.tsx)）回看当手建议。
+- 已完成行牌客观测算与桌面可读性修复（[src/components/tileBreakdown.ts](../src/components/tileBreakdown.ts)、[src/components/settlementDetails.ts](../src/components/settlementDetails.ts)、[src/style.css](../src/style.css)）：扣减全桌公开牌展示有效进张、听牌余张与底算番型，支持`1向听`窄门提醒、换入三张`入`角标、暗杠背牌、完整结算/流局查叫流水与桌面/窄屏自适应。
+- 已重构「换三张」与「定缺」教学启发式及人话解释（[src/game/openingAdvice.ts](../src/game/openingAdvice.ts)、[src/game/teacher.ts](../src/game/teacher.ts)、[src/components/setupAdvice.ts](../src/components/setupAdvice.ts)）：结合**主门保张、换后定缺清门成本、成组面子保留与清一色倾向**评估换牌并避开整对/整顺送出，修复`777`拆 6 张筒主门`789筒`、`108`备选整对送出`11条`以及同张数/同向听定缺按固定花色顺序拆成顺问题；统一改用“三门张数 → 换后余几张废牌可定缺 → 推荐理由”人话说明并消除桌面展开卡片底行截断。
 
 ## 下一步建议
 
-1. **重构「换三张」与「定缺」教学启发式及解释文案**（高优先）：目前 [openingAdvice.ts](../src/game/openingAdvice.ts) 仅比较单门局部连接分，已在`777`、`108`等实玩中暴露出拆 6 张主门完整顺子`789筒`、备选强拆`11条`对子以及`定缺`按固定花色顺序拆成顺等问题；[teacher.ts](../src/game/teacher.ts) 与 [setupAdvice.ts](../src/components/setupAdvice.ts) 仍暴露“同张计 4 / 固定牌序”等算法话术。下一步改为结合**主门保张、后续定缺清门成本与两门/清一色倾向**评估换牌，并用玩家可读语言展示“三门张数 → 换后余几张废牌可定缺 → 推荐理由”。
-2. **补全整局关键手时间线回看**：当前`刚这手复盘`仅保留最近一步快照，可按需扩展多步回顾。
+1. **补全整局关键手时间线回看**：当前`刚这手复盘`仅保留最近一步快照，可按需扩展多步回顾。
+2. **策略对照入口评估**：按 [PROJECT_PLAN.md](PROJECT_PLAN.md) 决定是否在牌局设置中提供“合理老师”与`V10`的轻量对照说明。
 3. **规则与策略边界**：规则改动须先更新 [RULES_V1.md](RULES_V1.md)；策略研究维持暂停（[research/README.md](research/README.md)）。
 
 ## 阻塞项
@@ -20,4 +18,4 @@
 
 ## 完成标准
 
-- 本轮客观测算与牌桌明细修复已通过 `npm run check`（`59` 组 `551` 条测试）与 `42` / `777` / `108` 三局 Chrome 实机目视复验。
+- 本轮「换三张 / 定缺」启发式与人话解释重构已通过 `npm run check`（`59` 组 `562` 条测试）与 `777` / `108` / `3` 固定种子桌面（`1280×860`）及窄屏（`390×844`）Chrome 目视复验。

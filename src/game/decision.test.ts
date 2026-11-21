@@ -32,7 +32,10 @@ describe("本家托管与即时解释", () => {
     expect(chooseAutoplayAction(state)).toEqual(action);
     expect(describeDecision(state, 0, action).matchesRecommendation).toBe(true);
     expect(describeDecision(state, 0, action).recommended.reason).toContain(
-      "联系",
+      "三门张数",
+    );
+    expect(describeDecision(state, 0, action).recommended.reason).toContain(
+      "定缺",
     );
   });
 

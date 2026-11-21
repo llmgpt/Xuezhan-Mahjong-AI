@@ -1,12 +1,17 @@
 import { recommendActions, type ActionAdvice } from "./actionAdvice";
-import {
-  estimateShanten,
-  recommendDiscards,
-  type DiscardAdvice,
-} from "./advice";
+import { recommendDiscards, type DiscardAdvice } from "./advice";
 import type { DecisionAction, DecisionChoice } from "./decision";
 import type { GameState } from "./game";
-import { chooseStructureExchange } from "./openingAdvice";
+import {
+  analyzeExchangeChoices,
+  analyzeMissingChoices,
+  chooseMissingSuit,
+  meldKindLabel,
+  SUIT_NAMES as names,
+  SUITS,
+  type ExchangeAnalysis,
+  type MissingAnalysis,
+} from "./openingAdvice";
 import { waitingTiles } from "./scoring";
 import { analyzeScoredDraws } from "./teacherEvaluation";
 import { labelOf, suitOf, type Suit, type Tile } from "./tiles";
@@ -16,35 +21,209 @@ export interface TeacherOptions {
   discardMode?: "teacher" | "legacy" | "efficiency";
 }
 
-const suits: Suit[] = ["wan", "tiao", "tong"];
-const names: Record<Suit, string> = { wan: "万", tiao: "条", tong: "筒" };
-const setupLimit =
-  "只用本家手牌的规则策略；换来的三张未知，未搜索对手收牌后的收益。";
+const exchangeLimit =
+  "仅依据本家手牌作启发式判断；换入的三张未知，未预测对手收牌后的收益。";
+const missingLimit =
+  "仅依据本家手牌作启发式比较，不代表实际听牌轮数或最终胜率。";
 
-function missingChoices(hand: readonly Tile[]) {
-  return suits
-    .map((suit) => {
-      const count = hand.filter((item) => suitOf(item) === suit).length;
-      const retained = hand.filter((item) => suitOf(item) !== suit);
-      const retainedShanten = estimateShanten(retained, 0, suit);
-      return {
-        suit,
-        count,
-        retainedShanten,
-        cost: Math.max(count, retainedShanten),
-      };
-    })
-    .sort(
-      (a, b) =>
-        a.cost - b.cost ||
-        a.retainedShanten - b.retainedShanten ||
-        a.count - b.count ||
-        suits.indexOf(a.suit) - suits.indexOf(b.suit),
-    );
+function formatSuitCounts(hand: readonly Tile[]): string {
+  return SUITS.map(
+    (suit) =>
+      `${names[suit]} ${hand.filter((item) => suitOf(item) === suit).length} 张`,
+  ).join("、");
+}
+
+function keptSuitNames(missing: Suit): string {
+  return SUITS.filter((suit) => suit !== missing)
+    .map((suit) => names[suit])
+    .join("、");
+}
+
+function formatExchangePrimary(
+  hand: readonly Tile[],
+  best: ExchangeAnalysis,
+  second?: ExchangeAnalysis,
+): { summary: string; reason: string } {
+  const countsText = formatSuitCounts(hand);
+  const suitName = names[best.suit];
+  const tilesText = best.tiles.map(labelOf).join("、");
+  const plan = best.plannedMissing;
+  const planSuitName = names[plan.suit];
+  const keptNames = keptSuitNames(plan.suit);
+  const domName = names[best.dominantKeptSuit];
+  const meldWord = meldKindLabel(plan.retainedSequences, plan.retainedTriplets);
+
+  let summary: string;
+  if (plan.suit === best.suit && plan.count === 0) {
+    if (best.dominantKeptCount >= 8) {
+      summary = `换出这三张直接清空${suitName}门（余 0 张可定缺），保住 ${best.dominantKeptCount} 张${domName}主门兼顾清一色方向。`;
+    } else if (best.dominantKeptCount >= 6) {
+      summary = `换出这三张直接清空${suitName}门（余 0 张可定缺），完整保住 ${best.dominantKeptCount} 张${domName}主门。`;
+    } else {
+      summary = `换出这三张直接清空${suitName}门（余 0 张可定缺），保留${keptNames}两门共 ${best.keptTwoSuitCount} 张。`;
+    }
+  } else if (plan.suit === best.suit) {
+    if (best.dominantKeptCount >= 8) {
+      summary = `换后${suitName}门仅余 ${plan.count} 张便于定缺，保住 ${best.dominantKeptCount} 张${domName}主门兼顾清一色方向。`;
+    } else if (best.dominantKeptCount >= 6) {
+      summary = `换后${suitName}门仅余 ${plan.count} 张便于定缺，完整保住 ${best.dominantKeptCount} 张${domName}主门${plan.retainedMelds > 0 ? `与 ${plan.retainedMelds} 组完整${meldWord}` : ""}。`;
+    } else {
+      summary = `换后${suitName}门仅余 ${plan.count} 张便于定缺，保留${keptNames}两门共 ${best.keptTwoSuitCount} 张。`;
+    }
+  } else {
+    summary = `拟定缺原本最少的${planSuitName}门（余 ${plan.count} 张），从${suitName}门换出较散的三张，尽量保住主门与已有搭子。`;
+  }
+
+  const remText = best.suitRemainingTiles.map(labelOf).join("、");
+  const afterStep =
+    plan.suit === best.suit
+      ? plan.count === 0
+        ? `换出 ${tilesText} 后，${suitName}门清空（余 0 张）可直接定缺`
+        : `换出 ${tilesText} 后，${suitName}门余 ${plan.count} 张（${remText}）可定缺`
+      : plan.count === 0
+        ? `${planSuitName}门本就余 0 张可直接定缺；换出 ${tilesText} 后${suitName}门余 ${best.suitRemainingTiles.length} 张`
+        : `${planSuitName}门原本最少（余 ${plan.count} 张）便于定缺；换出 ${tilesText} 后${suitName}门余 ${best.suitRemainingTiles.length} 张`;
+
+  const keptParts: string[] = [
+    `保留${keptNames}两门共 ${best.keptTwoSuitCount} 张`,
+  ];
+  if (plan.retainedMelds > 0) {
+    keptParts.push(`含 ${plan.retainedMelds} 组完整${meldWord}`);
+  }
+  let dominantNote = "";
+  if (best.dominantKeptCount >= 8) {
+    dominantNote = `，其中${domName}门占 ${best.dominantKeptCount} 张兼顾清一色方向`;
+  } else if (best.dominantKeptCount >= 6) {
+    dominantNote = `，完整保住 ${best.dominantKeptCount} 张${domName}主门`;
+  }
+
+  let pairNote = "";
+  if (best.suitCountBefore >= 4 && best.suitHadPair && !best.outHasPair) {
+    pairNote =
+      best.suitRemainingStructure.pairs > 0 ||
+      best.suitRemainingStructure.triplets > 0
+        ? `，并在${suitName}门内保住对子`
+        : "，且避开把对子整对送出";
+  } else if (
+    best.suitCountBefore >= 4 &&
+    best.suitHadMeld &&
+    !best.outHasMeld
+  ) {
+    pairNote = "，且不整组送出完整面子";
+  }
+
+  const tieNote =
+    best.isTiedWithNext && second
+      ? `；与改换${names[second.suit]}门条件相当，任选其一即可`
+      : "";
+
+  const reason = `三门张数：${countsText} → ${afterStep}；${keptParts.join("，")}（向听粗估 ${plan.retainedShanten}）${dominantNote}${pairNote}${tieNote}。`;
+  return { summary, reason };
+}
+
+function formatMissingChoice(
+  hand: readonly Tile[],
+  item: MissingAnalysis,
+  index: number,
+  ranked: readonly MissingAnalysis[],
+): DecisionChoice {
+  const countsText = formatSuitCounts(hand);
+  const suitName = names[item.suit];
+  const keptNames = keptSuitNames(item.suit);
+  const meldWord = meldKindLabel(item.retainedSequences, item.retainedTriplets);
+  const meldClause =
+    item.retainedMelds > 0
+      ? `，含 ${item.retainedMelds} 组完整${meldWord}`
+      : "";
+  const flushClause =
+    item.dominantRetainedCount >= 8
+      ? `，且${names[item.dominantRetainedSuit]}门占 ${item.dominantRetainedCount} 张有清一色方向`
+      : "";
+  const best = ranked[0];
+  const second = ranked[1];
+
+  let summary: string;
+  let extraContrast = "";
+
+  if (index === 0) {
+    if (item.count === 0) {
+      summary = `手里已无${suitName}牌，直接定缺${suitName}无需清废牌。`;
+    } else if (item.isTiedWithNext && second) {
+      summary = `${suitName}门与${names[second.suit]}门均为 ${item.count} 张且牌形相当，定缺哪一门都可以。`;
+      extraContrast = `；与定缺${names[second.suit]}条件基本相当，任选其一即可`;
+    } else if (second && item.count < second.count) {
+      summary = `${suitName}门最少（${item.count} 张），清缺最快，可保留${keptNames}两门共 ${item.retainedCount} 张。`;
+    } else if (
+      second &&
+      item.count === second.count &&
+      item.retainedMelds > second.retainedMelds
+    ) {
+      const otherMeldWord = meldKindLabel(
+        second.droppedStructure.sequences,
+        second.droppedStructure.triplets,
+      );
+      summary = `${suitName}与${names[second.suit]}同为 ${item.count} 张，定缺${suitName}可避免拆掉${names[second.suit]}门已有${otherMeldWord}。`;
+      extraContrast = `；${names[second.suit]}门虽同样 ${second.count} 张但自带完整${otherMeldWord}，不宜拆掉`;
+    } else if (
+      second &&
+      item.count === second.count &&
+      item.retainedShanten < second.retainedShanten
+    ) {
+      summary = `${suitName}与${names[second.suit]}同为 ${item.count} 张，定缺${suitName}后其余两门更接近听牌。`;
+    } else if (second && item.count === second.count) {
+      summary = `${suitName}与${names[second.suit]}同为 ${item.count} 张，定缺${suitName}可为其余两门保留更宽进张与更好搭子。`;
+      if (item.retainedEffectiveDraws > second.retainedEffectiveDraws) {
+        extraContrast = `；比定缺${names[second.suit]}多留约 ${item.retainedEffectiveDraws - second.retainedEffectiveDraws} 张有效进张`;
+      }
+    } else if (second) {
+      summary = `虽比${names[second.suit]}多清 ${item.count - second.count} 张，但保住了${names[second.suit]}门已有成组结构，整体更接近听牌。`;
+    } else {
+      summary = `定缺${suitName}（${item.count} 张），综合清缺速度与保留两门结构更合适。`;
+    }
+  } else {
+    const bestName = names[best.suit];
+    if (index === 1 && best.isTiedWithNext) {
+      summary = `与定缺${bestName}条件相当，选这门同样合理。`;
+    } else if (
+      item.count === best.count &&
+      item.retainedMelds < best.retainedMelds
+    ) {
+      const droppedWord = meldKindLabel(
+        item.droppedStructure.sequences,
+        item.droppedStructure.triplets,
+      );
+      summary = `同为 ${item.count} 张，但${suitName}门自带完整${droppedWord}，定缺${suitName}会拆掉现成面子。`;
+    } else if (
+      item.count === best.count &&
+      item.retainedShanten > best.retainedShanten
+    ) {
+      summary = `同为 ${item.count} 张，但定缺${suitName}后保留两门离听牌更远（向听 ${item.retainedShanten} vs ${best.retainedShanten}）。`;
+    } else if (item.count === best.count) {
+      summary = `同为 ${item.count} 张，但定缺${suitName}会损失更好的搭子与进张宽度。`;
+    } else if (item.count > best.count) {
+      summary = `${suitName}门有 ${item.count} 张，比定缺${bestName}多清 ${item.count - best.count} 张，清缺更慢。`;
+    } else {
+      summary = `虽少清 ${best.count - item.count} 张，但会拆散关键成组结构，保留两门向听变为 ${item.retainedShanten}。`;
+    }
+  }
+
+  const clearText =
+    item.count === 0
+      ? `手里已无${suitName}牌，无需清废牌`
+      : `须清 ${item.count} 张${suitName}牌`;
+  const reason = `三门张数：${countsText}。${index === 0 ? "" : "若"}定缺${suitName}${clearText}，保留${keptNames}两门共 ${item.retainedCount} 张${meldClause}，有效进张约 ${item.retainedEffectiveDraws} 张（向听粗估 ${item.retainedShanten}）${flushClause}${extraContrast}。`;
+
+  return {
+    action: { type: "missing", suit: item.suit },
+    label: `定缺${suitName}`,
+    summary,
+    reason,
+    limit: missingLimit,
+  };
 }
 
 export function chooseTeacherMissing(hand: readonly Tile[]): Suit {
-  return missingChoices(hand)[0].suit;
+  return chooseMissingSuit(hand);
 }
 
 export function recommendTeacherDiscards(
@@ -174,34 +353,29 @@ export function teacherChoices(
   options: TeacherOptions = {},
 ): DecisionChoice[] {
   if (phase === "exchange") {
-    const tiles = chooseStructureExchange(view.hand);
+    const analyzed = analyzeExchangeChoices(view.hand);
+    if (!analyzed.length) throw new Error("无法选择换三张");
+    const best = analyzed[0];
+    const { summary, reason } = formatExchangePrimary(
+      view.hand,
+      best,
+      analyzed[1],
+    );
     return [
       {
-        action: { type: "exchange", tiles },
-        label: `换出 ${tiles.map(labelOf).join("、")}`,
-        summary: "优先换出较少拆散对子和顺子联系的同门三张。",
-        reason:
-          "枚举合法同门三张，比较换出前后同张、相邻和隔张联系的损失；同张计 4、相邻计 2、隔张计 1。损失并列时优先张数较少的一门，再按固定牌序选择。",
-        limit: setupLimit,
+        action: { type: "exchange", tiles: best.tiles },
+        label: `换出 ${best.tiles.map(labelOf).join("、")}`,
+        summary,
+        reason,
+        limit: exchangeLimit,
       },
     ];
   }
   if (phase === "choose-missing") {
-    const choices = missingChoices(view.hand);
-    const counts = suits
-      .map(
-        (suit) =>
-          `${names[suit]} ${view.hand.filter((item) => suitOf(item) === suit).length} 张`,
-      )
-      .join("、");
-    return choices.map(({ suit, count, retainedShanten, cost }) => ({
-      action: { type: "missing", suit },
-      label: `定缺${names[suit]}`,
-      summary: `该门 ${count} 张；结合清缺门成本与其余两门的成组结构取舍。`,
-      reason: `三门张数：${counts}。去掉${names[suit]}后保留结构的向听粗估为 ${retainedShanten}，与须清掉的 ${count} 张取较大值 ${cost} 作为开局成本；成本并列时优先保留更完整的结构，再比较张数和固定花色顺序。`,
-      limit:
-        "只用本家手牌；开局成本是启发式比较，不代表实际听牌所需轮数或长期收益。",
-    }));
+    const ranked = analyzeMissingChoices(view.hand);
+    return ranked.map((item, index) =>
+      formatMissingChoice(view.hand, item, index, ranked),
+    );
   }
   if (phase !== "discard" && phase !== "respond") return [];
   const discards = recommendTeacherDiscards(view, options);

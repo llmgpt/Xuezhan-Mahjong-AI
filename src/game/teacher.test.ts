@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
+import { createGame } from "./game";
 import {
   chooseTeacherAction,
   chooseTeacherMissing,
   recommendTeacherDiscards,
+  teacherChoices,
 } from "./teacher";
 import { suitOf, tile, type Suit, type Tile } from "./tiles";
-import type { PlayerView } from "./view";
+import { playerView, type PlayerView } from "./view";
 import { recommendDiscards } from "./advice";
 
 function hand(spec: string): Tile[] {
@@ -51,6 +53,40 @@ describe("合理老师候选", () => {
 
   it("定缺张数并列时，保留完整顺子，清掉孤张较多的一门", () => {
     expect(chooseTeacherMissing(hand("w123 s159 d11223445"))).toBe("tiao");
+  });
+
+  it("同张数且同向听时，定缺不按固定花色顺序拆掉成顺", () => {
+    // 万 4 张含 234 完整顺子，条 4 张仅为 12 边搭 + 68 嵌张；去掉任一门后剩余向听均为 3
+    expect(chooseTeacherMissing(hand("w2348 s1268 d123569"))).toBe("tiao");
+    // 种子 3：万 4 张为 1234 顺搭，条 4 张为 5699 无成顺
+    expect(chooseTeacherMissing(createGame(3).players[0].hand)).toBe("tiao");
+    // 种子 4：条 4 张含 789 成顺，筒 4 张为 5668 无成顺
+    expect(chooseTeacherMissing(createGame(4).players[0].hand)).toBe("tong");
+  });
+
+  it("开局换牌与定缺解释用玩家可读语言，展示三门张数与清缺成本，不暴露算法黑话", () => {
+    const view777 = playerView(createGame(777), 0);
+    const exchangeChoice = teacherChoices(view777, "exchange")[0];
+    expect(exchangeChoice.action).toEqual({
+      type: "exchange",
+      tiles: hand("s135"),
+    });
+    const exchangeText = `${exchangeChoice.summary}${exchangeChoice.reason}${exchangeChoice.limit}`;
+    expect(exchangeText).toContain("三门张数");
+    expect(exchangeText).toContain("余 1 张");
+    expect(exchangeText).toContain("定缺");
+    expect(exchangeText).not.toMatch(/同张计 4|相邻计 2|隔张计 1|固定牌序/);
+
+    const missingChoices = teacherChoices(
+      playerView(createGame(3), 0),
+      "choose-missing",
+    );
+    expect(missingChoices[0].action).toEqual({ type: "missing", suit: "tiao" });
+    const missingText = missingChoices
+      .map((item) => `${item.summary}${item.reason}${item.limit}`)
+      .join("");
+    expect(missingText).toContain("三门张数");
+    expect(missingText).not.toMatch(/固定花色顺序|取较大值/);
   });
 
   it("清缺门只选合法缺门牌，不为番型越过规则", () => {
