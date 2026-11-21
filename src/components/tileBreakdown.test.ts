@@ -1,3 +1,5 @@
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { recommendDiscards } from "../game/advice";
 import { createGame } from "../game/game";
@@ -5,7 +7,11 @@ import type { Meld } from "../game/scoring";
 import { hand } from "../game/testHelpers";
 import { suitOf, tile, type Suit } from "../game/tiles";
 import { playerView, type PlayerView } from "../game/view";
-import { buildTileBreakdown } from "./tileBreakdown";
+import { TileBreakdownPanel } from "./TileBreakdownPanel";
+import {
+  buildTileBreakdown,
+  summarizeBreakdownHeadline,
+} from "./tileBreakdown";
 
 function discardView(
   notation: string,
@@ -287,5 +293,37 @@ describe("客观牌效与听牌算账明细", () => {
     expect(kongRow!.label).toContain("暗杠 1万");
     expect(kongRow!.shanten).toBe(0);
     expect(kongRow!.waits.length).toBeGreaterThan(0);
+  });
+
+  it("生成一句话人话算账结论，且进张超过 12 种时完整展示所有牌面不截断", () => {
+    // 种子 2026 第 3 巡（已打出 2条）：手牌 1235556条 + 1135678筒（打 3筒 有 13 种 38 张进张）
+    const view = discardView(
+      "s1235556 d1135678",
+      "wan",
+      [],
+      [tile("tong", 4), tile("tong", 4), tile("tiao", 2)],
+    );
+    const breakdown = buildTileBreakdown(view, {
+      recommendedAction: { type: "discard", tile: tile("tiao", 6) },
+    });
+    const headline = summarizeBreakdownHeadline(breakdown);
+    expect(headline).toContain("听牌");
+    expect(headline).toContain("4筒");
+    expect(headline).toContain("余 2 张");
+    expect(headline).toContain("打 3筒");
+
+    const markup = renderToStaticMarkup(
+      createElement(TileBreakdownPanel, {
+        view,
+        recommendedAction: { type: "discard", tile: tile("tiao", 6) },
+      }),
+    );
+    const d3Tong = breakdown.rows.find(
+      (row) =>
+        row.action?.type === "discard" && row.action.tile === tile("tong", 3),
+    );
+    expect(d3Tong?.waits.length).toBe(13);
+    expect(markup).not.toContain("等共 13 种");
+    expect(markup).toContain('aria-label="9筒"');
   });
 });

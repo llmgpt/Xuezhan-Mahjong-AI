@@ -130,6 +130,7 @@ export interface DisplayTile {
   index: number;
   drawn: boolean;
   received?: boolean;
+  won?: boolean;
 }
 
 export function orderHandForDisplay(
@@ -138,7 +139,32 @@ export function orderHandForDisplay(
   turn: number,
   lastDraw?: { seat: number; tile: Tile },
   receivedTiles?: readonly Tile[],
+  winInfo?: { tile: Tile; selfDraw: boolean },
 ): DisplayTile[] {
+  if (winInfo) {
+    let winIndex = -1;
+    if (winInfo.selfDraw) {
+      for (let i = hand.length - 1; i >= 0; i -= 1) {
+        if (hand[i] === winInfo.tile) {
+          winIndex = i;
+          break;
+        }
+      }
+    }
+    const base: DisplayTile[] = hand
+      .map((tile, index) => ({ tile, index, drawn: false }))
+      .filter((_, index) => index !== winIndex)
+      .sort((a, b) => a.tile - b.tile || a.index - b.index);
+    return [
+      ...base,
+      {
+        tile: winInfo.tile,
+        index: winIndex >= 0 ? winIndex : hand.length,
+        drawn: false,
+        won: true,
+      },
+    ];
+  }
   const hasDrawn =
     phase === "discard" &&
     turn === 0 &&
@@ -235,11 +261,25 @@ function Opponent({
   seat,
   player,
   active,
+  revealHand = false,
+  winInfo,
 }: {
   seat: number;
   player: PlayerState;
   active: boolean;
+  revealHand?: boolean;
+  winInfo?: { tile: Tile; selfDraw: boolean };
 }) {
+  const revealedTiles = revealHand
+    ? orderHandForDisplay(
+        player.hand,
+        "ended",
+        seat,
+        undefined,
+        undefined,
+        winInfo,
+      )
+    : [];
   return (
     <div
       className={`opponent seat-${seat} ${player.won ? "winner" : ""} ${active ? "active" : ""}`}
@@ -266,15 +306,21 @@ function Opponent({
       </div>
       <div className="opponentTiles">
         <div
-          className="opponentHand"
+          className={`opponentHand ${revealHand ? "is-revealed" : ""}`}
           aria-label={`手牌 ${player.hand.length} 张`}
         >
-          {Array.from(
-            { length: Math.min(player.hand.length, 14) },
-            (_, index) => (
-              <TileBack key={index} />
-            ),
-          )}
+          {revealHand
+            ? revealedTiles.map((item, index) => (
+                <TilePiece
+                  tile={item.tile}
+                  className={`tile-meld ${item.won ? "tile-opponent-won" : ""}`}
+                  key={`${index}-${item.tile}`}
+                />
+              ))
+            : Array.from(
+                { length: Math.min(player.hand.length, 14) },
+                (_, index) => <TileBack key={index} />,
+              )}
           <span className="handCount">{player.hand.length}</span>
         </div>
         <Melds player={player} />
@@ -349,6 +395,7 @@ function App({
     () => initialThinkFirst ?? readThinkFirstPreference(),
   );
   const [revealed, setRevealed] = useState(false);
+  const [inspectingTable, setInspectingTable] = useState(false);
   const [lastReview, setLastReview] = useState<TurnReview | null>(null);
   const [position, setPosition] = useState<Position>({
     session: 0,
@@ -380,12 +427,16 @@ function App({
   const [voiceOptions, setVoiceOptions] = useState(availableChineseVoices);
   const narration = useRef<Promise<void>>(Promise.resolve());
   const hand = game.players[0].hand;
+  const selfWinRecord = game.wins.find((w) => w.winner === 0);
   const sortedHand = orderHandForDisplay(
     hand,
     game.phase,
     game.turn,
     game.lastDraw,
     exchangeSummary?.in,
+    selfWinRecord
+      ? { tile: selfWinRecord.tile, selfDraw: selfWinRecord.selfDraw }
+      : undefined,
   );
   const view = useMemo(() => playerView(game, 0), [game]);
   const strategy = useProductionAdvice(
@@ -606,6 +657,7 @@ function App({
     setSelected([]);
     setExchangeSummary(null);
     setRevealed(false);
+    setInspectingTable(false);
     setLastReview(null);
     pauseAuto();
     stopAnnouncements();
@@ -787,20 +839,29 @@ function App({
           四川麻将<span>108 张 · 三家胡牌结束</span>
         </div>
 
-        {[1, 2, 3].map((seat) => (
-          <Opponent
-            seat={seat}
-            player={game.players[seat]}
-            active={
-              game.turn === seat &&
-              !game.players[seat].won &&
-              game.phase !== "exchange" &&
-              game.phase !== "choose-missing" &&
-              game.phase !== "ended"
-            }
-            key={seat}
-          />
-        ))}
+        {[1, 2, 3].map((seat) => {
+          const seatWin = game.wins.find((w) => w.winner === seat);
+          return (
+            <Opponent
+              seat={seat}
+              player={game.players[seat]}
+              revealHand={game.phase === "ended"}
+              winInfo={
+                seatWin
+                  ? { tile: seatWin.tile, selfDraw: seatWin.selfDraw }
+                  : undefined
+              }
+              active={
+                game.turn === seat &&
+                !game.players[seat].won &&
+                game.phase !== "exchange" &&
+                game.phase !== "choose-missing" &&
+                game.phase !== "ended"
+              }
+              key={seat}
+            />
+          );
+        })}
 
         <div className="publicArea">
           {[2, 3, 1, 0].map((seat) => (
@@ -919,6 +980,24 @@ function App({
                   ))}
                 </>
               )}
+              {game.phase === "ended" && inspectingTable && (
+                <>
+                  <button
+                    className="gameButton secondary"
+                    type="button"
+                    onClick={() => setInspectingTable(false)}
+                  >
+                    查看战绩
+                  </button>
+                  <button
+                    className="gameButton primary"
+                    type="button"
+                    onClick={startRandomGame}
+                  >
+                    再来一局
+                  </button>
+                </>
+              )}
             </div>
           </div>
           <AdviceCoach
@@ -952,19 +1031,21 @@ function App({
             <div className="handContent">
               <Melds player={game.players[0]} />
               <div className="hand" role="group" aria-label="你的手牌">
-                {sortedHand.map(({ tile, index, drawn, received }) => {
+                {sortedHand.map(({ tile, index, drawn, received, won }) => {
                   const canPlay =
+                    !won &&
                     game.phase === "discard" &&
                     game.turn === 0 &&
                     legal.has(tile);
-                  const recommended = suggestedDiscard === tile && canPlay;
+                  const recommended =
+                    !won && suggestedDiscard === tile && canPlay;
                   return (
                     <button
-                      className={`tile mahjongTile ${selected.includes(index) ? "selected" : ""} ${canPlay ? "playable" : ""} ${recommended ? "recommended" : ""} ${drawn ? "tile-drawn" : ""} ${received && !drawn ? "tile-received" : ""} ${game.phase === "discard" && !canPlay ? "unavailable" : ""}`}
-                      key={index}
+                      className={`tile mahjongTile ${selected.includes(index) ? "selected" : ""} ${canPlay ? "playable" : ""} ${recommended ? "recommended" : ""} ${drawn ? "tile-drawn" : ""} ${won ? "tile-drawn tile-won" : ""} ${received && !drawn && !won ? "tile-received" : ""} ${game.phase === "discard" && !canPlay && !won ? "unavailable" : ""}`}
+                      key={won ? `won-${index}` : index}
                       type="button"
-                      disabled={game.phase !== "exchange" && !canPlay}
-                      aria-label={`${labelOf(tile)}${drawn ? "，新摸" : received ? "，刚换入" : ""}${recommended ? "，推荐" : ""}`}
+                      disabled={won || (game.phase !== "exchange" && !canPlay)}
+                      aria-label={`${labelOf(tile)}${won ? "，胡牌" : drawn ? "，新摸" : received ? "，刚换入" : ""}${recommended ? "，推荐" : ""}`}
                       aria-pressed={
                         game.phase === "exchange"
                           ? selected.includes(index)
@@ -977,8 +1058,9 @@ function App({
                       }
                     >
                       <MahjongFace tile={tile} />
-                      {drawn && <span className="drawnMark">摸</span>}
-                      {!drawn && received && (
+                      {won && <span className="winMark">胡</span>}
+                      {!won && drawn && <span className="drawnMark">摸</span>}
+                      {!won && !drawn && received && (
                         <span className="receivedMark">入</span>
                       )}
                       {recommended && <span className="recommendMark">荐</span>}
@@ -990,7 +1072,7 @@ function App({
           </div>
         </div>
 
-        {game.phase === "ended" && (
+        {game.phase === "ended" && !inspectingTable && (
           <div className="resultBackdrop">
             <section className="resultPanel" aria-label="本局结算">
               <span className="resultSeal">本局战绩</span>
@@ -1057,6 +1139,13 @@ function App({
                 )}
               </div>
               <div className="resultLearningActions">
+                <button
+                  className="gameButton secondary"
+                  type="button"
+                  onClick={() => setInspectingTable(true)}
+                >
+                  查看牌桌
+                </button>
                 <button
                   className="gameButton primary"
                   type="button"

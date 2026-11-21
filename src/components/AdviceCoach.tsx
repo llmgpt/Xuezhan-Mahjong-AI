@@ -6,6 +6,10 @@ import type { PlayerView } from "../game/view";
 import { TilePiece } from "./MahjongTile";
 import { NextDrawPanel } from "./NextDrawPanel";
 import { TileBreakdownPanel } from "./TileBreakdownPanel";
+import {
+  buildTileBreakdown,
+  summarizeBreakdownHeadline,
+} from "./tileBreakdown";
 import type { ProductionAdviceState } from "../strategy/productionAdvice";
 
 interface CoachChoice {
@@ -136,6 +140,13 @@ export function AdviceCoach({
     current?.status === "ready" &&
     current.presentation.origin === "advanced-public";
   const showBreakdown = !openingChoices.length && Boolean(view.missing);
+  const breakdownHeadline =
+    showBreakdown && first.summary.startsWith("公开信息策略本次选择")
+      ? summarizeBreakdownHeadline(
+          buildTileBreakdown(view, { recommendedAction }),
+        )
+      : undefined;
+  const headerSummary = breakdownHeadline ?? first.summary;
   const showTwoDraw =
     (current?.status === "ready" &&
       current.presentation.origin === "teacher-actions" &&
@@ -167,7 +178,7 @@ export function AdviceCoach({
           )}
           <div>
             <strong>建议{first.label}</strong>
-            <p>{first.summary}</p>
+            <p>{headerSummary}</p>
           </div>
         </div>
         {onSpeak && (

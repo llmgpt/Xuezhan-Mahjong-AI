@@ -269,4 +269,32 @@ describe("老师建议的展示契约", () => {
     expect(markup).not.toContain("<dialog");
     expect(markup).not.toContain("两摸");
   });
+
+  it("高级策略默认摘要为复读动作时，顶部副标题自动替换为客观向听与余张人话总结", () => {
+    const view = viewFor("w11123429 s345678");
+    const choice = {
+      action: { type: "discard" as const, tile: tile("wan", 9) },
+      label: "打出 9万",
+      summary: "公开信息策略本次选择打出 9万。",
+      reason: "本步由只读取本家手牌与公开信息的高级策略选择。",
+      limit:
+        "当前展示策略动作出处与公开牌面事实；向听与余张按本家手牌及已见公开牌客观测算。",
+    };
+    const markup = renderCoach({
+      view,
+      advice: [],
+      current: {
+        status: "ready",
+        presentation: {
+          action: choice.action,
+          choices: [choice],
+          origin: "advanced-public",
+          legalActionCount: 8,
+        },
+      },
+    });
+    expect(markup).toContain("建议打出 9万");
+    expect(markup).toContain("打出后即可听牌");
+    expect(markup).not.toContain("公开信息策略本次选择打出 9万。");
+  });
 });

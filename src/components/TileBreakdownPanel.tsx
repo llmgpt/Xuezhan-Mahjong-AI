@@ -116,7 +116,7 @@ export function TileBreakdownPanel({
 
               {row.waits.length > 0 && (
                 <div className="breakdownWaits">
-                  {row.waits.slice(0, 12).map((wait) => (
+                  {row.waits.map((wait) => (
                     <span className="breakdownWaitChip" key={wait.tile}>
                       <TilePiece tile={wait.tile} className="tile-discard" />
                       <span>×{wait.remaining}</span>
@@ -128,11 +128,6 @@ export function TileBreakdownPanel({
                       )}
                     </span>
                   ))}
-                  {row.waits.length > 12 && (
-                    <span className="breakdownMore">
-                      等共 {row.waits.length} 种
-                    </span>
-                  )}
                 </div>
               )}
 

@@ -250,4 +250,20 @@ describe("App 牌桌与先想后看教学流", () => {
       "未听牌",
     );
   });
+
+  it("本家点胡后手牌最右侧并入所胡牌张并标注胡字角标", () => {
+    const items = orderHandForDisplay(
+      hand("s12355 d35"),
+      "discard",
+      1,
+      undefined,
+      undefined,
+      { tile: tile("tiao", 4), selfDraw: false },
+    );
+    expect(items).toHaveLength(8);
+    expect(items[7]).toMatchObject({
+      tile: tile("tiao", 4),
+      won: true,
+    });
+  });
 });

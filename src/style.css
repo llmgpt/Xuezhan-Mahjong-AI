@@ -1175,7 +1175,8 @@ input:focus-visible {
 }
 
 .drawnMark,
-.receivedMark {
+.receivedMark,
+.winMark {
   position: absolute;
   left: -2px;
   top: -9px;
@@ -1193,6 +1194,34 @@ input:focus-visible {
 .receivedMark {
   border-color: #cfe0ea;
   background: #356d84;
+}
+
+.winMark {
+  border-color: #ffe3b0;
+  background: #c7493a;
+  color: #fff9ec;
+}
+
+.tile-won {
+  border-color: #e9a368;
+  box-shadow:
+    0 5px 0 #b86c43,
+    0 0 0 1px #ffd59988;
+}
+
+.tile-opponent-won {
+  margin-left: 4px;
+  border-color: #e9a368;
+}
+
+.opponentHand.is-revealed {
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.seat-1 .opponentHand.is-revealed .tile-meld,
+.seat-3 .opponentHand.is-revealed .tile-meld {
+  --tile-w: 20px;
 }
 
 .recommendMark {
@@ -2976,7 +3005,7 @@ input:focus-visible {
 .inlineAdviceExpanded {
   flex-direction: column;
   align-items: stretch;
-  max-height: clamp(175px, 35vh, 300px);
+  max-height: clamp(160px, 27vh, 232px);
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -3165,47 +3194,90 @@ input:focus-visible {
 .gameStage:has(.inlineAdviceExpanded) .tableEmblem i {
   display: none;
 }
+
 .gameStage:has(.inlineAdviceExpanded) .tableEmblem strong {
-  font-size: 19px;
+  font-size: 18px;
   margin-top: 0;
 }
-.gameStage:has(.inlineAdviceExpanded) .wallCounter {
-  margin-top: 3px;
+
+.gameStage:has(.inlineAdviceExpanded) .latestDiscard {
+  flex-direction: row;
+  gap: 6px;
 }
+
+.gameStage:has(.inlineAdviceExpanded) .tile-latest {
+  --tile-w: 26px;
+}
+
+.gameStage:has(.inlineAdviceExpanded) .wallCounter {
+  margin-top: 2px;
+}
+
+.gameStage:has(.inlineAdviceExpanded) .discardTiles {
+  padding: 2px 2px;
+}
+
+.gameStage:has(.inlineAdviceExpanded) .actionBar {
+  min-height: 30px;
+  padding: 1px 0 2px;
+}
+
+.gameStage:has(.inlineAdviceExpanded) .actionBar .gameButton {
+  min-height: 38px;
+  padding: 6px 18px;
+  font-size: 17px;
+}
+
+.resultLearningActions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 @media (max-height: 760px) and (min-width: 761px) {
   .shell {
     padding: 6px 16px 0;
   }
+
   .topbar {
     margin-bottom: 6px;
   }
+
   .gameStage {
     grid-template-rows: minmax(76px, auto) minmax(0, 1fr) auto;
     padding: 8px 16px 10px;
     gap: 4px;
   }
+
   .tableSurface {
     inset: 68px 20px 18px;
   }
+
   .seat-2 .avatarFrame {
     width: 44px;
     height: 44px;
   }
+
   .gameButton {
     min-height: 36px;
     padding: 6px 16px;
     font-size: 16px;
   }
+
   .handTray {
     padding: 6px 10px 4px;
   }
+
   .hand .mahjongTile {
     --tile-w: 48px;
   }
+
   .inlineAdviceExpanded {
     max-height: clamp(140px, 27dvh, 215px);
   }
 }
+
 @media (max-width: 760px) {
   .inlineAdviceExpanded {
     max-height: 185px;

@@ -615,3 +615,80 @@ export function buildTileBreakdown(
     ...summary,
   };
 }
+
+export function summarizeBreakdownHeadline(
+  breakdown: TileBreakdown,
+): string | undefined {
+  if (breakdown.kind === "empty" || breakdown.rows.length === 0) {
+    return undefined;
+  }
+  const recRow =
+    breakdown.rows.find((row) => row.isRecommended) ?? breakdown.rows[0];
+  if (breakdown.kind === "missing") {
+    const remCount = breakdown.missingRemainingTiles?.length ?? 0;
+    return remCount <= 1
+      ? "打出后即清完定缺门，下巡起进入向听与听牌阶段。"
+      : `手中仍有 ${remCount} 张定缺门牌，本桌规则要求先打完缺门牌。`;
+  }
+  if (recRow.shanten === -1) {
+    return recRow.note
+      ? `当前可直接和牌（${recRow.note}），优先落袋确定收益。`
+      : "当前可直接和牌，优先落袋确定收益。";
+  }
+
+  let prefix = "打出后";
+  if (recRow.action?.type === "respond") {
+    if (recRow.action.choice === "pung") {
+      prefix = recRow.note ? `${recRow.note}，之后` : "碰牌后";
+    } else if (recRow.action.choice === "kong") {
+      prefix = "直杠后先记杠钱并补摸 1 张，当前结构";
+    } else if (recRow.action.choice === "pass") {
+      prefix = "过牌不动桌面牌，维持当前手牌";
+    } else {
+      prefix = "响应后";
+    }
+  } else if (recRow.action?.type === "kong") {
+    prefix = `${recRow.action.kind === "concealed" ? "暗杠" : "补杠"}后先记杠钱并补摸 1 张，当前结构`;
+  }
+
+  if (recRow.shanten === 0) {
+    const waitNames = recRow.waits
+      .slice(0, 4)
+      .map((w) => labelOf(w.tile))
+      .join("、");
+    const exhaustedNames = recRow.exhaustedWaits
+      .slice(0, 4)
+      .map((w) => labelOf(w.tile))
+      .join("、");
+    const waitText =
+      recRow.waits.length > 0
+        ? `可胡 ${waitNames}${recRow.waits.length > 4 ? ` 等 ${recRow.waits.length} 种` : ""}，共余 ${recRow.effectiveTotal} 张`
+        : `理论听 ${exhaustedNames || "口"} 但桌面已见完（余 0 张）`;
+    const pointText = recRow.maxWinPoints
+      ? `，最高底算 ${recRow.maxWinPoints} 分`
+      : "";
+    const wideOneShanten =
+      recRow.effectiveTotal <= 3
+        ? breakdown.rows.find(
+            (row) => row.shanten === 1 && row.effectiveTotal >= 20,
+          )
+        : undefined;
+    if (breakdown.divergesFromEfficiency && breakdown.topEfficiencyLabel) {
+      return `${prefix}即可听牌（${waitText}${pointText}）；纯牌效最高为${breakdown.topEfficiencyLabel}，可在下方对照取舍。`;
+    }
+    if (wideOneShanten) {
+      return `${prefix}即可听牌（${waitText}${pointText}）；当前听口较窄，也可对照下方${wideOneShanten.label}（1 向听、进张余 ${wideOneShanten.effectiveTotal} 张）求宽。`;
+    }
+    return `${prefix}即可听牌（${waitText}${pointText}）${recRow.isTopEfficiency ? "，当前纯牌效最优" : ""}。`;
+  }
+
+  if (recRow.shanten !== undefined && recRow.shanten > 0) {
+    const base = `${prefix}为 ${recRow.shanten} 向听（有效进张 ${recRow.waits.length} 种、共余 ${recRow.effectiveTotal} 张）`;
+    if (breakdown.divergesFromEfficiency && breakdown.topEfficiencyLabel) {
+      return `${base}；纯牌效最高为${breakdown.topEfficiencyLabel}，可在下方对照取舍。`;
+    }
+    return `${base}${recRow.isTopEfficiency ? "，当前纯牌效最优" : ""}。`;
+  }
+
+  return undefined;
+}

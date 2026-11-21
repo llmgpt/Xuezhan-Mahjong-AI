@@ -86,7 +86,16 @@ describe("合理老师候选", () => {
       .map((item) => `${item.summary}${item.reason}${item.limit}`)
       .join("");
     expect(missingText).toContain("三门张数");
+    expect(missingText).toContain("当前向听下有效进张");
     expect(missingText).not.toMatch(/固定花色顺序|取较大值/);
+
+    // 跨向听比较时明确提示向听越高离听牌越远，避免新手误把高向听的大进张数当成优势
+    const crossShanten = teacherChoices(
+      viewFor("w6 s12233555 d113578"),
+      "choose-missing",
+    );
+    expect(crossShanten[0].action).toEqual({ type: "missing", suit: "wan" });
+    expect(crossShanten[1].reason).toContain("离听牌更远");
   });
 
   it("清缺门只选合法缺门牌，不为番型越过规则", () => {

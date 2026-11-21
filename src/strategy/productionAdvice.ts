@@ -143,7 +143,7 @@ export function presentBrowserDecision(
     reason: facts.join(""),
     limit:
       observed?.limit ??
-      "当前展示动作出处与规则事实；具体内部评分和分支理由尚未提供。",
+      "当前展示策略动作出处与公开牌面事实；向听与余张按本家手牌及已见公开牌客观测算。",
   };
   return {
     action,

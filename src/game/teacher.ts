@@ -211,7 +211,11 @@ function formatMissingChoice(
     item.count === 0
       ? `手里已无${suitName}牌，无需清废牌`
       : `须清 ${item.count} 张${suitName}牌`;
-  const reason = `三门张数：${countsText}。${index === 0 ? "" : "若"}定缺${suitName}${clearText}，保留${keptNames}两门共 ${item.retainedCount} 张${meldClause}，有效进张约 ${item.retainedEffectiveDraws} 张（向听粗估 ${item.retainedShanten}）${flushClause}${extraContrast}。`;
+  const shantenCompare =
+    index > 0 && item.retainedShanten > best.retainedShanten
+      ? `；向听高于首选的 ${best.retainedShanten} 向听，离听牌更远`
+      : "";
+  const reason = `三门张数：${countsText}。${index === 0 ? "" : "若"}定缺${suitName}${clearText}，保留${keptNames}两门共 ${item.retainedCount} 张${meldClause}（向听粗估 ${item.retainedShanten}，当前向听下有效进张约 ${item.retainedEffectiveDraws} 张${shantenCompare}）${flushClause}${extraContrast}。`;
 
   return {
     action: { type: "missing", suit: item.suit },

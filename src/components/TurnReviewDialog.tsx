@@ -4,6 +4,10 @@ import type { Phase } from "../game/game";
 import type { PlayerView } from "../game/view";
 import { GameDialog } from "./GameDialog";
 import { TileBreakdownPanel } from "./TileBreakdownPanel";
+import {
+  buildTileBreakdown,
+  summarizeBreakdownHeadline,
+} from "./tileBreakdown";
 
 export interface TurnReview {
   view: PlayerView;
@@ -47,6 +51,21 @@ export function TurnReviewDialog({
 }) {
   if (!review) return null;
   const matches = sameDecision(review.chosenAction, review.recommendedAction);
+  const showBreakdown =
+    review.phase !== "exchange" &&
+    review.phase !== "choose-missing" &&
+    Boolean(review.view.missing);
+  const breakdownHeadline =
+    showBreakdown &&
+    review.recommendationSummary?.startsWith("公开信息策略本次选择")
+      ? summarizeBreakdownHeadline(
+          buildTileBreakdown(review.view, {
+            recommendedAction: review.recommendedAction,
+            chosenAction: review.chosenAction,
+          }),
+        )
+      : undefined;
+  const displaySummary = breakdownHeadline ?? review.recommendationSummary;
 
   return (
     <GameDialog
@@ -81,9 +100,7 @@ export function TurnReviewDialog({
 
         {review.recommendationReason && (
           <div className="reviewReasonBox">
-            {review.recommendationSummary && (
-              <p className="choiceReason">{review.recommendationSummary}</p>
-            )}
+            {displaySummary && <p className="choiceReason">{displaySummary}</p>}
             <p>{review.recommendationReason}</p>
             {review.recommendationLimit && (
               <small>{review.recommendationLimit}</small>
