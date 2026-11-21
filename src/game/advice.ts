@@ -85,6 +85,19 @@ export function estimateShanten(
   return result;
 }
 
+/** 仅按非缺门牌拆解面子、搭子、雀头或七对的理论向听，不以余下定缺张数封底。 */
+export function estimateStructuralShanten(
+  hand: readonly Tile[],
+  exposedMelds: number,
+  missing: Suit,
+): number {
+  return estimateShanten(
+    hand.filter((item) => suitOf(item) !== missing),
+    exposedMelds,
+    missing,
+  );
+}
+
 export function publicCounts(view: PlayerView): number[] {
   const counts = Array<number>(27).fill(0);
   for (const item of [...view.hand, ...view.ownDiscards]) counts[item] += 1;

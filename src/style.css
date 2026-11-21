@@ -719,7 +719,7 @@ input:focus-visible {
   grid-column: 1 / 4;
   grid-row: 1;
   text-align: center;
-  padding-top: 4px;
+  padding-top: 8px;
 }
 
 .discard-seat-3 {
@@ -1046,6 +1046,7 @@ input:focus-visible {
 }
 
 .missingChoice {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 9px;
@@ -1057,6 +1058,11 @@ input:focus-visible {
   font-weight: 800;
   font-size: 17px;
   box-shadow: 0 4px 0 #a87e3f;
+}
+
+.missingChoice.suggestedAction {
+  outline: 2px solid #ffebaa;
+  outline-offset: 3px;
 }
 
 .missingChoice:hover {

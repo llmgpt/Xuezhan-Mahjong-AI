@@ -14,6 +14,16 @@ export function meldKindLabel(sequences: number, triplets: number): string {
   return "顺子";
 }
 
+export function keptSuitsPhrase(tiles: readonly Tile[], missing: Suit): string {
+  const present = SUITS.filter(
+    (suit) => suit !== missing && tiles.some((item) => suitOf(item) === suit),
+  );
+  if (present.length === 1) return `${SUIT_NAMES[present[0]]}一门`;
+  return `${SUITS.filter((suit) => suit !== missing)
+    .map((suit) => SUIT_NAMES[suit])
+    .join("、")}两门`;
+}
+
 export function isEquivalentExchange(
   a: ExchangeAnalysis,
   b: ExchangeAnalysis,

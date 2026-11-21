@@ -464,6 +464,24 @@ function App({
       : undefined;
   const suggestedDiscard =
     suggestedAction?.type === "discard" ? suggestedAction.tile : undefined;
+  const exchangeRecommendIndices = useMemo(() => {
+    const indices = new Set<number>();
+    if (game.phase !== "exchange" || suggestedAction?.type !== "exchange") {
+      return indices;
+    }
+    const remaining = new Map<Tile, number>();
+    for (const item of suggestedAction.tiles) {
+      remaining.set(item, (remaining.get(item) ?? 0) + 1);
+    }
+    for (const item of sortedHand) {
+      const count = remaining.get(item.tile) ?? 0;
+      if (count > 0) {
+        indices.add(item.index);
+        remaining.set(item.tile, count - 1);
+      }
+    }
+    return indices;
+  }, [game.phase, sortedHand, suggestedAction]);
   const responses = legalResponses(game, 0);
   const exchangeTiles = selected.map((index) => hand[index]);
   const validExchange =
@@ -925,17 +943,31 @@ function App({
                 </button>
               )}
               {game.phase === "choose-missing" &&
-                suits.map((suit) => (
-                  <button
-                    className="missingChoice"
-                    key={suit.key}
-                    type="button"
-                    onClick={() => selectMissing(suit.key)}
-                  >
-                    <TilePiece tile={suit.tile} className="tile-choice" />
-                    <span>缺{suit.label}</span>
-                  </button>
-                ))}
+                suits.map((suit) => {
+                  const recommended =
+                    suggestedAction?.type === "missing" &&
+                    suggestedAction.suit === suit.key;
+                  return (
+                    <button
+                      className={`missingChoice ${recommended ? "suggestedAction" : ""}`}
+                      key={suit.key}
+                      type="button"
+                      aria-label={`缺${suit.label}${recommended ? "，推荐" : ""}`}
+                      onClick={() => selectMissing(suit.key)}
+                    >
+                      <TilePiece tile={suit.tile} className="tile-choice" />
+                      <span>缺{suit.label}</span>
+                      {recommended && (
+                        <span
+                          className="actionRecommendMark"
+                          aria-hidden="true"
+                        >
+                          荐
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
               {game.phase === "respond" &&
                 responses.map((choice) => (
                   <ActionButton
@@ -1038,7 +1070,9 @@ function App({
                     game.turn === 0 &&
                     legal.has(tile);
                   const recommended =
-                    !won && suggestedDiscard === tile && canPlay;
+                    game.phase === "exchange"
+                      ? exchangeRecommendIndices.has(index)
+                      : !won && suggestedDiscard === tile && canPlay;
                   return (
                     <button
                       className={`tile mahjongTile ${selected.includes(index) ? "selected" : ""} ${canPlay ? "playable" : ""} ${recommended ? "recommended" : ""} ${drawn ? "tile-drawn" : ""} ${won ? "tile-drawn tile-won" : ""} ${received && !drawn && !won ? "tile-received" : ""} ${game.phase === "discard" && !canPlay && !won ? "unavailable" : ""}`}

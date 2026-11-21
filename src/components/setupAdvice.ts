@@ -3,16 +3,17 @@ import type { GameState } from "../game/game";
 import {
   analyzeExchangeChoices,
   isEquivalentExchange,
+  keptSuitsPhrase,
   meldKindLabel,
   SUIT_NAMES as suitNames,
-  SUITS,
   type ExchangeAnalysis,
 } from "../game/openingAdvice";
 import { teacherChoices } from "../game/teacher";
-import { labelOf } from "../game/tiles";
+import { labelOf, type Tile } from "../game/tiles";
 import type { PlayerView } from "../game/view";
 
 function formatAlternativeExchange(
+  hand: readonly Tile[],
   alt: ExchangeAnalysis,
   primary: ExchangeAnalysis,
 ): DecisionChoice {
@@ -22,9 +23,12 @@ function formatAlternativeExchange(
   const altPlan = alt.plannedMissing;
   const altPlanName = suitNames[altPlan.suit];
   const primaryPlan = primary.plannedMissing;
-  const keptNames = SUITS.filter((suit) => suit !== altPlan.suit)
-    .map((suit) => suitNames[suit])
-    .join("、");
+  const afterHand = [...hand];
+  for (const outTile of alt.tiles) {
+    const idx = afterHand.indexOf(outTile);
+    if (idx >= 0) afterHand.splice(idx, 1);
+  }
+  const keptNames = keptSuitsPhrase(afterHand, altPlan.suit);
   const altMeldWord = meldKindLabel(
     altPlan.retainedSequences,
     altPlan.retainedTriplets,
@@ -36,7 +40,10 @@ function formatAlternativeExchange(
   } else if (altPlan.count > primaryPlan.count) {
     if (alt.suitCountBefore >= 6 && alt.suit === primary.dominantKeptSuit) {
       summary = `会拆弱 ${alt.suitCountBefore} 张${altSuitName}主门，换后最少门仍余 ${altPlan.count} 张废牌要清。`;
-    } else if (alt.suitRemainingStructure.pairs > 0) {
+    } else if (
+      altPlan.suit !== alt.suit &&
+      alt.suitRemainingStructure.pairs > 0
+    ) {
       summary = `该门内可保住对子，但换后最少门余 ${altPlan.count} 张，比首选多清 ${altPlan.count - primaryPlan.count} 张缺门牌。`;
     } else if (altPlan.retainedMelds < primaryPlan.retainedMelds) {
       summary = `换后最少门余 ${altPlan.count} 张（多清 ${altPlan.count - primaryPlan.count} 张），且会拆散已有完整面子。`;
@@ -87,15 +94,16 @@ function formatAlternativeExchange(
     extraNote = `，拆弱了 ${alt.suitCountBefore} 张${altSuitName}主门`;
   } else if (alt.suitCountBefore >= 4 && alt.suitHadPair && !alt.outHasPair) {
     extraNote =
-      alt.suitRemainingStructure.pairs > 0 ||
-      alt.suitRemainingStructure.triplets > 0
+      altPlan.suit !== alt.suit &&
+      (alt.suitRemainingStructure.pairs > 0 ||
+        alt.suitRemainingStructure.triplets > 0)
         ? `；该门内留住了对子`
         : `；换牌避开了整对送出`;
   } else if (alt.outHasMeld) {
     extraNote = `；且整组送出了完整面子`;
   }
 
-  const reason = `若改换${altSuitName}门：换出 ${altTilesText} 后，${afterPart}，${planPart}；保留${keptNames}两门共 ${alt.keptTwoSuitCount} 张${meldPart}（向听粗估 ${altPlan.retainedShanten}）${extraNote}。`;
+  const reason = `若改换${altSuitName}门：换出 ${altTilesText} 后，${afterPart}，${planPart}；保留${keptNames}共 ${alt.keptTwoSuitCount} 张${meldPart}（向听粗估 ${altPlan.retainedShanten}）${extraNote}。`;
 
   return {
     action: { type: "exchange", tiles: alt.tiles },
@@ -125,6 +133,6 @@ export function setupAdvice(
 
   const alternatives = analyzed
     .slice(1)
-    .map((alt) => formatAlternativeExchange(alt, primary));
+    .map((alt) => formatAlternativeExchange(view.hand, alt, primary));
   return [first, ...alternatives];
 }

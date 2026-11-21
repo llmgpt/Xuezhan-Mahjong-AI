@@ -6,6 +6,7 @@ import {
   analyzeExchangeChoices,
   analyzeMissingChoices,
   chooseMissingSuit,
+  keptSuitsPhrase,
   meldKindLabel,
   SUIT_NAMES as names,
   SUITS,
@@ -33,12 +34,6 @@ function formatSuitCounts(hand: readonly Tile[]): string {
   ).join("、");
 }
 
-function keptSuitNames(missing: Suit): string {
-  return SUITS.filter((suit) => suit !== missing)
-    .map((suit) => names[suit])
-    .join("、");
-}
-
 function formatExchangePrimary(
   hand: readonly Tile[],
   best: ExchangeAnalysis,
@@ -49,7 +44,12 @@ function formatExchangePrimary(
   const tilesText = best.tiles.map(labelOf).join("、");
   const plan = best.plannedMissing;
   const planSuitName = names[plan.suit];
-  const keptNames = keptSuitNames(plan.suit);
+  const afterTiles = [...hand];
+  for (const outTile of best.tiles) {
+    const idx = afterTiles.indexOf(outTile);
+    if (idx >= 0) afterTiles.splice(idx, 1);
+  }
+  const keptNames = keptSuitsPhrase(afterTiles, plan.suit);
   const domName = names[best.dominantKeptSuit];
   const meldWord = meldKindLabel(plan.retainedSequences, plan.retainedTriplets);
 
@@ -60,7 +60,7 @@ function formatExchangePrimary(
     } else if (best.dominantKeptCount >= 6) {
       summary = `换出这三张直接清空${suitName}门（余 0 张可定缺），完整保住 ${best.dominantKeptCount} 张${domName}主门。`;
     } else {
-      summary = `换出这三张直接清空${suitName}门（余 0 张可定缺），保留${keptNames}两门共 ${best.keptTwoSuitCount} 张。`;
+      summary = `换出这三张直接清空${suitName}门（余 0 张可定缺），保留${keptNames}共 ${best.keptTwoSuitCount} 张。`;
     }
   } else if (plan.suit === best.suit) {
     if (best.dominantKeptCount >= 8) {
@@ -68,7 +68,7 @@ function formatExchangePrimary(
     } else if (best.dominantKeptCount >= 6) {
       summary = `换后${suitName}门仅余 ${plan.count} 张便于定缺，完整保住 ${best.dominantKeptCount} 张${domName}主门${plan.retainedMelds > 0 ? `与 ${plan.retainedMelds} 组完整${meldWord}` : ""}。`;
     } else {
-      summary = `换后${suitName}门仅余 ${plan.count} 张便于定缺，保留${keptNames}两门共 ${best.keptTwoSuitCount} 张。`;
+      summary = `换后${suitName}门仅余 ${plan.count} 张便于定缺，保留${keptNames}共 ${best.keptTwoSuitCount} 张。`;
     }
   } else {
     summary = `拟定缺原本最少的${planSuitName}门（余 ${plan.count} 张），从${suitName}门换出较散的三张，尽量保住主门与已有搭子。`;
@@ -85,7 +85,7 @@ function formatExchangePrimary(
         : `${planSuitName}门原本最少（余 ${plan.count} 张）便于定缺；换出 ${tilesText} 后${suitName}门余 ${best.suitRemainingTiles.length} 张`;
 
   const keptParts: string[] = [
-    `保留${keptNames}两门共 ${best.keptTwoSuitCount} 张`,
+    `保留${keptNames}共 ${best.keptTwoSuitCount} 张`,
   ];
   if (plan.retainedMelds > 0) {
     keptParts.push(`含 ${plan.retainedMelds} 组完整${meldWord}`);
@@ -100,8 +100,9 @@ function formatExchangePrimary(
   let pairNote = "";
   if (best.suitCountBefore >= 4 && best.suitHadPair && !best.outHasPair) {
     pairNote =
-      best.suitRemainingStructure.pairs > 0 ||
-      best.suitRemainingStructure.triplets > 0
+      plan.suit !== best.suit &&
+      (best.suitRemainingStructure.pairs > 0 ||
+        best.suitRemainingStructure.triplets > 0)
         ? `，并在${suitName}门内保住对子`
         : "，且避开把对子整对送出";
   } else if (
@@ -129,7 +130,7 @@ function formatMissingChoice(
 ): DecisionChoice {
   const countsText = formatSuitCounts(hand);
   const suitName = names[item.suit];
-  const keptNames = keptSuitNames(item.suit);
+  const keptNames = keptSuitsPhrase(hand, item.suit);
   const meldWord = meldKindLabel(item.retainedSequences, item.retainedTriplets);
   const meldClause =
     item.retainedMelds > 0
@@ -152,7 +153,7 @@ function formatMissingChoice(
       summary = `${suitName}门与${names[second.suit]}门均为 ${item.count} 张且牌形相当，定缺哪一门都可以。`;
       extraContrast = `；与定缺${names[second.suit]}条件基本相当，任选其一即可`;
     } else if (second && item.count < second.count) {
-      summary = `${suitName}门最少（${item.count} 张），清缺最快，可保留${keptNames}两门共 ${item.retainedCount} 张。`;
+      summary = `${suitName}门最少（${item.count} 张），清缺最快，可保留${keptNames}共 ${item.retainedCount} 张。`;
     } else if (
       second &&
       item.count === second.count &&
@@ -215,7 +216,7 @@ function formatMissingChoice(
     index > 0 && item.retainedShanten > best.retainedShanten
       ? `；向听高于首选的 ${best.retainedShanten} 向听，离听牌更远`
       : "";
-  const reason = `三门张数：${countsText}。${index === 0 ? "" : "若"}定缺${suitName}${clearText}，保留${keptNames}两门共 ${item.retainedCount} 张${meldClause}（向听粗估 ${item.retainedShanten}，当前向听下有效进张约 ${item.retainedEffectiveDraws} 张${shantenCompare}）${flushClause}${extraContrast}。`;
+  const reason = `三门张数：${countsText}。${index === 0 ? "" : "若"}定缺${suitName}${clearText}，保留${keptNames}共 ${item.retainedCount} 张${meldClause}（向听粗估 ${item.retainedShanten}，当前向听下有效进张约 ${item.retainedEffectiveDraws} 张${shantenCompare}）${flushClause}${extraContrast}。`;
 
   return {
     action: { type: "missing", suit: item.suit },
@@ -346,8 +347,10 @@ export function recommendTeacherActions(
   view: PlayerView,
   options: TeacherOptions = {},
 ): ActionAdvice[] {
-  return recommendActions(view, (input) =>
-    recommendTeacherDiscards(input, options),
+  return recommendActions(
+    view,
+    (input) => recommendTeacherDiscards(input, options),
+    { structuralMissing: true },
   );
 }
 
@@ -383,7 +386,9 @@ export function teacherChoices(
   }
   if (phase !== "discard" && phase !== "respond") return [];
   const discards = recommendTeacherDiscards(view, options);
-  const actions = recommendActions(view, () => discards);
+  const actions = recommendActions(view, () => discards, {
+    structuralMissing: true,
+  });
   return [
     ...actions,
     ...discards

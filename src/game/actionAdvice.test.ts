@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { recommendActions } from "./actionAdvice";
 import { createGame, type GameState } from "./game";
 import type { Meld } from "./scoring";
+import { recommendTeacherActions } from "./teacher";
 import { hand } from "./testHelpers";
 import { tile } from "./tiles";
 import { playerView, type PlayerView } from "./view";
@@ -190,5 +191,48 @@ describe("碰杠与胡牌建议", () => {
     const snapshot = structuredClone(view);
     recommendActions(view);
     expect(view).toEqual(snapshot);
+  });
+
+  it("仍有两张缺门牌时，不应把拆散顺子且未改善非缺门向听的碰牌排在过前面", () => {
+    // 种子 2025 类似局势：缺条仍余 23条，手牌 35567万 + 125678筒，他家打出 5万
+    const state = createGame(1);
+    state.phase = "respond";
+    state.turn = 2;
+    state.players[0].hand = hand("w35567 s23 d125678");
+    state.players.forEach((player) => {
+      player.missing = "tiao";
+    });
+    state.players[2].discards = [tile("wan", 5)];
+    const view = playerView(state, 0);
+    view.decision = {
+      kind: "respond",
+      responseKind: "discard",
+      from: 2,
+      tile: tile("wan", 5),
+      choices: ["pass", "pung"],
+    };
+    const advice = recommendTeacherActions(view);
+    expect(advice[0].action).toEqual({ type: "respond", choice: "pass" });
+  });
+
+  it("仍有两张缺门牌但碰牌确实能缩短非缺门结构向听时，仍推荐碰牌清缺", () => {
+    const state = createGame(1);
+    state.phase = "respond";
+    state.turn = 2;
+    state.players[0].hand = hand("w1559 s23 d1236781");
+    state.players.forEach((player) => {
+      player.missing = "tiao";
+    });
+    state.players[2].discards = [tile("wan", 5)];
+    const view = playerView(state, 0);
+    view.decision = {
+      kind: "respond",
+      responseKind: "discard",
+      from: 2,
+      tile: tile("wan", 5),
+      choices: ["pass", "pung"],
+    };
+    const advice = recommendTeacherActions(view);
+    expect(advice[0].action).toEqual({ type: "respond", choice: "pung" });
   });
 });

@@ -1,5 +1,9 @@
 import { actionKey } from "../game/actionAdvice";
-import { estimateShanten, publicCounts } from "../game/advice";
+import {
+  estimateShanten,
+  estimateStructuralShanten,
+  publicCounts,
+} from "../game/advice";
 import type { DecisionAction } from "../game/decision";
 import {
   evaluateWin,
@@ -22,6 +26,7 @@ export interface ActionBreakdownRow {
   action?: DecisionAction;
   label: string;
   shanten?: number;
+  structuralShanten?: number;
   effectiveTotal: number;
   waits: EffectiveWaitDetail[];
   exhaustedWaits: EffectiveWaitDetail[];
@@ -79,8 +84,8 @@ function compareEfficiency(
   a: ActionBreakdownRow,
   b: ActionBreakdownRow,
 ): number {
-  const sa = a.shanten ?? 99;
-  const sb = b.shanten ?? 99;
+  const sa = a.structuralShanten ?? a.shanten ?? 99;
+  const sb = b.structuralShanten ?? b.shanten ?? 99;
   if (sa !== sb) return sa - sb;
   if (b.effectiveTotal !== a.effectiveTotal) {
     return b.effectiveTotal - a.effectiveTotal;
@@ -95,8 +100,8 @@ function isBetterEfficiency(
   candidate: ActionBreakdownRow,
   best: ActionBreakdownRow,
 ): boolean {
-  const cs = candidate.shanten ?? 99;
-  const bs = best.shanten ?? 99;
+  const cs = candidate.structuralShanten ?? candidate.shanten ?? 99;
+  const bs = best.structuralShanten ?? best.shanten ?? 99;
   if (bs !== cs) return bs > cs;
   if (best.effectiveTotal !== candidate.effectiveTotal) {
     return best.effectiveTotal < candidate.effectiveTotal;
@@ -106,6 +111,7 @@ function isBetterEfficiency(
 
 interface HandEfficiency {
   shanten: number;
+  structuralShanten: number;
   waits: EffectiveWaitDetail[];
   exhaustedWaits: EffectiveWaitDetail[];
   effectiveTotal: number;
@@ -143,6 +149,7 @@ function evaluateHandEfficiency(
     const effectiveTotal = waits.reduce((sum, item) => sum + item.remaining, 0);
     return {
       shanten: 0,
+      structuralShanten: 0,
       waits,
       exhaustedWaits,
       effectiveTotal,
@@ -150,13 +157,24 @@ function evaluateHandEfficiency(
     };
   }
 
-  const shanten = estimateShanten(concealed, melds.length, missing);
-  if (shanten >= 0) {
+  const missingCount = concealed.filter(
+    (item) => suitOf(item) === missing,
+  ).length;
+  const structuralShanten = estimateStructuralShanten(
+    concealed,
+    melds.length,
+    missing,
+  );
+  const shanten = Math.max(missingCount, structuralShanten);
+  if (structuralShanten >= 0) {
     for (let candidate = 0; candidate < 27; candidate += 1) {
       if (suitOf(candidate) === missing) continue;
       if (
-        estimateShanten([...concealed, candidate], melds.length, missing) <
-        shanten
+        estimateStructuralShanten(
+          [...concealed, candidate],
+          melds.length,
+          missing,
+        ) < structuralShanten
       ) {
         const remaining = Math.max(0, 4 - seen[candidate]);
         const detail: EffectiveWaitDetail = { tile: candidate, remaining };
@@ -168,6 +186,7 @@ function evaluateHandEfficiency(
 
   return {
     shanten,
+    structuralShanten,
     waits,
     exhaustedWaits,
     effectiveTotal: waits.reduce((sum, item) => sum + item.remaining, 0),
@@ -210,6 +229,7 @@ function markAndSummarizeRows(
   rows: ActionBreakdownRow[],
   recommendedKey?: string,
   chosenKey?: string,
+  suppressEfficiencyRanking = false,
 ): {
   divergesFromEfficiency: boolean;
   topEfficiencyLabel?: string;
@@ -223,6 +243,9 @@ function markAndSummarizeRows(
   const efficiencyRows = rows.filter((row) => row.shanten !== undefined);
   const winRows = efficiencyRows.filter((row) => row.shanten === -1);
   const winExists = winRows.length > 0;
+  if (suppressEfficiencyRanking && !winExists) {
+    return { divergesFromEfficiency: false };
+  }
   const topCandidate = (winExists ? winRows : efficiencyRows)
     .slice()
     .sort(compareEfficiency)[0];
@@ -233,9 +256,11 @@ function markAndSummarizeRows(
 
   if (!winExists) {
     const topPoints = topCandidate.maxWinPoints ?? 0;
+    const topStructural =
+      topCandidate.structuralShanten ?? topCandidate.shanten;
     for (const row of rows) {
       if (
-        row.shanten === topCandidate.shanten &&
+        (row.structuralShanten ?? row.shanten) === topStructural &&
         row.effectiveTotal === topCandidate.effectiveTotal &&
         (row.maxWinPoints ?? 0) === topPoints
       ) {
@@ -360,8 +385,8 @@ function buildRespondBreakdown(
         );
         if (
           !bestEff ||
-          eff.shanten < bestEff.shanten ||
-          (eff.shanten === bestEff.shanten &&
+          eff.structuralShanten < bestEff.structuralShanten ||
+          (eff.structuralShanten === bestEff.structuralShanten &&
             eff.effectiveTotal > bestEff.effectiveTotal)
         ) {
           bestDiscard = candidate;
@@ -373,6 +398,7 @@ function buildRespondBreakdown(
         action,
         label: `碰 ${labelOf(decision.tile)}`,
         shanten: bestEff?.shanten,
+        structuralShanten: bestEff?.structuralShanten,
         effectiveTotal: bestEff?.effectiveTotal ?? 0,
         waits: bestEff?.waits ?? [],
         exhaustedWaits: bestEff?.exhaustedWaits ?? [],
@@ -389,19 +415,28 @@ function buildRespondBreakdown(
         label: "过",
         ...eff,
         note: hasMissing
-          ? "手牌仍含定缺门，过牌维持现状等待摸牌"
+          ? "手牌仍含定缺门，过牌维持现状等待摸牌（以上按其余两门结构算进张）"
           : "不动桌面牌，维持手牌继续等待摸牌",
       });
     }
   }
 
   rows.sort(compareEfficiency);
-  const summary = markAndSummarizeRows(rows, recommendedKey, chosenKey);
+  const summary = markAndSummarizeRows(
+    rows,
+    recommendedKey,
+    chosenKey,
+    hasMissing,
+  );
   return {
     kind: "respond",
     title: "客观测算：响应候选项对照",
     rows,
     ...summary,
+    note:
+      hasMissing && !decision.choices.includes("hu")
+        ? "手牌尚未清完定缺牌：碰牌会提前固定面子并少摸一张，但可立刻清出 1 张定缺牌；以上按其余两门结构估算进张，请对照是否改善搭子与清缺节奏。"
+        : undefined,
   };
 }
 
@@ -481,7 +516,7 @@ export function buildTileBreakdown(
         exhaustedWaits: [],
         maxWinPoints: win?.points,
         note: win
-          ? `自摸：${win.patterns.join("、")}（牌型底算 ${win.points} 分）`
+          ? `自摸：${win.patterns.join("、")}（牌型底算 ${win.points} 分，自摸加底每家付 ${win.points + 1} 分）`
           : "当前可自摸和牌",
       });
     }

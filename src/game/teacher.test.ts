@@ -163,4 +163,21 @@ describe("合理老师候选", () => {
     ).toBe(true);
     expect(advised[0].summary).toContain("并列");
   });
+
+  it("定缺时若另两门中已有一门为 0 张，文案不再误称保留两门", () => {
+    const choices = teacherChoices(
+      viewFor("w14567 d114445899"),
+      "choose-missing",
+    );
+    const wanChoice = choices.find(
+      (item) => item.action.type === "missing" && item.action.suit === "wan",
+    );
+    const tongChoice = choices.find(
+      (item) => item.action.type === "missing" && item.action.suit === "tong",
+    );
+    expect(wanChoice?.reason).toContain("保留筒一门共 9 张");
+    expect(wanChoice?.reason).not.toContain("保留条、筒两门");
+    expect(tongChoice?.reason).toContain("保留万一门共 5 张");
+    expect(tongChoice?.reason).not.toContain("保留万、条两门");
+  });
 });

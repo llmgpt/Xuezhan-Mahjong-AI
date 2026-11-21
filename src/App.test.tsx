@@ -36,6 +36,7 @@ describe("App 牌桌与先想后看教学流", () => {
     expect(markup).toContain("揭晓本步建议");
     expect(markup).not.toContain(`建议${recommendation.label}`);
     expect(markup).not.toContain(recommendation.reason);
+    expect(markup).not.toContain('class="recommendMark"');
     expect(markup).not.toContain("查看依据");
   });
 
@@ -47,6 +48,7 @@ describe("App 牌桌与先想后看教学流", () => {
     expect(markup).toContain("先想后看：关");
     expect(markup).toContain(`建议${recommendation.label}`);
     expect(markup).toContain(recommendation.reason);
+    expect(markup).toContain('class="recommendMark"');
     expect(markup).not.toContain("查看依据");
   });
 

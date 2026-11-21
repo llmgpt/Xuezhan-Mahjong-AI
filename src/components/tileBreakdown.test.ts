@@ -283,6 +283,7 @@ describe("客观牌效与听牌算账明细", () => {
     expect(winRow!.shanten).toBe(-1);
     expect(winRow!.maxWinPoints).toBeGreaterThanOrEqual(1);
     expect(winRow!.note).toContain("自摸");
+    expect(winRow!.note).toContain("自摸加底每家付 2 分");
 
     const kongView = discardView("w1111 s1234567891", "tong");
     const kongResult = buildTileBreakdown(kongView);
@@ -325,5 +326,39 @@ describe("客观牌效与听牌算账明细", () => {
     expect(d3Tong?.waits.length).toBe(13);
     expect(markup).not.toContain("等共 13 种");
     expect(markup).toContain('aria-label="9筒"');
+  });
+
+  it("手牌仍有两张缺门牌时，响应过的客观测算不应把非缺门进张恒算为 0 张", () => {
+    const state = createGame(1);
+    state.phase = "respond";
+    state.turn = 2;
+    state.players[0].hand = hand("w35567 s23 d125678");
+    state.players.forEach((player) => {
+      player.missing = "tiao";
+    });
+    state.players[2].discards = [tile("wan", 5)];
+    const view = playerView(state, 0);
+    view.decision = {
+      kind: "respond",
+      responseKind: "discard",
+      from: 2,
+      tile: tile("wan", 5),
+      choices: ["pass", "pung"],
+    };
+    const breakdown = buildTileBreakdown(view, {
+      recommendedAction: { type: "respond", choice: "pass" },
+    });
+    const passRow = breakdown.rows.find(
+      (row) => row.action?.type === "respond" && row.action.choice === "pass",
+    );
+    expect(passRow).toBeDefined();
+    expect(passRow!.effectiveTotal).toBeGreaterThan(0);
+    expect(passRow!.waits.length).toBeGreaterThan(0);
+    const pungRow = breakdown.rows.find(
+      (row) => row.action?.type === "respond" && row.action.choice === "pung",
+    );
+    expect(pungRow?.isTopEfficiency).not.toBe(true);
+    expect(breakdown.divergesFromEfficiency).toBe(false);
+    expect(breakdown.note).toContain("定缺");
   });
 });

@@ -195,4 +195,17 @@ describe("仅用于展示的开局建议适配", () => {
     expect(tongAlt?.summary).toContain("拆散已有成组面子");
     expect(tongAlt?.summary).not.toContain("同样余");
   });
+
+  it("换牌备选若换后即定缺该门，不再把该门留住对子当成优点", () => {
+    const view = playerView(createGame(2025), 0);
+    const choices = setupAdvice(view, "exchange");
+    const wanAlt = choices.find(
+      (choice) =>
+        choice.action.type === "exchange" &&
+        suitOf(choice.action.tiles[0]) === "wan",
+    );
+    expect(wanAlt).toBeDefined();
+    expect(wanAlt!.summary).not.toContain("可保住对子");
+    expect(wanAlt!.reason).not.toContain("留住了对子");
+  });
 });

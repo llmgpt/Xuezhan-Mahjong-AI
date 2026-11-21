@@ -1,5 +1,6 @@
 import {
   estimateShanten,
+  estimateStructuralShanten,
   publicCounts,
   recommendDiscards,
   type DiscardAdvice,
@@ -25,8 +26,13 @@ export function actionKey(action: PlayerAction): string {
   return "win";
 }
 
+export interface ActionAdviceOptions {
+  structuralMissing?: boolean;
+}
+
 interface Efficiency {
   shanten: number;
+  structuralShanten: number;
   effectiveCount: number;
 }
 interface Candidate extends ActionAdvice {
@@ -54,18 +60,26 @@ function efficiency(
   meldCount: number,
   view: PlayerView,
   seen: number[],
+  structuralMissing = false,
 ): Efficiency {
   const shanten = estimateShanten(hand, meldCount, view.missing!);
+  const structuralShanten = structuralMissing
+    ? estimateStructuralShanten(hand, meldCount, view.missing!)
+    : shanten;
+  const activeShanten = structuralMissing ? structuralShanten : shanten;
+  const estimateFn = structuralMissing
+    ? estimateStructuralShanten
+    : estimateShanten;
   let effectiveCount = 0;
   for (let candidate = 0; candidate < 27; candidate += 1) {
     const unseen = Math.max(0, 4 - seen[candidate]);
     if (!unseen || suitOf(candidate) === view.missing) continue;
     if (
-      estimateShanten([...hand, candidate], meldCount, view.missing!) < shanten
+      estimateFn([...hand, candidate], meldCount, view.missing!) < activeShanten
     )
       effectiveCount += unseen;
   }
-  return { shanten, effectiveCount };
+  return { shanten, structuralShanten, effectiveCount };
 }
 
 function bestDiscard(
@@ -73,16 +87,25 @@ function bestDiscard(
   meldCount: number,
   view: PlayerView,
   seen: number[],
+  structuralMissing = false,
 ) {
   const missing = hand.filter((item) => suitOf(item) === view.missing);
+  const rankOf = (item: Efficiency) =>
+    structuralMissing ? item.structuralShanten : item.shanten;
   return [...new Set(missing.length ? missing : hand)]
     .map((tile) => ({
       tile,
-      efficiency: efficiency(remove(hand, tile, 1), meldCount, view, seen),
+      efficiency: efficiency(
+        remove(hand, tile, 1),
+        meldCount,
+        view,
+        seen,
+        structuralMissing,
+      ),
     }))
     .sort(
       (a, b) =>
-        a.efficiency.shanten - b.efficiency.shanten ||
+        rankOf(a.efficiency) - rankOf(b.efficiency) ||
         b.efficiency.effectiveCount - a.efficiency.effectiveCount ||
         a.tile - b.tile,
     )[0];
@@ -91,7 +114,11 @@ function bestDiscard(
 export function recommendActions(
   view: PlayerView,
   discardSource: (view: PlayerView) => DiscardAdvice[] = recommendDiscards,
+  options: ActionAdviceOptions = {},
 ): ActionAdvice[] {
+  const structuralMissing = Boolean(options.structuralMissing);
+  const rankOf = (item: Efficiency) =>
+    structuralMissing ? item.structuralShanten : item.shanten;
   const decision = view.decision;
   if (!view.missing || !decision) return [];
   if (
@@ -120,8 +147,9 @@ export function recommendActions(
         view.melds.length,
         view,
         seen,
+        structuralMissing,
       )
-    : efficiency(view.hand, view.melds.length, view, seen);
+    : efficiency(view.hand, view.melds.length, view, seen, structuralMissing);
   const describe = (item: Efficiency) =>
     missingInHand
       ? "缺门未清，向听暂缓报告，碰杠后仍须先打缺门牌"
@@ -165,7 +193,7 @@ export function recommendActions(
           : { type: "respond", choice: "hu" },
       label: decision.kind === "self" ? "自摸胡" : robKong ? "抢杠胡" : "胡",
       tile: decision.kind === "respond" ? decision.tile : undefined,
-      efficiency: { shanten: -1, effectiveCount: 0 },
+      efficiency: { shanten: -1, structuralShanten: -1, effectiveCount: 0 },
       preferred: true,
       gain: 0,
       winning: true,
@@ -200,14 +228,20 @@ export function recommendActions(
               kongKind: kind,
             },
           ];
-    const metric = efficiency(after, melds.length, view, seen);
-    const preservesSeven = sevenPairs && metric.shanten >= baseline.shanten;
+    const metric = efficiency(
+      after,
+      melds.length,
+      view,
+      seen,
+      structuralMissing,
+    );
+    const preservesSeven = sevenPairs && rankOf(metric) >= rankOf(baseline);
     const deadWait =
-      metric.shanten === 0 &&
+      rankOf(metric) === 0 &&
       !metric.effectiveCount &&
       baseline.effectiveCount > 0;
     const preferred =
-      metric.shanten <= baseline.shanten && !preservesSeven && !deadWait;
+      rankOf(metric) <= rankOf(baseline) && !preservesSeven && !deadWait;
     const gain =
       kind === "direct" ? 2 : active.length * (kind === "concealed" ? 2 : 1);
     const name = { direct: "直杠", concealed: "暗杠", added: "补杠" }[kind];
@@ -256,12 +290,19 @@ export function recommendActions(
       suitOf(decision.tile) !== view.missing
     ) {
       const after = remove(view.hand, decision.tile, 2);
-      const best = bestDiscard(after, view.melds.length + 1, view, seen);
+      const best = bestDiscard(
+        after,
+        view.melds.length + 1,
+        view,
+        seen,
+        structuralMissing,
+      );
       if (best) {
         const preferred =
-          best.efficiency.shanten < baseline.shanten ||
-          (!sevenPairs &&
-            best.efficiency.shanten === baseline.shanten &&
+          rankOf(best.efficiency) < rankOf(baseline) ||
+          ((!structuralMissing || !missingInHand) &&
+            !sevenPairs &&
+            rankOf(best.efficiency) === rankOf(baseline) &&
             best.efficiency.effectiveCount > baseline.effectiveCount);
         candidates.push({
           action: { type: "respond", choice: "pung" },
@@ -297,7 +338,7 @@ export function recommendActions(
     (a, b) =>
       Number(b.winning) - Number(a.winning) ||
       Number(b.preferred) - Number(a.preferred) ||
-      a.efficiency.shanten - b.efficiency.shanten ||
+      rankOf(a.efficiency) - rankOf(b.efficiency) ||
       b.gain - a.gain ||
       b.efficiency.effectiveCount - a.efficiency.effectiveCount ||
       actionKey(a.action).localeCompare(actionKey(b.action)),
