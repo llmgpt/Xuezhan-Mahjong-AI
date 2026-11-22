@@ -44,20 +44,35 @@ export function buildSettlementDetails(
   seatNames: readonly string[],
 ): SettlementDetails {
   const winLines: WinLineSummary[] = state.wins.map((win, index) => {
-    const netPoints = state.transfers
-      .filter(
-        (item) =>
-          item.to === win.winner &&
-          (item.reason === "self-win" || item.reason === "discard-win"),
-      )
-      .reduce((sum, item) => sum + item.points, 0);
+    const winTransfers = state.transfers.filter(
+      (item) =>
+        item.to === win.winner &&
+        (win.selfDraw
+          ? item.reason === "self-win"
+          : item.reason === "discard-win"),
+    );
+    const netPoints = winTransfers.reduce((sum, item) => sum + item.points, 0);
     const kind = win.selfDraw
       ? "自摸"
       : `点胡（${win.payer !== null ? seatNames[win.payer] : "未知"}放铳）`;
+    let patterns = win.evaluation.patterns.join(" · ");
+    if (win.selfDraw && winTransfers.length > 0) {
+      const payerCount = winTransfers.length;
+      const perPayer = winTransfers[0].points;
+      const scopeText =
+        payerCount === 1
+          ? `1 家付 ${perPayer} 分`
+          : `${payerCount} 家各付 ${perPayer} 分`;
+      const detail =
+        state.rules.selfDrawBonus > 0
+          ? `底算 ${win.evaluation.points} + 自摸加底 ${state.rules.selfDrawBonus}，${scopeText}`
+          : scopeText;
+      patterns = `${patterns}（${detail}）`;
+    }
     return {
       key: `${win.winner}-${index}`,
       headline: `${seatNames[win.winner]} · ${kind} ${labelOf(win.tile)}`,
-      patterns: win.evaluation.patterns.join(" · "),
+      patterns,
       netPoints,
     };
   });

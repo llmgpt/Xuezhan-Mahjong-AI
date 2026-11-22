@@ -10,7 +10,8 @@ describe("固定V1的V10公开响应组合", () => {
     const view = structuredClone(c.context.view) as PlayerView;
     const result = v10ResponseChoice(view, "respond");
     expect(result?.action).toEqual({ type: "respond", choice: "hu" });
-    expect(result?.reason).toContain(c.expectedIncome.toFixed(2));
+    expect(result?.reason).toContain(`${c.expectedIncome} 分`);
+    expect(result?.reason).not.toContain(".00");
   });
   it("固定V1抢杠当前点数至少2，符合金额修正参考高于1的收胡分支", () => {
     const rows = observations.rows.filter(
@@ -33,7 +34,8 @@ describe("固定V1的V10公开响应组合", () => {
       expect(current.points).toBeGreaterThanOrEqual(2);
       const choice = v10ResponseChoice(view, "respond");
       expect(choice?.action).toEqual({ type: "respond", choice: "hu" });
-      expect(choice?.reason).toContain(current.points.toFixed(2));
+      expect(choice?.reason).toContain(`${current.points} 分`);
+      expect(choice?.reason).not.toContain(".00");
       expect(choice?.limit).toMatch(/最优|未来/);
       expect(view).toEqual(before);
     }

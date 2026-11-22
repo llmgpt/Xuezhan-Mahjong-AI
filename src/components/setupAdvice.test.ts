@@ -208,4 +208,21 @@ describe("仅用于展示的开局建议适配", () => {
     expect(wanAlt!.summary).not.toContain("可保住对子");
     expect(wanAlt!.reason).not.toContain("留住了对子");
   });
+
+  it("种子 2026 推荐换万而备选换条时，不再把跨花色备选误称为该门内的另一组换牌思路", () => {
+    const view = playerView(createGame(2026), 0);
+    const choices = setupAdvice(view, "exchange");
+    expect(choices[0].action).toEqual({
+      type: "exchange",
+      tiles: hand("w149"),
+    });
+    const tiaoAlt = choices.find(
+      (choice) =>
+        choice.action.type === "exchange" &&
+        suitOf(choice.action.tiles[0]) === "tiao",
+    );
+    expect(tiaoAlt).toBeDefined();
+    expect(tiaoAlt!.summary).not.toContain("该门内的另一组换牌思路");
+    expect(tiaoAlt!.summary).toContain("改换条门");
+  });
 });

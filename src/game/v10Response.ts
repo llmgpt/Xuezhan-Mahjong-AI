@@ -1,7 +1,7 @@
 import type { DecisionChoice } from "./decision";
 import type { Phase } from "./game";
 import type { PlayerView } from "./view";
-import { acceptRonChoice } from "./acceptRonTeacher";
+import { acceptRonChoice, formatExactPoints } from "./acceptRonTeacher";
 import { evaluateWin } from "./scoring";
 import { suitOf, type Tile } from "./tiles";
 
@@ -59,7 +59,7 @@ export function v10ResponseChoice(
   );
   if (!current || current.points < 2)
     throw new Error("合法V1抢杠胡应至少为2分");
-  const income = current.points.toFixed(2);
+  const income = formatExactPoints(current.points);
   return {
     action: { type: "respond", choice: "hu" },
     label: "抢杠胡",

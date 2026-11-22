@@ -68,7 +68,8 @@ describe("当前生产策略的忠实展示与语音快照", () => {
       recommendationCount: 1 as const,
     };
     const shown = presentBrowserDecision(input, result);
-    expect(shown.choices[0].reason).toContain(c.expectedIncome.toFixed(2));
+    expect(shown.choices[0].reason).toContain(`${c.expectedIncome} 分`);
+    expect(shown.choices[0].reason).not.toContain(".00");
     expect(shown.origin).toBe("v10-response");
     expect(() =>
       presentBrowserDecision(input, {

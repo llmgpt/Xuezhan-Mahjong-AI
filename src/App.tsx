@@ -213,6 +213,90 @@ export function activeTableDiscard(
   return game.lastDiscard;
 }
 
+/**
+ * 从公开动作流还原指定座位仍留在弃牌河中的牌张：
+ * 碰/直杠已在引擎层移除，点胡/一炮多响/抢杠胡为维持 108 张守恒留在 discards 中，
+ * 展示时同步移除已被胡走的那一张，避免与胡牌手牌区重复显示第 5 张同牌。
+ */
+export function displayDiscardsForSeat(game: GameState, seat: number): Tile[] {
+  const entries: Array<{ tile: Tile; claimedByWin: boolean }> = [];
+  let pendingOfferClaimed = false;
+  let pendingRobOfferActive = false;
+
+  for (const action of game.publicActions) {
+    if (action.kind === "discard") {
+      pendingOfferClaimed = false;
+      pendingRobOfferActive = false;
+      if (action.seat === seat) {
+        entries.push({ tile: action.tile, claimedByWin: false });
+      }
+      continue;
+    }
+    if (action.kind === "added-kong-offer") {
+      pendingOfferClaimed = false;
+      pendingRobOfferActive = action.seat === seat;
+      continue;
+    }
+    if (
+      action.kind === "pung" ||
+      (action.kind === "kong" && action.kongKind === "direct")
+    ) {
+      pendingOfferClaimed = false;
+      pendingRobOfferActive = false;
+      if (action.from === seat) {
+        for (let index = entries.length - 1; index >= 0; index -= 1) {
+          if (entries[index].tile === action.tile) {
+            entries.splice(index, 1);
+            break;
+          }
+        }
+      }
+      continue;
+    }
+    if (action.kind === "win") {
+      if (action.from === seat && !pendingOfferClaimed) {
+        if (action.winKind === "rob-kong" && pendingRobOfferActive) {
+          entries.push({ tile: action.tile, claimedByWin: true });
+          pendingOfferClaimed = true;
+          pendingRobOfferActive = false;
+        } else if (action.winKind === "discard") {
+          for (let index = entries.length - 1; index >= 0; index -= 1) {
+            if (
+              entries[index].tile === action.tile &&
+              !entries[index].claimedByWin
+            ) {
+              entries[index].claimedByWin = true;
+              pendingOfferClaimed = true;
+              break;
+            }
+          }
+        }
+      }
+      continue;
+    }
+    pendingOfferClaimed = false;
+    pendingRobOfferActive = false;
+  }
+
+  if (entries.length === game.players[seat].discards.length) {
+    return entries
+      .filter((entry) => !entry.claimedByWin)
+      .map((entry) => entry.tile);
+  }
+
+  const fallback = [...game.players[seat].discards];
+  const seenKeys = new Set<string>();
+  for (const win of game.wins) {
+    if (win.selfDraw || win.payer !== seat) continue;
+    const dedupeKey = `${win.payer}:${win.tile}`;
+    if (seenKeys.has(dedupeKey)) continue;
+    seenKeys.add(dedupeKey);
+    const idx = fallback.lastIndexOf(win.tile);
+    if (idx >= 0) fallback.splice(idx, 1);
+  }
+  return fallback;
+}
+
 export function formatLogEntry(entry: string): string {
   return entry.replace(
     /([0-3])\s*号玩家/g,
@@ -892,7 +976,7 @@ function App({
                 {seat === 0 ? "你的弃牌" : `${names[seat]} · 弃牌`}
               </span>
               <div className="discardTiles">
-                {game.players[seat].discards.map((tile, index) => (
+                {displayDiscardsForSeat(game, seat).map((tile, index) => (
                   <TilePiece tile={tile} className="tile-discard" key={index} />
                 ))}
               </div>

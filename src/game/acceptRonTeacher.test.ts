@@ -9,8 +9,10 @@ describe("普通合法点胡直接兑现对照", () => {
     const before = structuredClone(view);
     const choice = acceptRonChoice(view, "respond");
     expect(choice?.action).toEqual({ type: "respond", choice: "hu" });
-    expect(choice?.summary).toContain(c.expectedIncome.toFixed(2));
-    expect(choice?.reason).toContain(c.expectedIncome.toFixed(2));
+    expect(choice?.summary).toContain(`${c.expectedIncome} 分`);
+    expect(choice?.summary).not.toContain(".00");
+    expect(choice?.reason).toContain(`${c.expectedIncome} 分`);
+    expect(choice?.reason).not.toContain(".00");
     expect(choice?.reason).toMatch(/退出/);
     expect(choice?.limit).toMatch(/未来|最优/);
     expect(choice?.reason).not.toMatch(/粒子|标准误|均值/);

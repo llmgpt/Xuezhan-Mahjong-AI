@@ -3,6 +3,11 @@ import type { Phase } from "./game";
 import { publicRonContext } from "./publicSampler";
 import type { PlayerView } from "./view";
 
+/** 将规则确定点数格式化为展示分值（整数不补 .00）。 */
+export function formatExactPoints(points: number): string {
+  return Number.isInteger(points) ? String(points) : points.toFixed(2);
+}
+
 export function acceptRonChoice(
   view: PlayerView,
   phase: Phase,
@@ -15,7 +20,7 @@ export function acceptRonChoice(
     !decision.choices.includes("hu")
   )
     return undefined;
-  const current = publicRonContext(view).currentIncome.toFixed(2);
+  const current = formatExactPoints(publicRonContext(view).currentIncome);
   return {
     action: { type: "respond", choice: "hu" },
     label: "点胡",

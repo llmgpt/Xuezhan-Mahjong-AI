@@ -74,7 +74,10 @@ function formatAlternativeExchange(
   ) {
     summary = `会拆散 ${primary.dominantKeptCount} 张${suitNames[primary.dominantKeptSuit]}主门，削弱清一色方向。`;
   } else {
-    summary = `该门内的另一组换牌思路：换后${altPlanName}门余 ${altPlan.count} 张可定缺，整体结构略逊于首选。`;
+    summary =
+      altPlan.suit === alt.suit
+        ? `改换${altSuitName}门后同样余 ${altPlan.count} 张可定缺，但保留两门的搭子结构略逊于首选。`
+        : `改换${altSuitName}门后${altPlanName}门同样余 ${altPlan.count} 张可定缺，但保留两门的搭子结构略逊于首选。`;
   }
 
   const afterPart =

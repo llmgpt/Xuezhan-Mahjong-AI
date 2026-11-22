@@ -3,11 +3,13 @@ import { describe, expect, it, vi } from "vitest";
 import { chooseBotExchange, chooseBotMissing } from "./game/bot";
 import { completeExchange, completeMissing } from "./game/demo";
 import {
+  countTiles,
   createGame,
   declareKong,
   discard,
   finishWall,
   respond,
+  winSelf,
 } from "./game/game";
 import { hand } from "./game/testHelpers";
 import { tile } from "./game/tiles";
@@ -16,6 +18,7 @@ import { playerView } from "./game/view";
 import App, {
   Melds,
   activeTableDiscard,
+  displayDiscardsForSeat,
   formatLogEntry,
   orderHandForDisplay,
 } from "./App";
@@ -267,5 +270,93 @@ describe("App 牌桌与先想后看教学流", () => {
       tile: tile("tiao", 4),
       won: true,
     });
+  });
+
+  it("点胡、一炮多响与抢杠胡后，弃牌区不再重复展示已被胡走的牌，同时保持108张守恒", () => {
+    let state = createGame(42);
+    state = completeExchange(state, chooseBotExchange(state.players[0].hand));
+    state = completeMissing(state, "wan");
+    state.phase = "discard";
+    state.turn = 1;
+    state.players.forEach((player, index) => {
+      player.missing = index === 1 ? "tong" : "wan";
+    });
+    // 1号先打出1张8筒无人胡，随后再打出8筒被0号与2号一炮多响点胡
+    state.players[0].hand = hand("s111234567 d6788");
+    state.players[1].hand = hand("d88 w123456789 s123");
+    state.players[2].hand = hand("s111234567 d7889");
+    state.players[3].hand = hand("s222345678 d1234");
+    state.players[1].discards = [tile("tong", 8)];
+    state.publicActions = [{ seat: 1, kind: "discard", tile: tile("tong", 8) }];
+    state.wall = Array(54).fill(tile("tiao", 9));
+
+    const discarded = discard(state, 1, tile("tong", 8));
+    const afterFirstHu = respond(discarded, 0, "hu");
+    const afterDoubleHu = respond(afterFirstHu, 2, "hu");
+    expect(afterDoubleHu.wins).toHaveLength(2);
+    expect(countTiles(afterDoubleHu)).toBe(108);
+    // 1号最早那张未被胡走的8筒保留，被一炮多响点胡的那张8筒只移除1次
+    expect(displayDiscardsForSeat(afterDoubleHu, 1)).toEqual([tile("tong", 8)]);
+
+    // 抢杠胡场景：1号补杠8条被0号抢杠后，弃牌区同样不显示被抢走的那张8条
+    let robState = createGame(42);
+    robState = completeExchange(
+      robState,
+      chooseBotExchange(robState.players[0].hand),
+    );
+    robState = completeMissing(robState, "wan");
+    robState.phase = "discard";
+    robState.turn = 1;
+    robState.players.forEach((player, index) => {
+      player.missing = index === 1 ? "wan" : "wan";
+    });
+    robState.players[0].hand = hand("s111234567 d222 s8");
+    robState.players[1].melds = [
+      { type: "pung", tile: tile("tiao", 8), from: 2 },
+    ];
+    robState.players[1].hand = hand("s8 d123456789");
+    robState.players[2].hand = hand("s123456789 d1234");
+    robState.players[3].hand = hand("s123456789 d1234");
+    robState.lastDraw = {
+      seat: 1,
+      tile: tile("tiao", 8),
+      fromKong: false,
+      last: false,
+    };
+    robState.wall = Array(10).fill(tile("tong", 9));
+    const robOffer = declareKong(robState, 1, "added", tile("tiao", 8));
+    const robbed = respond(robOffer, 0, "hu");
+    expect(robbed.wins[0]?.evaluation.patterns).toContain("抢杠胡");
+    expect(displayDiscardsForSeat(robbed, 1)).toEqual([]);
+  });
+
+  it("本局结算明细在自摸时交代底算与自摸加底各家实付口径", () => {
+    let state = createGame(42);
+    state = completeExchange(state, chooseBotExchange(state.players[0].hand));
+    state = completeMissing(state, "wan");
+    state.phase = "discard";
+    state.turn = 1;
+    state.players.forEach((player) => {
+      player.missing = "wan";
+    });
+    state.players[1].hand = hand("s111234567 d23455");
+    state.players[3].won = true;
+    state.lastDraw = {
+      seat: 1,
+      tile: tile("tong", 5),
+      fromKong: false,
+      last: false,
+    };
+    const afterWin = winSelf(state, 1);
+    const details = buildSettlementDetails(afterWin, [
+      "你",
+      "阿川",
+      "小满",
+      "老茶客",
+    ]);
+    expect(details.winLines).toHaveLength(1);
+    expect(details.winLines[0].netPoints).toBe(4);
+    expect(details.winLines[0].patterns).toContain("自摸加底");
+    expect(details.winLines[0].patterns).toContain("2 家各付 2 分");
   });
 });
