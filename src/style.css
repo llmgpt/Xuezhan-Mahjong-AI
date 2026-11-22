@@ -719,6 +719,7 @@ input:focus-visible {
 
 .publicArea {
   min-height: 0;
+  overflow: hidden;
   grid-column: 2;
   grid-row: 2;
   justify-self: stretch;
@@ -726,7 +727,7 @@ input:focus-visible {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 144px minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 4px 14px;
+  gap: 6px 14px;
   max-width: 750px;
   width: 100%;
   margin: 0 auto;
@@ -3063,7 +3064,8 @@ input:focus-visible {
 .inlineAdviceExpanded {
   flex-direction: column;
   align-items: stretch;
-  max-height: clamp(170px, 31vh, 286px);
+  margin-bottom: 5px;
+  max-height: clamp(150px, 24vh, 224px);
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -3248,6 +3250,26 @@ input:focus-visible {
   --tile-w: 17px;
 }
 
+.gameStage:has(.inlineAdviceExpanded) {
+  grid-template-rows: minmax(84px, auto) minmax(175px, 1fr) auto;
+}
+
+.gameStage:has(.inlineAdviceExpanded) .handTray {
+  padding: 6px 12px 4px;
+}
+
+.gameStage:has(.inlineAdviceExpanded) .handContent {
+  padding-bottom: 4px;
+}
+
+.gameStage:has(.inlineAdviceExpanded) .hand {
+  padding-top: 4px;
+}
+
+.gameStage:has(.inlineAdviceExpanded) .hand .mahjongTile {
+  --tile-w: clamp(32px, min(4.15vw, 6.2vh), 54px);
+}
+
 .gameStage:has(.inlineAdviceExpanded) .tableEmblem > span,
 .gameStage:has(.inlineAdviceExpanded) .tableEmblem i {
   display: none;
@@ -3332,7 +3354,15 @@ input:focus-visible {
   }
 
   .inlineAdviceExpanded {
-    max-height: clamp(140px, 27dvh, 215px);
+    max-height: clamp(118px, 20dvh, 165px);
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) {
+    grid-template-rows: minmax(74px, auto) minmax(156px, 1fr) auto;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .hand .mahjongTile {
+    --tile-w: 44px;
   }
 }
 

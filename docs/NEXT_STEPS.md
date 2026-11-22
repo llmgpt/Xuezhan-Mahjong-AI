@@ -3,7 +3,7 @@
 ## 当前状态
 
 - 已合入默认开启的“先想后看”教学流程（[src/App.tsx](../src/App.tsx)、[src/components/AdviceCoach.tsx](../src/components/AdviceCoach.tsx)）：轮到玩家时先隐藏建议条与`荐`字角标；点击`揭晓本步建议`（或切换底栏`先想后看：开/关`）后**直接就地展开理由、备选与客观测算**，并在开局`换三张`、`选择定缺`及行牌阶段统一显示`荐`标识；未看提示直接出牌/响应后可通过底栏`刚这手复盘`（[src/components/TurnReviewDialog.tsx](../src/components/TurnReviewDialog.tsx)）回看当手建议。
-- 已完成行牌/响应与桌面试玩交互修复（[src/components/tileBreakdown.ts](../src/components/tileBreakdown.ts)、[src/game/actionAdvice.ts](../src/game/actionAdvice.ts)、[src/components/settlementDetails.ts](../src/components/settlementDetails.ts)、[src/game/acceptRonTeacher.ts](../src/game/acceptRonTeacher.ts)、[src/game/v10Response.ts](../src/game/v10Response.ts)、[src/style.css](../src/style.css)）：血战途中对手胡牌亮出胡牌张、统一 `点胡` 牌数徽标并与 `candidatePublicCounts` 同步扣减对手自摸公开张，定缺清理阶段保留 `暗杠`/`补杠` 算账行与 `二八次边` 区分；`牌局设置` 重开复原种子、非法禁用且回车提交自动关闭，`玩法提示`/`对局记录` 弹窗同步暂停托管。
+- 已完成行牌/响应与桌面试玩交互修复（[src/components/tileBreakdown.ts](../src/components/tileBreakdown.ts)、[src/game/actionAdvice.ts](../src/game/actionAdvice.ts)、[src/components/settlementDetails.ts](../src/components/settlementDetails.ts)、[src/game/acceptRonTeacher.ts](../src/game/acceptRonTeacher.ts)、[src/game/v10Response.ts](../src/game/v10Response.ts)、[src/style.css](../src/style.css)）：血战途中对手胡牌亮出胡牌张、统一 `点胡` 牌数徽标并与 `candidatePublicCounts` 同步扣减对手自摸公开张，定缺清理阶段保留 `暗杠`/`补杠` 算账行与 `二八次边` 区分；`牌局设置` 重开复原种子、非法禁用且回车提交自动关闭，`玩法提示`/`对局记录` 弹窗同步暂停托管，展开建议时保证桌面弃牌区在常规与较矮笔记本视口下均有充足高度不遮挡。
 - 已重构并打磨「换三张」与「定缺」教学启发式及人话解释（[src/game/openingAdvice.ts](../src/game/openingAdvice.ts)、[src/game/teacher.ts](../src/game/teacher.ts)、[src/components/setupAdvice.ts](../src/components/setupAdvice.ts)）：结合**主门保张、换后定缺清门成本、成组面子保留与清一色倾向**评估换牌并避开整对/整顺送出，修正跨花色备选等措辞；开发与目视复验已明确以桌面端浏览器为准（[AGENTS.md](../AGENTS.md)）。
 
 ## 下一步建议
@@ -19,4 +19,4 @@
 
 ## 完成标准
 
-- 种子 `7`、`15`、`35`、`37`、`45`、`2026` 及随机开局桌面端试玩暴露的问题已全部修复，并通过 `npm run check`（`59` 组 `576` 条测试）与 Chrome 桌面目视复验（`0` 控制台报错）。
+- 种子 `7`、`15`、`35`、`37`、`45`、`520`、`999`、`2026` 及随机开局桌面端试玩暴露的问题已全部修复，并通过 `npm run check`（`59` 组 `576` 条测试）与 Chrome 桌面目视复验（`0` 控制台报错）。
