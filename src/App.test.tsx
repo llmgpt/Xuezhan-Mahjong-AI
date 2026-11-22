@@ -17,6 +17,7 @@ import { teacherChoices } from "./game/teacher";
 import { playerView } from "./game/view";
 import App, {
   Melds,
+  Opponent,
   activeTableDiscard,
   displayDiscardsForSeat,
   formatLogEntry,
@@ -358,5 +359,40 @@ describe("App 牌桌与先想后看教学流", () => {
     expect(details.winLines[0].netPoints).toBe(4);
     expect(details.winLines[0].patterns).toContain("自摸加底");
     expect(details.winLines[0].patterns).toContain("2 家各付 2 分");
+  });
+
+  it("血战途中对手胡牌后，未终局也会亮出所胡那张牌并保留其余暗牌背面", () => {
+    const state = createGame(42);
+    state.players[3].won = true;
+    state.players[3].hand = hand("s111234567 d222 s8");
+
+    const ronMarkup = renderToStaticMarkup(
+      <Opponent
+        seat={3}
+        player={state.players[3]}
+        active={false}
+        revealHand={false}
+        winInfo={{ tile: tile("tiao", 8), selfDraw: false }}
+      />,
+    );
+    expect(ronMarkup.match(/class="tileBack"/g)).toHaveLength(13);
+    expect(ronMarkup).toContain('aria-label="8条，胡牌"');
+    expect(ronMarkup).toContain('class="handCount">14<');
+
+    const selfState = createGame(42);
+    selfState.players[1].won = true;
+    selfState.players[1].hand = hand("s111234567 d222 s88");
+    const selfMarkup = renderToStaticMarkup(
+      <Opponent
+        seat={1}
+        player={selfState.players[1]}
+        active={false}
+        revealHand={false}
+        winInfo={{ tile: tile("tiao", 8), selfDraw: true }}
+      />,
+    );
+    expect(selfMarkup.match(/class="tileBack"/g)).toHaveLength(13);
+    expect(selfMarkup).toContain('aria-label="8条，胡牌"');
+    expect(selfMarkup).toContain('class="handCount">14<');
   });
 });

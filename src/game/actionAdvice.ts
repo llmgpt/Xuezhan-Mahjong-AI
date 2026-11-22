@@ -1,10 +1,10 @@
 import {
   estimateShanten,
   estimateStructuralShanten,
-  publicCounts,
   recommendDiscards,
   type DiscardAdvice,
 } from "./advice";
+import { candidatePublicCounts } from "./candidateEvaluation";
 import type { Meld } from "./scoring";
 import type { PlayerAction } from "./session";
 import { labelOf, suitOf, type Tile } from "./tiles";
@@ -128,7 +128,7 @@ export function recommendActions(
     !decision.addedKongs.length
   )
     return [];
-  const seen = publicCounts(view);
+  const seen = candidatePublicCounts(view);
   const missingInHand = view.hand.some((item) => suitOf(item) === view.missing);
   const counts = Array<number>(27).fill(0);
   view.hand

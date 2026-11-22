@@ -1,9 +1,6 @@
 import { actionKey } from "../game/actionAdvice";
-import {
-  estimateShanten,
-  estimateStructuralShanten,
-  publicCounts,
-} from "../game/advice";
+import { estimateShanten, estimateStructuralShanten } from "../game/advice";
+import { candidatePublicCounts } from "../game/candidateEvaluation";
 import type { DecisionAction } from "../game/decision";
 import {
   evaluateWin,
@@ -454,7 +451,7 @@ export function buildTileBreakdown(
   }
 
   const missing = view.missing;
-  const seen = publicCounts(view);
+  const seen = candidatePublicCounts(view);
   const recommendedKey = decisionKey(options.recommendedAction);
   const chosenKey = decisionKey(options.chosenAction);
 
@@ -473,10 +470,15 @@ export function buildTileBreakdown(
     .sort((a, b) => a - b);
   if (missingInHand.length > 0) {
     const uniqueLegal = [...new Set(view.legalDiscards)].sort((a, b) => a - b);
-    const rows: ActionBreakdownRow[] = uniqueLegal.map((tileValue) => {
+    const discardRows: ActionBreakdownRow[] = uniqueLegal.map((tileValue) => {
       const action: DecisionAction = { type: "discard", tile: tileValue };
       const rank = (tileValue % 9) + 1;
-      const edgeKind = rank === 1 || rank === 9 ? "边张幺九" : "中张";
+      const edgeKind =
+        rank === 1 || rank === 9
+          ? "幺九边牌"
+          : rank === 2 || rank === 8
+            ? "二八次边"
+            : "中张";
       return {
         key: actionKey(action),
         action,
@@ -490,6 +492,44 @@ export function buildTileBreakdown(
             : `先清理定缺牌（手牌尚余 ${missingInHand.length} 张；${edgeKind}）`,
       };
     });
+    const kongRows: ActionBreakdownRow[] = [];
+    if (view.decision?.kind === "self") {
+      for (const kongTile of view.decision.concealedKongs) {
+        const action: DecisionAction = {
+          type: "kong",
+          kind: "concealed",
+          tile: kongTile,
+        };
+        kongRows.push({
+          key: actionKey(action),
+          action,
+          label: `暗杠 ${labelOf(kongTile)}`,
+          effectiveTotal: 0,
+          waits: [],
+          exhaustedWaits: [],
+          note: "可先暗杠记杠钱并补摸 1 张，杠后仍须先打完手中定缺牌",
+        });
+      }
+      for (const kongTile of view.decision.addedKongs) {
+        const action: DecisionAction = {
+          type: "kong",
+          kind: "added",
+          tile: kongTile,
+        };
+        kongRows.push({
+          key: actionKey(action),
+          action,
+          label: `补杠 ${labelOf(kongTile)}`,
+          effectiveTotal: 0,
+          waits: [],
+          exhaustedWaits: [],
+          note: "可先补杠记杠钱并补摸 1 张（谨防抢杠胡），杠后仍须先打完手中定缺牌",
+        });
+      }
+    }
+    const rows = recommendedKey?.startsWith("kong:")
+      ? [...kongRows, ...discardRows]
+      : [...discardRows, ...kongRows];
     markAndSummarizeRows(rows, recommendedKey, chosenKey);
     return {
       kind: "missing",
@@ -497,7 +537,10 @@ export function buildTileBreakdown(
       missingRemainingTiles: missingInHand,
       rows,
       divergesFromEfficiency: false,
-      note: "定缺门未清完前按规则不能胡牌，也不能优先保搭留缺牌。",
+      note:
+        kongRows.length > 0
+          ? "定缺门未清完前按规则不能胡牌；非缺门可先开杠，但杠后仍须先打定缺牌。"
+          : "定缺门未清完前按规则不能胡牌，也不能优先保搭留缺牌。",
     };
   }
 
@@ -661,6 +704,10 @@ export function summarizeBreakdownHeadline(
     breakdown.rows.find((row) => row.isRecommended) ?? breakdown.rows[0];
   if (breakdown.kind === "missing") {
     const remCount = breakdown.missingRemainingTiles?.length ?? 0;
+    if (recRow.action?.type === "kong") {
+      const verb = recRow.action.kind === "concealed" ? "暗杠" : "补杠";
+      return `当前可先${verb} ${labelOf(recRow.action.tile)} 记杠钱并补摸 1 张；手中尚余 ${remCount} 张定缺门牌，杠后仍须先打完缺门。`;
+    }
     return remCount <= 1
       ? "打出后即清完定缺门，下巡起进入向听与听牌阶段。"
       : `手中仍有 ${remCount} 张定缺门牌，本桌规则要求先打完缺门牌。`;

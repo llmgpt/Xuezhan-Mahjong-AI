@@ -414,16 +414,19 @@ export function MahjongFace({ tile }: { tile: Tile }) {
 export function TilePiece({
   tile,
   className = "",
+  label,
 }: {
   tile: Tile;
   className?: string;
+  label?: string;
 }) {
+  const accessibleLabel = label ?? labelOf(tile);
   return (
     <span
       className={`mahjongTile ${className}`}
       role="img"
-      aria-label={labelOf(tile)}
-      title={labelOf(tile)}
+      aria-label={accessibleLabel}
+      title={accessibleLabel}
     >
       <MahjongFace tile={tile} />
     </span>

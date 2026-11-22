@@ -361,4 +361,53 @@ describe("客观牌效与听牌算账明细", () => {
     expect(breakdown.divergesFromEfficiency).toBe(false);
     expect(breakdown.note).toContain("定缺");
   });
+
+  it("手中仍含定缺牌且可暗杠/补杠时，客观测算保留杠牌行与提示，并准确区分二八次边与中张", () => {
+    const view = discardView("w28 s111123456 d123", "wan");
+    view.decision = {
+      kind: "self",
+      canWin: false,
+      concealedKongs: [tile("tiao", 1)],
+      addedKongs: [],
+    };
+    const rec = {
+      type: "kong" as const,
+      kind: "concealed" as const,
+      tile: tile("tiao", 1),
+    };
+    const breakdown = buildTileBreakdown(view, { recommendedAction: rec });
+    const kongRow = breakdown.rows.find(
+      (row) => row.action?.type === "kong" && row.action.kind === "concealed",
+    );
+    expect(kongRow).toBeDefined();
+    expect(kongRow?.isRecommended).toBe(true);
+    const d2Wan = breakdown.rows.find(
+      (row) =>
+        row.action?.type === "discard" && row.action.tile === tile("wan", 2),
+    );
+    const d8Wan = breakdown.rows.find(
+      (row) =>
+        row.action?.type === "discard" && row.action.tile === tile("wan", 8),
+    );
+    expect(d2Wan?.note).not.toContain("中张");
+    expect(d8Wan?.note).not.toContain("中张");
+    const headline = summarizeBreakdownHeadline(breakdown);
+    expect(headline).toContain("暗杠 1条");
+    expect(headline).toContain("仍须先打完缺门");
+  });
+
+  it("对手自摸亮出胡牌张后，客观测算会同步扣减该自摸牌余张", () => {
+    const view = discardView("s1234567899 d2256", "wan");
+    view.opponents[1].won = true;
+    view.publicTiles = [{ seat: 2, tile: tile("tong", 4), kind: "self-win" }];
+    const breakdown = buildTileBreakdown(view, {
+      recommendedAction: { type: "discard", tile: tile("tiao", 9) },
+    });
+    const d9Tiao = breakdown.rows.find(
+      (row) =>
+        row.action?.type === "discard" && row.action.tile === tile("tiao", 9),
+    );
+    const wait4Tong = d9Tiao?.waits.find((w) => w.tile === tile("tong", 4));
+    expect(wait4Tong?.remaining).toBe(3);
+  });
 });

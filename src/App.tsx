@@ -341,7 +341,7 @@ export function Melds({ player }: { player: PlayerState }) {
     </div>
   );
 }
-function Opponent({
+export function Opponent({
   seat,
   player,
   active,
@@ -364,6 +364,18 @@ function Opponent({
         winInfo,
       )
     : [];
+  const concealedBackCount =
+    winInfo && !revealHand
+      ? Math.max(
+          0,
+          Math.min(
+            winInfo.selfDraw ? player.hand.length - 1 : player.hand.length,
+            13,
+          ),
+        )
+      : Math.min(player.hand.length, 14);
+  const displayedCount =
+    winInfo && !winInfo.selfDraw ? player.hand.length + 1 : player.hand.length;
   return (
     <div
       className={`opponent seat-${seat} ${player.won ? "winner" : ""} ${active ? "active" : ""}`}
@@ -391,21 +403,37 @@ function Opponent({
       <div className="opponentTiles">
         <div
           className={`opponentHand ${revealHand ? "is-revealed" : ""}`}
-          aria-label={`手牌 ${player.hand.length} 张`}
+          aria-label={`手牌 ${displayedCount} 张`}
         >
-          {revealHand
-            ? revealedTiles.map((item, index) => (
-                <TilePiece
-                  tile={item.tile}
-                  className={`tile-meld ${item.won ? "tile-opponent-won" : ""}`}
-                  key={`${index}-${item.tile}`}
-                />
-              ))
-            : Array.from(
-                { length: Math.min(player.hand.length, 14) },
-                (_, index) => <TileBack key={index} />,
+          {revealHand ? (
+            revealedTiles.map((item, index) => (
+              <TilePiece
+                tile={item.tile}
+                label={item.won ? `${labelOf(item.tile)}，胡牌` : undefined}
+                className={`tile-meld ${item.won ? "tile-opponent-won" : ""}`}
+                key={`${index}-${item.tile}`}
+              />
+            ))
+          ) : (
+            <>
+              {Array.from({ length: concealedBackCount }, (_, index) => (
+                <TileBack key={index} />
+              ))}
+              {winInfo && (
+                <span className="opponentWonTile">
+                  <TilePiece
+                    tile={winInfo.tile}
+                    label={`${labelOf(winInfo.tile)}，胡牌`}
+                    className="tile-meld tile-opponent-won"
+                  />
+                  <span className="opponentWinMark" aria-hidden="true">
+                    胡
+                  </span>
+                </span>
               )}
-          <span className="handCount">{player.hand.length}</span>
+            </>
+          )}
+          <span className="handCount">{displayedCount}</span>
         </div>
         <Melds player={player} />
       </div>
@@ -774,6 +802,8 @@ function App({
     startGame(seed);
     return true;
   }
+  const seedValid =
+    Boolean(seedText.trim()) && Number.isSafeInteger(Number(seedText));
   function startRandomGame() {
     startGame(newGameSeed(game.seed));
   }
@@ -824,11 +854,19 @@ function App({
             title="牌局设置"
             triggerClassName="settingsButton"
             onOpen={() => {
+              setSeedText(String(game.seed));
               pauseAuto();
               stopAnnouncements();
             }}
           >
-            <div className="settingsPopover">
+            <form
+              className="settingsPopover"
+              onSubmit={(event) => {
+                event.preventDefault();
+                const dialog = event.currentTarget.closest("dialog");
+                if (restartWithSeed()) dialog?.close();
+              }}
+            >
               <label htmlFor="seed">固定种子</label>
               <input
                 id="seed"
@@ -851,7 +889,7 @@ function App({
                 <option value={1000}>快速 · 本家每次选择前 1 秒</option>
               </select>
               <p>
-                只托管你的操作；三名对手照常行牌。打开设置、复盘或朗读时会暂停托管。
+                只托管你的操作；三名对手照常行牌。打开弹窗或朗读时会暂停托管。
               </p>
               <button
                 className="soundToggle"
@@ -902,20 +940,11 @@ function App({
                 声音由浏览器提供。在线声音可能通过浏览器的远程语音服务朗读文字；本机声音不需要该服务。
               </p>
               <small>本局牌数：{countTiles(game)} / 108</small>
-              <button
-                type="button"
-                onClick={(event) => {
-                  if (restartWithSeed())
-                    event.currentTarget.closest("dialog")?.close();
-                }}
-              >
+              <button type="submit" disabled={!seedValid}>
                 按种子重新开局
               </button>
-              {(!seedText.trim() ||
-                !Number.isSafeInteger(Number(seedText))) && (
-                <p role="alert">种子须为安全整数。</p>
-              )}
-            </div>
+              {!seedValid && <p role="alert">种子须为安全整数。</p>}
+            </form>
           </GameDialog>
           <button
             className="newGameButton"
@@ -1323,7 +1352,13 @@ function App({
           />
         </div>
         <div>
-          <GameDialog title="玩法提示">
+          <GameDialog
+            title="玩法提示"
+            onOpen={() => {
+              pauseAuto();
+              stopAnnouncements();
+            }}
+          >
             <ol className="rulesHelp">
               <li>
                 <strong>换三张</strong>
@@ -1370,7 +1405,13 @@ function App({
               规则。出牌建议只用你的手牌与公开信息，详细依据会说明估算的局限。
             </p>
           </GameDialog>
-          <GameDialog title="对局记录">
+          <GameDialog
+            title="对局记录"
+            onOpen={() => {
+              pauseAuto();
+              stopAnnouncements();
+            }}
+          >
             <p className="dialogIntro">
               共 {game.log.length} 条公开动作（按时间顺序）
             </p>

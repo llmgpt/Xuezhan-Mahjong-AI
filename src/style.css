@@ -184,7 +184,7 @@ input:focus-visible {
   color: #37594d;
 }
 
-.settingsPopover .voicePreview:disabled {
+.settingsPopover button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -1244,6 +1244,31 @@ input:focus-visible {
 .tile-opponent-won {
   margin-left: 4px;
   border-color: #e9a368;
+}
+
+.opponentWonTile {
+  position: relative;
+  display: inline-flex;
+  margin-left: 4px;
+}
+
+.opponentWonTile .tile-opponent-won {
+  margin-left: 0;
+}
+
+.opponentWinMark {
+  position: absolute;
+  top: -5px;
+  right: -4px;
+  z-index: 2;
+  padding: 0 3px;
+  border-radius: 3px;
+  border: 1px solid #ffe3b0;
+  background: #c7493a;
+  color: #fff9ec;
+  font-size: 8px;
+  line-height: 12px;
+  font-weight: 800;
 }
 
 .opponentHand.is-revealed {
