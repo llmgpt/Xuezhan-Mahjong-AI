@@ -3251,7 +3251,7 @@ input:focus-visible {
 }
 
 .gameStage:has(.inlineAdviceExpanded) {
-  grid-template-rows: minmax(84px, auto) minmax(175px, 1fr) auto;
+  grid-template-rows: auto minmax(175px, 1fr) auto;
 }
 
 .gameStage:has(.inlineAdviceExpanded) .handTray {
@@ -3325,9 +3325,13 @@ input:focus-visible {
   }
 
   .gameStage {
-    grid-template-rows: minmax(76px, auto) minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
     padding: 8px 16px 10px;
     gap: 4px;
+  }
+
+  .roomPlaque {
+    display: none;
   }
 
   .tableSurface {
@@ -3335,8 +3339,65 @@ input:focus-visible {
   }
 
   .seat-2 .avatarFrame {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .seat-2 .opponentInfo strong {
+    font-size: 13px;
+  }
+
+  .seat-2 .scoreLine {
+    margin: 1px 0;
+    font-size: 12px;
+  }
+
+  .seat-2 .missingBadge {
+    padding: 2px 5px;
+    font-size: 9.5px;
+  }
+
+  .seat-2 .opponentTiles {
+    margin-top: 3px;
+    gap: 8px;
+  }
+
+  .seat-2 .tileBack {
+    width: 13px;
+    height: 22px;
+  }
+
+  .seat-2 .handCount {
+    min-width: 20px;
+    height: 20px;
+  }
+
+  .seat-2 .melds {
+    gap: 5px;
+  }
+
+  .seat-2 .tile-meld {
+    --tile-w: 20px;
+  }
+
+  .opponentHand {
+    margin-top: 8px;
+  }
+
+  .opponent .melds {
+    margin-top: 6px;
+  }
+
+  .publicArea {
+    gap: 3px 12px;
+  }
+
+  .discard-seat-2 {
+    padding-top: 2px;
+  }
+
+  .tile-discard {
+    --tile-w: 21px;
   }
 
   .gameButton {
@@ -3354,15 +3415,69 @@ input:focus-visible {
   }
 
   .inlineAdviceExpanded {
-    max-height: clamp(118px, 20dvh, 165px);
+    max-height: clamp(102px, 17dvh, 140px);
+  }
+
+  .inlineAdviceExpanded .coachSummary {
+    padding: 4px 10px;
+  }
+
+  .inlineAdviceExpanded .coachSummary p {
+    font-size: 10.5px;
+    line-height: 1.35;
+    margin-top: 1px;
   }
 
   .gameStage:has(.inlineAdviceExpanded) {
-    grid-template-rows: minmax(74px, auto) minmax(156px, 1fr) auto;
+    grid-template-rows: auto minmax(170px, 1fr) auto;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .actionMessage p {
+    display: none;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .actionBar {
+    min-height: 24px;
+    padding: 1px 0 2px;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .actionBar .gameButton {
+    min-height: 32px;
+    padding: 4px 14px;
+    font-size: 15px;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .tableEmblem strong {
+    font-size: 16px;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .tile-latest {
+    --tile-w: 23px;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .handTray {
+    padding: 4px 10px 2px;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .handContent {
+    padding-bottom: 3px;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .handContent .melds {
+    margin-bottom: 3px;
+    gap: 5px;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .handContent .tile-meld {
+    --tile-w: 24px;
+  }
+
+  .gameStage:has(.inlineAdviceExpanded) .hand {
+    padding-top: 2px;
   }
 
   .gameStage:has(.inlineAdviceExpanded) .hand .mahjongTile {
-    --tile-w: 44px;
+    --tile-w: clamp(34px, 5.7dvh, 42px);
   }
 }
 
